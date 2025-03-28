@@ -8,11 +8,11 @@ module Blacklight
       # @param [Blacklight::Configuration::ToolConfig] action
       # @param [Boolean] checked
       # @param [Object] bookmark_path the rails route to use for bookmarks
-      def initialize(document:, action: nil, checked: nil, bookmark_path: nil, **kwargs)
+      def initialize(document:, action: nil, checked: nil, bookmark_path: nil, **)
         @document = document
         @checked = checked
         @bookmark_path = bookmark_path
-        super(document: document, action: action, **kwargs)
+        super(document: document, action: action, **)
       end
 
       def bookmarked?

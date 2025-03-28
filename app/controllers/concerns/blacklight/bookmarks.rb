@@ -36,8 +36,8 @@ module Blacklight::Bookmarks
 
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
-  def search_action_url *args
-    search_catalog_url(*args)
+  def search_action_url(*)
+    search_catalog_url(*)
   end
 
   # @return [Hash] a hash of context information to pass through to the search service

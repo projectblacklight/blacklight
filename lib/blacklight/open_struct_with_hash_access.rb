@@ -57,7 +57,7 @@ module Blacklight
       self.class.new @table.deep_transform_values(&)
     end
 
-    def try(method_name = nil, *args, &)
+    def try(method_name = nil, *, &)
       if method_name.nil? && block_given?
         if b.arity.zero?
           instance_eval(&)
@@ -65,7 +65,7 @@ module Blacklight
           yield self
         end
       elsif respond_to?(method_name)
-        public_send(method_name, *args, &b)
+        public_send(method_name, *, &b)
       end
     end
   end
