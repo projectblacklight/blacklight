@@ -18,6 +18,8 @@
   --bl-constraint-remove-hover-bg: #bb2d3b;
   --bl-constraint-remove-hover-border-color: #bb2d3b;
   --bl-field-name-color: var(--bs-secondary-color);
+  /* emulate Bootstrap backdrop bg & opacity */
+  --bl-modal-backdrop-bg: rgba(0, 0, 0, 0.5);
 }
 
 .page-link {
@@ -30,6 +32,9 @@ dialog.modal[open] {
   border: none;
   max-height: unset;
   max-width: unset;
+}
+dialog.modal[open]::backdrop {
+  background-color: var(--bl-modal-backdrop-bg);
 }
 
 /* Generic layout stuff */
