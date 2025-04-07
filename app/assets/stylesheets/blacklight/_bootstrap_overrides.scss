@@ -39,4 +39,8 @@ dialog.modal[open] {
 
   max-height: unset; // override user-agent dialog
   max-width: unset; // override user-agent dialog
+
+  &::backdrop {
+    background-color: var(--bl-modal-backdrop-bg);
+  }
 }
