@@ -412,7 +412,7 @@ main {
 /* Facet browse pages & modals
 -------------------------------------------------- */
 .facet-filters:not(:has(*)) {
-  display: none !important;
+  display: none;
 }
 
 /* Search History */
