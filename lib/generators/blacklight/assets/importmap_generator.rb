@@ -10,7 +10,7 @@ module Blacklight
           <<~CONTENT
             pin "@github/auto-complete-element", to: "https://cdn.skypack.dev/@github/auto-complete-element"
             pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
-            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.3.3'}/dist/js/bootstrap.js"
+            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.3.5'}/dist/js/bootstrap.js"
           CONTENT
         end
 
@@ -50,7 +50,7 @@ module Blacklight
           append_to_file 'app/assets/stylesheets/application.css' do
             <<~CONTENT
               @import url("blacklight.css");
-              @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css);
+              @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css);
             CONTENT
           end
         end
