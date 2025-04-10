@@ -209,5 +209,5 @@ $facet-toggle-height: $facet-toggle-width !default;
 /* Facet browse pages & modals
 -------------------------------------------------- */
 .facet-filters:not(:has(*)) {
-  display: none !important;
+  display: none;
 }
