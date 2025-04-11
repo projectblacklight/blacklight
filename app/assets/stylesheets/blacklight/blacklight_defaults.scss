@@ -20,4 +20,7 @@ $body-secondary-color: rgba($body-color, 0.75) !default;
   --bl-constraint-remove-hover-border-color: #bb2d3b;
 
   --bl-field-name-color: var(--bs-secondary-color);
+
+  /* emulate Bootstrap backdrop bg & opacity */
+  --bl-modal-backdrop-bg: rgba(0, 0, 0, 0.5);
 }

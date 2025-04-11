@@ -10,7 +10,5 @@
 }
 
 .pagination {
-  @media (max-width: breakpoint-max(sm)) {
-    flex-wrap: wrap;
-  }
+  flex-wrap: wrap;
 }

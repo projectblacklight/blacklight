@@ -207,12 +207,6 @@
 /* Sidenav
 -------------------------------------------------- */
 
-.facet-pagination {
-  &.top {
-    padding: $modal-inner-padding;
-  }
-}
-
 .pivot-facet {
   &.show {
     display: flex;
@@ -271,4 +265,10 @@ $facet-toggle-height: $facet-toggle-width !default;
     background: transparent escape-svg($facet-toggle-hide-icon) center /
       $facet-toggle-width auto no-repeat;
   }
+}
+
+/* Facet browse pages & modals
+-------------------------------------------------- */
+.facet-filters:not(:has(*)) {
+  display: none !important;
 }
