@@ -23,6 +23,7 @@ services:
     environment:
       - SOLR_PORT # Set via environment variable or use default defined in .env file
       - SOLR_VERSION # Set via environment variable or use default defined in .env file
+      - SOLR_MODULES=analysis-extras
     image: "solr:${SOLR_VERSION}"
     volumes:
       - $PWD/lib/generators/blacklight/templates/solr/conf:/opt/solr/conf
