@@ -99,12 +99,15 @@ RSpec.describe "Facets" do
     end
   end
 
-  describe 'Facet modal' do
-    context 'when configured' do
+  describe 'Facet modal content' do
+    context 'when facet is configured with suggest: true' do
+      # BL8: turn on the suggest feature for testing (off by default)
       before do
-        enabled = CatalogController.blacklight_config.dup
-        enabled.facet_fields[:subject_ssim].merge!({ suggest: true })
-        allow(CatalogController).to receive(:blacklight_config).and_return enabled
+        CatalogController.blacklight_config.facet_fields[:subject_ssim].suggest = true
+      end
+
+      after do
+        CatalogController.blacklight_config.facet_fields[:subject_ssim].delete(:suggest)
       end
 
       it 'allows the user to filter a long list of facet values', :js do
@@ -114,6 +117,7 @@ RSpec.describe "Facets" do
 
         fill_in 'facet_suggest_subject_ssim', with: "ag"
 
+        expect(page).to have_css '.facet-suggestions'
         expect(page).to have_link 'Old age'
         expect(page).to have_css 'a.facet-select', count: 2
       end
@@ -122,19 +126,68 @@ RSpec.describe "Facets" do
         visit '/catalog/facet/subject_ssim?q=tibet&search_field=all_fields'
         fill_in 'facet_suggest_subject_ssim', with: 'la'
 
+        expect(page).to have_css '.facet-suggestions'
         expect(page).to have_link 'Tibetan language'
+        expect(page).to have_no_link 'Law'
         expect(page).to have_css 'a.facet-select', count: 1
       end
 
-      it 'allows the user to filter more than once', :js do
+      it 'allows the user to toggle the sort, then filter', :js do
         visit '/catalog/facet/subject_ssim'
-        expect(page).to have_no_link 'Old age' # This is on the second page of facet values
-        expect(page).to have_css 'a.facet-select', count: 20
 
-        fill_in 'facet_suggest_subject_ssim', with: "ag"
+        fill_in 'facet_suggest_subject_ssim', with: 'po'
 
-        expect(page).to have_link 'Old age'
-        expect(page).to have_link('Old age', href: '/?f%5Bsubject_ssim%5D%5B%5D=Old+age')
+        expect(page).to have_css '.facet-suggestions'
+        expect(page).to have_css('.facet-values li:nth-child(1)', text: 'Political plays, Japanese')
+        expect(page).to have_css('.facet-values li:nth-child(2)', text: 'Military weapons')
+        expect(page).to have_css('.facet-values li:nth-child(3)', text: 'Political science')
+
+        first(:link, 'A-Z Sort').click
+
+        expect(page).to have_css('.facet-suggest[data-facet-search-context*="facet.sort=index"]')
+
+        fill_in 'facet_suggest_subject_ssim', with: 'po'
+
+        expect(page).to have_css '.facet-suggestions'
+        expect(page).to have_css('.facet-values li:nth-child(1)', text: 'Military weapons')
+        expect(page).to have_css('.facet-values li:nth-child(2)', text: 'Political plays, Japanese')
+        expect(page).to have_css('.facet-values li:nth-child(3)', text: 'Political science')
+      end
+
+      it 'allows the user to choose a starting letter, then filter', :js do
+        visit '/catalog/facet/subject_ssim'
+
+        first(:link, 'A-Z Sort').click
+        expect(page).to have_css('.facet-suggest[data-facet-search-context*="facet.sort=index"]')
+
+        click_on 'M'
+        expect(page).to have_css('.facet-suggest[data-facet-search-context*="facet.prefix=M"]')
+
+        fill_in 'facet_suggest_subject_ssim', with: 'te'
+
+        expect(page).to have_css '.facet-suggestions'
+        expect(page).to have_link 'Maternity insurance'
+        expect(page).to have_no_link 'Teaching'
+      end
+
+      it 'hides previous/next links when filtering', :js do
+        visit '/catalog/facet/subject_ssim'
+        expect(page).to have_link 'Next »'
+
+        fill_in 'facet_suggest_subject_ssim', with: 'te'
+        expect(page).to have_css '.facet-suggestions'
+        expect(page).to have_no_link 'Next »'
+
+        fill_in 'facet_suggest_subject_ssim', with: ''
+        expect(page).to have_no_css '.facet-suggestions'
+        expect(page).to have_link 'Next »'
+      end
+    end
+
+    context 'when facet is NOT configured with suggest: true' do
+      it 'does not offer the user a way to filter the list of facet values' do
+        visit '/catalog/facet/subject_ssim'
+        expect(page).to have_no_field 'facet_suggest_subject_ssim'
       end
     end
   end

@@ -3,7 +3,10 @@
 </label>
 <%= text_field_tag "facet_suggest_#{facet.key}",
   nil,
-  class: "facet-suggest form-control",
-  data: {facet_field: facet.key},
+  class: "facet-suggest form-control mb-3",
+  data: {
+    facet_field: facet.key,
+    facet_search_context: presenter.view_context.search_facet_path(id: facet.key)
+  },
   placeholder: I18n.t('blacklight.search.form.search.placeholder')
 %>
