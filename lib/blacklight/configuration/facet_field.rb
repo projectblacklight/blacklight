@@ -78,6 +78,7 @@ module Blacklight
       self.item_presenter ||= Blacklight::FacetItemPresenter
       self.component = Blacklight::FacetFieldListComponent if component.nil? || component == true
       self.advanced_search_component ||= Blacklight::FacetFieldCheckboxesComponent
+      self.guided_search_component ||= Blacklight::FacetFieldCheckboxesComponent
       self.item_component ||= Blacklight::FacetItemComponent
       super
 

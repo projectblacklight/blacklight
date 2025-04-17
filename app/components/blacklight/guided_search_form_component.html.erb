@@ -1,0 +1,54 @@
+<% if constraints? %>
+  <div class="constraints well search_history">
+    <h4><%= t 'blacklight.guided_search.form.search_context' %></h4>
+    <% constraints.each do |constraint| %>
+      <%= constraint %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= form_tag @url, method: @method, class: @classes.join(' '), role: 'search', 'aria-label' => t('blacklight.search.form.submit') do %>
+  <%= render Blacklight::HiddenSearchStateComponent.new(params: hidden_search_state_params) %>
+
+  <div class="input-criteria">
+    <div class="query-criteria mb-4">
+      <h2 class="query-criteria-heading h3 mb-4">
+        <%= t('blacklight.guided_search.form.query_criteria_heading_html', select_menu: default_operator_menu) %>
+      </h2>
+
+      <div id="guided_search">
+        <%= render 'guided_search_fields' %>
+      </div>
+    </div>
+
+    <% if search_filter_controls? %>
+      <div class="limit-criteria mb-4">
+        <h2 class="limit-criteria-heading h3"><%= t('blacklight.guided_search.form.limit_criteria_heading_html')%></h2>
+
+        <div id="guided_search_facets" class="limit_input row">
+          <div class="guided-facet-limits panel-group col-md-9 offset-md-3">
+            <% search_filter_controls.each do |control| %>
+              <%= control %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if sort_fields_select %>
+    <div class="form-group row mb-4">
+      <%= content_tag :h2, t('blacklight.guided_search.form.sort_label'), id: 'guided-search-sort-label', class: 'col-md-3 text-md-right' %>
+      <div class="col-md-9">
+        <%= sort_fields_select %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group row">
+    <div class="submit-buttons col-md-9 offset-md-3">
+      <%= submit_tag t('blacklight.guided_search.form.search_btn_html'), class: 'btn btn-primary guided-search-submit', id: "guided-search-submit" %>
+      <%= link_to t('blacklight.guided_search.form.start_over_html'), request.path, :class =>"btn btn-link guided-search-start-over" %>
+    </div>
+  </div>
+<% end %>

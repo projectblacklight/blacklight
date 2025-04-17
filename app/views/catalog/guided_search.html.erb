@@ -1,0 +1,17 @@
+<% @page_title = t('blacklight.guided_search.page_title', application_name: application_name) %>
+
+<div class="guided-search-form col-sm-12">
+  <h1 class="guided page-header">
+      <%= t('blacklight.guided_search.form.title') %>
+  </h1>
+
+  <div class="row">
+    <div class="col-md-8">
+        <%= render 'guided_search_form' %>
+    </div>
+
+    <div class="col-md-4">
+        <%= render "guided_search_help" %>
+    </div>
+  </div>
+</div>

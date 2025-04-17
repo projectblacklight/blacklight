@@ -18,6 +18,22 @@ en:
         should: any
       or_html: " OR "
       page_title: Advanced search - %{application_name}
+    guided_search:
+      page_title: Guided Search
+      form:
+        limit_criteria_heading_html: Limit results by
+        query_criteria_heading_html: Match %{select_menu} of the fields below
+        search_btn_html: Search
+        search_context: Within search
+        sort_label: Sort results by
+        start_over_html: Start over
+        title: Guided Search
+      more_options: More options
+      op:
+        label: search operator
+        must: all
+        should: any
+      or_html: " OR "
     and: and
     application_name: Blacklight
     back_to_bookmarks: Back to Bookmarks

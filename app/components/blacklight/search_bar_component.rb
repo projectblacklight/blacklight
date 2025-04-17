@@ -60,6 +60,10 @@ module Blacklight
       blacklight_config.advanced_search.enabled
     end
 
+    def guided_search_enabled?
+      blacklight_config.guided_search.enabled
+    end
+
     def rounded_border_class
       return 'rounded-0' if search_fields.length > 1
 

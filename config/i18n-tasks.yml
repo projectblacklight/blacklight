@@ -19,3 +19,4 @@ search:
 ignore_missing:
   - 'button_label_html'
   - 'blacklight.advanced_search.*'
+  - 'blacklight.guided_search.*'

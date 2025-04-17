@@ -292,6 +292,11 @@ module Blacklight
       # @return [#enabled]
       property :advanced_search, default: OpenStruct.new(enabled: false)
 
+      # @!attribute guided_search
+      # @since ?
+      # @return [#enabled]
+      property :guided_search, default: OpenStruct.new(enabled: false)
+
       # @!attribute enable_search_bar_autofocus
       # @since v7.2.0
       # @return [Boolean]

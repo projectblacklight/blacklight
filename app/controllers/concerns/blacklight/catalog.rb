@@ -54,6 +54,10 @@ module Blacklight::Catalog
     (@response, _deprecated_document_list) = blacklight_advanced_search_form_search_service.search_results
   end
 
+  def guided_search
+    (@response, _deprecated_document_list) = blacklight_guided_search_form_search_service.search_results
+  end
+
   # get a single document from the index
   def raw
     raise(ActionController::RoutingError, 'Not Found') unless blacklight_config.raw_endpoint.enabled
@@ -296,6 +300,16 @@ module Blacklight::Catalog
   end
 
   def blacklight_advanced_search_form_params
+    {}
+  end
+
+  def blacklight_guided_search_form_search_service
+    form_search_state = search_state_class.new(blacklight_guided_search_form_params, blacklight_config, self)
+
+    search_service_class.new(config: blacklight_config, search_state: form_search_state, user_params: form_search_state.to_h, **search_service_context)
+  end
+
+  def blacklight_guided_search_form_params
     {}
   end
 end

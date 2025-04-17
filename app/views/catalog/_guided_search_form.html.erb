@@ -1,0 +1,6 @@
+<%= render(Blacklight::GuidedSearchFormComponent.new(
+      url: search_action_url,
+      classes: ['guided'],
+      params: search_state.params_for_search.except(:qt),
+      response: @response
+    )) %>

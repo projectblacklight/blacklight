@@ -1,0 +1,74 @@
+<div class="guided-search-field">
+  <div class="search-field">
+    <label for="clause_0_field" class="visually-hidden">Options for guided search</label>
+    <%= select_tag(
+          'clause[0][field]',
+          options_for_select(
+            guided_key_value,
+            guided_field(:clause_0_field, 'all_fields')
+          ),
+          class: "search_field") %>
+    <div name="row1">
+      <label for='clause_0_query' class='visually-hidden'>Guided search terms</label>
+      <%= text_field_tag(
+            "clause[0][query]",
+            label_tag_default_for(:clause_0_query),
+            class: 'form-control',
+            autocorrect: "off",
+            autocapitalize: "off",
+            autocomplete: "off",
+            spellcheck: "false") %>
+    </div>
+  </div>
+  <div class="search-operators" role="radiogroup" aria-label="Search operators">
+    <label><%= radio_button_tag("boolean_operator1", "AND", guided_radio(:boolean_operator1, "AND"), class: 'first-and') %> AND</label>
+    <label><%= radio_button_tag("boolean_operator1", "OR", guided_radio(:boolean_operator1, "OR"), class: 'first-or') %> OR</label>
+    <label><%= radio_button_tag("boolean_operator1", "NOT", guided_radio(:boolean_operator1, "NOT"), class: 'first-not') %> NOT</label>
+  </div>
+  <div class="search-field">
+    <label for="clause_1_field" class="visually-hidden">Options for guided search - second parameter</label>
+    <%= select_tag(
+          'clause[1][field]', 
+          options_for_select(
+            guided_key_value,
+            guided_field(:clause_1_field, 'author')
+          ), 
+          class: "search_field") %>
+    <div name="row2">
+      <label for='clause_1_query' class='visually-hidden'>Guided search terms - second parameter</label>
+      <%= text_field_tag(
+            "clause[1][query]", 
+            label_tag_default_for(:clause_1_query), 
+            class: 'form-control', 
+            autocorrect: "off", 
+            autocapitalize: "off", 
+            autocomplete: "off", 
+            spellcheck: "false") %>
+    </div>
+  </div>
+  <div class="search-operators" role="radiogroup" aria-label="Search operators">
+    <label><%= radio_button_tag("boolean_operator2", "AND", guided_radio(:boolean_operator2, "AND")) %> AND</label>
+    <label><%= radio_button_tag("boolean_operator2", "OR", guided_radio(:boolean_operator2, "OR")) %> OR</label>
+    <label><%= radio_button_tag("boolean_operator2", "NOT", guided_radio(:boolean_operator2, "NOT")) %> NOT</label>
+  </div>
+  <div class="search-field">
+    <label for="clause_2_field" class="visually-hidden">Options for guided search - third parameter</label>
+    <%= select_tag(
+          'clause[2][field]', 
+          options_for_select(
+            guided_key_value, 
+            guided_field(:clause_2_field, 'title')
+          ),
+          class: "search_field") %>
+    <div name="row3">
+      <label for='clause_2_query' class='visually-hidden'>Guided search terms - third parameter</label>
+      <%= text_field_tag(
+            "clause[2][query]", 
+            label_tag_default_for(:clause_2_query), 
+            :class => 'form-control', 
+            autocorrect: "off", 
+            autocapitalize: "off", 
+            spellcheck: "false") %>
+    </div>
+  </div>
+</div>
