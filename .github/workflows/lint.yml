@@ -1,0 +1,25 @@
+on:
+  workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
+        default: ''
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+          bundler: "latest"
+      - name: Change permissions
+        run: "chmod -f -R o-w /opt/hostedtoolcache/Ruby/3.2.5/x64/lib/ruby/gems/3.2.0/gems | :"
+      - name: Install dependencies
+        run: bundle install
+      - name: Run linter
+        run: bundle exec rake rubocop
