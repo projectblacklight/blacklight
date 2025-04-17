@@ -8,35 +8,28 @@
 name: release-8.x scheduled
 
 on:
-  # remove pull request once we know this is working
-  pull_request:
   schedule:
     # Weekly at 9:35 on Friday
     # Somewhat weird timing so that it isn't delayed too much
     - cron: '35 9 * * 5'
 jobs:
-  # lint:
-  #   uses: projectblacklight/blacklight/.github/workflows/lint.yml@weekly_ci_run
-  #   with:
-  #     ref: release-8.x
-  # test:
-  #   uses: projectblacklight/blacklight/.github/workflows/test.yml@weekly_ci_run
-  #   with:
-  #     ref: release-8.x
-  #     ruby: '["3.3"]'
-  # docker_build:
-  #   uses: projectblacklight/blacklight/.github/workflows/build.yml@weekly_ci_run
-  #   with:
-  #     ref: release-8.x
-  fail-on-purpose:
-    runs-on: ubuntu-latest
-    steps:
-      - run: exit 1
+  lint:
+    uses: projectblacklight/blacklight/.github/workflows/lint.yml@weekly_ci_run
+    with:
+      ref: release-8.x
+  test:
+    uses: projectblacklight/blacklight/.github/workflows/test.yml@weekly_ci_run
+    with:
+      ref: release-8.x
+      ruby: '["3.3"]'
+  docker_build:
+    uses: projectblacklight/blacklight/.github/workflows/build.yml@weekly_ci_run
+    with:
+      ref: release-8.x
   report:
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
-    needs: [fail-on-purpose]
-    # needs: [lint, test, docker_build]
+    needs: [lint, test, docker_build]
     steps:
       - name: Report on failure of any dependent job
         env:
@@ -47,4 +40,4 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: "TESTING!!! The weekly CI run of the release-8.x branch has failed TESTING!!!"
+            text: "The weekly CI run of the release-8.x branch has failed"

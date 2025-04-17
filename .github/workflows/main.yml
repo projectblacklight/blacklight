@@ -13,16 +13,12 @@ on:
       - main
       - "release-*"
   pull_request:
-  schedule:
-    # Weekly at 9:35 on Friday
-    # Somewhat weird timing so that it isn't delayed too much
-    - cron: '35 9 * * 5'
 jobs:
   lint:
     uses: projectblacklight/blacklight/.github/workflows/lint.yml@weekly_ci_run
-  # test:
-  #   uses: projectblacklight/blacklight/.github/workflows/test.yml@weekly_ci_run
-  #   with:
-  #     ruby: '["3.4"]'
-  # docker_build:
-  #   uses: projectblacklight/blacklight/.github/workflows/build.yml@weekly_ci_run
+  test:
+    uses: projectblacklight/blacklight/.github/workflows/test.yml@weekly_ci_run
+    with:
+      ruby: '["3.4"]'
+  docker_build:
+    uses: projectblacklight/blacklight/.github/workflows/build.yml@weekly_ci_run
