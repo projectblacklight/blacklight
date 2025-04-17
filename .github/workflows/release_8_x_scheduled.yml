@@ -34,14 +34,13 @@ jobs:
       - run: exit 1
   report:
     runs-on: ubuntu-latest
-    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
     needs: [fail-on-purpose]
     # needs: [lint, test, docker_build]
     steps:
       - name: Report on failure of any dependent job
         env:
           NEEDS: ${{ toJSON(needs) }}
-        if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
         uses: slackapi/slack-github-action@v2.0.0
         with:
           method: chat.postMessage
@@ -49,13 +48,3 @@ jobs:
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             text: "TESTING!!! The weekly CI run of the release-8.x branch has failed TESTING!!!"
-  ensure-report-runs:
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    needs: [report]
-    steps:
-      - name: Hello World        
-        env:
-          NEEDS: ${{ toJSON(needs) }}     
-        run: |
-          echo "$NEEDS"
