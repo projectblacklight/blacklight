@@ -15,10 +15,10 @@ on:
   pull_request:
 jobs:
   lint:
-    uses: projectblacklight/blacklight/.github/workflows/lint.yml@weekly_ci_run
+    uses: projectblacklight/blacklight/.github/workflows/lint.yml@file_for_matrix_include
   test:
-    uses: projectblacklight/blacklight/.github/workflows/test.yml@weekly_ci_run
+    uses: projectblacklight/blacklight/.github/workflows/test.yml@file_for_matrix_include
     with:
       ruby: '["3.4"]'
   docker_build:
-    uses: projectblacklight/blacklight/.github/workflows/build.yml@weekly_ci_run
+    uses: projectblacklight/blacklight/.github/workflows/build.yml@file_for_matrix_include
