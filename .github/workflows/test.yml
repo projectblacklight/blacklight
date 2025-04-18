@@ -17,7 +17,13 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - id: set-matrix
-      run: echo "matrix=${cat test_include.json}" >> $GITHUB_OUTPUT
+      run: |
+        {
+          echo 'output_name<<ANY_DELIMITER_YOU_WANT'
+          cat test_include.json
+          echo
+          echo ANY_DELIMITER_YOU_WANT
+        } >> "$GITHUB_OUTPUT"
   job2:
     needs: job1
     runs-on: ubuntu-latest
