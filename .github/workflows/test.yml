@@ -17,12 +17,17 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - name: Try to get oriented
-      run: pwd && ls -la
+      run: |
+        {
+          echo ${{ github.workspace }}
+          cd ${{ github.workspace }}
+          ls -la
+        }
     - id: set-matrix
       run: |
         {
           echo 'output_name<<ANY_DELIMITER_YOU_WANT'
-          cat ./.github/test_include.json
+          cat ${{ github.workspace }}/.github/test_include.json
           echo
           echo ANY_DELIMITER_YOU_WANT
         } >> "$GITHUB_OUTPUT"
