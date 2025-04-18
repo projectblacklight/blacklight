@@ -15,10 +15,10 @@ on:
   pull_request:
 jobs:
   lint:
-    uses: projectblacklight/blacklight/.github/workflows/lint.yml@weekly_ci_run
+    uses: maxkadel/actions/.github/workflows/lint.yml@main
   test:
-    uses: projectblacklight/blacklight/.github/workflows/test.yml@weekly_ci_run
+    uses: maxkadel/actions/.github/workflows/test.yml@main
     with:
       ruby: '["3.4"]'
   docker_build:
-    uses: projectblacklight/blacklight/.github/workflows/build.yml@weekly_ci_run
+    uses: maxkadel/actions/.github/workflows/build.yml@main

@@ -14,16 +14,16 @@ on:
     - cron: '35 9 * * 5'
 jobs:
   lint:
-    uses: projectblacklight/blacklight/.github/workflows/lint.yml@weekly_ci_run
+    uses: maxkadel/actions/.github/workflows/lint.yml@main
     with:
       ref: release-8.x
   test:
-    uses: projectblacklight/blacklight/.github/workflows/test.yml@weekly_ci_run
+    uses: maxkadel/actions/.github/workflows/test.yml@main
     with:
       ref: release-8.x
       ruby: '["3.3"]'
   docker_build:
-    uses: projectblacklight/blacklight/.github/workflows/build.yml@weekly_ci_run
+    uses: maxkadel/actions/.github/workflows/build.yml@main
     with:
       ref: release-8.x
   report:
