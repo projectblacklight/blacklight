@@ -11,6 +11,21 @@ on:
         type: string
         description: The Ruby or Rubies used in the matrix. Must be in format '["ruby.version"]'
 jobs:
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - id: set-matrix
+      run: echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+    steps:
+    - run: echo ${{ matrix.project }}
+    - run: echo ${{ matrix.config }}
   test:
     runs-on: ubuntu-latest
     name: ruby ${{ matrix.ruby }} | rails ${{ matrix.rails_version }} ${{ matrix.additional_name }}
