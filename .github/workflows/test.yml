@@ -22,7 +22,7 @@ jobs:
       run: |
         {
           echo 'output_name<<ANY_DELIMITER_YOU_WANT'
-          cat test_include.json
+          cat ./.github/test_include.json
           echo
           echo ANY_DELIMITER_YOU_WANT
         } >> "$GITHUB_OUTPUT"
