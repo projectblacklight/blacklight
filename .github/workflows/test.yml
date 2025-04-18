@@ -16,6 +16,8 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
+    - name: Try to get oriented
+      run: pwd && ls -la
     - id: set-matrix
       run: |
         {
