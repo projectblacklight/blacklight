@@ -4,6 +4,7 @@
 name: release-8.x scheduled
 
 on:
+  workflow_dispatch:
   schedule:
     # Weekly at 9:35 on Friday
     # Somewhat weird timing so that it isn't delayed too much
