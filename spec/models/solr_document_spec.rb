@@ -37,7 +37,9 @@ RSpec.describe SolrDocument, api: true do
                           title_tesim: ['Good Omens'])
     end
 
-    it { is_expected.to end_with "_source: {\"id\"=>\"123\", \"title_tesim\"=>[\"Good Omens\"]}>" }
+    it 'ends with the expected information' do
+      expect(inspect).to match(/_source: {"id" ?=> ?"123", "title_tesim" ?=> ?\["Good Omens"\]\}>$/)
+    end
   end
 
   describe '.attribute' do

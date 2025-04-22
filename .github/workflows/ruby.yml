@@ -16,18 +16,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.2
-        bundler: 'default'
-    - name: Install dependencies
-      run: bundle install
-    - name: Run linter
-      run: bundle exec rake rubocop
+    uses: ./.github/workflows/lint.yml
   test_rails7_1:
     runs-on: ubuntu-latest
     strategy:
@@ -132,8 +121,4 @@ jobs:
         BLACKLIGHT_API_TEST: true
         ENGINE_CART_RAILS_OPTIONS: '-a propshaft --api --skip-git --skip-bundle --skip-listen --skip-spring --skip-yarn --skip-keeps --skip-action-cable --skip-coffee --skip-test'
   docker_build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build docker image
-        run: docker compose build app
+    uses: ./.github/workflows/build.yml
