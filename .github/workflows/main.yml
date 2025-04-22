@@ -15,10 +15,10 @@ on:
   pull_request:
 jobs:
   lint:
-    uses: projectblacklight/blacklight/.github/workflows/lint.yml@weekly_ci_run
+    uses: ./.github/workflows/lint.yml
   test:
-    uses: projectblacklight/blacklight/.github/workflows/test.yml@weekly_ci_run
+    uses: ./.github/workflows/test.yml
     with:
       ruby: '["3.4"]'
   docker_build:
-    uses: projectblacklight/blacklight/.github/workflows/build.yml@weekly_ci_run
+    uses: ./.github/workflows/build.yml
