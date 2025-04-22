@@ -40,7 +40,7 @@ module Blacklight::SearchContext
         @page_link_data[:prev] = page_links_document_path(documents.first, index)
         @page_link_data[:next] = page_links_document_path(documents.last, index + 2)
       end
-      if response&.total && response.total.positive?
+      if response&.total&.positive?
         @page_link_data[:counterRaw] = counter_param
         @page_link_data[:counterDelimited] = helpers.number_with_delimiter(counter_param.to_i)
         @page_link_data[:totalRaw] = response.total

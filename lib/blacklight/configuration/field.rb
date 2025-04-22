@@ -33,6 +33,7 @@ module Blacklight
       raise ArgumentError, "Must supply a field name" if self.field.nil?
     end
 
+    # rubocop:disable Style/RedundantParentheses
     def display_label(context = nil, **options)
       field_label(
         (:"blacklight.search.fields.#{context}.#{key}" if context),
@@ -42,6 +43,7 @@ module Blacklight
         **options
       )
     end
+    # rubocop:enable Style/RedundantParentheses
 
     def default_label
       if self.key.respond_to?(:titleize)
