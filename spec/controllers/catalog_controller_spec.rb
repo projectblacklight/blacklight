@@ -499,13 +499,14 @@ RSpec.describe CatalogController, :api do
         expect(request.flash[:error]).to be_nil
       end
 
-      it "redirects back to the record upon success" do
-        allow(RecordMailer).to receive(:email_record)
-          .with(anything, { to: 'test_email@projectblacklight.org', message: 'xyz', config: config }, hash_including(host: 'test.host'))
-          .and_return double(deliver: nil)
-        post :email, params: { id: doc_id, to: 'test_email@projectblacklight.org', message: 'xyz' }
-        expect(request.flash[:error]).to be_nil
-        expect(request).to redirect_to(solr_document_path(doc_id))
+      context 'when message is provided' do
+        it "sends email and redirects back to the record" do
+          expect do
+            post :email, params: { id: doc_id, to: 'test_email@projectblacklight.org', message: 'xyz' }
+          end.to send_email(to: 'test_email@projectblacklight.org')
+          expect(request.flash[:error]).to be_nil
+          expect(request).to redirect_to(solr_document_path(doc_id))
+        end
       end
 
       it "renders email_success for XHR requests" do
@@ -549,11 +550,9 @@ RSpec.describe CatalogController, :api do
       end
 
       it "sends to the appropriate carrier email address" do
-        expect(RecordMailer)
-          .to receive(:sms_record)
-          .with(anything, { to: '5555555555@txt.att.net', config: config }, hash_including(host: 'test.host'))
-          .and_return double(deliver: nil)
-        post :sms, params: { id: doc_id, to: '5555555555', carrier: 'txt.att.net' }
+        expect do
+          post :sms, params: { id: doc_id, to: '5555555555', carrier: 'txt.att.net' }
+        end.to send_email(to: '5555555555@txt.att.net')
       end
 
       it "redirects back to the record upon success" do
