@@ -6,49 +6,29 @@ on:
         type: string
         default: ''
         description: The branch or reference to run the workflow against
-      ruby:
-        required: true
-        type: string
-        description: The Ruby or Rubies used in the matrix. Must be in format '["ruby.version"]'
 jobs:
+  set_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Echo ./.github/matrix.json
+        id: matrix
+        run: |
+          echo "matrix<<EOF" >> $GITHUB_OUTPUT
+          cat ./.github/matrix.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
   test:
+    needs: set_matrix
     runs-on: ubuntu-latest
     name: ruby ${{ matrix.ruby }} | rails ${{ matrix.rails_version }} ${{ matrix.additional_name }}
     strategy:
       fail-fast: false
-      matrix:
-        ruby: ${{ fromJSON(inputs.ruby) }}
-        rails_version: ["7.1.5.1", "7.2.2.1"]
-        bootstrap_version: [null]
-        view_component_version: ["~> 3.12"]
-        api: [null]
-        additional_engine_cart_rails_options: [""]
-        additional_name: [""]
-        include:
-          - ruby: "3.3"
-            rails_version: "8.0.1"
-            additional_engine_cart_rails_options: --css=bootstrap
-          - ruby: "3.3"
-            rails_version: "8.0.1"
-            additional_engine_cart_rails_options: --css=bootstrap --js=esbuild
-            additional_name: "| esbuild"
-          - ruby: "3.2"
-            rails_version: "7.1.5.1"
-            solr_version: "8.11.2"
-            additional_name: "| Solr 8.11.2"
-          - ruby: "3.3"
-            rails_version: "7.1.5.1"
-            additional_name: "| Propshaft"
-            additional_engine_cart_rails_options: -a propshaft --css=bootstrap
-          - ruby: "3.3"
-            rails_version: "7.1.5.1"
-            api: "true"
-            additional_engine_cart_rails_options: --api --skip-yarn
-            additional_name: "| API"
-          - ruby: "3.3"
-            rails_version: "7.2.2.1"
-            additional_engine_cart_rails_options: -a propshaft --css=bootstrap --js=esbuild
-            additional_name: "| Propshaft, esbuild"
+      matrix: ${{fromJson(needs.set_matrix.outputs.matrix)}}
     env:
       RAILS_VERSION: ${{ matrix.rails_version }}
       SOLR_VERSION: ${{ matrix.solr_version || 'latest' }}

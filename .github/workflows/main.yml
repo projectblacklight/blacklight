@@ -18,7 +18,5 @@ jobs:
     uses: ./.github/workflows/lint.yml
   test:
     uses: ./.github/workflows/test.yml
-    with:
-      ruby: '["3.4"]'
   docker_build:
     uses: ./.github/workflows/build.yml

@@ -1,28 +1,25 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
-# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+# If there are failures running this workflow, please resolve them on the release-8.x branch
+# and then port any necessary changes to this branch.
 
 name: release-8.x scheduled
 
 on:
+  workflow_dispatch:
   schedule:
     # Weekly at 9:35 on Friday
     # Somewhat weird timing so that it isn't delayed too much
     - cron: '35 9 * * 5'
 jobs:
   lint:
-    uses: ./.github/workflows/lint.yml
+    uses: projectblacklight/blacklight/.github/workflows/lint.yml@release-8.x
     with:
       ref: release-8.x
   test:
-    uses: ./.github/workflows/lint.yml
+    uses: projectblacklight/blacklight/.github/workflows/test.yml@release-8.x
     with:
       ref: release-8.x
   docker_build:
-    uses: ./.github/workflows/lint.yml
+    uses: projectblacklight/blacklight/.github/workflows/build.yml@release-8.x
     with:
       ref: release-8.x
   report:
