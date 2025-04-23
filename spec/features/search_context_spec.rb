@@ -35,7 +35,7 @@ RSpec.describe "Search Results context", js: true do
   it "does not display stale previous and next links for direct item views" do
     search_for ''
     click_on 'Pluvial nectar of blessings'
-
+    expect(page).to have_link('Cite')
     # Go to the number 9 result separately
     visit '/catalog/2003546302'
     expect(page).not_to have_selector '.page-links'

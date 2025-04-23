@@ -60,9 +60,7 @@ module Blacklight
         end
       end
 
-      def key
-        @action.key
-      end
+      delegate :key, to: :@action
     end
   end
 end
