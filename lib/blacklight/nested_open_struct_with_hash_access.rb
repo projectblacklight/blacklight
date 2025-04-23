@@ -120,9 +120,7 @@ module Blacklight
 
     def set_default_proc!
       self.default_proc = lambda do |hash, key|
-        new_instance_of_class = nested_class.new
-        new_instance_of_class[:key] = key
-        hash[key] = new_instance_of_class
+        hash[key] = nested_class.new({ key: key })
       end
     end
   end
