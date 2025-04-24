@@ -1,0 +1,39 @@
+# If there are failures running this workflow, please resolve them on the release-7.x branch
+# and then port any necessary changes to this branch.
+
+name: release-7.x scheduled
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly at 9:35 on Friday
+    # Somewhat weird timing so that it isn't delayed too much
+    - cron: '35 9 * * 5'
+jobs:
+  lint:
+    uses: projectblacklight/blacklight/.github/workflows/lint.yml@release-7.x
+    with:
+      ref: release-7.x
+  test:
+    uses: projectblacklight/blacklight/.github/workflows/test.yml@release-7.x
+    with:
+      ref: release-7.x
+  docker_build:
+    uses: projectblacklight/blacklight/.github/workflows/build.yml@release-7.x
+    with:
+      ref: release-7.x
+  report:
+    runs-on: ubuntu-latest
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    needs: [lint, test, docker_build]
+    steps:
+      - name: Report on failure of any dependent job
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: "The weekly CI run of the release-7.x branch has failed"
