@@ -1,6 +1,7 @@
 const SearchContext = (e) => {
-  if (e.target.matches('[data-context-href]')) {
-    SearchContext.handleSearchContextMethod.call(e.target, e)
+  const contextLink = e.target.closest('[data-context-href]')
+  if (contextLink) {
+    SearchContext.handleSearchContextMethod.call(contextLink, e)
   }
 }
 
