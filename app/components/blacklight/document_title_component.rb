@@ -7,12 +7,9 @@ module Blacklight
     renders_many :actions
 
     # rubocop:disable Metrics/ParameterLists
-    def initialize(title = nil, document: nil, presenter: nil, as: :h3, counter: nil, classes: 'index_title document-title-heading col h5', link_to_document: true, document_component: nil,
+    def initialize(title = nil, presenter:, as: :h3, counter: nil, classes: 'index_title document-title-heading col h5', link_to_document: true, document_component: nil,
                    actions: true)
-      raise ArgumentError, 'missing keyword: :document or :presenter' if presenter.nil? && document.nil?
-
       @title = title
-      @document = document
       @presenter = presenter
       @as = as || :h3
       @counter = counter
@@ -22,6 +19,8 @@ module Blacklight
       @actions = actions
     end
     # rubocop:enable Metrics/ParameterLists
+
+    attr_accessor :presenter
 
     # Content for the document title area; should be an inline element
     def title
@@ -52,12 +51,6 @@ module Blacklight
       content_tag :span, class: 'document-counter' do
         t('blacklight.search.documents.counter', counter: @counter)
       end
-    end
-
-    private
-
-    def presenter
-      @presenter ||= helpers.document_presenter(@document)
     end
   end
 end
