@@ -137,7 +137,7 @@ const Modal = (() => {
 
   modal.modalAjaxLinkClick = function(e) {
     e.preventDefault();
-    const href = e.target.getAttribute('href')
+    const href = e.target.closest('a').getAttribute('href')
     fetch(href)
       .then(response => {
          if (!response.ok) {
