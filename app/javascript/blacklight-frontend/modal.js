@@ -56,9 +56,6 @@
 const Modal = (() => {
   const modal = {}
 
-  // bootstrap class that will stop body scrolling when modal is open
-  const bootstrapBodyClassOpen = "modal-open";
-
   // a Bootstrap modal div that should be already on the page hidden
   modal.modalSelector = '#blacklight-modal';
 
