@@ -36,7 +36,7 @@ module Blacklight
     renders_one :title, (lambda do |*args, component: nil, **kwargs|
       component ||= view_config.title_component || Blacklight::DocumentTitleComponent
 
-      component.new(*args, counter: @counter, document: @document, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
+      component.new(*args, counter: @counter, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
     end)
 
     renders_one :embed, (lambda do |static_content = nil, *args, component: nil, **kwargs|
@@ -46,7 +46,7 @@ module Blacklight
 
       next unless component
 
-      component.new(*args, document: @document, presenter: @presenter, document_counter: @document_counter, **kwargs)
+      component.new(*args, presenter: @presenter, document_counter: @document_counter, **kwargs)
     end)
 
     # The primary metadata section
@@ -66,7 +66,7 @@ module Blacklight
 
       component ||= view_config.thumbnail_component || Blacklight::Document::ThumbnailComponent
 
-      component.new(*args, document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
+      component.new(*args, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
     end)
 
     # A container for partials rendered using the view config partials configuration. Its use is discouraged, but necessary until
