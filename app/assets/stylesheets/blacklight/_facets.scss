@@ -6,6 +6,7 @@
   --bl-facet-label-indent: -15px;
   --bl-facet-label-padding-left: 15px;
   --bl-facet-header-padding-y: 0.5rem;
+  --bl-facet-value-padding-y: 0.2rem;
 
   .facet-toggle-button {
     [data-hide-label] {
@@ -84,7 +85,7 @@
   li {
     display: flex;
     align-items: flex-start;
-    padding: 3px 0;
+    padding-block: var(--bl-facet-value-padding-y);
 
     &.treeitem {
       display: block;
