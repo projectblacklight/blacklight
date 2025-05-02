@@ -13,8 +13,12 @@
 
 <% content_for(:container_header) do -%>
   <%= render 'search_results_header' %>
-  <%= render 'constraints' %>
-<% end %>
+  <% partials = lookup_context.find_all('constraints', lookup_context.prefixes, true, [], {}) %>
+  <% unless partials.first.identifier.starts_with? Blacklight.root %>
+    <% Blacklight.deprecation.warn('The partial catalog/_constraints.html.erb will be removed in Blacklight 9.0. Call the constraints_component instead') %>
+  <% end %>
+  <%= render 'constraints', hide_warning: true %>
+d<% end %>
 
 <%= render 'search_header' %>
 
