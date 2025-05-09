@@ -125,7 +125,7 @@ RSpec.describe Blacklight::SearchBuilder, :api do
       end
 
       subject.with(a: 1)
-      expect(subject.processed_parameters).to include step_1: 'builder'
+      expect(subject.send(:processed_parameters)).to include step_1: 'builder'
     end
   end
 
@@ -222,16 +222,6 @@ RSpec.describe Blacklight::SearchBuilder, :api do
 
     it "sets facet value" do
       expect(subject.facet('format').facet).to eq 'format'
-    end
-  end
-
-  describe "#facet_suggestion_query" do
-    it "is nil if no value is set" do
-      expect(subject.facet_suggestion_query).to be_nil
-    end
-
-    it "sets facet_suggestion_query value" do
-      expect(subject.facet_suggestion_query('antel').facet_suggestion_query).to eq 'antel'
     end
   end
 
