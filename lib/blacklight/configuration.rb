@@ -43,6 +43,7 @@ module Blacklight
     default_configuration do
       property :logo_link, default: nil
       property :skip_link_component, default: Blacklight::SkipLinkComponent
+      property :skip_link_item_component, default: Blacklight::SkipLinkItemComponent
       property :header_component, default: Blacklight::HeaderComponent
       property :full_width_layout, default: false
 

@@ -3,11 +3,11 @@
 module Blacklight
   class SkipLinkComponent < Blacklight::Component
     def link_to_search
-      link_to t('blacklight.skip_links.search_field'), search_id, class: link_classes
+      render skip_link_item_component.new(text: t('blacklight.skip_links.search_field'), href: search_id)
     end
 
     def link_to_main
-      link_to t('blacklight.skip_links.main_content'), '#main-container', class: link_classes
+      render skip_link_item_component.new(text: t('blacklight.skip_links.main_content'), href: '#main-container')
     end
 
     def search_id
@@ -15,6 +15,9 @@ module Blacklight
 
       '#q'
     end
+
+    delegate :blacklight_config, to: :helpers
+    delegate :skip_link_item_component, to: :blacklight_config
 
     def link_classes
       'd-inline-flex p-2 m-1'
