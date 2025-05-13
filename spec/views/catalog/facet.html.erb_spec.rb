@@ -5,13 +5,17 @@ RSpec.describe 'catalog/facet.html.erb' do
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:component) { instance_double(Blacklight::FacetComponent) }
   let(:facet_suggest_input) { instance_double(Blacklight::Search::FacetSuggestInput) }
+  let(:facet_filter) { instance_double(Blacklight::Facets::FilterComponent) }
 
   before do
     allow(Blacklight::FacetComponent).to receive(:new).and_return(component)
     allow(Blacklight::Search::FacetSuggestInput).to receive(:new).and_return(facet_suggest_input)
+    allow(Blacklight::Facets::FilterComponent).to receive(:new).and_return(facet_filter)
+
     allow(view).to receive(:render).and_call_original
     allow(view).to receive(:render).with(component)
     allow(view).to receive(:render).with(facet_suggest_input)
+    allow(view).to receive(:render).with(facet_filter)
 
     blacklight_config.add_facet_field 'xyz', label: "Facet title"
     allow(view).to receive(:blacklight_config).and_return(blacklight_config)
@@ -25,9 +29,10 @@ RSpec.describe 'catalog/facet.html.erb' do
     expect(rendered).to have_css 'h1', text: "Facet title"
   end
 
-  it "renders the facet suggest input" do
+  it "renders the facet suggest input and filters" do
     render
     expect(view).to have_received(:render).with(facet_suggest_input)
+    expect(view).to have_received(:render).with(facet_filter)
   end
 
   it "renders facet pagination" do
