@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
-  subject(:rendered) do
-    render_inline_to_capybara_node(described_class.new(facet_field: facet_field))
+  before do
+    render_inline(described_class.new(facet_field: facet_field))
   end
 
   let(:facet_field) do
@@ -31,15 +31,15 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
   end
 
   it 'renders an accordion item' do
-    expect(rendered).to have_css '.accordion-item'
-    expect(rendered).to have_button 'Field'
-    expect(rendered).to have_css 'button[data-bs-target="#facet-field"]'
-    expect(rendered).to have_css '#facet-field.collapse.show'
+    expect(page).to have_css '.accordion-item'
+    expect(page).to have_button 'Field'
+    expect(page).to have_css 'button[data-bs-target="#facet-field"]'
+    expect(page).to have_css '#facet-field.collapse.show'
   end
 
   it 'renders the facet items' do
-    expect(rendered).to have_css 'ul.facet-values'
-    expect(rendered).to have_css 'li', count: 2
+    expect(page).to have_css 'ul.facet-values'
+    expect(page).to have_css 'li', count: 2
   end
 
   context 'with an active facet' do
@@ -58,7 +58,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     end
 
     it 'adds the facet-limit-active class' do
-      expect(rendered).to have_css 'div.facet-limit-active'
+      expect(page).to have_css 'div.facet-limit-active'
     end
   end
 
@@ -78,13 +78,13 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     end
 
     it 'renders a collapsed facet' do
-      expect(rendered).to have_css '.facet-content.collapse'
-      expect(rendered).to have_no_css '.facet-content.collapse.show'
+      expect(page).to have_css '.facet-content.collapse'
+      expect(page).to have_no_css '.facet-content.collapse.show'
     end
 
     it 'renders the toggle button in the collapsed state' do
-      expect(rendered).to have_css '.btn.collapsed'
-      expect(rendered).to have_css '.btn[aria-expanded="false"]'
+      expect(page).to have_css '.btn.collapsed'
+      expect(page).to have_css '.btn[aria-expanded="false"]'
     end
   end
 
@@ -104,7 +104,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     end
 
     it 'renders a link to the modal' do
-      expect(rendered).to have_link 'more Field', href: '/catalog/facet/modal'
+      expect(page).to have_link 'more Field', href: '/catalog/facet/modal'
     end
   end
 
@@ -133,13 +133,13 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     let(:params) { { f_inclusive: { field: %w[a b c] } } }
 
     it 'displays the constraint above the list' do
-      expect(rendered).to have_content 'Any of:'
-      expect(rendered).to have_css '.inclusive_or .facet-label', text: 'a'
-      expect(rendered).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=b&f_inclusive%5Bfield%5D%5B%5D=c'
-      expect(rendered).to have_css '.inclusive_or .facet-label', text: 'b'
-      expect(rendered).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=a&f_inclusive%5Bfield%5D%5B%5D=c'
-      expect(rendered).to have_css '.inclusive_or .facet-label', text: 'c'
-      expect(rendered).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=a&f_inclusive%5Bfield%5D%5B%5D=b'
+      expect(page).to have_content 'Any of:'
+      expect(page).to have_css '.inclusive_or .facet-label', text: 'a'
+      expect(page).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=b&f_inclusive%5Bfield%5D%5B%5D=c'
+      expect(page).to have_css '.inclusive_or .facet-label', text: 'b'
+      expect(page).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=a&f_inclusive%5Bfield%5D%5B%5D=c'
+      expect(page).to have_css '.inclusive_or .facet-label', text: 'c'
+      expect(page).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=a&f_inclusive%5Bfield%5D%5B%5D=b'
     end
   end
 end

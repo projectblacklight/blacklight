@@ -6,14 +6,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   subject(:component) { described_class.new(document: document, **attr) }
 
   let(:attr) { {} }
-  let(:view_context) { controller.view_context }
-  let(:render) do
-    component.render_in(view_context)
-  end
-
-  let(:rendered) do
-    Capybara::Node::Simple.new(render)
-  end
+  let(:view_context) { vc_test_controller.view_context }
 
   let(:document) { view_context.document_presenter(presented_document) }
 
@@ -36,7 +29,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
 
   before do
     # Every call to view_context returns a different object. This ensures it stays stable.
-    allow(controller).to receive_messages(view_context: view_context, current_or_guest_user: User.new, blacklight_config: blacklight_config)
+    allow(vc_test_controller).to receive_messages(view_context: view_context, current_or_guest_user: User.new, blacklight_config: blacklight_config)
     allow(view_context).to receive_messages(search_session: {}, current_search_session: nil, current_bookmarks: [])
   end
 
@@ -46,78 +39,92 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     component.set_slot(:metadata, nil, 'Metadata')
     component.set_slot(:thumbnail, nil, 'Thumbnail')
     component.set_slot(:actions) { 'Actions' }
+    render_inline component
 
-    expect(rendered).to have_content 'Title'
-    expect(rendered).to have_content 'Embed'
-    expect(rendered).to have_content 'Metadata'
-    expect(rendered).to have_content 'Thumbnail'
-    expect(rendered).to have_content 'Actions'
+    expect(page).to have_content 'Title'
+    expect(page).to have_content 'Embed'
+    expect(page).to have_content 'Metadata'
+    expect(page).to have_content 'Thumbnail'
+    expect(page).to have_content 'Actions'
   end
 
   it 'has schema.org properties' do
     component.set_slot(:body) { '-' }
+    render_inline component
 
-    expect(rendered).to have_css 'article[@itemtype="http://schema.org/Thing"]'
-    expect(rendered).to have_css 'article[@itemscope]'
+    expect(page).to have_css 'article[@itemtype="http://schema.org/Thing"]'
+    expect(page).to have_css 'article[@itemscope]'
   end
 
   context 'with a provided body' do
     it 'opts-out of normal component content' do
       component.set_slot(:body) { 'Body content' }
+      render_inline component
 
-      expect(rendered).to have_content 'Body content'
-      expect(rendered).to have_no_css 'header'
-      expect(rendered).to have_no_css 'dl'
+      expect(page).to have_content 'Body content'
+      expect(page).to have_no_css 'header'
+      expect(page).to have_no_css 'dl'
     end
   end
 
   context 'index view' do
     before do
-      controller.action_name = "index"
+      vc_test_controller.action_name = "index"
     end
 
     let(:attr) { { counter: 5 } }
 
     it 'has data properties' do
       component.set_slot(:body) { '-' }
+      render_inline component
 
-      expect(rendered).to have_css 'article[@data-document-id="x"]'
-      expect(rendered).to have_css 'article[@data-document-counter="5"]'
+      expect(page).to have_css 'article[@data-document-id="x"]'
+      expect(page).to have_css 'article[@data-document-counter="5"]'
     end
 
     it 'renders a linked title' do
-      expect(rendered).to have_link 'Title', href: '/catalog/x'
+      render_inline component
+
+      expect(page).to have_link 'Title', href: '/catalog/x'
     end
 
     it 'renders a counter with the title' do
-      expect(rendered).to have_css 'header', text: '5. Title'
+      render_inline component
+
+      expect(page).to have_css 'header', text: '5. Title'
     end
 
     context 'with a document rendered as part of a collection' do
-      # ViewComponent 3 changes iteration counters to begin at 0 rather than 1
-      let(:document_counter) { ViewComponent::VERSION::MAJOR < 3 ? 11 : 10 }
+      let(:document_counter) { 10 }
       let(:attr) { { document_counter: document_counter, counter_offset: 100 } }
 
       it 'renders a counter with the title' do
-        # after ViewComponent 2.5, collection counter params are 1-indexed
-        expect(rendered).to have_css 'header', text: '111. Title'
+        render_inline component
+
+        expect(page).to have_css 'header', text: '111. Title'
       end
     end
 
     it 'renders actions' do
-      expect(rendered).to have_css '.index-document-functions'
+      render_inline component
+
+      expect(page).to have_css '.index-document-functions'
     end
 
     it 'renders a thumbnail' do
-      expect(rendered).to have_css 'a[href="/catalog/x"] img[src="http://example.com/image.jpg"]'
+      render_inline component
+
+      expect(page).to have_css 'a[href="/catalog/x"] img[src="http://example.com/image.jpg"]'
     end
 
     context 'with default metadata component' do
       it 'renders metadata' do
-        expect(rendered).to have_css 'dl.document-metadata'
-        expect(rendered).to have_css 'dt', text: 'Title:'
-        expect(rendered).to have_css 'dd', text: 'Title'
-        expect(rendered).to have_no_css 'dt', text: 'ISBN:'
+        render_inline component
+
+        expect(page).to have_css 'dl.document-metadata'
+        expect(page).to have_css 'dt', text: 'Title:'
+        expect(page).to have_css 'dd', text: 'Title'
+        expect(page).to have_no_css 'dt', text: 'ISBN:'
       end
     end
   end
@@ -126,44 +133,58 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     let(:attr) { { title_component: :h1, show: true } }
 
     before do
-      controller.action_name = "show"
+      vc_test_controller.action_name = "show"
     end
 
     it 'renders with an id' do
       component.set_slot(:body) { '-' }
+      render_inline component
 
-      expect(rendered).to have_css 'article#document'
+      expect(page).to have_css 'article#document'
     end
 
     it 'renders a title' do
-      expect(rendered).to have_css 'h1', text: 'Title'
+      render_inline component
+
+      expect(page).to have_css 'h1', text: 'Title'
     end
 
     it 'renders with show-specific metadata' do
-      expect(rendered).to have_css 'dl.document-metadata'
-      expect(rendered).to have_css 'dt', text: 'ISBN:'
-      expect(rendered).to have_css 'dd', text: 'Value'
+      render_inline component
+
+      expect(page).to have_css 'dl.document-metadata'
+      expect(page).to have_css 'dt', text: 'ISBN:'
+      expect(page).to have_css 'dd', text: 'Value'
     end
 
-    it 'renders an embed' do
-      stub_const('StubComponent', Class.new(ViewComponent::Base) do
-        def initialize(**); end
+    context 'with an embed component' do
+      before do
+        vc_test_controller.action_name = "show"
 
-        def call
-          'embed'.html_safe
-        end
-      end)
+        stub_const('StubComponent', Class.new(ViewComponent::Base) do
+          def initialize(**); end
 
-      blacklight_config.show.embed_component = StubComponent
-      expect(rendered).to have_content 'embed'
+          def call
+            'embed'.html_safe
+          end
+        end)
+
+        blacklight_config.show.embed_component = StubComponent
+        render_inline component
+      end
+
+      it 'renders an embed' do
+        expect(page).to have_content 'embed'
+      end
     end
 
     context 'show view with custom translation' do
       let!(:original_translations) { I18n.backend.send(:translations).deep_dup }
 
       before do
-        controller.action_name = "show"
+        vc_test_controller.action_name = "show"
         I18n.backend.store_translations(:en, blacklight: { search: { show: { label: "testing:%{label}" } } })
+        render_inline component
       end
 
       after do
@@ -172,9 +193,9 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       end
 
       it 'renders with show-specific metadata with correct translation' do
-        expect(rendered).to have_css 'dl.document-metadata'
-        expect(rendered).to have_css 'dt', text: 'testing:ISBN'
-        expect(rendered).to have_css 'dd', text: 'Value'
+        expect(page).to have_css 'dl.document-metadata'
+        expect(page).to have_css 'dt', text: 'testing:ISBN'
+        expect(page).to have_css 'dd', text: 'Value'
       end
     end
 
@@ -191,10 +212,11 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       before do
         stub_const('MyMetadataComponent', custom_component_class)
         blacklight_config.show.metadata_component = MyMetadataComponent
+        render_inline component
       end
 
       it 'renders custom component' do
-        expect(rendered).to have_text 'blah'
+        expect(page).to have_text 'blah'
       end
     end
 
@@ -211,36 +233,47 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       before do
         stub_const('MyTitleComponent', custom_component_class)
         blacklight_config.show.title_component = MyTitleComponent
+        render_inline component
       end
 
       it 'renders custom component' do
-        expect(rendered).to have_text 'Titleriffic'
+        expect(page).to have_text 'Titleriffic'
       end
     end
   end
 
-  it 'renders partials' do
-    component.with_partial { 'Partials' }
-    expect(rendered).to have_content 'Partials'
+  context 'with partials' do
+    before do
+      component.with_partial { 'Partials' }
+      render_inline component
+    end
+
+    it 'renders partials' do
+      expect(page).to have_content 'Partials'
+    end
   end
 
-  it 'has no partials by default' do
-    component.render_in(view_context)
+  context 'with no partials (default behavior)' do
+    before do
+      render_inline component
+    end
 
-    expect(component.partials?).to be false
+    it 'has no partials by default' do
+      expect(component.partials?).to be false
+    end
   end
 
   context 'with before_titles' do
-    let(:render) do
-      component.render_in(view_context) do
-        component.with_title do |c|
+    before do
+      render_inline(component) do |inner_c|
+        inner_c.with_title do |c|
           c.with_before_title { 'Prefix!' }
         end
       end
     end
 
     it 'shows the prefix' do
-      expect(rendered).to have_content "Prefix!"
+      expect(page).to have_content "Prefix!"
     end
   end
 end

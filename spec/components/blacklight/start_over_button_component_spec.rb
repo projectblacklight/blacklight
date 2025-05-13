@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::StartOverButtonComponent, type: :component do
-  subject(:render) { render_inline(instance) }
+  subject(:render) { render_inline instance }
 
   let(:instance) { described_class.new }
   let(:blacklight_config) do
@@ -13,12 +13,12 @@ RSpec.describe Blacklight::StartOverButtonComponent, type: :component do
   end
 
   before do
-    allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
+    allow(vc_test_controller).to receive(:blacklight_config).and_return(blacklight_config)
   end
 
   context 'with the current view type' do
     before do
-      controller.params[:view] = 'abc'
+      vc_test_controller.params[:view] = 'abc'
     end
 
     it 'is the catalog path' do
@@ -28,7 +28,7 @@ RSpec.describe Blacklight::StartOverButtonComponent, type: :component do
 
   context 'when the current view type is the default' do
     before do
-      controller.params[:view] = 'list'
+      vc_test_controller.params[:view] = 'list'
     end
 
     it 'does not include the current view type' do

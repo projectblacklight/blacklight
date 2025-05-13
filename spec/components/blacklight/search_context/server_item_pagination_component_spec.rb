@@ -11,8 +11,8 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
   let(:instance) { described_class.new(search_context: search_context, search_session: search_session, current_document: current_document) }
 
   before do
-    allow(controller).to receive(:current_search_session).and_return(double(id: current_document_id))
-    controller.class.helper_method :current_search_session
+    allow(vc_test_controller).to receive(:current_search_session).and_return(double(id: current_document_id))
+    vc_test_controller.class.helper_method :current_search_session
   end
 
   context 'when there is no next or previous' do
@@ -40,9 +40,7 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
     let(:next_doc) { SolrDocument.new(id: '888') }
 
     before do
-      # allow(controller).to receive(:controller_tracking_method).and_return('track_catalog_path')
-
-      allow(controller).to receive_messages(controller_name: 'catalog', link_to_previous_document: '', link_to_next_document: '')
+      allow(vc_test_controller).to receive_messages(controller_name: 'catalog', link_to_previous_document: '', link_to_next_document: '')
     end
 
     it "renders content" do

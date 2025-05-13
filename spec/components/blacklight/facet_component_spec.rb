@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Blacklight::FacetComponent, type: :component do
   subject(:rendered) do
-    render_inline_to_capybara_node(component)
+    render_inline(component)
   end
 
   let(:component) { described_class.new(**component_kwargs) }
@@ -18,7 +18,8 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
   let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'field').normalize! }
 
   it 'delegates to the configured component to render something' do
-    expect(rendered).to have_css 'ul.facet-values'
+    rendered
+    expect(page).to have_css 'ul.facet-values'
   end
 
   context 'with a provided component' do
@@ -35,8 +36,10 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
       end
     end
 
+    before { rendered }
+
     it 'renders the provided component' do
-      expect(rendered).to have_content 'Custom facet rendering'
+      expect(page).to have_content 'Custom facet rendering'
     end
   end
 
@@ -53,14 +56,15 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
       replace_hash = { 'catalog/_facet_partial.html.erb' => 'facet partial' }
 
       if Rails.version.to_f >= 7.1
-        controller.prepend_view_path(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
+        vc_test_controller.prepend_view_path(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
       else
-        controller.view_context.view_paths.unshift(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
+        vc_test_controller.view_context.view_paths.unshift(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
       end
+      rendered
     end
 
     it 'renders the partial' do
-      expect(rendered).to have_content 'facet partial'
+      expect(page).to have_content 'facet partial'
     end
   end
 
@@ -113,7 +117,7 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
       { display_facet_or_field_config: presenter }
     end
 
-    let(:presenter) { Blacklight::FacetFieldPresenter.new(facet_config, display_facet, controller.view_context) }
+    let(:presenter) { Blacklight::FacetFieldPresenter.new(facet_config, display_facet, vc_test_controller.view_context) }
 
     it 'renders the component with the provided presenter' do
       allow(facet_config.component).to receive(:new).and_call_original

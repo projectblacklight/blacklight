@@ -6,35 +6,43 @@ RSpec.describe Blacklight::Document::ActionComponent, type: :component do
   subject(:component) { described_class.new(document: document, action: action, **attr) }
 
   let(:action) { Blacklight::Configuration::ToolConfig.new(key: 'some_tool', name: 'some_tool', component: true) }
-  let(:attr) { {} }
-  let(:view_context) { controller.view_context }
-  let(:render) do
-    component.render_in(view_context)
-  end
-
-  let(:rendered) do
-    Capybara::Node::Simple.new(render)
-  end
-
   let(:document) do
     SolrDocument.new(
       id: 'x'
     )
   end
+  let(:attr) { {} }
+  let(:view_context) { vc_test_controller.view_context }
 
-  it 'renders an action link' do
-    allow(view_context).to receive(:some_tool_solr_document_path).with(document, { only_path: true }).and_return('/asdf')
+  before do
+    # Every call to view_context returns a different object. This ensures it stays stable.
+    allow(vc_test_controller).to receive_messages(view_context: view_context)
+  end
 
-    expect(rendered).to have_link 'Some tool', href: '/asdf'
+  context 'with a configured path' do
+    before do
+      allow(view_context).to receive(:some_tool_solr_document_path).with(document, { only_path: true }).and_return('/asdf')
+
+      render_inline component
+    end
+
+    it 'renders an action link' do
+      expect(page).to have_link 'Some tool', href: '/asdf'
+    end
   end
 
   context 'with a partial configured' do
     let(:action) { Blacklight::Configuration::ToolConfig.new(name: '', partial: '/some/tool') }
 
-    it 'render the partial' do
+    before do
+      allow(view_context).to receive(:render).and_call_original
       allow(view_context).to receive(:render).with(hash_including(partial: '/some/tool'), {}).and_return('tool')
 
-      expect(rendered).to have_content 'tool'
+      render_inline component
+    end
+
+    it 'render the partial' do
+      expect(page).to have_content 'tool'
     end
   end
 end
