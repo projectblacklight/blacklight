@@ -36,6 +36,7 @@ export default class CheckboxSubmit {
     }).then((json) => {
       this.labelTarget.removeAttribute('disabled')
       this.checkboxTarget.removeAttribute('disabled')
+      this.checkboxTarget.focus()
       this.updateStateFor(!this.checked)
       this.bookmarksCounter().forEach(counter => {
         counter.innerHTML = json.bookmarks.count;
