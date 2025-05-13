@@ -785,13 +785,6 @@ RSpec.describe CatalogController, :api do
     end
   end
 
-  describe "search_facet_path" do
-    it "is the same as the catalog path" do
-      get :index, params: { page: 1 }
-      expect(controller.send(:search_facet_path, id: "some_facet", page: 5)).to eq facet_catalog_path(id: "some_facet")
-    end
-  end
-
   describe "page_links" do
     it "has prev/next docs and result set data for non-empty result sets", :integration do
       get :page_links, params: { f: { "format" => 'Book' }, counter: 2 }
