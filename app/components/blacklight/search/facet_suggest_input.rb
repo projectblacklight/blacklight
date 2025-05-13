@@ -3,17 +3,19 @@
 module Blacklight
   module Search
     class FacetSuggestInput < Blacklight::Component
-      def initialize(facet:, presenter:)
-        @facet = facet
+      def initialize(presenter:)
         @presenter = presenter
       end
 
       private
 
-      attr_accessor :facet, :presenter
+      attr_accessor :presenter
+
+      delegate :suggest, :key, :label, to: :presenter
 
       def render?
-        facet&.suggest != false
+        # Draw if suggest is true or not present
+        suggest != false
       end
     end
   end

@@ -7,6 +7,15 @@ module Blacklight::FacetsHelperBehavior
     facet_config.presenter.new(facet_config, display_facet, self)
   end
 
+  def search_facet_path(options = {})
+    opts = search_state
+           .to_h
+           .merge(action: "facet", only_path: true)
+           .merge(options)
+           .except(:page)
+    url_for opts
+  end
+
   private
 
   def facet_value_for_facet_item item

@@ -4,7 +4,7 @@ module Blacklight
   class FacetFieldPresenter
     attr_reader :facet_field, :display_facet, :view_context, :search_state
 
-    delegate :key, to: :facet_field
+    delegate :key, :suggest, to: :facet_field
     delegate :field_name, to: :display_facet
 
     def initialize(facet_field, display_facet, view_context, search_state = view_context.search_state)

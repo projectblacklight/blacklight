@@ -26,4 +26,14 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
       expect(presenter).to be_a SomePresenter
     end
   end
+
+  describe "#search_facet_path" do
+    before do
+      params[:controller] = 'catalog'
+    end
+
+    it "is the same as the catalog path" do
+      expect(helper.search_facet_path(id: "some_facet", page: 5)).to eq facet_catalog_path(id: "some_facet")
+    end
+  end
 end
