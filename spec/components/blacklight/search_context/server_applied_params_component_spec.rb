@@ -7,7 +7,7 @@ RSpec.describe Blacklight::SearchContext::ServerAppliedParamsComponent, type: :c
 
   let(:instance) { described_class.new }
   let(:current_search_session) { nil }
-  let(:view_context) { controller.view_context }
+  let(:view_context) { vc_test_controller.view_context }
 
   before do
     # Not sure why we need to re-implement rspec's stub_template, but
@@ -16,7 +16,7 @@ RSpec.describe Blacklight::SearchContext::ServerAppliedParamsComponent, type: :c
     # https://github.com/rspec/rspec-rails/issues/2696
     replace_hash = { 'application/_start_over.html.erb' => 'start over' }
     if Rails.version.to_f >= 7.1
-      controller.prepend_view_path(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
+      vc_test_controller.prepend_view_path(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
     else
       view_context.view_paths.unshift(RSpec::Rails::ViewExampleGroup::StubResolverCache.resolver_for(replace_hash))
     end

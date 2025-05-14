@@ -15,7 +15,7 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
   end
 
   before do
-    allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
+    allow(vc_test_controller).to receive(:blacklight_config).and_return(blacklight_config)
   end
 
   context 'with the default button' do
@@ -31,7 +31,7 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
     subject(:render) do
       render_inline(instance) do |c|
         c.with_search_button do
-          controller.view_context.tag.button "hello", id: 'custom_search'
+          vc_test_controller.view_context.tag.button "hello", id: 'custom_search'
         end
       end
     end
@@ -70,8 +70,8 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
   context 'with extra inputs' do
     subject(:render) do
       render_inline(instance) do |c|
-        c.with_before_input_group { controller.view_context.tag.input name: 'foo' }
-        c.with_before_input_group { controller.view_context.tag.input name: 'bar' }
+        c.with_before_input_group { vc_test_controller.view_context.tag.input name: 'foo' }
+        c.with_before_input_group { vc_test_controller.view_context.tag.input name: 'bar' }
       end
     end
 

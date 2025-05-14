@@ -14,7 +14,7 @@ RSpec.describe Blacklight::Response::SpellcheckComponent, type: :component do
   end
 
   before do
-    allow(controller).to receive(:blacklight_config).and_return(config)
+    allow(vc_test_controller).to receive(:blacklight_config).and_return(config)
   end
 
   context 'when there are many results' do

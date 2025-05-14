@@ -38,7 +38,7 @@ RSpec.describe Blacklight::Response::PaginationComponent, type: :component do
 
     context 'when a different configuration that removes deep links is configured in the controller' do
       before do
-        allow(controller.blacklight_config.index)
+        allow(vc_test_controller.blacklight_config.index)
           .to receive(:pagination_options)
           .and_return(theme: 'blacklight', left: 5, right: 0)
         render

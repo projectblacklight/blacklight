@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::FacetFieldCheckboxesComponent, type: :component do
-  subject(:rendered) do
-    render_inline_to_capybara_node(described_class.new(facet_field: facet_field))
+  before do
+    render_inline(described_class.new(facet_field: facet_field))
   end
 
   let(:facet_field) do
@@ -33,18 +33,18 @@ RSpec.describe Blacklight::FacetFieldCheckboxesComponent, type: :component do
   let(:params) { { f: { field: ['a'] } } }
 
   it 'renders an accordion item' do
-    expect(rendered).to have_css '.accordion-item'
-    expect(rendered).to have_button 'Field'
-    expect(rendered).to have_css 'button[data-bs-target="#facet-field"]'
-    expect(rendered).to have_css '#facet-field.collapse.show'
+    expect(page).to have_css '.accordion-item'
+    expect(page).to have_button 'Field'
+    expect(page).to have_css 'button[data-bs-target="#facet-field"]'
+    expect(page).to have_css '#facet-field.collapse.show'
   end
 
   it 'renders the facet items' do
-    expect(rendered).to have_css 'ul.facet-values'
-    expect(rendered).to have_css 'li', count: 3
+    expect(page).to have_css 'ul.facet-values'
+    expect(page).to have_css 'li', count: 3
 
-    expect(rendered).to have_field 'f_inclusive[field][]', with: 'a'
-    expect(rendered).to have_field 'f_inclusive[field][]', with: 'b'
-    expect(rendered).to have_field 'f_inclusive[field][]', with: 'c'
+    expect(page).to have_field 'f_inclusive[field][]', with: 'a'
+    expect(page).to have_field 'f_inclusive[field][]', with: 'b'
+    expect(page).to have_field 'f_inclusive[field][]', with: 'c'
   end
 end

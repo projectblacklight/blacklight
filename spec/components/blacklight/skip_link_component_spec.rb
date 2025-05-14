@@ -3,12 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::SkipLinkComponent, type: :component do
-  subject(:rendered) do
-    render_inline_to_capybara_node(described_class.new)
-  end
-
   before do
-    allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
+    allow(vc_test_controller).to receive(:blacklight_config).and_return(blacklight_config)
+    render_inline(described_class.new)
   end
 
   context 'with no search fields' do
@@ -19,8 +16,8 @@ RSpec.describe Blacklight::SkipLinkComponent, type: :component do
     end
 
     it 'renders skip links with correct link to search' do
-      expect(rendered).to have_link("Skip to main content", href: '#main-container')
-      expect(rendered).to have_link("Skip to search", href: "#q")
+      expect(page).to have_link("Skip to main content", href: '#main-container')
+      expect(page).to have_link("Skip to search", href: "#q")
     end
   end
 
@@ -32,8 +29,8 @@ RSpec.describe Blacklight::SkipLinkComponent, type: :component do
     end
 
     it 'renders skip links with correct link to search' do
-      expect(rendered).to have_link("Skip to main content", href: "#main-container")
-      expect(rendered).to have_link("Skip to search", href: "#q")
+      expect(page).to have_link("Skip to main content", href: "#main-container")
+      expect(page).to have_link("Skip to search", href: "#q")
     end
   end
 
@@ -45,8 +42,8 @@ RSpec.describe Blacklight::SkipLinkComponent, type: :component do
     end
 
     it 'renders skip links with correct link to search' do
-      expect(rendered).to have_link("Skip to main content", href: "#main-container")
-      expect(rendered).to have_link("Skip to search", href: "#search_field")
+      expect(page).to have_link("Skip to main content", href: "#main-container")
+      expect(page).to have_link("Skip to search", href: "#search_field")
     end
   end
 end

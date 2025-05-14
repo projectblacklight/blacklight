@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
-  subject(:rendered) do
-    render_inline_to_capybara_node(described_class.new(facet_item: facet_item))
+  before do
+    render_inline(described_class.new(facet_item: facet_item))
   end
 
   let(:blacklight_config) do
@@ -34,14 +34,14 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
   let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'z', item_component: Blacklight::FacetItemComponent, item_presenter: Blacklight::FacetItemPivotPresenter) }
 
   it 'links to the facet and shows the number of hits' do
-    expect(rendered).to have_css 'li'
-    expect(rendered).to have_link 'x', href: nokogiri_mediated_href(facet_item.href)
-    expect(rendered).to have_css '.facet-count', text: '10'
+    expect(page).to have_css 'li'
+    expect(page).to have_link 'x', href: nokogiri_mediated_href(facet_item.href)
+    expect(page).to have_css '.facet-count', text: '10'
   end
 
   it 'has the facet hierarchy' do
-    expect(rendered).to have_css 'li ul.pivot-facet'
-    expect(rendered).to have_link 'x:1', href: nokogiri_mediated_href(facet_item.facet_item_presenters.first.href)
+    expect(page).to have_css 'li ul.pivot-facet'
+    expect(page).to have_link 'x:1', href: nokogiri_mediated_href(facet_item.facet_item_presenters.first.href)
   end
 
   context 'with a selected facet' do
@@ -60,10 +60,10 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
     end
 
     it 'links to the facet and shows the number of hits' do
-      expect(rendered).to have_css 'li'
-      expect(rendered).to have_css '.selected', text: 'x'
-      expect(rendered).to have_link '[remove]', href: '/catalog'
-      expect(rendered).to have_css '.selected.facet-count', text: '10'
+      expect(page).to have_css 'li'
+      expect(page).to have_css '.selected', text: 'x'
+      expect(page).to have_link '[remove]', href: '/catalog'
+      expect(page).to have_css '.selected.facet-count', text: '10'
     end
   end
 end
