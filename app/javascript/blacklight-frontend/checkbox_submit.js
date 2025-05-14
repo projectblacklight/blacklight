@@ -36,6 +36,9 @@ export default class CheckboxSubmit {
     }).then((json) => {
       this.labelTarget.removeAttribute('disabled')
       this.checkboxTarget.removeAttribute('disabled')
+      // For accessibility return keyboard focus 
+      // back to the checkbox after form submission
+      this.checkboxTarget.focus()
       this.updateStateFor(!this.checked)
       this.bookmarksCounter().forEach(counter => {
         counter.innerHTML = json.bookmarks.count;
