@@ -419,9 +419,6 @@ main {
 .search-history {
   --bl-history-filter-name-color: var(--bs-secondary-color);
 }
-.search-history td {
-  padding: 1rem;
-}
 .search-history .constraint {
   padding-inline-end: 1rem;
   display: block;
