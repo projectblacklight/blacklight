@@ -338,7 +338,6 @@ main {
 .facet-values .remove {
   color: var(--bl-facet-remove-color);
   font-weight: bold;
-  padding-left: 0.5rem;
   text-decoration: none;
 }
 .facet-values .remove:hover {
