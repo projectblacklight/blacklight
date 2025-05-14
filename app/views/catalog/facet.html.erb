@@ -1,5 +1,6 @@
 <%= render Blacklight::System::ModalComponent.new do |component| %>
   <% component.with_title { facet_field_label(@facet.key) } %>
+  <% view_config = blacklight_config.view_config(document_index_view_type) %>
 
   <div class="facet-filters card card-body bg-light p-3 mb-3 border-0">
     <%= render Blacklight::Search::FacetSuggestInput.new(facet: @facet, presenter: @presenter) %>
@@ -7,7 +8,7 @@
   </div>
 
   <div class="facet-pagination top d-flex flex-wrap w-100 justify-content-between border-bottom pb-3 mb-3">
-    <%= render :partial=>'facet_pagination' %>
+    <%= render view_config.facet_pagination_component.new(facet_field: @presenter) %>
   </div>
 
   <div class="facet-extended-list">
@@ -18,7 +19,7 @@
 
   <% component.with_footer do %>
     <div class="facet-pagination bottom d-flex flex-wrap w-100 justify-content-between">
-      <%= render :partial=>'facet_pagination' %>
+      <%= render view_config.facet_pagination_component.new(facet_field: @presenter) %>
     </div>
   <% end %>
 <% end %>
