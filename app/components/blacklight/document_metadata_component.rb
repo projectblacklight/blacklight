@@ -9,8 +9,10 @@ module Blacklight
 
     # @param fields [Enumerable<Blacklight::FieldPresenter>] Document field presenters
     # rubocop:disable Metrics/ParameterLists
-    def initialize(fields: [], tag: 'dl', classes: %w[document-metadata dl-invert row], show: false, view_type: nil, field_layout: nil, **component_args)
+    def initialize(fields: [], document: nil, presenter: nil, tag: 'dl', classes: %w[document-metadata dl-invert row], show: false, view_type: nil, field_layout: nil, **component_args)
       @fields = fields
+      @document = document # be consistent with other subcomponents.
+      @presenter = presenter # be consistent with other subcomponents.
       @tag = tag
       @classes = classes
       @show = show
