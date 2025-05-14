@@ -205,9 +205,3 @@ $facet-toggle-height: $facet-toggle-width !default;
       $facet-toggle-width auto no-repeat;
   }
 }
-
-/* Facet browse pages & modals
--------------------------------------------------- */
-.facet-filters:not(:has(*)) {
-  display: none;
-}
