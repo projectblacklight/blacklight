@@ -1,36 +1,6 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetFieldListComponent < Blacklight::Component
-    def initialize(facet_field:, layout: nil)
-      @facet_field = facet_field
-      @layout = layout == false ? FacetFieldNoLayoutComponent : Blacklight::FacetFieldComponent
-    end
-
-    def facet_items(wrapping_element: :li, **item_args)
-      facet_item_component_class.with_collection(facet_item_presenters, wrapping_element: wrapping_element, **item_args)
-    end
-
-    def facet_item_presenters
-      @facet_field.paginator.items.map do |item|
-        facet_item_presenter(item)
-      end
-    end
-
-    def render?
-      @facet_field.paginator&.items&.any?
-    end
-
-    def facet_item_presenter(facet_item)
-      facet_config.item_presenter.new(facet_item, facet_config, helpers, @facet_field.key)
-    end
-
-    def facet_item_component_class
-      facet_config.item_component
-    end
-
-    def facet_config
-      @facet_field.facet_field
-    end
-  end
+  class FacetFieldListComponent < Facets::ListComponent; end
+  FacetFieldListComponent = ActiveSupport::Deprecation::DeprecatedConstantProxy.new("FacetFieldListComponent", "Blacklight::Facets::ListComponent", ActiveSupport::Deprecation.new)
 end

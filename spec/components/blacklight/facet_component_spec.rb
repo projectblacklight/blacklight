@@ -25,7 +25,7 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
   context 'with a provided component' do
     let(:component_kwargs) { { field_config: facet_config, display_facet: display_facet, component: component_class } }
     let(:component_class) do
-      Class.new(Blacklight::FacetFieldListComponent) do
+      Class.new(Blacklight::Facets::ListComponent) do
         def self.name
           'CustomFacetComponent'
         end

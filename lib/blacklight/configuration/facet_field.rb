@@ -59,9 +59,9 @@ module Blacklight
     # @!attribute item_presenter
     #   @return [Blacklight::FacetItemPresenter]
     # @!attribute component
-    #   @return [Blacklight::FacetFieldListComponent]
+    #   @return [Blacklight::Facets::ListComponent]
     # @!attribute item_component
-    #   @return [Blacklight::FacetItemComponent]
+    #   @return [Blacklight::Facets::ItemComponent]
     # @!attribute partial
     #   @return [String] Rails view partial used to render the facet field
 
@@ -76,9 +76,9 @@ module Blacklight
       self.index_range = 'A'..'Z' if index_range == true
       self.presenter ||= Blacklight::FacetFieldPresenter
       self.item_presenter ||= Blacklight::FacetItemPresenter
-      self.component = Blacklight::FacetFieldListComponent if component.nil? || component == true
-      self.advanced_search_component ||= Blacklight::FacetFieldCheckboxesComponent
-      self.item_component ||= Blacklight::FacetItemComponent
+      self.component = Blacklight::Facets::ListComponent if component.nil? || component == true
+      self.advanced_search_component ||= Blacklight::Facets::CheckboxesComponent
+      self.item_component ||= Blacklight::Facets::ItemComponent
       super
 
       if single && tag.blank? && ex.blank?

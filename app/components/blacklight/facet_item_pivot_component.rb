@@ -28,7 +28,7 @@ module Blacklight
     end
 
     def call
-      facet = Blacklight::FacetItemComponent.new(facet_item: @facet_item, wrapping_element: nil, suppress_link: @suppress_link)
+      facet = Blacklight::Facets::ItemComponent.new(facet_item: @facet_item, wrapping_element: nil, suppress_link: @suppress_link)
 
       id = "h-#{self.class.mint_id}" if @collapsing && has_items?
 
