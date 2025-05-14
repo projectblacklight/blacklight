@@ -7,7 +7,7 @@
   </div>
 
   <div class="facet-pagination top d-flex flex-wrap w-100 justify-content-between border-bottom pb-3 mb-3">
-    <%= render :partial=>'facet_pagination' %>
+    <%= render Blacklight::FacetFieldPaginationComponent.new(facet_field: @presenter) %>
   </div>
 
   <div class="facet-extended-list">
@@ -18,7 +18,7 @@
 
   <% component.with_footer do %>
     <div class="facet-pagination bottom d-flex flex-wrap w-100 justify-content-between">
-      <%= render :partial=>'facet_pagination' %>
+      <%= render Blacklight::FacetFieldPaginationComponent.new(facet_field: @presenter) %>
     </div>
   <% end %>
 <% end %>
