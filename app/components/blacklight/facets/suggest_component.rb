@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Blacklight
-  module Search
-    class FacetSuggestInput < Blacklight::Component
+  module Facets
+    class SuggestComponent < Blacklight::Component
       def initialize(presenter:)
         @presenter = presenter
       end

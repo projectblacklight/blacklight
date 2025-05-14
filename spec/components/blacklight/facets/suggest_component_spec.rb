@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Blacklight::Search::FacetSuggestInput, type: :component do
+RSpec.describe Blacklight::Facets::SuggestComponent, type: :component do
   let(:facet) { Blacklight::Configuration::FacetField.new key: 'language_facet', suggest: true }
   let(:presenter) { Blacklight::FacetFieldPresenter.new(facet, nil, nil, nil) }
   let(:component) { described_class.new(presenter: presenter) }
