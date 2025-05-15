@@ -4,7 +4,7 @@ module Blacklight
   module Document
     # Render the start over and prev/next displays
     class PageHeaderComponent < Blacklight::Component
-      attr_reader :document, :blacklight_config, :search_context, :search_session
+      attr_reader :document, :search_context, :search_session
 
       delegate :blacklight_config, to: :helpers
 
