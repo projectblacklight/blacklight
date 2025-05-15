@@ -1,10 +1,7 @@
 <%= render Blacklight::System::ModalComponent.new do |component| %>
   <% component.with_title { facet_field_label(@facet.key) } %>
 
-  <div class="facet-filters card card-body bg-light p-3 mb-3 border-0">
-    <%= render Blacklight::Search::FacetSuggestInput.new(facet: @facet, presenter: @presenter) %>
-    <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
-  </div>
+  <%= render Blacklight::Search::FacetFiltersComponent.new(presenter: @presenter) %>
 
   <div class="facet-pagination top d-flex flex-wrap w-100 justify-content-between border-bottom pb-3 mb-3">
     <%= render :partial=>'facet_pagination' %>

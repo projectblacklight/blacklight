@@ -1,0 +1,4 @@
+  <div class="<%= classes %>">
+    <%= render Blacklight::Search::FacetSuggestInput.new(facet: facet, presenter: presenter) %>
+    <%= render 'facet_index_navigation' if render_index_navigation? %>
+  </div>
