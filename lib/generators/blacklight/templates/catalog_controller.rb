@@ -105,9 +105,11 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
     #
-    # set :index_range to true if you want the facet pagination view to have facet prefix-based navigation
+    # Set :index_range to true if you want the facet pagination view to have facet prefix-based navigation.
     #  (useful when user clicks "more" on a large facet and wants to navigate alphabetically across a large set of results)
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
+    # This control only displays when the user has selected "A-Z Sort" (You make make this the default by setting "sort: 'index'"
+    # in the facet config)
 
     config.add_facet_field 'format', label: 'Format'
     config.add_facet_field 'pub_date_ssim', label: 'Publication Year', single: true
