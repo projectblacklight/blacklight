@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
+RSpec.describe Blacklight::Facets::ListComponent, type: :component do
   before do
     render_inline(described_class.new(facet_field: facet_field))
   end
@@ -21,7 +21,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     )
   end
 
-  let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'field', item_component: Blacklight::FacetItemComponent, item_presenter: Blacklight::FacetItemPresenter) }
+  let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'field', item_component: Blacklight::Facets::ItemComponent, item_presenter: Blacklight::FacetItemPresenter) }
 
   let(:paginator) do
     instance_double(Blacklight::FacetPaginator, items: [

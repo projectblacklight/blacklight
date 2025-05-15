@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Blacklight::FacetItemComponent, type: :component do
+RSpec.describe Blacklight::Facets::ItemComponent, type: :component do
   before do
     render_inline(described_class.new(facet_item: facet_item))
   end
