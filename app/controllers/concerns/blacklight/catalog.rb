@@ -284,7 +284,7 @@ module Blacklight::Catalog
   def blacklight_advanced_search_form_search_service
     form_search_state = search_state_class.new(blacklight_advanced_search_form_params, blacklight_config, self)
 
-    search_service_class.new(config: blacklight_config, search_state: form_search_state, user_params: form_search_state.to_h, **search_service_context)
+    search_service_class.new(config: blacklight_config, search_state: form_search_state, **search_service_context)
   end
 
   def blacklight_advanced_search_form_params
