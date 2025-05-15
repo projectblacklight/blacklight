@@ -6,7 +6,7 @@
     <%= collapse_toggle_button(@panel_id) %>
   </div>
 
-  <div id="<%= @panel_id %>" class="facets-collapse d-lg-block collapse accordion">
+  <div id="<%= @panel_id %>" class="<%= body_classes %>">
     <%= body %>
   </div>
 <% end %>
