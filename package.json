@@ -41,6 +41,6 @@
     "not IE 11"
   ],
   "dependencies": {
-    "bootstrap": ">=4.3.1 <6.0.0"
+    "bootstrap": ">=5.3.5 <6.0.0"
   }
 }
