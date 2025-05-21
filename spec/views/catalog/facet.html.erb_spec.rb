@@ -4,12 +4,12 @@ RSpec.describe 'catalog/facet.html.erb' do
   let(:display_facet) { double }
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:component) { instance_double(Blacklight::FacetComponent) }
-  let(:facet_suggest_input) { instance_double(Blacklight::Search::FacetSuggestInput) }
+  let(:facet_suggest_input) { instance_double(Blacklight::Facets::SuggestComponent) }
   let(:pagination) { instance_double(Blacklight::FacetFieldPaginationComponent) }
 
   before do
     allow(Blacklight::FacetComponent).to receive(:new).and_return(component)
-    allow(Blacklight::Search::FacetSuggestInput).to receive(:new).and_return(facet_suggest_input)
+    allow(Blacklight::Facets::SuggestComponent).to receive(:new).and_return(facet_suggest_input)
     allow(Blacklight::FacetFieldPaginationComponent).to receive(:new).and_return(pagination)
 
     allow(view).to receive(:render).and_call_original

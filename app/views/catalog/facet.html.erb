@@ -3,7 +3,7 @@
   <% view_config = blacklight_config.view_config(document_index_view_type) %>
 
   <div class="facet-filters card card-body bg-light p-3 mb-3 border-0">
-    <%= render Blacklight::Search::FacetSuggestInput.new(presenter: @presenter) %>
+    <%= render Blacklight::Facets::SuggestComponent.new(presenter: @presenter) %>
     <%= render partial: 'facet_index_navigation' if @facet.index_range && @display_facet.index? %>
   </div>
 
