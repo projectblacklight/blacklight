@@ -45,6 +45,10 @@ main {
 /*
   Header bar at top (Bootstrap nav-bar)
 */
+.navbar.bg-dark {
+  --bs-emphasis-color-rgb: 255, 255, 255;
+}
+
 .navbar-logo {
   /* The main logo image for the Blacklight instance */
   background: transparent var(--bl-logo-image) no-repeat top left;
