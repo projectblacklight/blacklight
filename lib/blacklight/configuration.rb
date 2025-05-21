@@ -162,6 +162,8 @@ module Blacklight
         respond_to: OpenStructWithHashAccess.new,
         # component class used to render the facet grouping
         facet_group_component: Blacklight::Response::FacetGroupComponent,
+        # component class used to render the facet pagination
+        facet_pagination_component: Blacklight::FacetFieldPaginationComponent,
         # component class used to render search constraints
         constraints_component: Blacklight::ConstraintsComponent,
         # component class used to render the search bar
