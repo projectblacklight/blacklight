@@ -64,6 +64,8 @@ module Blacklight
     #   @return [Blacklight::FacetItemComponent]
     # @!attribute partial
     #   @return [String] Rails view partial used to render the facet field
+    # @!attribute suggest
+    #   @return [Boolean] Should we show the suggest parameters
 
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def normalize! blacklight_config = nil
