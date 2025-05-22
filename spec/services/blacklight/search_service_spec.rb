@@ -12,7 +12,8 @@ RSpec.describe Blacklight::SearchService, :api do
   subject { service }
 
   let(:context) { { whatever: :value } }
-  let(:service) { described_class.new(config: blacklight_config, user_params: user_params, **context) }
+  let(:search_state) { Blacklight::SearchState.new(user_params, blacklight_config) }
+  let(:service) { described_class.new(config: blacklight_config, search_state: search_state, **context) }
   let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
   let(:user_params) { {} }
 
@@ -35,8 +36,7 @@ RSpec.describe Blacklight::SearchService, :api do
 
     context 'when the search_builder_class is passed in' do
       let(:klass) { double("Search builder") }
-
-      let(:service) { described_class.new(config: blacklight_config, user_params: user_params, search_builder_class: klass) }
+      let(:context) { { search_builder_class: klass } }
 
       it 'uses the passed value' do
         expect(subject).to eq klass
