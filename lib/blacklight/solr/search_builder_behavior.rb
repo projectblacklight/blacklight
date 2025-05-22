@@ -128,25 +128,19 @@ module Blacklight::Solr
       end
 
       search_state.filters.each do |filter|
-        if filter.config.filter_query_builder
-          filter_query, subqueries = filter.config.filter_query_builder.call(self, filter, solr_parameters)
-
-          Array(filter_query).each do |fq|
-            solr_parameters.append_filter_query(fq)
-          end
-          solr_parameters.merge!(subqueries) if subqueries
+        filter_query_builder_class_or_proc = filter.config.filter_query_builder || DefaultFilterQueryBuilder
+        if filter_query_builder_class_or_proc.is_a?(Class)
+          filter_query_builder = filter_query_builder_class_or_proc.new(blacklight_config: blacklight_config)
+          filter_query, subqueries = filter_query_builder.call(filter, solr_parameters)
         else
-          filter.values.compact_blank.each do |value|
-            filter_query, subqueries = if value.is_a?(Array)
-                                         facet_inclusive_value_to_fq_string(filter.key, value.compact_blank)
-                                       else
-                                         facet_value_to_fq_string(filter.config.key, value)
-                                       end
-
-            solr_parameters.append_filter_query filter_query
-            solr_parameters.merge!(subqueries) if subqueries
-          end
+          # TODO: Maybe deprecate proc?
+          filter_query, subqueries = filter_query_builder_class_or_proc.call(self, filter, solr_parameters)
         end
+
+        Array(filter_query).each do |fq|
+          solr_parameters.append_filter_query(fq)
+        end
+        solr_parameters.merge!(subqueries) if subqueries
       end
     end
 
@@ -337,70 +331,6 @@ module Blacklight::Solr
     end
 
     private
-
-    ##
-    # Convert a facet/value pair into a solr fq parameter
-    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    def facet_value_to_fq_string(facet_field, value, use_local_params: true)
-      facet_config = blacklight_config.facet_fields[facet_field]
-
-      solr_field = facet_config.field if facet_config && !facet_config.query
-      solr_field ||= facet_field
-
-      local_params = []
-      local_params << "tag=#{facet_config.tag}" if use_local_params && facet_config&.tag
-
-      if facet_config&.query
-        if facet_config.query[value]
-          facet_config.query[value][:fq]
-        else
-          # exclude all documents if the custom facet key specified was not found
-          '-*:*'
-        end
-      elsif value.is_a?(Range)
-        prefix = "{!#{local_params.join(' ')}}" unless local_params.empty?
-        start = value.begin || '*'
-        finish = value.end || '*'
-        "#{prefix}#{solr_field}:[#{start} TO #{finish}]"
-      elsif value == Blacklight::SearchState::FilterField::MISSING
-        "-#{solr_field}:[* TO *]"
-      else
-        "{!term f=#{solr_field}#{" #{local_params.join(' ')}" unless local_params.empty?}}#{convert_to_term_value(value)}"
-      end
-    end
-    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-
-    def facet_inclusive_value_to_fq_string(facet_field, values)
-      return if values.blank?
-
-      return facet_value_to_fq_string(facet_field, values.first) if values.length == 1
-
-      facet_config = blacklight_config.facet_fields[facet_field]
-
-      local_params = []
-      local_params << "tag=#{facet_config.tag}" if facet_config&.tag
-
-      solr_filters = values.each_with_object({}).with_index do |(v, h), index|
-        h["f_inclusive.#{facet_field}.#{index}"] = facet_value_to_fq_string(facet_field, v, use_local_params: false)
-      end
-
-      filter_query = solr_filters.keys.map do |k|
-        "{!query v=$#{k}}"
-      end.join(' OR ')
-
-      ["{!lucene#{" #{local_params.join(' ')}" unless local_params.empty?}}#{filter_query}", solr_filters]
-    end
-
-    def convert_to_term_value(value)
-      case value
-      when DateTime, Time
-        value.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
-      when Date
-        value.to_time(:local).strftime("%Y-%m-%dT%H:%M:%SZ")
-      else
-        value.to_s
-      end
-    end
 
     ##
     # The key to use to retrieve the grouped field to display
