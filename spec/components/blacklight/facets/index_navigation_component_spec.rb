@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::Facets::FilterComponent, type: :component do
+RSpec.describe Blacklight::Facets::IndexNavigationComponent, type: :component do
   let(:pagination) { Blacklight::Solr::FacetPaginator.new([]) }
   let(:facet) { Blacklight::Configuration::FacetField.new(index_range: '0'..'9', presenter: Blacklight::FacetFieldPresenter) }
   let(:display_facet) { instance_double(Blacklight::Solr::Response::Facets::FacetField, items: [], offset: 0, prefix: '', sort: 'index', index?: true) }
@@ -10,7 +10,7 @@ RSpec.describe Blacklight::Facets::FilterComponent, type: :component do
 
   before do
     with_request_url "/catalog/facet/language" do
-      render_inline(described_class.new(facet_field: presenter))
+      render_inline(described_class.new(presenter: presenter))
     end
   end
 

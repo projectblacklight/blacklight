@@ -2,7 +2,7 @@
 
 module Blacklight
   module Facets
-    class FilterComponent < Blacklight::Component
+    class IndexNavigationComponent < Blacklight::Component
       # @params [Blacklight::FacetFieldPresenter] presenter
       def initialize(presenter:)
         @presenter = presenter
