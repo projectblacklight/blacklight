@@ -31,7 +31,7 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
     )
   end
 
-  let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'z', item_component: Blacklight::FacetItemComponent, item_presenter: Blacklight::FacetItemPivotPresenter) }
+  let(:facet_config) { Blacklight::Configuration::NullField.new(key: 'z', item_component: Blacklight::Facets::ItemComponent, item_presenter: Blacklight::FacetItemPivotPresenter) }
 
   it 'links to the facet and shows the number of hits' do
     expect(page).to have_css 'li'

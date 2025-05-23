@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetFieldNoLayoutComponent < Blacklight::Component
-    renders_one :label
-    renders_one :body
-
-    def initialize(**); end
-
-    def call
-      body.to_s
-    end
-  end
+  class FacetFieldNoLayoutComponent < Facets::NoLayoutComponent; end
+  FacetFieldNoLayoutComponent = ActiveSupport::Deprecation::DeprecatedConstantProxy.new("FacetFieldNoLayoutComponent", "Blacklight::Facets::NoLayoutComponent", ActiveSupport::Deprecation.new)
 end
