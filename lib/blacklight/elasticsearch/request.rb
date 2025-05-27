@@ -37,6 +37,7 @@ class Blacklight::Elasticsearch::Request < ActiveSupport::HashWithIndifferentAcc
 
   # See https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-all-query.html
   def match_all
+    must.delete 'combined_fields'
     must['match_all'] = {}
   end
 

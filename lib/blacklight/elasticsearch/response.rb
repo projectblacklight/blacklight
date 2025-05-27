@@ -63,7 +63,7 @@ class Blacklight::Elasticsearch::Response < ActiveSupport::HashWithIndifferentAc
   end
 
   def grouped?
-    false
+    Array(self[:results]).any? { |result| result[:_group].present? }
   end
 
   def spelling

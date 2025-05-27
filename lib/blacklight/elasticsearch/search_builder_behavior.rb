@@ -42,7 +42,7 @@ module Blacklight::Elasticsearch
 
     # Add wildcard search if no search is present (similar to q.alt in solr)
     def empty_search_query(request)
-      request.match_all unless search_state.query_param
+      request.match_all unless search_state.query_param.present?
     end
 
     def request

@@ -34,7 +34,6 @@ module Blacklight
 
       builder = yield(builder) if block_given?
       response = repository.search(params: builder)
-
       if response.grouped? && grouped_key_for_results
         response.group(grouped_key_for_results)
       elsif response.grouped? && response.grouped.length == 1
