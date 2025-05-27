@@ -62,7 +62,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    describe "for a query returning a grouped response" do
+    describe "for a query returning a grouped response", :solr do
       let(:user_params) { { q: all_docs_query } }
 
       before do
@@ -75,7 +75,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    describe "for a query returning multiple groups", :integration do
+    describe "for a query returning multiple groups", :integration, :solr do
       let(:user_params) { { q: all_docs_query } }
 
       before do
