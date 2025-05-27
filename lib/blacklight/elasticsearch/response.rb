@@ -23,7 +23,7 @@ class Blacklight::Elasticsearch::Response < ActiveSupport::HashWithIndifferentAc
   end
 
   def start
-    0
+    request_params.fetch('from', 0)
   end
 
   def documents
@@ -60,6 +60,11 @@ class Blacklight::Elasticsearch::Response < ActiveSupport::HashWithIndifferentAc
 
   def aggregations
     @aggregations ||= default_aggregations.merge(facet_field_aggregations) # .merge(facet_query_aggregations).merge(facet_pivot_aggregations).merge(json_facet_aggregations)
+  end
+
+  # This is mostly to follow what the Solr Reponse has.
+  def params
+    raise "Elasticsearch doesn't have params"
   end
 
   def grouped?
