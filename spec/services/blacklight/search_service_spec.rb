@@ -179,7 +179,7 @@ RSpec.describe Blacklight::SearchService, :api do
   describe 'Paging', :integration do
     let(:user_params) { { q: all_docs_query } }
 
-    it 'starts with first results by default' do
+    it 'starts with first results by default', :solr do
       (solr_response,) = service.search_results
       expect(solr_response.params[:start].to_i).to eq 0
     end
@@ -380,7 +380,6 @@ RSpec.describe Blacklight::SearchService, :api do
 
     it "returns the previous and next documents for a search" do
       _response, docs = service.previous_and_next_documents_for_search(4, q: '')
-
       expect(docs.first.id).to eq @full_response.documents[3].id
       expect(docs.last.id).to eq @full_response.documents[5].id
     end
