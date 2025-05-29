@@ -6,7 +6,7 @@ module Blacklight::Elasticsearch
 
     included do
       self.default_processor_chain = [
-        :setup_defaults,
+        # :setup_defaults,
         :add_query,
         :empty_search_query,
         :add_facet_filter,
@@ -16,9 +16,10 @@ module Blacklight::Elasticsearch
       ]
     end
 
-    def setup_defaults(_request)
-      rows(blacklight_config.default_solr_params[:rows]) if blacklight_config.default_solr_params[:rows]
-    end
+    # def setup_defaults(_request)
+    #   # No need to set rows, because it's already set in the SearchService
+    #   rows(blacklight_config.default_solr_params[:rows]) if blacklight_config.default_solr_params[:rows]
+    # end
 
     def limit_to_specific_records(request, document_ids)
       request.ids = document_ids
@@ -122,8 +123,6 @@ module Blacklight::Elasticsearch
     # copy paging params from BL app over to solr, changing
     # app level per_page and page to Solr rows and start.
     def add_paging(request)
-      rows(10) if rows.nil?
-
       request[:size] = rows
       request[:from] = start if start.nonzero?
     end
