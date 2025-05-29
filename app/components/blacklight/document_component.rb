@@ -55,7 +55,7 @@ module Blacklight
 
       component ||= view_config.metadata_component || Blacklight::DocumentMetadataComponent
 
-      component.new(*args, fields: fields || @presenter&.field_presenters || [], **kwargs)
+      component.new(*args, document: @document, presenter: @presenter, fields: fields || @presenter&.field_presenters || [], **kwargs)
     end)
 
     # Additional metadata sections
