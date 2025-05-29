@@ -409,11 +409,18 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     it 'allows the query parameters to be customized using configuration' do
-      blacklight_config.document_pagination_params[:fl] = 'id,format'
+      if defined?(RSolr)
+        blacklight_config.document_pagination_params[:fl] = 'id,format'
 
-      _response, docs = service.previous_and_next_documents_for_search(0, q: '')
+        _response, docs = service.previous_and_next_documents_for_search(0, q: '')
 
-      expect(docs.last.to_h).to eq @full_response.documents[1].to_h.slice('id', 'format')
+        expect(docs.last.to_h).to eq @full_response.documents[1].to_h.slice('id', 'format')
+      else
+        blacklight_config.document_pagination_params = { fields: %w[id format], _source: false }
+
+        _response, docs = service.previous_and_next_documents_for_search(0, q: '')
+        expect(docs.last.to_h).to eq @full_response.documents[1].to_h.slice('id', 'format')
+      end
     end
   end
 

@@ -50,12 +50,18 @@ module Blacklight::Elasticsearch
             language_ssim: { type: 'keyword' },
             lc_1letter_ssim: { type: 'keyword' },
             subject_geo_ssim: { type: 'keyword' },
-            subject_era_ssim: { type: 'keyword' }
+            subject_era_ssim: { type: 'keyword' },
+            all_text_timv: { type: 'text' }
           }
         }
       }
 
-      body = docs.map { |data| { index: { _index: index, _id: data['id'], data: data.except('id') } } }
+      # Since Elasticsearch doesn't have copy fields, we need to create all_text_timv manually
+      body = docs.map do |fixture_data|
+        data = fixture_data.except('id')
+        data['all_text_timv'] = data.select { |k, _| /_(si|ssim|tsim)\z/.match?(k) }.values.flatten
+        { index: { _index: index, _id: fixture_data['id'], data: data } }
+      end
       connection.bulk(body:)
       connection.indices.refresh(index:)
     end
