@@ -42,6 +42,20 @@ module Blacklight::Elasticsearch
 
       # TODO: move this to a yaml file
       connection.indices.create index:, body: {
+        settings: {
+          analysis: {
+            analyzer: {
+              foo: {
+                type: "custom",
+                tokenizer: "standard",
+                filter: %w[
+                  lowercase
+                  asciifolding
+                ]
+              }
+            }
+          }
+        },
         mappings: {
           properties: {
             format: { type: 'keyword' },
@@ -51,7 +65,7 @@ module Blacklight::Elasticsearch
             lc_1letter_ssim: { type: 'keyword' },
             subject_geo_ssim: { type: 'keyword' },
             subject_era_ssim: { type: 'keyword' },
-            all_text_timv: { type: 'text' }
+            all_text_timv: { type: 'text', analyzer: "foo", search_analyzer: "foo" }
           }
         }
       }
