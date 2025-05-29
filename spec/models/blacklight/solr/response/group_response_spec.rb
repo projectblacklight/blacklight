@@ -4,7 +4,14 @@ require "spec_helper"
 
 RSpec.describe Blacklight::Solr::Response::GroupResponse, :api do
   let(:response) do
-    create_response(sample_response)
+    Blacklight::Solr::Response.new(sample_response, search_builder)
+  end
+
+  let(:search_builder) do
+    Blacklight::SearchBuilder.new(view_context).tap { |b| b.rows = 3 }
+  end
+  let(:view_context) do
+    double("View context", blacklight_config: CatalogController.blacklight_config.deep_copy)
   end
 
   let(:group) do
@@ -80,10 +87,6 @@ RSpec.describe Blacklight::Solr::Response::GroupResponse, :api do
       expect(group.entry_name(count: 2)).to eq 'grouped results'
     end
   end
-end
-
-def create_response(response, params = {})
-  Blacklight::Solr::Response.new(response, params)
 end
 
 def sample_response

@@ -7,8 +7,10 @@ RSpec.describe Blacklight::Solr::Response::Group, :api do
     group.groups.first
   end
 
+  let(:search_builder) { {} }
+
   let(:response) do
-    create_response(sample_response)
+    Blacklight::Solr::Response.new(sample_response, search_builder)
   end
 
   let(:group) do
@@ -49,10 +51,6 @@ RSpec.describe Blacklight::Solr::Response::Group, :api do
       expect(subject.field).to eq "result_group_ssi"
     end
   end
-end
-
-def create_response(response, params = {})
-  Blacklight::Solr::Response.new(response, params)
 end
 
 def sample_response

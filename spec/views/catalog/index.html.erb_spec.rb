@@ -20,12 +20,14 @@ RSpec.describe "catalog/index.html.erb" do
     before do
       stub_template "catalog/_results_pagination.html.erb" => ""
       allow(view).to receive_messages(has_search_parameters?: true, blacklight_config: Blacklight::Configuration.new)
+      allow(search_builder).to receive_messages(start: 10, rows: 10)
       allow(controller).to receive_messages(blacklight_config: Blacklight::Configuration.new)
 
       @response = response
     end
 
-    let(:response) { Blacklight::Solr::Response.new({ response: { numFound: 30 } }, start: 10, rows: 10) }
+    let(:search_builder) { Blacklight::SearchBuilder.new(view) }
+    let(:response) { Blacklight::Solr::Response.new({ response: { numFound: 30 } }, search_builder) }
 
     it "renders the search_header partial" do
       render
