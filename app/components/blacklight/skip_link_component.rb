@@ -20,7 +20,7 @@ module Blacklight
     delegate :skip_link_item_component, to: :blacklight_config
 
     def link_classes
-      'd-inline-flex p-2 m-1'
+      'visually-hidden-focusable rounded-bottom py-2 px-3'
     end
   end
 end
