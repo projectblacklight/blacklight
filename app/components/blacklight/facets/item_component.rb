@@ -51,14 +51,8 @@ module Blacklight
       #
       # @private
       def render_selected_facet_value
-        tag.span(class: "facet-label") do
-          tag.span(label, class: "selected") +
-            # remove link
-            link_to(href, class: "remove", rel: "nofollow") do
-              render(Blacklight::Icons::RemoveComponent.new(aria_hidden: true)) +
-                tag.span(helpers.t(:'blacklight.search.facets.selected.remove'), class: 'visually-hidden')
-            end
-        end + render_facet_count(classes: ["selected"])
+        concat render(Blacklight::Facets::SelectedValueComponent.new(label: label, href: href))
+        concat render_facet_count(classes: ["selected"])
       end
 
       ##
@@ -70,10 +64,9 @@ module Blacklight
       # @return [String]
       # @private
       def render_facet_count(options = {})
-        return '' if hits.blank?
-
         classes = (options[:classes] || []) << "facet-count"
-        tag.span(t('blacklight.search.facets.count', number: number_with_delimiter(hits)), class: classes)
+
+        render Blacklight::Facets::CountComponent.new(hits: hits, classes: classes)
       end
     end
   end
