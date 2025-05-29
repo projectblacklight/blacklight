@@ -32,6 +32,7 @@ module Blacklight::Elasticsearch
 
       if params.empty?
         params[:fields] = [blacklight_config.document_model.unique_key]
+        params[:_source] = false
       end
 
       if index > 0

@@ -73,7 +73,9 @@ module Blacklight
     def previous_and_next_documents_for_search(index, request_params, extra_controller_params = {})
       p = previous_and_next_document_params(index)
       new_state = request_params.is_a?(Blacklight::SearchState) ? request_params : Blacklight::SearchState.new(request_params, blacklight_config)
-      query = search_builder.with(new_state).start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
+      builder = search_builder.with(new_state)
+      builder.processor_chain.delete(:add_aggregation)
+      query = builder.start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
       response = repository.search(params: query)
       document_list = response.documents
 

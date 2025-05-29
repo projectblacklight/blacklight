@@ -32,7 +32,7 @@ class Blacklight::Elasticsearch::Response < ActiveSupport::HashWithIndifferentAc
                    elsif self[:docs] # handle mget call
                      self[:docs].filter_map { |doc| document_factory.build(doc[:_source].merge(id: doc[:_id]), self, options) if doc['found'] }
                    else # Search call
-                     dig(:hits, :hits).collect { |doc| document_factory.build(doc[:_source].merge(id: doc[:_id]), self, options) }
+                     dig(:hits, :hits).collect { |doc| document_factory.build((doc[:_source] || doc[:fields] || {}).merge(id: doc[:_id]), self, options) }
                    end
   end
   alias docs documents
