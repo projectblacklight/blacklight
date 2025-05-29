@@ -7,13 +7,5 @@
     <ul class="facet-values list-unstyled">
       <%= render facet_items %>
     </ul>
-    <%# backwards compatibility, ugh %>
-    <% if @layout == Blacklight::Facets::NoLayoutComponent && !@facet_field.in_modal? && @facet_field.modal_path %>
-      <div class="more_facets">
-        <%= link_to t("more_#{@facet_field.key}_html", scope: 'blacklight.search.facets', default: :more_html, field_name: @facet_field.label),
-          @facet_field.modal_path,
-          data: { blacklight_modal: 'trigger' } %>
-      </div>
-    <% end %>
   <% end %>
 <% end %>
