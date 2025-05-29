@@ -43,7 +43,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
   end
 
   context "with a complex parameter environment" do
-    subject { search_builder.with(user_params).processed_parameters }
+    subject { search_builder.with(user_params).send(:processed_parameters) }
 
     let(:user_params) do
       { :search_field => "test_field", :q => "test query", "facet.field" => "extra_facet" }
@@ -90,7 +90,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
   # SPECS for actual search parameter generation
   describe "#processed_parameters" do
     subject do
-      search_builder.with(user_params).processed_parameters
+      search_builder.with(user_params).send(:processed_parameters)
     end
 
     context "when search_params_logic is customized" do
@@ -663,166 +663,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
         blacklight_config.add_facet_fields_to_solr_request! 'no_facet'
         expect(solr_parameters[:'facet.field']).to include 'no_facet'
       end
-    end
-  end
-
-  describe "#add_facet_paging_to_solr" do
-    let(:facet_field) { 'format' }
-    let(:sort_key) { Blacklight::Solr::FacetPaginator.request_keys[:sort] }
-    let(:page_key) { Blacklight::Solr::FacetPaginator.request_keys[:page] }
-    let(:prefix_key) { Blacklight::Solr::FacetPaginator.request_keys[:prefix] }
-
-    let(:blacklight_config) do
-      Blacklight::Configuration.new do |config|
-        config.add_facet_fields_to_solr_request!
-        config.add_facet_field 'format'
-        config.add_facet_field 'format_ordered', sort: :count
-        config.add_facet_field 'format_limited', limit: 5
-        config.add_facet_field 'format_more_limited', limit: 5, more_limit: 50
-      end
-    end
-
-    let(:solr_parameters) do
-      solr_parameters = Blacklight::Solr::Request.new
-      subject.facet(facet_field).add_facet_paging_to_solr(solr_parameters)
-      solr_parameters
-    end
-
-    it 'sets rows to 0' do
-      expect(solr_parameters[:rows]).to eq 0
-    end
-
-    it 'sets facets requested to facet_field argument' do
-      expect(solr_parameters[:'facet.field']).to eq facet_field
-    end
-
-    it 'defaults offset to 0' do
-      expect(solr_parameters[:"f.#{facet_field}.facet.offset"]).to eq 0
-    end
-
-    context 'when offset is manually set' do
-      let(:user_params) { { page_key => 2 } }
-
-      it 'uses offset manually set, and converts it to an integer' do
-        expect(solr_parameters[:"f.#{facet_field}.facet.offset"]).to eq 20
-      end
-    end
-
-    context 'for a field with a configured more_limit' do
-      let(:facet_field) { 'format_more_limited' }
-
-      it 'uses the more_limit configuration' do
-        expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 51
-      end
-    end
-
-    context 'for a field with a param key different from the field name' do
-      let(:user_params) { { page_key => 2, 'facet.sort': 'index', 'facet.prefix': 'x' } }
-      let(:facet_field) { 'param_key' }
-
-      let(:blacklight_config) do
-        Blacklight::Configuration.new.tap do |config|
-          config.add_facet_field key: 'param_key', field: 'solr_field', more_limit: 50, ex: 'other'
-
-          config.add_facet_fields_to_solr_request!
-        end
-      end
-
-      it "uses the configured solr field name in queries" do
-        expect(solr_parameters).to include 'f.solr_field.facet.limit': 51,
-                                           'f.solr_field.facet.offset': 50,
-                                           'f.solr_field.facet.sort': 'index',
-                                           'f.solr_field.facet.prefix': 'x',
-                                           'facet.field': '{!ex=other}solr_field'
-      end
-    end
-
-    it 'defaults limit to 20' do
-      expect(solr_parameters[:"f.#{facet_field}.facet.limit"]).to eq 21
-    end
-
-    it 'uses the default sort' do
-      expect(solr_parameters[:"f.#{facet_field}.facet.sort"]).to be_blank
-    end
-
-    context 'when sort is provided' do
-      let(:user_params) { { sort_key => 'index' } }
-
-      it 'uses sort provided in the parameters' do
-        expect(solr_parameters[:"f.#{facet_field}.facet.sort"]).to eq 'index'
-      end
-    end
-
-    context 'when a prefix is provided' do
-      let(:user_params) { { prefix_key => 'A' } }
-
-      it 'includes the prefix in the query' do
-        expect(solr_parameters[:"f.#{facet_field}.facet.prefix"]).to eq 'A'
-      end
-    end
-  end
-
-  describe "#add_facet_suggestion_parameters" do
-    it "does not add anything when the builder has no facet_suggestion_query and no facet" do
-      expect(subject.facet).to be_nil
-      expect(subject.facet_suggestion_query).to be_nil
-      solr_params = Blacklight::Solr::Request.new
-
-      expect do
-        subject.add_facet_suggestion_parameters(solr_params)
-      end.not_to(change { solr_params })
-    end
-
-    it "does not add anything when the builder has a facet_suggestion_query but no facet" do
-      subject.facet_suggestion_query = 'artic'
-      expect(subject.facet_suggestion_query).to eq 'artic'
-      expect(subject.facet).to be_nil
-      solr_params = Blacklight::Solr::Request.new
-
-      expect do
-        subject.add_facet_suggestion_parameters(solr_params)
-      end.not_to(change { solr_params })
-    end
-
-    it "does not add anything when the builder has a facet but no facet_suggestion_query" do
-      subject.facet = 'subject_facet'
-      expect(subject.facet_suggestion_query).to be_nil
-      expect(subject.facet).to eq 'subject_facet'
-      solr_params = Blacklight::Solr::Request.new
-
-      expect do
-        subject.add_facet_suggestion_parameters(solr_params)
-      end.not_to(change { solr_params })
-    end
-
-    it "adds the facet_suggestion_query to facet.contains" do
-      subject.facet = 'subject_facet'
-      subject.facet_suggestion_query = 'artic'
-      solr_params = Blacklight::Solr::Request.new
-
-      subject.add_facet_suggestion_parameters(solr_params)
-
-      expect(solr_params[:'facet.contains']).to eq 'artic'
-    end
-
-    it "adds the first part of facet_suggestion_query to facet.contains if it is extremely long" do
-      subject.facet = 'subject_facet'
-      subject.facet_suggestion_query = 'Call me Ishmael. Some years ago—never mind how long precisely'
-      solr_params = Blacklight::Solr::Request.new
-
-      subject.add_facet_suggestion_parameters(solr_params)
-
-      expect(solr_params[:'facet.contains']).to eq 'Call me Ishmael. Some years ago—never mind how long'
-    end
-
-    it "adds facet.contains.ignoreCase" do
-      subject.facet = 'subject_facet'
-      subject.facet_suggestion_query = 'artic'
-      solr_params = Blacklight::Solr::Request.new
-
-      subject.add_facet_suggestion_parameters(solr_params)
-
-      expect(solr_params[:'facet.contains.ignoreCase']).to be true
     end
   end
 
