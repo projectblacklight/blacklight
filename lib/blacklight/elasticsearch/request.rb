@@ -4,15 +4,7 @@
 
 class Blacklight::Elasticsearch::Request < ActiveSupport::HashWithIndifferentAccess
   # This is similar to qf in Solr
-  cattr_accessor :query_fields, default: %w[ id
-                                             full_title_tsim
-                                             short_title_tsim
-                                             alternative_title_tsim
-                                             active_fedora_model_ssi
-                                             title_tsim
-                                             author_tsim
-                                             subject_tsim
-                                             all_text_timv]
+  cattr_accessor :query_fields, default: %w[all_text_timv]
   def initialize(constructor = {})
     if constructor.is_a?(Hash)
       super()
