@@ -10,12 +10,11 @@ module Blacklight
     #
     # @return [void]
     def bookmarked(solr_parameters)
-      solr_parameters[:fq] ||= []
       bookmarks = @scope.context.fetch(:bookmarks)
       return unless bookmarks
 
       document_ids = bookmarks.collect { |b| b.document_id.to_s }
-      solr_parameters[:fq] += ["{!terms f=id}#{document_ids.join(',')}"]
+      limit_to_specific_records(solr_parameters, document_ids)
     end
     self.default_processor_chain += [:bookmarked]
   end

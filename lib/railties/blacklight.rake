@@ -23,9 +23,7 @@ namespace :blacklight do
       file = ENV.fetch('FILE') { (app_file && File.exist?(app_file) && app_file) } ||
              File.join(Blacklight.root, 'spec', 'fixtures', 'sample_solr_documents.yml')
       docs = YAML.safe_load(File.open(file))
-      conn = Blacklight.default_index.connection
-      conn.add docs
-      conn.commit
+      Blacklight.default_index.seed_index(docs)
     end
   end
 
