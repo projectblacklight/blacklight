@@ -27,6 +27,7 @@
       "additional_name": "ViewComponent 3"
     },
     {
+      "ruby": "3.4",
       "rails_version": "8.1.1",
       "additional_engine_cart_rails_options": "--css=bootstrap",
       "repository": "elasticsearch",
