@@ -7,7 +7,13 @@ RSpec.describe Blacklight::Solr::Response::Group, :api do
     group.groups.first
   end
 
-  let(:search_builder) { {} }
+  let(:search_builder) do
+    Blacklight::SearchBuilder.new(view_context)
+  end
+
+  let(:view_context) do
+    double("View context", blacklight_config: CatalogController.blacklight_config.deep_copy)
+  end
 
   let(:response) do
     Blacklight::Solr::Response.new(sample_response, search_builder)
