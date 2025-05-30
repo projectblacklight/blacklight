@@ -14,13 +14,16 @@ RSpec.describe "catalog/index" do
   end
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
+  let(:search_builder) { Blacklight::SearchBuilder.new(view) }
+  let(:response) { Blacklight::Solr::Response.new({ response: { numFound: 30 } }, search_builder) }
 
   before do
-    @response = Blacklight::Solr::Response.new({ response: { numFound: 30 } }, start: 10, rows: 10)
-    allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
-    allow(@response).to receive(:documents).and_return(document_list)
-    params['content_format'] = 'some_format'
     allow(view).to receive_messages(action_name: 'index', blacklight_config: blacklight_config)
+    @response = response
+    allow(controller).to receive(:search_state_class).and_return(Blacklight::SearchState)
+    allow(search_builder).to receive_messages(start: 10, rows: 10)
+    allow(response).to receive(:documents).and_return(document_list)
+    params['content_format'] = 'some_format'
   end
 
   # We need to use rexml to test certain things that have_tag wont' test
