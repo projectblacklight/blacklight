@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::Solr::Response::Facets, :api do
+  let(:search_builder) do
+    Blacklight::SearchBuilder.new(view_context)
+  end
+  let(:view_context) do
+    double("View context", blacklight_config: CatalogController.blacklight_config.deep_copy)
+  end
+
   describe Blacklight::Solr::Response::Facets::FacetField do
     describe "A field with default options" do
       subject(:field) { described_class.new "my_field", [] }
@@ -60,22 +67,29 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
   end
 
   describe "#aggregations" do
-    subject { Blacklight::Solr::Response.new({ responseHeader: response_header, facet_counts: { facet_fields: [facet_field] } }, request_params) }
+    subject { Blacklight::Solr::Response.new({ responseHeader: {}, facet_counts: { facet_fields: [facet_field] } }, search_builder) }
 
     let(:facet_field) { ['my_field', []] }
-    let(:response_header) { { params: request_params } }
-    let(:request_params) { {} }
 
     describe "#limit" do
-      it "extracts a field-specific limit value" do
-        request_params['f.my_field.facet.limit'] = "10"
-        request_params['facet.limit'] = "15"
-        expect(subject.aggregations['my_field'].limit).to eq 10
+      context 'with a field-specific limit value' do
+        before do
+          search_builder.merge('f.my_field.facet.limit' => '10', 'facet.limit' => '15')
+        end
+
+        it "extracts a field-specific limit value" do
+          expect(subject.aggregations['my_field'].limit).to eq 10
+        end
       end
 
-      it "extracts a global limit value" do
-        request_params['facet.limit'] = "15"
-        expect(subject.aggregations['my_field'].limit).to eq 15
+      context 'with a global limit value' do
+        before do
+          search_builder.merge('facet.limit' => '15')
+        end
+
+        it "extracts a global limit value" do
+          expect(subject.aggregations['my_field'].limit).to eq 15
+        end
       end
 
       it "is the solr default limit if no value is found" do
@@ -84,15 +98,24 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
     end
 
     describe "#offset" do
-      it "extracts a field-specific offset value" do
-        request_params['f.my_field.facet.offset'] = "10"
-        request_params['facet.offset'] = "15"
-        expect(subject.aggregations['my_field'].offset).to eq 10
+      context 'with a field-specific offset value' do
+        before do
+          search_builder.merge('f.my_field.facet.offset' => '10', 'facet.offset' => '15')
+        end
+
+        it "extracts a field-specific offset value" do
+          expect(subject.aggregations['my_field'].offset).to eq 10
+        end
       end
 
-      it "extracts a global offset value" do
-        request_params['facet.offset'] = "15"
-        expect(subject.aggregations['my_field'].offset).to eq 15
+      context 'with a global offset value' do
+        before do
+          search_builder.merge('facet.offset' => '15')
+        end
+
+        it "extracts a global offset value" do
+          expect(subject.aggregations['my_field'].offset).to eq 15
+        end
       end
 
       it "is nil if no value is found" do
@@ -101,15 +124,24 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
     end
 
     describe "#sort" do
-      it "extracts a field-specific sort value" do
-        request_params['f.my_field.facet.sort'] = "alpha"
-        request_params['facet.sort'] = "index"
-        expect(subject.aggregations['my_field'].sort).to eq 'alpha'
+      context 'with a field-specific sort value' do
+        before do
+          search_builder.merge('f.my_field.facet.sort' => 'alpha', 'facet.sort' => 'index')
+        end
+
+        it "extracts a field-specific sort value" do
+          expect(subject.aggregations['my_field'].sort).to eq 'alpha'
+        end
       end
 
-      it "extracts a global sort value" do
-        request_params['facet.sort'] = "alpha"
-        expect(subject.aggregations['my_field'].sort).to eq 'alpha'
+      context 'with a global sort value' do
+        before do
+          search_builder.merge('facet.sort' => 'alpha')
+        end
+
+        it "extracts a global sort value" do
+          expect(subject.aggregations['my_field'].sort).to eq 'alpha'
+        end
       end
 
       it "defaults to count if no value is found and the default limit is used" do
@@ -117,23 +149,37 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
         expect(subject.aggregations['my_field'].count?).to be true
       end
 
-      it "defaults to index if no value is found and the limit is unlimited" do
-        request_params['facet.limit'] = -1
-        expect(subject.aggregations['my_field'].sort).to eq 'index'
-        expect(subject.aggregations['my_field'].index?).to be true
+      context 'when no value is found and the limit is unlimited' do
+        before do
+          search_builder.merge('facet.limit' => -1)
+        end
+
+        it "defaults to index" do
+          expect(subject.aggregations['my_field'].sort).to eq 'index'
+          expect(subject.aggregations['my_field'].index?).to be true
+        end
       end
     end
 
     describe '#prefix' do
-      it 'extracts field-specific prefix values' do
-        request_params['f.my_field.facet.prefix'] = "a"
-        request_params['facet.prefix'] = "b"
-        expect(subject.aggregations['my_field'].prefix).to eq 'a'
+      context 'with a field-specific prefix value' do
+        before do
+          search_builder.merge('f.my_field.facet.prefix' => 'a', 'facet.prefix' => 'b')
+        end
+
+        it "extracts a field-specific prefix value" do
+          expect(subject.aggregations['my_field'].prefix).to eq 'a'
+        end
       end
 
-      it "extracts a global sort value" do
-        request_params['facet.prefix'] = "abc"
-        expect(subject.aggregations['my_field'].prefix).to eq 'abc'
+      context 'with a global prefix value' do
+        before do
+          search_builder.merge('facet.prefix' => 'abc')
+        end
+
+        it "extracts a global prefix value" do
+          expect(subject.aggregations['my_field'].prefix).to eq 'abc'
+        end
       end
 
       it "defaults to no prefix value" do
@@ -149,7 +195,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
   end
 
   describe "#merge_facet" do
-    let(:response) { Blacklight::Solr::Response.new(facet_counts, {}, {}) }
+    let(:response) { Blacklight::Solr::Response.new(facet_counts, search_builder, {}) }
     let(:facet) { { name: "foo", value: "bar", hits: 1 } }
 
     before do
@@ -186,7 +232,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
   end
 
   context "facet.missing" do
-    subject { Blacklight::Solr::Response.new(response, {}) }
+    subject { Blacklight::Solr::Response.new(response, search_builder) }
 
     let(:response) do
       {
@@ -213,7 +259,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
   end
 
   describe "query facets" do
-    subject { Blacklight::Solr::Response.new(response, {}, blacklight_config: blacklight_config) }
+    subject { Blacklight::Solr::Response.new(response, search_builder, blacklight_config: blacklight_config) }
 
     let(:facet_config) do
       double(
@@ -288,7 +334,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
   end
 
   describe "pivot facets" do
-    subject { Blacklight::Solr::Response.new(response, {}, blacklight_config: blacklight_config) }
+    subject { Blacklight::Solr::Response.new(response, search_builder, blacklight_config: blacklight_config) }
 
     let(:facet_config) do
       double(key: 'my_pivot_facet_field', query: nil, pivot: %w[field_a field_b])
@@ -330,7 +376,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
   end
 
   describe 'json facets' do
-    subject { Blacklight::Solr::Response.new(response, {}, blacklight_config: blacklight_config) }
+    subject { Blacklight::Solr::Response.new(response, search_builder, blacklight_config: blacklight_config) }
 
     let(:response) do
       {
