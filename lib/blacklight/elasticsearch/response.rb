@@ -9,6 +9,7 @@ class Blacklight::Elasticsearch::Response < ActiveSupport::HashWithIndifferentAc
   delegate :document_factory, to: :blacklight_config
 
   # @param [Elasticsearch::API::Response] response
+  # @param [Hash, Blacklight::SearchBuilder] request_params a SearchBuilder or a Hash of parameters
   def initialize(api_response, request_params, options = {})
     @search_builder = request_params if request_params.is_a?(Blacklight::SearchBuilder)
 
