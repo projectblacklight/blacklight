@@ -79,6 +79,7 @@ module Blacklight::Catalog
 
   # displays values and pagination links for a single facet field
   def facet
+    # @facet is a Blacklight::Configuration::FacetField
     @facet = blacklight_config.facet_fields[params[:id]]
     raise ActionController::RoutingError, 'Not Found' unless @facet
 
@@ -87,8 +88,10 @@ module Blacklight::Catalog
                 else
                   search_service.facet_field_response(@facet.key)
                 end
+    # @display_facet is a Blacklight::Solr::Response::Facets::FacetField
     @display_facet = @response.aggregations[@facet.field]
 
+    # @presenter is a Blacklight::FacetFieldPresenter
     @presenter = @facet.presenter.new(@facet, @display_facet, view_context)
     @pagination = @presenter.paginator
     respond_to do |format|
