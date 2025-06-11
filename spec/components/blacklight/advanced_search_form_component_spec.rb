@@ -4,7 +4,10 @@ require 'spec_helper'
 
 RSpec.describe Blacklight::AdvancedSearchFormComponent, type: :component do
   let(:component) { described_class.new(url: '/whatever', response: response, params: params) }
-  let(:response) { Blacklight::Solr::Response.new({ facet_counts: { facet_fields: { format: { 'Book' => 10, 'CD' => 5 } } } }.with_indifferent_access, {}) }
+  let(:response) { Blacklight::Solr::Response.new({ facet_counts: { facet_fields: { format: { 'Book' => 10, 'CD' => 5 } } } }.with_indifferent_access, search_builder) }
+  let(:search_builder) do
+    Blacklight::SearchBuilder.new(view_context)
+  end
   let(:params) { {} }
 
   let(:view_context) { vc_test_controller.view_context }
