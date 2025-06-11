@@ -216,8 +216,6 @@ module Blacklight::Solr
     # copy paging params from BL app over to solr, changing
     # app level per_page and page to Solr rows and start.
     def add_paging_to_solr(solr_params)
-      rows(solr_params[:rows] || 10) if rows.nil?
-
       solr_params[:rows] = rows
 
       solr_params[:start] = start if start.nonzero?
