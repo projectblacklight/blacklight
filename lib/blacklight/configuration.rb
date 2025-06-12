@@ -66,9 +66,6 @@ module Blacklight
 
       # === Single document request configuration
 
-      # @!attribute document_solr_request_handler
-      # @return [String] The solr request handler to use when requesting only a single document
-      property :document_solr_request_handler, default: nil
       # @!attribute document_solr_path
       # @since v5.2.0
       # @return [String] The url path (relative to the solr base url) to use when requesting only a single document

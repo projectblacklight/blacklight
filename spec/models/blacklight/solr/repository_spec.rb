@@ -44,26 +44,6 @@ RSpec.describe Blacklight::Solr::Repository, :api do
       end
     end
 
-    context "with legacy request handler-based configuration" do
-      before do
-        blacklight_config.document_solr_path = 'select'
-        blacklight_config.document_unique_id_param = :id
-      end
-
-      it "uses the provided :qt param" do
-        blacklight_config.document_solr_request_handler = 'xyz'
-        allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { id: '123', qt: 'abc' })).and_return(mock_response)
-        expect(subject.find("123", qt: 'abc')).to be_a Blacklight::Solr::Response
-      end
-
-      it "uses the :qt parameter from the default_document_solr_params" do
-        blacklight_config.default_document_solr_params[:qt] = 'abc'
-        blacklight_config.document_solr_request_handler = 'xyz'
-        allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { id: '123', qt: 'abc' })).and_return(mock_response)
-        expect(subject.find("123")).to be_a Blacklight::Solr::Response
-      end
-    end
-
     it "preserves the class of the incoming params" do
       doc_params = ActiveSupport::HashWithIndifferentAccess.new
       allow(subject.connection).to receive(:send_and_receive).with('get', anything).and_return(mock_response)
