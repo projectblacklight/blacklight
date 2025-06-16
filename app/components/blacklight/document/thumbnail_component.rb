@@ -17,8 +17,12 @@ module Blacklight
 
       attr_accessor :presenter
 
+      def thumbnail_value
+        @thumbnail_value ||= presenter.thumbnail.render(@image_options)
+      end
+
       def render?
-        presenter.thumbnail.exists?
+        presenter.thumbnail && thumbnail_value
       end
     end
   end
