@@ -1,7 +1,3 @@
-<% value = presenter.thumbnail.render(@image_options) %>
-
-<% if value %>
-  <div class="document-thumbnail">
-    <%= helpers.link_to_document(presenter.document, value, 'aria-hidden': true, tabindex: -1, counter: @counter) %>
-  </div>
-<% end %>
+<div class="document-thumbnail">
+  <%= helpers.link_to_document(presenter.document, thumbnail_value, 'aria-hidden': true, tabindex: -1, counter: @counter) %>
+</div>
