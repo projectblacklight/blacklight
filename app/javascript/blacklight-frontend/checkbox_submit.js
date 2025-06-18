@@ -77,7 +77,8 @@ export default class CheckboxSubmit {
   }
 
   updateStateFor(state) {
-    this.checkboxTarget.checked = state
+    if (state) { this.checkboxTarget.setAttribute('checked', state) }
+    else { this.checkboxTarget.removeAttribute('checked') }
 
     if (state) {
       this.labelTarget.classList.add('checked')
