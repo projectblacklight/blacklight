@@ -8,7 +8,7 @@
     <% end %>
   </span>
   <% if @remove_path.present? %>
-    <%= link_to(@remove_path, class: 'btn btn-outline-secondary remove') do %>
+    <%= link_to(@remove_path, class: 'btn btn-outline-secondary remove d-flex align-items-center justify-content-center') do %>
       <%= render Blacklight::Icons::RemoveComponent.new(aria_hidden: true) %>
       <span class="visually-hidden"><%= remove_aria_label %></span>
     <% end %>
