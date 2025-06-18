@@ -99,6 +99,9 @@ module Blacklight
       # @!attribute search_builder_class
       # @return [Class] class for converting Blacklight parameters to request parameters for the repository_class
       property :search_builder_class, default: ::SearchBuilder
+      # @!attribute search_builder_class
+      # @return [Class] class for converting Blacklight parameters to request parameters for the repository_class
+      property :facet_search_builder_class, default: ::FacetSearchBuilder
       # @!attribute response_model
       # model that maps index responses to the blacklight response model
       # @return [Class]
