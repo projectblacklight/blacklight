@@ -24,7 +24,7 @@ module Blacklight
       def bookmark_icon
         return unless helpers.blacklight_config.bookmark_icon_component
 
-        render helpers.blacklight_config.bookmark_icon_component.new(name: 'bookmark')
+        render helpers.blacklight_config.bookmark_icon_component.new(name: 'bookmark', tabindex: 0, data: { checkboxsubmit_target: 'icon' })
       end
 
       def bookmark_path
