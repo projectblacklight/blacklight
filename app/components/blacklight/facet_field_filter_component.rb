@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetFieldFilterComponent < Facets::IndexNavigationComponent; end
-  FacetFieldFilterComponent = ActiveSupport::Deprecation::DeprecatedConstantProxy.new("FacetFieldFilterComponent", "Blacklight::Facets::IndexNavigationComponent", ActiveSupport::Deprecation.new)
+  class FacetFieldFilterComponent < Facets::IndexNavigationComponent
+    def initialize(...)
+      Rails.logger.warn("Blacklight::FacetFieldFilterComponent is deprecated. Use Blacklight::Facets::IndexNavigationComponent instead.")
+      super
+    end
+  end
 end

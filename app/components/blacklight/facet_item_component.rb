@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module Blacklight
-  class FacetItemComponent < Facets::ItemComponent; end
-  FacetItemComponent = ActiveSupport::Deprecation::DeprecatedConstantProxy.new("FacetItemComponent", "Blacklight::Facets::ItemComponent", ActiveSupport::Deprecation.new)
+  class FacetItemComponent < Facets::ItemComponent
+    def initialize(...)
+      Rails.logger.warn("Blacklight::FacetItemComponent is deprecated. Use Blacklight::Facets::ItemComponent instead.")
+      super
+    end
+  end
 end
