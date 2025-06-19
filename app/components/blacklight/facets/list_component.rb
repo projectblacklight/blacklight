@@ -8,6 +8,8 @@ module Blacklight
         @layout = layout == false ? Blacklight::Facets::NoLayoutComponent : Blacklight::Facets::FieldComponent
       end
 
+      attr_accessor :layout
+
       def facet_items(wrapping_element: :li, **item_args)
         facet_item_component_class.with_collection(facet_item_presenters, wrapping_element: wrapping_element, **item_args)
       end
