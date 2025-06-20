@@ -126,7 +126,7 @@ module Blacklight
 
       view_partials.each do |view_partial|
         with_partial(view_partial) do
-          helpers.render_document_partial @document, view_partial, component: self, document_counter: @counter
+          helpers.render_document_partial document, view_partial, component: self, document_counter: counter
         end
       end
     end
@@ -135,7 +135,7 @@ module Blacklight
 
     delegate :view_config, to: :@presenter
 
-    attr_reader :document_counter, :presenter, :view_partials
+    attr_reader :document_counter, :counter, :document, :presenter, :view_partials
 
     def show?
       @show
