@@ -11,7 +11,7 @@ module Blacklight
 
     attr_reader :blacklight_config
 
-    delegate :facet_field_names, :facet_configuration_for_field, to: :blacklight_config
+    delegate :facet_fields, :facet_configuration_for_field, to: :blacklight_config
 
     delegate :documents, to: :@response
 
@@ -21,6 +21,12 @@ module Blacklight
         .map { |field| @response.aggregations[facet_configuration_for_field(field).field] }
         .compact
         .select { |display_facet| display_facet.items.present? }
+    end
+
+    # NOTE: we don't use the facet_field_names method in Blacklight::Configuration because that
+    # only returns the field names of the group where the name is nil.
+    def facet_field_names
+      facet_fields.values.map(&:field)
     end
 
     # extract the pagination info from the response object

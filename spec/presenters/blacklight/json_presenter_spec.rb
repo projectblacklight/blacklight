@@ -56,5 +56,22 @@ RSpec.describe Blacklight::JsonPresenter, :api do
         expect(search_facets.map(&:name)).to eq ['format_si']
       end
     end
+
+    context 'when facets are in multiple groups' do
+      before do
+        config.add_facet_field 'author_tsim', label: 'author', group: 'other-group'
+      end
+
+      let(:aggregations) do
+        {
+          'format_si' => Blacklight::Solr::Response::Facets::FacetField.new("format_si", [{ label: "Book", value: 'Book', hits: 20 }]),
+          'author_tsim' => Blacklight::Solr::Response::Facets::FacetField.new("author_tsim", [{ label: "Julie", value: 'Julie', hits: 1 }])
+        }
+      end
+
+      it 'filters out the facets that are not defined' do
+        expect(search_facets.map(&:name)).to eq %w[format_si author_tsim]
+      end
+    end
   end
 end
