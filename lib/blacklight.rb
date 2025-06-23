@@ -29,14 +29,16 @@ module Blacklight
   # the class Blacklight::(name of the adapter)::Repository, e.g.
   #   elastic_search => Blacklight::ElasticSearch::Repository
   def self.repository_class
-    case connection_config[:adapter]
+    if connection_config && !connection_config.key?(:adapter)
+      raise "The value for :adapter was not found in the blacklight.yml config"
+    end
+
+    case connection_config&.fetch(:adapter) || 'solr' # rubocop:disable Lint/LiteralAsCondition
     when 'solr'
       Blacklight::Solr::Repository
     when /::/
       connection_config[:adapter].constantize
     else
-      raise "The value for :adapter was not found in the blacklight.yml config" unless connection_config.key? :adapter
-
       Blacklight.const_get("#{connection_config.fetch(:adapter)}/Repository".classify)
     end
   end

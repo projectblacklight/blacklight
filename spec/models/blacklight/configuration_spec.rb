@@ -5,6 +5,26 @@ RSpec.describe Blacklight::Configuration, :api do
     described_class.new
   end
 
+  describe "#repository" do
+    context 'when the class is configured in blacklight.yml' do
+      it "uses the default repository class" do
+        expect(config.repository).to be_a(Blacklight::Solr::Repository)
+      end
+    end
+
+    context 'when the class is set in the configuration' do
+      let(:custom_repository_class) { Class.new(Blacklight::Solr::Repository) }
+
+      before do
+        config.repository_class = custom_repository_class
+      end
+
+      it "uses the custom repository class" do
+        expect(config.repository).to be_a(custom_repository_class)
+      end
+    end
+  end
+
   it "supports arbitrary configuration values" do
     config.a = 1
 
