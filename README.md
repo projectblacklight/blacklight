@@ -1,5 +1,6 @@
 # Blacklight
 
+Testing CI
 ![CI Workflow](https://github.com/projectblacklight/blacklight/actions/workflows/ruby.yml/badge.svg)
 
 ## Branches
