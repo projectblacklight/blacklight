@@ -2,7 +2,7 @@
   <% component.with_title { facet_field_label(@facet.key) } %>
   <% view_config = blacklight_config.view_config(document_index_view_type) %>
 
-  <%= render Blacklight::Facets::FiltersComponent.new(presenter: @presenter) %>
+  <%= render view_config.facet_filters_component.new(presenter: @presenter) %>
 
   <div class="facet-pagination top d-flex flex-wrap w-100 justify-content-between border-bottom pb-3 mb-3">
     <%= render view_config.facet_pagination_component.new(facet_field: @presenter) %>
