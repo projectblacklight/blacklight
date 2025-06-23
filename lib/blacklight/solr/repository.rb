@@ -52,11 +52,14 @@ module Blacklight::Solr
 
     ##
     # @return [boolean] true if the repository is reachable
-    def ping
+    def ping?
       response = connection.send_and_receive 'admin/ping', {}
       Blacklight.logger&.info("Ping [#{connection.uri}] returned: '#{response['status']}'")
       response['status'] == "OK"
     end
+
+    alias ping ping?
+    Blacklight.deprecation.deprecate_methods(Repository, ping: 'use Repository#ping? instead')
 
     ##
     # Execute a solr query at the given path with the parameters

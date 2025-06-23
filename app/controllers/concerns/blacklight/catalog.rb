@@ -239,7 +239,7 @@ module Blacklight::Catalog
     mail.deliver_now
   end
 
-  def validate_sms_params
+  def sms_params_valid?
     if params[:to].blank?
       flash[:error] = I18n.t('blacklight.sms.errors.to.blank')
     elsif params[:carrier].blank?
@@ -252,12 +252,14 @@ module Blacklight::Catalog
 
     flash[:error].blank?
   end
+  alias validate_sms_params sms_params_valid?
+  Blacklight.deprecation.deprecate_methods(Blacklight::Catalog, validate_sms_params: 'use Catalog#sms_params_valid? instead')
 
   def sms_mappings
     Blacklight::Engine.config.blacklight.sms_mappings
   end
 
-  def validate_email_params
+  def email_params_valid?
     if params[:to].blank?
       flash[:error] = I18n.t('blacklight.email.errors.to.blank')
     elsif !params[:to].match(Blacklight::Engine.config.blacklight.email_regexp)
@@ -266,6 +268,8 @@ module Blacklight::Catalog
 
     flash[:error].blank?
   end
+  alias validate_email_params email_params_valid?
+  Blacklight.deprecation.deprecate_methods(Blacklight::Catalog, validate_email_params: 'use Catalog#email_params_valid? instead')
 
   def start_new_search_session?
     action_name == "index"
