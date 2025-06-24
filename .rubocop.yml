@@ -75,7 +75,7 @@ Naming/MethodParameterName:
     - of
     - by
 
-Naming/PredicateName:
+Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_
 
@@ -652,4 +652,14 @@ Capybara/FindAllFirst: # new in 2.22
 Capybara/NegationMatcherAfterVisit: # new in 2.22
   Enabled: true
 RSpec/IncludeExamples: # new in 3.6
+  Enabled: true
+Lint/UselessDefaultValueArgument: # new in 1.76
+  Enabled: true
+Lint/UselessOr: # new in 1.76
+  Enabled: true
+Naming/PredicateMethod: # new in 1.76
+  Enabled: true
+Style/EmptyStringInsideInterpolation: # new in 1.76
+  Enabled: true
+Style/RedundantArrayFlatten: # new in 1.76
   Enabled: true
