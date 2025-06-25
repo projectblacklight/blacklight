@@ -6,7 +6,7 @@ RSpec.describe 'Modal' do
     expect(page).to have_no_selector 'dialog#blacklight-modal'
     click_on 'Email'
     expect(page).to have_css 'dialog#blacklight-modal'
-    click_on '×'
+    find('button[aria-label=Close]').click
     expect(page).to have_no_selector 'dialog#blacklight-modal'
   end
 end
