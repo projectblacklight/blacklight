@@ -1,11 +1,11 @@
 <%= content_tag @component,
   id: @id,
   data: {
-    'document-id': @document.id.to_s.parameterize,
-    'document-counter': @counter,
+    'document-id': document.id.to_s.parameterize,
+    'document-counter': counter,
   },
   itemscope: true,
-  itemtype: @document.itemtype,
+  itemtype: document.itemtype,
   class: classes.flatten.join(' ') do %>
   <%= header %>
   <% if body.present? %>
