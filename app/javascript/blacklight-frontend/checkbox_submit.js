@@ -44,7 +44,7 @@ export default class CheckboxSubmit {
         counter.innerHTML = json.bookmarks.count;
       });
 
-      var e = new CustomEvent('bookmark.blacklight', { detail: { checked: !this.checked } });
+      var e = new CustomEvent('bookmark.blacklight', { detail: { checked: this.checked } });
       window.dispatchEvent(e)
     }).catch((error) => {
       this.handleError(error)
