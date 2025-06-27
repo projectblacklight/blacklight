@@ -16,15 +16,6 @@ module Blacklight
         with_message { @message } if @message
       end
 
-      # Bootstrap 4 requires the span, but Bootstrap 5 should not have it.
-      # See https://getbootstrap.com/docs/4.6/components/alerts/#dismissing
-      #     https://getbootstrap.com/docs/5.1/components/alerts/#dismissing
-      def button_contents
-        return if helpers.controller.blacklight_config.bootstrap_version == 5
-
-        tag.span '&times;'.html_safe, aria: { hidden: true }
-      end
-
       def alert_class(type)
         case type.to_s
         when 'success' then "alert-success"

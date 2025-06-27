@@ -81,8 +81,7 @@ const Modal = (() => {
 
       const contents = `<div class="modal-header">
         <div class="modal-title">There was a problem with your request.</div>
-        <button type="button" class="blacklight-modal-close btn-close close" data-bl-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        <button type="button" class="blacklight-modal-close btn-close" data-bl-dismiss="modal" aria-label="Close">
         </button>
         </div>
         <div class="modal-body">
