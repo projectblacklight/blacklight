@@ -32,25 +32,25 @@ fr:
       apa: APA
       chicago: Chicago
       mla: MLA
-    did_you_mean: 'Essayez peut-être avec : %{options}'
+    did_you_mean: "Essayez peut-être avec : %{options}"
     email:
       errors:
         to:
           blank: Vous devez saisir l'adresse de votre destinataire.
           invalid: Vous devez saisir une adresse correcte.
       form:
-        message: 'Message :'
+        message: "Message :"
         submit: Envoyer
         title: Envoyer par courriel
-        to: 'Courriel :'
+        to: "Courriel :"
       success: Message envoyé
       text:
         default_title: N/A
-        message: 'Message : %{message}'
+        message: "Message : %{message}"
         subject:
-          one: 'Une référence : %{title}'
+          one: "Une référence : %{title}"
           other: Des références bibliographiques
-        url: 'URL : %{url}'
+        url: "URL : %{url}"
     entry_name:
       default:
         one: résultat
@@ -108,9 +108,9 @@ fr:
       filters:
         label: "%{label}:"
         remove:
-          label_value: 'Supprimer la restriction %{label}: %{value}'
+          label_value: "Supprimer la restriction %{label}: %{value}"
           value: Supprimer la restriction %{value}
-        title: 'Vous avez demandé :'
+        title: "Vous avez demandé :"
       form:
         search:
           label: Rechercher
@@ -129,6 +129,7 @@ fr:
         constraint: "%{label}: %{value}"
         many_constraint_values: "%{values} sélectionné"
         title: "%{constraints} - %{application_name} Résultats de recherche"
+        joiner: " / "
       pagination:
         title: Navigation dans les résultats
       pagination_info:
@@ -157,7 +158,7 @@ fr:
       start_over: Accueil
       view:
         list: Liste
-      view_title: 'Affichage: '
+      view_title: "Affichage: "
       zero_results:
         modify_search: Essayez de modifier votre requête de recherche
         search_everything: essayez de rechercher tout
@@ -194,10 +195,10 @@ fr:
         carrier_prompt: Veuillez choisir votre opérateur
         submit: Envoyer
         title: Envoyer par SMS
-        to: 'Numéro de téléphone :'
+        to: "Numéro de téléphone :"
       success: SMS envoyé
       text:
-        url: 'Lien : %{url}'
+        url: "Lien : %{url}"
     tools:
       citation: Citer
       clear: Effacer
