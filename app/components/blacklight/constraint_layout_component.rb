@@ -21,5 +21,14 @@ module Blacklight
     def render?
       @value.present?
     end
+
+    def remove_button
+      return unless @remove_path
+
+      link_to(@remove_path, class: 'btn btn-outline-secondary remove') do
+        render(Blacklight::Icons::RemoveComponent.new(aria_hidden: true)) +
+          tag.span(remove_aria_label, class: "visually-hidden")
+      end
+    end
   end
 end
