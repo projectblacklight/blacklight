@@ -134,6 +134,7 @@ ca:
         title: "%{constraints} - %{application_name} Resultats de la cerca"
         constraint: "%{label}: %{value}"
         many_constraint_values: "%{values} seleccionat"
+        joiner: " / "
       header: "Cerca"
       search_constraints_header: "Filtres de la cerca"
       search_results: "Resultats de la cerca"

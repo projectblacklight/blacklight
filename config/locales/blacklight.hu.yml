@@ -32,25 +32,25 @@ hu:
       apa: APA
       chicago: Chicago
       mla: MLA
-    did_you_mean: 'Arra gondolt, hogy: %{options}?'
+    did_you_mean: "Arra gondolt, hogy: %{options}?"
     email:
       errors:
         to:
           blank: Kérjük az üzenet elküldéséhez adja meg a címzettet
           invalid: Kérjük érvényes email címet adjon meg
       form:
-        message: 'Üzenet:'
+        message: "Üzenet:"
         submit: Küldés
         title: Email küldése
-        to: 'Email:'
+        to: "Email:"
       success: Email elküldve
       text:
         default_title: N/A
-        message: 'Üzenet: %{message}'
+        message: "Üzenet: %{message}"
         subject:
-          one: 'Adatrekord: %{title}'
+          one: "Adatrekord: %{title}"
           other: Adatrekordok
-        url: 'URL: %{url}'
+        url: "URL: %{url}"
     entry_name:
       default: bejegyzés
       grouped:
@@ -106,9 +106,9 @@ hu:
       filters:
         label: "%{label}:"
         remove:
-          label_value: 'Feltétel eltávolítása %{label}: %{value}'
+          label_value: "Feltétel eltávolítása %{label}: %{value}"
           value: Feltételek eltávolítása %{value}
-        title: 'Ön ezt kereste:'
+        title: "Ön ezt kereste:"
       form:
         search:
           label: keresés
@@ -127,6 +127,7 @@ hu:
         constraint: "%{label}: %{value}"
         many_constraint_values: "%{values} kiválasztva"
         title: "%{constraints} - %{application_name} Keresés eredményei"
+        joiner: " / "
       pagination:
         title: Eredmény navigáció
       pagination_info:
@@ -155,11 +156,11 @@ hu:
       start_over: Újrakezdés
       view:
         list: Lista
-      view_title: 'Eredmények megtekintése mint: '
+      view_title: "Eredmények megtekintése mint: "
       zero_results:
         modify_search: Próbálja módosítani keresését
         search_everything: Próbálja meg a keresést az összes mezőben
-        search_fields: 'Ön a következő mező alapján keresett: %{search_fields}'
+        search_fields: "Ön a következő mező alapján keresett: %{search_fields}"
         title: Az Ön keresése nem hozott eredményt
         use_fewer_keywords: Kezdetben használjon kevesebb kulcsszavat, majd finomítsa keresését a bal oldali szűrőlinkekkel.
     search_history:
@@ -192,10 +193,10 @@ hu:
         carrier_prompt: Kérjük válassza ki a szolgáltatót
         submit: Küldés
         title: Küldés SMS-ben
-        to: 'Telefonszám:'
+        to: "Telefonszám:"
       success: SMS elküldve
       text:
-        url: 'Link: %{url}'
+        url: "Link: %{url}"
     tools:
       citation: Hivatkozás
       clear: Eltávolítás

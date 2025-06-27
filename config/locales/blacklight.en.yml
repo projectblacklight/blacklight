@@ -148,6 +148,7 @@ en:
         constraint: "%{label}: %{value}"
         many_constraint_values: "%{values} selected"
         title: "%{constraints} - %{application_name} Search Results"
+        joiner: " / "
       pagination:
         title: Results navigation
       pagination_info:

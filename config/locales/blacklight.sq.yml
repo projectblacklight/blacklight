@@ -32,25 +32,25 @@ sq:
       apa: APA
       chicago: Chicago
       mla: MLA
-    did_you_mean: 'A keni menduar: %{options}?'
+    did_you_mean: "A keni menduar: %{options}?"
     email:
       errors:
         to:
           blank: Duhet të shkruash një pranues për të dëguar mesazh
           invalid: Duhet të shkruash një email adresë valide
       form:
-        message: 'Mesazhi:'
+        message: "Mesazhi:"
         submit: Dërgo
         title: Dërgo Email
-        to: 'Email:'
+        to: "Email:"
       success: Emaili u dëgua
       text:
         default_title: N/A
-        message: 'Mesazhi: %{message}'
+        message: "Mesazhi: %{message}"
         subject:
-          one: 'Item Record: %{title}'
+          one: "Item Record: %{title}"
           other: Item records
-        url: 'URL: %{url}'
+        url: "URL: %{url}"
     entry_name:
       default: entry
       grouped:
@@ -106,9 +106,9 @@ sq:
       filters:
         label: "%{label}:"
         remove:
-          label_value: 'Fshij kufizimin %{label}: %{value}'
+          label_value: "Fshij kufizimin %{label}: %{value}"
           value: Fshij kufizimin %{value}
-        title: 'Ju keni kërkuar për:'
+        title: "Ju keni kërkuar për:"
       form:
         search:
           label: kërko për
@@ -127,6 +127,7 @@ sq:
         constraint: "%{label}: %{value}"
         many_constraint_values: "%{values} zgjedhura"
         title: "%{constraints} - %{application_name} Rezultatet e kërkimit"
+        joiner: " / "
       pagination:
         title: Navigimi i rezultateteve
       pagination_info:
@@ -155,7 +156,7 @@ sq:
       start_over: Fillo nga e para
       view:
         list: List
-      view_title: 'Shiko rezultatin si: '
+      view_title: "Shiko rezultatin si: "
       zero_results:
         modify_search: Provo të ndryshosh kërkimin
         search_everything: provo të kërkosh çdo gjë
@@ -192,10 +193,10 @@ sq:
         carrier_prompt: Ju lutemi zgjedheni operatorin
         submit: Dërgo
         title: SMS
-        to: 'Numri i telefonit:'
+        to: "Numri i telefonit:"
       success: SMS-i u dëgua
       text:
-        url: 'Link: %{url}'
+        url: "Link: %{url}"
     tools:
       citation: Citati
       clear: Fshij

@@ -169,7 +169,7 @@ module Blacklight::CatalogHelperBehavior
       constraints += search_state.filters.collect { |filter| render_search_to_page_title_filter(filter.key, filter.values) }
     end
 
-    constraints.join(' / ')
+    constraints.join(t('blacklight.search.page_title.joiner'))
   end
 
   ##
