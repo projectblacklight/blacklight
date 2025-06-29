@@ -15,6 +15,18 @@ RSpec.describe Blacklight::ClausePresenter, type: :presenter do
     it 'returns a label for the field' do
       expect(subject.field_label).to eq 'Some Field'
     end
+
+    context 'when the field config does not exist' do
+      let(:field_config) { nil }
+
+      it 'returns nil' do
+        expect(subject.field_label).to be_nil
+      end
+
+      it 'does not raise an error' do
+        expect { subject.field_label }.not_to raise_error
+      end
+    end
   end
 
   describe '#label' do
