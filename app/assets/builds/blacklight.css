@@ -255,6 +255,7 @@ main {
 
 .sidenav {
   --bl-facet-active-bg: var(--bs-success);
+  --bl-facet-active-color: var(--bs-white);
   --bl-facet-active-item-color: var(--bs-success);
   --bl-facet-remove-color: var(--bs-secondary-color);
   --bl-facet-remove-hover-color: var(--bs-danger);
@@ -306,16 +307,21 @@ main {
 
 .facet-limit {
   --bs-accordion-btn-bg: var(--bs-gray-100);
-  --bs-btn-hover-bg: var(--bs-gray-200);
+  --bs-btn-active-bg: var(--bs-accordion-btn-bg);
+  --bs-btn-hover-bg: var(--bs-accordion-btn-bg);
   --bs-accordion-active-bg: var(--bs-accordion-btn-bg);
 }
 
 .facet-limit-active {
   --bs-accordion-btn-bg: var(--bl-facet-active-bg);
   --bs-btn-hover-bg: var(--bs-accordion-btn-bg);
-  --bs-accordion-btn-color: var(--bs-light);
+  --bs-btn-active-bg: var(--bl-facet-active-bg);
+  --bs-btn-active-color: var(--bl-facet-active-color);
+  --bs-accordion-btn-color: var(--bl-facet-active-color);
   --bs-btn-hover-color: var(--bs-accordion-btn-color);
   --bs-accordion-active-color: var(--bs-accordion-btn-color);
+  --bs-accordion-btn-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round'><path d='m2 5 6 6 6-6'/></svg>");
+  --bs-accordion-btn-active-icon: var(--bs-accordion-btn-icon);
 }
 
 .facet-values {
