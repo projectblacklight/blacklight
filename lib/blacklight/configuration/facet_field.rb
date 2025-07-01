@@ -95,6 +95,7 @@ module Blacklight
     def normalize_pivot_config!
       self.item_presenter ||= Blacklight::FacetItemPivotPresenter
       self.item_component ||= Blacklight::FacetItemPivotComponent
+      self.component ||= Blacklight::Facets::PivotListComponent
       self.filter_class ||= Blacklight::SearchState::PivotFilterField
       self.filter_query_builder ||= Blacklight::SearchState::PivotFilterField::QueryBuilder
     end

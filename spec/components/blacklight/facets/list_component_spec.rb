@@ -42,6 +42,11 @@ RSpec.describe Blacklight::Facets::ListComponent, type: :component do
     expect(page).to have_css 'li', count: 2
   end
 
+  it 'does not add a role attribute by default' do
+    expect(page).to have_css 'ul.facet-values'
+    expect(page).to have_no_css 'ul.facet-values[role]'
+  end
+
   context 'with an active facet' do
     let(:facet_field) do
       instance_double(
