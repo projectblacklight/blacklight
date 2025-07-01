@@ -85,6 +85,11 @@ module Blacklight::Bookmarks
       false
     end
 
+    create_response(success)
+  end
+
+  # Override the create_response method to handle the response appropriately.
+  def create_response(success)
     if request.xhr?
       success ? render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } }) : render(json: current_or_guest_user.errors.full_messages, status: :internal_server_error)
     else
@@ -113,6 +118,11 @@ module Blacklight::Bookmarks
       bookmark&.delete && bookmark.destroyed?
     end
 
+    destroy_response(success)
+  end
+
+  # Override the destroy_response method to handle the response appropriately.
+  def destroy_response(success)
     if success
       if request.xhr?
         render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } })
