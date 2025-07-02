@@ -3,12 +3,13 @@
 module Blacklight
   module Facets
     class ListComponent < Blacklight::Component
-      def initialize(facet_field:, layout: nil)
+      def initialize(facet_field:, role: nil, layout: nil)
         @facet_field = facet_field
+        @role = role
         @layout = layout == false ? Blacklight::Facets::NoLayoutComponent : Blacklight::Facets::FieldComponent
       end
 
-      attr_accessor :layout
+      attr_accessor :layout, :role
 
       def facet_items(wrapping_element: :li, **item_args)
         facet_item_component_class.with_collection(facet_item_presenters, wrapping_element: wrapping_element, **item_args)
