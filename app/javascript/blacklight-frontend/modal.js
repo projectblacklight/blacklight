@@ -134,7 +134,7 @@ const Modal = (() => {
   modal.modalAjaxLinkClick = function(e) {
     e.preventDefault();
     const href = e.target.closest('a').getAttribute('href')
-    fetch(href)
+    fetch(href, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
       .then(response => {
          if (!response.ok) {
            throw new TypeError("Request failed");
