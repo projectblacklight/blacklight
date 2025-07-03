@@ -93,7 +93,7 @@ it:
           open: Mostra sfaccettature
         missing:
           - Mancante
-        more_html: altri <span class="sr-only visually-hidden">%{field_name}</span> »
+        more_html: altri <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Chiudi
           show: Apri
