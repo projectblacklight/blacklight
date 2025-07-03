@@ -3,16 +3,22 @@
 module Blacklight
   module Document
     # Render a bookmark widget to bookmark / unbookmark a document
-    class BookmarkComponent < Blacklight::Document::ActionComponent
+    class BookmarkComponent < Blacklight::Component
       # @param [Blacklight::Document] document
-      # @param [Blacklight::Configuration::ToolConfig] action
+      # @param [Blacklight::Configuration::ToolConfig] action - only used to pass a key for the wrapping action.
       # @param [Boolean] checked
       # @param [Object] bookmark_path the rails route to use for bookmarks
       def initialize(document:, action: nil, checked: nil, bookmark_path: nil, **)
         @document = document
         @checked = checked
         @bookmark_path = bookmark_path
-        super(document: document, action: action, **)
+        @action = action
+        super
+      end
+
+      # Used by ActionsComponent
+      def key
+        @action&.key || :bookmark
       end
 
       def bookmarked?

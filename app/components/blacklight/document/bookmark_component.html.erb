@@ -1,7 +1,7 @@
 <%- # we don't use the per-form csrf token -%>
 <%= form_tag(bookmark_path,
              authenticity_token: false,
-             method:  bookmarked? ? :delete : :put,
+             method: bookmarked? ? :delete : :put,
              class: "bookmark-toggle",
              data: {
                present: t('blacklight.search.bookmarks.present'),
