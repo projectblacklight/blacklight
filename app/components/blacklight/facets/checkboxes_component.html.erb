@@ -7,13 +7,13 @@
     <ul class="facet-values list-unstyled blacklight-facet-checkboxes">
       <% presenters.each_with_index do |presenter, idx| -%>
         <li>
-          <span class="facet-checkbox">
+          <span class="facet-checkbox flex-shrink-0">
             <%= check_box_tag "f_inclusive[#{@facet_field.key}][]", presenter.value, presenter.selected?, id: "f_inclusive_#{@facet_field.key}_#{idx}"%>
           </span>
 
-          <span>
-            <%= label_tag "f_inclusive_#{@facet_field.key}_#{idx}" do %>
-              <span class="facet-label"><%= presenter.label %></span>
+          <span class="facet-label-and-count flex-grow-1">
+            <%= label_tag "f_inclusive_#{@facet_field.key}_#{idx}", class: 'd-flex' do %>
+              <span class="facet-label flex-grow-1"><%= presenter.label %></span>
               <span class="facet-count"><%= t('blacklight.search.facets.count', number: number_with_delimiter(presenter.hits)) %></span>
             <% end %>
           </span>
