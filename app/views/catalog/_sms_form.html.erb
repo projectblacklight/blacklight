@@ -5,7 +5,7 @@
              method: :post do %>
 <div class="modal-body">
   <%= render '/shared/flash_msg' %>
-    <div class="form-group row">
+    <div class="row">
       <label class="control-label col-sm-2" for="to">
         <%= t('blacklight.sms.form.to') %>
       </label>
@@ -13,7 +13,7 @@
         <%= telephone_field_tag :to, params[:to], class: 'form-control', required: true %>
       </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
       <label class="control-label col-sm-2" for="carrier">
         <%= t('blacklight.sms.form.carrier') %>
       </label>

@@ -39,7 +39,7 @@
   </div>
 
   <% if sort_fields_select %>
-    <div class="form-group row mb-4">
+    <div class="row mb-4">
       <%= content_tag :h2, t('blacklight.advanced_search.form.sort_label'), id: 'advanced-search-sort-label', class: 'col-md-3 text-md-right' %>
       <div class="col-md-9">
         <%= sort_fields_select %>
@@ -47,7 +47,7 @@
     </div>
   <% end %>
 
-  <div class="form-group row">
+  <div class="row">
     <div class="submit-buttons col-md-9 offset-md-3">
       <%= submit_tag t('blacklight.advanced_search.form.search_btn_html'), class: 'btn btn-primary advanced-search-submit', id: "advanced-search-submit" %>
       <%= link_to t('blacklight.advanced_search.form.start_over_html'), request.path, :class =>"btn btn-link advanced-search-start-over" %>
