@@ -27,8 +27,8 @@
       <div class="limit-criteria mb-4">
         <h2 class="limit-criteria-heading h3"><%= t('blacklight.advanced_search.form.limit_criteria_heading_html')%></h2>
 
-        <div id="advanced_search_facets" class="limit_input row">
-          <div class="advanced-facet-limits panel-group col-md-9 offset-md-3">
+        <div id="advanced_search_facets" class="facets limit_input row">
+          <div class="advanced-facet-limits accordion col-md-9 offset-md-3">
             <% search_filter_controls.each do |control| %>
               <%= control %>
             <% end %>
