@@ -5,16 +5,16 @@
              method: :post do %>
 <div class="modal-body">
   <%= render '/shared/flash_msg' %>
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="to">
+    <div class="row">
+      <label class="col-form-label col-sm-2" for="to">
         <%= t('blacklight.sms.form.to') %>
       </label>
       <div class="col-sm-10">
         <%= telephone_field_tag :to, params[:to], class: 'form-control', required: true %>
       </div>
     </div>
-    <div class="form-group row">
-      <label class="control-label col-sm-2" for="carrier">
+    <div class="row">
+      <label class="col-form-label col-sm-2" for="carrier">
         <%= t('blacklight.sms.form.carrier') %>
       </label>
       <div class="col-sm-10">

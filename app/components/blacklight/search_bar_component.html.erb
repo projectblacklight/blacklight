@@ -15,7 +15,7 @@
                     options_for_select(search_fields, h(@search_field)),
                     {},
                     title: scoped_t('search_field.title'),
-                    class: "custom-select form-select search-field") %>
+                    class: "form-select search-field") %>
       <% elsif search_fields.length == 1 %>
         <%= f.hidden_field :search_field, value: search_fields.first.last %>
       <% end %>

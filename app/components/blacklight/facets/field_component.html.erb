@@ -3,9 +3,7 @@
     <button
       type="button"
       class="btn accordion-button <%= "collapsed" if @facet_field.collapsed? %>"
-      data-toggle="collapse"
       data-bs-toggle="collapse"
-      data-target="#<%= html_id %>"
       data-bs-target="#<%= html_id %>"
       aria-expanded="<%= @facet_field.collapsed? ? 'false' : 'true' %>"
       aria-controls="<%= html_id %>"

@@ -32,7 +32,7 @@
 
     <div data-blacklight-modal="container">
       <div class="modal-header">
-        <button type="button" class="close" data-bl-dismiss="modal" aria-hidden="true">×</button>
+        <button type="button" class="btn-close" data-bl-dismiss="modal" aria-hidden="true">×</button>
         <h3 class="modal-title">Request Placed</h3>
       </div>
 
