@@ -40,7 +40,7 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
   end
 
   it 'has the facet hierarchy' do
-    expect(page).to have_css 'li ul.pivot-facet'
+    expect(page).to have_css 'li.treeitem ul li.treeitem'
     expect(page).to have_link 'x:1', href: nokogiri_mediated_href(facet_item.facet_item_presenters.first.href)
   end
 

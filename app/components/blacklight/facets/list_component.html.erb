@@ -4,7 +4,7 @@
   <% end %>
   <% component.with_body do %>
     <%= render(Blacklight::Facets::InclusiveConstraintComponent.new(facet_field: @facet_field)) %>
-    <%= content_tag :ul, class: 'facet-values list-unstyled', role: @role do %>
+    <%= content_tag :ul, class: @classes, role: @role do %>
       <%= render facet_items %>
     <% end %>
   <% end %>

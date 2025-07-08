@@ -37,6 +37,10 @@ RSpec.describe Blacklight::Facets::PivotListComponent, type: :component do
                     ])
   end
 
+  it 'renders the facet items top ul with "pivot-facet" class' do
+    expect(page).to have_css 'ul.pivot-facet'
+  end
+
   it 'renders the facet items with role="tree"' do
     expect(page).to have_css 'ul.facet-values[role="tree"]'
   end
