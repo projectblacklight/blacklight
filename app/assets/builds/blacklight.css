@@ -253,7 +253,7 @@ main {
   }
 }
 
-.sidenav {
+.facets {
   --bl-facet-active-bg: var(--bs-success);
   --bl-facet-active-color: var(--bs-white);
   --bl-facet-active-item-color: var(--bs-success);
@@ -264,16 +264,16 @@ main {
   --bl-facet-header-padding-y: 0.5rem;
   --bl-facet-value-padding-y: 0.2rem;
 }
-.sidenav .facet-toggle-button [data-hide-label] {
+.facets .facet-toggle-button [data-hide-label] {
   display: inline;
 }
-.sidenav .facet-toggle-button [data-show-label] {
+.facets .facet-toggle-button [data-show-label] {
   display: none;
 }
-.sidenav .facet-toggle-button[aria-expanded=false] [data-hide-label] {
+.facets .facet-toggle-button[aria-expanded=false] [data-hide-label] {
   display: none;
 }
-.sidenav .facet-toggle-button[aria-expanded=false] [data-show-label] {
+.facets .facet-toggle-button[aria-expanded=false] [data-show-label] {
   display: inline;
 }
 
