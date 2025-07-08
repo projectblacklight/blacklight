@@ -69,7 +69,9 @@ RSpec.describe "Blacklight Advanced Search Form" do
     it 'can limit to facets' do
       fill_in 'Subject', with: 'Women'
       click_on 'Language'
-      check 'Urdu 3'
+      within '#facet-language_ssim' do
+        check 'Urdu 3'
+      end
       click_on 'advanced-search-submit'
       expect(page).to have_content 'Pākistānī ʻaurat dorāhe par'
       expect(page).to have_no_content 'Ajikto kŭrŏk chŏrŏk sasimnikka : and 아직도　그럭　저럭　사십니까'
