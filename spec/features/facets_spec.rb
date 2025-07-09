@@ -71,7 +71,7 @@ RSpec.describe "Facets" do
     within '#facet-example_pivot_field' do
       expect(page).to have_css('.facet-leaf-node', text: "Tibetan 6", normalize_ws: true)
       expect(page).to have_no_css('.facet-select', text: 'India')
-      page.find('.facet-toggle-handle', match: :first).click
+      first('.facet-toggle-handle').click
       click_on 'India'
     end
 
