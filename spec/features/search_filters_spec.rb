@@ -18,7 +18,9 @@ RSpec.describe "Facets" do
       expect(page).to have_css("span.facet-count.selected", text: "6")
     end
 
-    click_on "India"
+    within "#facet-subject_geo_ssim" do
+      click_on "India"
+    end
     within ("#sortAndPerPage") do
       expect(page).to have_content "1 - 2 of 2"
     end

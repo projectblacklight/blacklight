@@ -33,7 +33,7 @@ module Blacklight
       raise "The value for :adapter was not found in the blacklight.yml config"
     end
 
-    case connection_config&.fetch(:adapter) || 'solr' # rubocop:disable Lint/LiteralAsCondition
+    case connection_config&.fetch(:adapter) || 'solr'
     when 'solr'
       Blacklight::Solr::Repository
     when /::/

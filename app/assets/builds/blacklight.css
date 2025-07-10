@@ -379,20 +379,29 @@ main {
   color: inherit;
 }
 
-/* Sidenav
+/* Pivot Facets
 -------------------------------------------------- */
-.pivot-facet.show {
-  display: flex;
+.pivot-facet {
+  --facet-toggle-width: 1em;
+  --facet-toggle-height: var(--facet-toggle-width);
+  --facet-toggle-margin: 0.5em;
+  --facet-toggle-show-icon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" /><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" /></svg>');
+  --facet-toggle-hide-icon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-square" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" /><path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" /></svg>');
+}
+.pivot-facet li.treeitem:not(:has(button.facet-toggle-handle)) {
+  margin-left: calc(var(--facet-toggle-width) + var(--facet-toggle-margin));
 }
 
 .facet-toggle-handle {
+  --bs-btn-hover-bg: var(--bs-btn-hover-bg);
+  --bs-btn-active-bg: var(--bs-btn-active-bg);
   margin-block: 0;
   padding-block: 0;
-  padding-inline: 0.5rem;
-  margin-inline-start: -0.75rem;
-}
-.pivot-facet .facet-toggle-handle {
-  margin-inline-start: -1.5rem;
+  padding: 0;
+  border: 0;
+  width: var(--facet-toggle-width);
+  height: var(--facet-toggle-height);
+  margin-right: var(--facet-toggle-margin);
 }
 .facet-toggle-handle.collapsed .show {
   display: flex;
@@ -408,15 +417,14 @@ main {
 }
 .facet-toggle-handle .show .icon,
 .facet-toggle-handle .hide .icon {
-  width: 1em;
-  height: 1em;
-  padding: 0.375rem 0.75rem;
+  width: var(--facet-toggle-width);
+  height: var(--facet-toggle-height);
 }
 .facet-toggle-handle .show .icon {
-  background: transparent url('data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16"%3e%3cpath d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" /%3e%3cpath d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" /%3e%3c/svg%3e') center/1em auto no-repeat;
+  background: transparent var(--facet-toggle-show-icon) center/var(--facet-toggle-width) auto no-repeat;
 }
 .facet-toggle-handle .hide .icon {
-  background: transparent url('data:image/svg+xml,%3csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-square" viewBox="0 0 16 16"%3e%3cpath d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" /%3e%3cpath d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" /%3e%3c/svg%3e') center/1em auto no-repeat;
+  background: transparent var(--facet-toggle-hide-icon) center/var(--facet-toggle-width) auto no-repeat;
 }
 
 /* Search History */

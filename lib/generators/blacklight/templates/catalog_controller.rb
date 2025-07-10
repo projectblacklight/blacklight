@@ -119,7 +119,9 @@ class <%= controller_name.classify %>Controller < ApplicationController
     config.add_facet_field 'subject_geo_ssim', label: 'Region'
     config.add_facet_field 'subject_era_ssim', label: 'Era'
 
-    config.add_facet_field 'example_pivot_field', label: 'Pivot Field', pivot: ['format', 'language_ssim'], collapsing: true
+    config.add_facet_field 'example_pivot_field',
+                           label: 'Pivot Field',
+                           pivot: ['language_ssim', 'subject_geo_ssim', 'subject_ssim'], collapsing: true
 
     config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
        :years_5 => { label: 'within 5 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 5 } TO *]" },

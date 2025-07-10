@@ -69,14 +69,14 @@ RSpec.describe "Facets" do
     click_on 'Pivot Field'
 
     within '#facet-example_pivot_field' do
-      expect(page).to have_css('.facet-leaf-node', text: "Book 30", normalize_ws: true)
-      expect(page).to have_no_css('.facet-select', text: 'Tibetan')
-      page.find('.facet-toggle-handle').click
-      click_on 'Tibetan'
+      expect(page).to have_css('.facet-leaf-node', text: "Tibetan 6", normalize_ws: true)
+      expect(page).to have_no_css('.facet-select', text: 'India')
+      first('.facet-toggle-handle').click
+      click_on 'India'
     end
 
-    expect(page).to have_css('.constraint-value', text: 'Format Book')
     expect(page).to have_css('.constraint-value', text: 'Language Tibetan')
+    expect(page).to have_css('.constraint-value', text: 'Region India')
   end
 
   describe 'heading button focus with Firefox' do

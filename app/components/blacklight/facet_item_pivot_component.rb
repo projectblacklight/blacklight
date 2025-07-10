@@ -38,7 +38,7 @@ module Blacklight
           concat content_tag('span', render(facet), class: "facet-values d-flex flex-row flex-grow-1 #{'facet-leaf-node' if has_items? && @collapsing}", id: id && "#{id}_label")
         end)
         if has_items?
-          concat(content_tag('ul', class: "pivot-facet flex-column list-unstyled ps-4 #{'collapse' if @collapsing} #{'show' if expanded?}", id: id, role: 'group') do
+          concat(content_tag('ul', class: "list-unstyled ps-3 #{'collapse' if @collapsing} #{'show' if expanded?}", id: id, role: 'group') do
             render(
               self.class.with_collection(
                 @facet_item.facet_item_presenters.to_a
@@ -64,7 +64,7 @@ module Blacklight
     end
 
     def facet_toggle_button(id)
-      content_tag 'button', class: %w[btn facet-toggle-handle] + [('collapsed' unless expanded?)],
+      content_tag 'button', class: %w[btn focus-ring facet-toggle-handle] + [('collapsed' unless expanded?)],
                             data: { toggle: 'collapse', 'bs-toggle': 'collapse', target: "##{id}", 'bs-target': "##{id}" },
                             aria: { expanded: expanded?, controls: id, describedby: "#{id}_label" } do
         concat toggle_icon(:show)
