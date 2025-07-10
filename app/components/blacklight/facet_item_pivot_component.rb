@@ -38,7 +38,7 @@ module Blacklight
           concat content_tag('span', render(facet), class: "facet-values d-flex flex-row flex-grow-1 #{'facet-leaf-node' if has_items? && @collapsing}", id: id && "#{id}_label")
         end)
         if has_items?
-          concat(content_tag('ul', class: "flex-column list-unstyled ps-3 #{'collapse' if @collapsing} #{'show' if expanded?}", id: id, role: 'group') do
+          concat(content_tag('ul', class: "list-unstyled ps-3 #{'collapse' if @collapsing} #{'show' if expanded?}", id: id, role: 'group') do
             render(
               self.class.with_collection(
                 @facet_item.facet_item_presenters.to_a
