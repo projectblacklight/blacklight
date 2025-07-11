@@ -3,7 +3,7 @@
   --bl-history-filter-name-color: var(--bs-secondary-color);
 
   .constraint {
-    padding-inline-end: $spacer;
+    padding-inline-end: var(--bl-spacer);
     display: block;
   }
 

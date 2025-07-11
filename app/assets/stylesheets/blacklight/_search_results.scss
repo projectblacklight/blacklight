@@ -1,7 +1,7 @@
 // the search results on the index view of the catalog
 .documents-list {
-  --bl-results-document-margin-top: #{$spacer};
-  --bl-results-document-padding-top: #{$spacer};
+  --bl-results-document-margin-top: var(--bl-spacer);
+  --bl-results-document-padding-top: var(--bl-spacer);
 
   .document {
     display: flex;
@@ -15,8 +15,8 @@
 
     .document-thumbnail {
       flex-grow: 0;
-      margin-bottom: ($spacer * 3);
-      padding-left: ($spacer * 3);
+      margin-bottom: calc(var(--bl-spacer) * 3);
+      padding-left: calc(var(--bl-spacer) * 3);
     }
   }
 }

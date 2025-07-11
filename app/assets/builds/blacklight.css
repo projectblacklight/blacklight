@@ -20,6 +20,7 @@
   --bl-field-name-color: var(--bs-secondary-color);
   /* emulate Bootstrap backdrop bg & opacity */
   --bl-modal-backdrop-bg: rgba(0, 0, 0, 0.5);
+  --bl-spacer: 1rem;
 }
 
 .page-link {
@@ -164,8 +165,8 @@ main {
 }
 
 .documents-list {
-  --bl-results-document-margin-top: 1rem;
-  --bl-results-document-padding-top: 1rem;
+  --bl-results-document-margin-top: var(--bl-spacer);
+  --bl-results-document-padding-top: var(--bl-spacer);
 }
 .documents-list .document {
   display: flex;
@@ -178,12 +179,8 @@ main {
 }
 .documents-list .document .document-thumbnail {
   flex-grow: 0;
-  margin-bottom: 3rem;
-  padding-left: 3rem;
-}
-
-.paginate-section {
-  display: flex;
+  margin-bottom: calc(var(--bl-spacer) * 3);
+  padding-left: calc(var(--bl-spacer) * 3);
 }
 
 .page-links {
@@ -433,7 +430,7 @@ main {
   --bl-history-filter-name-color: var(--bs-secondary-color);
 }
 .search-history .constraint {
-  padding-inline-end: 1rem;
+  padding-inline-end: var(--bl-spacer);
   display: block;
 }
 .search-history .filter-name {
