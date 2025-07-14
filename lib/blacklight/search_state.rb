@@ -82,6 +82,8 @@ module Blacklight
       blacklight_config.facet_fields.each_value.map { |value| filter(value) }
     end
 
+    # Return the list of filters (i.e. facets) that have been applied in the current search
+    # @return [Array<FilterField>]
     def filters
       @filters ||= filter_fields.select(&:any?)
     end
