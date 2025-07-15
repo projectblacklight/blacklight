@@ -23,7 +23,7 @@ module Blacklight::Catalog
 
   # get search results from the solr index
   def index
-    @response = search_service.search_results
+    @response = retrieve_search_results
 
     respond_to do |format|
       format.html { store_preferred_view }
@@ -142,6 +142,11 @@ module Blacklight::Catalog
   end
 
   private
+
+  # This method may be overridden to customize search behavior.
+  def retrieve_search_results
+    search_service.search_results
+  end
 
   #
   # non-routable methods ->
