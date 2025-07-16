@@ -7,6 +7,10 @@ module Blacklight
     delegate :key, :suggest, to: :facet_field
     delegate :field_name, to: :display_facet
 
+    # @param [Blacklight::Configuration::FacetField] facet_field
+    # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
+    # @param [#search_action_path,#facet_field_presenter] view_context
+    # @param [Blacklight::SearchState] search_state
     def initialize(facet_field, display_facet, view_context, search_state = view_context.search_state)
       @facet_field = facet_field
       @display_facet = display_facet
