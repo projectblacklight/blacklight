@@ -25,7 +25,7 @@ module Blacklight
     end
 
     def facet_item_presenter(facet_item)
-      facet_config.item_presenter.new(facet_item, facet_config, view_context, facet_field, search_state)
+      facet_field_presenter.item_presenter(facet_item)
     end
 
     ##

@@ -42,9 +42,11 @@ json.included do
     json.id facet.name
     json.attributes do
       facet_config = facet_configuration_for_field(facet.name)
-      json.label facet_field_label(facet_config.key)
+      facet_presenter = facet_field_presenter(facet_config, facet)
+      json.label facet_presenter.label
       json.items do
         json.array! facet.items do |item|
+          item_presenter = facet_presenter.item_presenter(item)
           json.id
           json.attributes do
             json.label item.label
@@ -55,7 +57,7 @@ json.included do
             if search_state.filter(facet_config).include?(facet_value_for_facet_item(item.value))
               json.remove search_action_path(search_state.filter(facet.name).remove(item.value))
             else
-              json.self facet_item_presenter(facet_config, item.value, facet.name).href(only_path: false)
+              json.self item_presenter.href(only_path: false)
             end
           end
         end

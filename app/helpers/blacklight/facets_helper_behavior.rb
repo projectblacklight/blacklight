@@ -25,8 +25,4 @@ module Blacklight::FacetsHelperBehavior
       item
     end
   end
-
-  def facet_item_presenter(facet_config, facet_item, facet_field)
-    facet_config.item_presenter.new(facet_item, facet_config, self, facet_field)
-  end
 end

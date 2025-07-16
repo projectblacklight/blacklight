@@ -14,6 +14,11 @@ module Blacklight
       @search_state = search_state
     end
 
+    # @param [Blacklight::Solr::Response::Facets::FacetItem, String] facet_item
+    def item_presenter(facet_item)
+      facet_field.item_presenter.new(facet_item, facet_field, view_context, key, search_state)
+    end
+
     def collapsed?
       !active? && facet_field.collapse
     end

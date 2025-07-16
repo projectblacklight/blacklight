@@ -130,10 +130,12 @@ module Blacklight::CatalogHelperBehavior
   # @return [String]
   def render_search_to_page_title_filter(facet, values)
     facet_config = facet_configuration_for_field(facet)
-    filter_label = facet_field_label(facet_config.key)
+    facet_presenter = facet_field_presenter(facet_config, {})
+    filter_label = facet_presenter.label
     filter_value = if values.size < 3
                      values.map do |value|
-                       label = facet_item_presenter(facet_config, value, facet).label
+                       item_presenter = facet_presenter.item_presenter(value)
+                       label = item_presenter.label
                        label = strip_tags(label) if label.html_safe?
                        label
                      end.to_sentence
