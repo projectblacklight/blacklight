@@ -61,7 +61,7 @@ module Blacklight
     end
 
     def facet_constraints
-      render(@facet_constraint_component.with_collection(facet_item_presenters.to_a, **@facet_constraint_component_options))
+      render(@facet_constraint_component.with_collection(constraint_presenters.to_a, **@facet_constraint_component_options))
     end
 
     def render?
@@ -75,17 +75,18 @@ module Blacklight
       helpers.label_for_search_field(search_field) unless helpers.default_search_field?(search_field)
     end
 
-    def facet_item_presenters
-      return to_enum(:facet_item_presenters) unless block_given?
+    def constraint_presenters
+      return to_enum(:constraint_presenters) unless block_given?
 
       @search_state.filters.map do |facet|
+        facet_field_presenter = helpers.facet_field_presenter(facet.config, {})
         facet.each_value do |val|
           next if val.blank?
 
           if val.is_a?(Array)
-            yield inclusive_facet_item_presenter(facet.config, val, facet.key) if val.any?(&:present?)
+            yield inclusive_facet_constraint_presenter(facet_field_presenter, facet.config, val, facet.key) if val.any?(&:present?)
           else
-            yield facet_item_presenter(facet.config, val)
+            yield facet_constraint_presenter(facet_field_presenter, facet.config, val)
           end
         end
       end
@@ -100,12 +101,15 @@ module Blacklight
       end
     end
 
-    def facet_item_presenter(facet_config, facet_item)
-      helpers.facet_field_presenter(facet_config, {}).item_presenter(facet_item)
+    def facet_constraint_presenter(facet_field_presenter, facet_config, facet_item)
+      facet_config.constraint_presenter.new(facet_item_presenter: facet_field_presenter.item_presenter(facet_item), field_label: facet_field_presenter.label)
     end
 
-    def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
-      Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
+    def inclusive_facet_constraint_presenter(facet_field_presenter, facet_config, facet_item, facet_field)
+      facet_config.constraint_presenter.new(
+        facet_item_presenter: Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field),
+        field_label: facet_field_presenter.label
+      )
     end
   end
 end
