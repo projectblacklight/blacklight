@@ -100,6 +100,8 @@ module Blacklight
       end
     end
 
+    # @params [Blacklight::Configuration::FacetField] facet_config
+    # @params [String] facet_item the value of the facet item
     def facet_item_presenter(facet_config, facet_item)
       helpers.facet_field_presenter(facet_config, {}).item_presenter(facet_item)
     end
