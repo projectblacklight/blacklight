@@ -4,7 +4,13 @@ require 'spec_helper'
 
 RSpec.describe Blacklight::Facets::PivotListComponent, type: :component do
   before do
+    allow(facet_field).to receive(:item_presenter).and_return(item_presenter)
+
     render_inline(described_class.new(facet_field: facet_field))
+  end
+
+  let(:item_presenter) do
+    facet_config.item_presenter.new('stuff', facet_config, vc_test_controller.view_context, facet_field.key)
   end
 
   let(:facet_field) do

@@ -3,6 +3,7 @@
 module Blacklight
   module Facets
     class ListComponent < Blacklight::Component
+      # @param [Blacklight::FacetFieldPresenter] facet_field
       def initialize(facet_field:,
                      classes: %w[facet-values list-unstyled],
                      role: nil,
@@ -30,7 +31,7 @@ module Blacklight
       end
 
       def facet_item_presenter(facet_item)
-        facet_config.item_presenter.new(facet_item, facet_config, helpers, @facet_field.key)
+        @facet_field.item_presenter(facet_item)
       end
 
       def facet_item_component_class

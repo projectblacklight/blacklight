@@ -85,7 +85,7 @@ module Blacklight
           if val.is_a?(Array)
             yield inclusive_facet_item_presenter(facet.config, val, facet.key) if val.any?(&:present?)
           else
-            yield facet_item_presenter(facet.config, val, facet.key)
+            yield facet_item_presenter(facet.config, val)
           end
         end
       end
@@ -100,8 +100,8 @@ module Blacklight
       end
     end
 
-    def facet_item_presenter(facet_config, facet_item, facet_field)
-      facet_config.item_presenter.new(facet_item, facet_config, helpers, facet_field)
+    def facet_item_presenter(facet_config, facet_item)
+      helpers.facet_field_presenter(facet_config, {}).item_presenter(facet_item)
     end
 
     def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
