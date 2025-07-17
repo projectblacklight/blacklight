@@ -7,6 +7,9 @@ module Blacklight
 
       with_collection_parameter :facet_item
 
+      # @param [Blacklight::FacetItemPresenter] facet_item
+      # @param [String] wrapping_element
+      # @param [Boolean] suppress_link
       def initialize(facet_item:, wrapping_element: 'li', suppress_link: false)
         @facet_item = facet_item
         @label = facet_item.label
