@@ -6,7 +6,8 @@
              data: {
                present: t('blacklight.search.bookmarks.present'),
                absent: t('blacklight.search.bookmarks.absent'),
-               inprogress: t('blacklight.search.bookmarks.inprogress')
+               inprogress: t('blacklight.search.bookmarks.inprogress'),
+               doc_id: @document.id
             }) do %>
   <div class="toggle-bookmark">
     <label class="toggle-bookmark-label" data-checkboxsubmit-target="label" <% if bookmark_icon %>tabindex="0"<% end %>>
