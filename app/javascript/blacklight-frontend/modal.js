@@ -157,6 +157,14 @@ const Modal = (() => {
       else if (e.target.matches(`${modal.modalSelector}`) || e.target.closest('[data-bl-dismiss="modal"]'))
         modal.hide()
     })
+
+    // Make sure user-agent dismissal of html 'dialog', etc `esc` key, triggers
+    // our hide logic, including events and scroll restoration.
+    modal.target().addEventListener('cancel', (e) => {
+      e.preventDefault(); // 'hide' will close the modal unless cancelled
+
+      modal.hide();
+    });
   };
 
   modal.hide = function (el) {
