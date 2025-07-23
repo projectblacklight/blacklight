@@ -13,7 +13,7 @@ RSpec.describe Blacklight::ConstraintLayoutComponent, type: :component do
     end
 
     it "renders label and value" do
-      expect(page).to have_css("span.applied-filter.constraint") do |s|
+      expect(page).to have_css("li.applied-filter.constraint") do |s|
         expect(s).to have_css("span.constraint-value")
         expect(s).to have_no_css("a.constraint-value")
         expect(s).to have_css "span.filter-name", text: "my label"
@@ -28,7 +28,7 @@ RSpec.describe Blacklight::ConstraintLayoutComponent, type: :component do
     end
 
     it "includes remove link" do
-      expect(page).to have_css("span.applied-filter") do |s|
+      expect(page).to have_css("li.applied-filter") do |s|
         expect(s).to have_css(".remove[href='http://remove']")
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe Blacklight::ConstraintLayoutComponent, type: :component do
     end
 
     it "includes them" do
-      expect(page).to have_css("span.applied-filter.constraint.class1.class2")
+      expect(page).to have_css("li.applied-filter.constraint.class1.class2")
     end
   end
 
@@ -56,8 +56,8 @@ RSpec.describe Blacklight::ConstraintLayoutComponent, type: :component do
     end
 
     it "does not escape key and value" do
-      expect(page).to have_css("span.applied-filter.constraint span.filter-name span.custom_label")
-      expect(page).to have_css("span.applied-filter.constraint span.filter-value span.custom_value")
+      expect(page).to have_css("li.applied-filter.constraint span.filter-name span.custom_label")
+      expect(page).to have_css("li.applied-filter.constraint span.filter-value span.custom_value")
     end
   end
 end

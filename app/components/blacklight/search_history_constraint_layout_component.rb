@@ -5,7 +5,7 @@ module Blacklight
   # be treated as quasi-plain text
   class SearchHistoryConstraintLayoutComponent < Blacklight::ConstraintLayoutComponent
     def call
-      label = tag.span(t('blacklight.search.filters.label', label: @label), class: 'filter-name') if @label.present?
+      label = tag.span(t('blacklight.constraints.filters.label', label: @label), class: 'filter-name') if @label.present?
       value = tag.span(@value, class: 'filter-values')
 
       tag.span(safe_join([label, value].compact), class: 'constraint')

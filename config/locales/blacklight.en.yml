@@ -93,6 +93,12 @@ en:
         absent: Bookmark
         inprogress: Saving...
         present: In Bookmarks
+      constraints:
+        heading: "You searched for:"
+        label: "%{label}:"
+        remove:
+          label_value: "Remove constraint %{label}: %{value}"
+          value: Remove constraint %{value}
       documents:
         aria:
           limit_search: limit your search
@@ -124,12 +130,6 @@ en:
           label: "Filter %{field_label}"
           placeholder: Filter...
         title: Limit your search
-      filters:
-        label: "%{label}:"
-        remove:
-          label_value: "Remove constraint %{label}: %{value}"
-          value: Remove constraint %{value}
-        title: "You searched for:"
       form:
         search:
           label: search for
@@ -165,7 +165,6 @@ en:
         submit: Update
         title: Number of results to display per page
       rss_feed: RSS for results
-      search_constraints_header: Search Constraints
       search_results: Search Results
       show:
         label: "%{label}:"

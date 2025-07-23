@@ -1,30 +1,13 @@
 <%= content_tag @tag || :div, id: @id, class: @classes do %>
   <% if @render_headers %>
-    <h2 class="visually-hidden"><%= t('blacklight.search.search_constraints_header') %></h2>
+    <h2 class="h6 mb-0"><%= t("blacklight.search.constraints.heading") %></h2>
   <% end %>
-
+  <% if @search_history %>
+    <%= constraints_content %>
+  <% else %>
+    <ul class="ml-0 mb-0 ps-0">
+      <%= constraints_content %>
+    </ul>
+  <% end %>
   <%= render @start_over_component.new if @start_over_component %>
-
-  <% if @render_headers %>
-    <span class="constraints-label visually-hidden"><%= t('blacklight.search.filters.title') %></span>
-  <% end %>
-  <% if query_constraints_area.present? %>
-    <% query_constraints_area.each do |constraint| %>
-      <%= constraint %>
-    <% end %>
-  <% else %>
-    <%= query_constraints %>
-  <% end %>
-
-  <% if facet_constraints_area.present? %>
-    <% facet_constraints_area.each do |constraint| %>
-      <%= constraint %>
-    <% end %>
-  <% else %>
-    <%= facet_constraints %>
-  <% end %>
-
-  <% additional_constraints.each do |constraints| %>
-    <%= constraints %>
-  <% end %>
 <% end %>

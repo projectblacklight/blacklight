@@ -13,6 +13,7 @@ module Blacklight
           query_constraint_component: Blacklight::SearchHistoryConstraintLayoutComponent,
           facet_constraint_component_options: { layout: Blacklight::SearchHistoryConstraintLayoutComponent },
           start_over_component: nil,
+          search_history: true,
           **)
     end
 
@@ -20,12 +21,13 @@ module Blacklight
     def initialize(search_state:,
                    tag: :div,
                    render_headers: true,
-                   id: 'appliedParams', classes: 'clearfix constraints-container mb-2',
+                   id: 'appliedParams', classes: 'clearfix constraints-container mb-2 align-items-center',
                    query_constraint_component: Blacklight::ConstraintLayoutComponent,
                    query_constraint_component_options: {},
                    facet_constraint_component: Blacklight::ConstraintComponent,
                    facet_constraint_component_options: {},
-                   start_over_component: Blacklight::StartOverButtonComponent)
+                   start_over_component: Blacklight::StartOverButtonComponent,
+                   search_history: false)
       @search_state = search_state
       @query_constraint_component = query_constraint_component
       @query_constraint_component_options = query_constraint_component_options
@@ -36,6 +38,7 @@ module Blacklight
       @tag = tag
       @id = id
       @classes = classes
+      @search_history = search_history
     end
     # rubocop:enable Metrics/ParameterLists
 
@@ -108,6 +111,31 @@ module Blacklight
 
     def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
       Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
+    end
+
+    def constraints_content
+      # Use helpers to capture the output, so it works like ERB blocks.
+      view_context.capture do
+        if query_constraints_area.present?
+          query_constraints_area.each do |constraint|
+            concat(constraint)
+          end
+        else
+          concat(query_constraints)
+        end
+
+        if facet_constraints_area.present?
+          facet_constraints_area.each do |constraint|
+            concat(constraint)
+          end
+        else
+          concat(facet_constraints)
+        end
+
+        additional_constraints.each do |constraints|
+          concat(constraints)
+        end
+      end
     end
   end
 end

@@ -12,9 +12,9 @@ module Blacklight
 
     def remove_aria_label
       if @label.blank?
-        t('blacklight.search.filters.remove.value', value: @value)
+        t('blacklight.search.constraints.remove.value', value: @value)
       else
-        t('blacklight.search.filters.remove.label_value', label: @label, value: @value)
+        t('blacklight.search.constraints.remove.label_value', label: @label, value: @value)
       end
     end
 
