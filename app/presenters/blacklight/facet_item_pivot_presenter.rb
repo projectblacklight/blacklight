@@ -13,10 +13,6 @@ module Blacklight
       selected? || facet_item_presenters.any? { |x| x.try(:shown?) }
     end
 
-    def field_label
-      facet_field_presenter.label
-    end
-
     def facet_item_presenters
       return to_enum(:facet_item_presenters) unless block_given?
       return [] unless items
@@ -25,7 +21,7 @@ module Blacklight
     end
 
     def facet_item_presenter(facet_item)
-      facet_field_presenter.item_presenter(facet_item)
+      view_context.facet_field_presenter(facet_config, {}).item_presenter(facet_item)
     end
 
     ##
