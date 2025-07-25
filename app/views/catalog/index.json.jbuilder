@@ -54,7 +54,7 @@ json.included do
             json.hits item.hits
           end
           json.links do
-            if search_state.filter(facet_config).include?(facet_value_for_facet_item(item.value))
+            if search_state.filter(facet_config).include?(item.value)
               json.remove search_action_path(search_state.filter(facet.name).remove(item.value))
             else
               json.self item_presenter.href(only_path: false)

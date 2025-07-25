@@ -19,6 +19,10 @@ module Blacklight
 
     with_collection_parameter :facet_item
 
+    # @param [Blacklight::FacetItemPivotPresenter] facet_item
+    # @param [String] wrapping_element
+    # @param [Boolean] suppress_link
+    # @param [Boolean] collapsing
     def initialize(facet_item:, wrapping_element: 'li', suppress_link: false, collapsing: nil)
       @facet_item = facet_item
       @wrapping_element = wrapping_element

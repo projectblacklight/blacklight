@@ -15,14 +15,4 @@ module Blacklight::FacetsHelperBehavior
            .except(:page)
     url_for opts
   end
-
-  private
-
-  def facet_value_for_facet_item item
-    if item.respond_to? :value
-      item.value
-    else
-      item
-    end
-  end
 end
