@@ -1,10 +1,6 @@
 <%= content_tag @tag || :div, id: @id, class: @classes do %>
   <% if @render_headers %>
-    <h2 class="visually-hidden"><%= t('blacklight.search.search_constraints_header') %></h2>
-  <% end %>
-
-  <% if @render_headers %>
-    <span class="constraints-label visually-hidden"><%= t('blacklight.search.filters.title') %></span>
+    <h2 class="constraints-label h6 mb-0"><%= t('blacklight.search.filters.title') %></h2>
   <% end %>
 
   <% if query_constraints_area.present? %>
