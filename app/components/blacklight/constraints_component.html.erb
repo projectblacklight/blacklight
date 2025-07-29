@@ -3,11 +3,10 @@
     <h2 class="visually-hidden"><%= t('blacklight.search.search_constraints_header') %></h2>
   <% end %>
 
-  <%= render @start_over_component.new if @start_over_component %>
-
   <% if @render_headers %>
     <span class="constraints-label visually-hidden"><%= t('blacklight.search.filters.title') %></span>
   <% end %>
+
   <% if query_constraints_area.present? %>
     <% query_constraints_area.each do |constraint| %>
       <%= constraint %>
@@ -27,4 +26,6 @@
   <% additional_constraints.each do |constraints| %>
     <%= constraints %>
   <% end %>
+
+  <%= render @start_over_component.new if @start_over_component %>
 <% end %>
