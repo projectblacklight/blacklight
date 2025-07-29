@@ -111,7 +111,7 @@ it:
         remove:
           label_value: "Cancella il filtro %{label}: %{value}"
           value: Cancella il filtro %{value}
-        title: "Hai cercato per:"
+        title: "Le tue selezioni:"
       form:
         search:
           label: cerca per
@@ -147,7 +147,6 @@ it:
         submit: Aggiorna
         title: Risultati per pagina
       rss_feed: RSS per i risultati
-      search_constraints_header: Ricerca
       search_results: Risultati della ricerca
       show:
         label: "%{label}:"
