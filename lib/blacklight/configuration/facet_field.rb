@@ -76,6 +76,8 @@ module Blacklight
       self.index_range = 'A'..'Z' if index_range == true
       self.presenter ||= Blacklight::FacetFieldPresenter
       self.item_presenter ||= Blacklight::FacetItemPresenter
+      self.constraint_presenter ||= Blacklight::ConstraintPresenter
+
       self.component = Blacklight::Facets::ListComponent if component.nil? || component == true
       self.advanced_search_component ||= Blacklight::Facets::CheckboxesComponent
       self.item_component ||= Blacklight::Facets::ItemComponent

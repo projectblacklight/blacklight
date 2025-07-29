@@ -38,10 +38,6 @@ module Blacklight
       search_state.filter(facet_config).include?(value)
     end
 
-    def field_label
-      facet_field_presenter.label
-    end
-
     ##
     # Get the displayable version of a facet's value
     #
@@ -65,14 +61,6 @@ module Blacklight
       else
         label_value.to_s
       end
-    end
-
-    # Get the displayable version of the facet's value for use
-    # in e.g. the constraints widget
-    #
-    # @return [String]
-    def constraint_label
-      label
     end
 
     def value
@@ -103,12 +91,6 @@ module Blacklight
       else
         view_context.search_action_path(search_state.add_facet_params_and_redirect(facet_config.key, facet_item).merge(path_options))
       end
-    end
-
-    private
-
-    def facet_field_presenter
-      @facet_field_presenter ||= view_context.facet_field_presenter(facet_config, {})
     end
   end
 end

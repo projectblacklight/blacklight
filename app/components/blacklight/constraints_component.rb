@@ -6,6 +6,8 @@ module Blacklight
     renders_many :facet_constraints_area
     renders_many :additional_constraints
 
+    # Constraints are stored and used to display search history - with this method, we initialize the ConstraintsComponent
+    # in a way that displays well in a table (and without a start-over button)
     def self.for_search_history(**)
       new(tag: :span,
           render_headers: false,
@@ -39,6 +41,7 @@ module Blacklight
     end
     # rubocop:enable Metrics/ParameterLists
 
+    # @return [String] HTML representation of query constraints
     def query_constraints
       if @search_state.query_param.present?
         render(
@@ -56,41 +59,54 @@ module Blacklight
       end + render(@facet_constraint_component.with_collection(clause_presenters.to_a, **@facet_constraint_component_options))
     end
 
+    # @return [String] URL path to remove the current query
     def remove_path
       helpers.search_action_path(@search_state.remove_query_params)
     end
 
+    # @return [String] HTML representation of facet constraints
     def facet_constraints
-      render(@facet_constraint_component.with_collection(facet_item_presenters.to_a, **@facet_constraint_component_options))
+      render(@facet_constraint_component.with_collection(constraint_presenters.to_a, **@facet_constraint_component_options))
     end
 
+    # @return [Boolean] true if search state has constraints
     def render?
       @search_state.has_constraints?
     end
 
     private
 
+    # @return [String, nil] label for the search field if not the default search field
     def label
       search_field = @search_state.params[:search_field]
       helpers.label_for_search_field(search_field) unless helpers.default_search_field?(search_field)
     end
 
-    def facet_item_presenters
-      return to_enum(:facet_item_presenters) unless block_given?
+    # Yields constraint presenters for each facet value
+    #
+    # @yield [Blacklight::ConstraintPresenter] facet constraint presenter
+    # @return [Enumerator] if no block given
+    def constraint_presenters
+      return to_enum(:constraint_presenters) unless block_given?
 
       @search_state.filters.map do |facet|
+        facet_field_presenter = helpers.facet_field_presenter(facet.config, {})
         facet.each_value do |val|
           next if val.blank?
 
           if val.is_a?(Array)
-            yield inclusive_facet_item_presenter(facet.config, val, facet.key) if val.any?(&:present?)
+            yield inclusive_facet_constraint_presenter(facet_field_presenter, facet.config, val, facet.key) if val.any?(&:present?)
           else
-            yield facet_item_presenter(facet.config, val)
+            yield facet_constraint_presenter(facet_field_presenter, facet.config, val)
           end
         end
       end
     end
 
+    # Yields clause presenters for search clauses
+    #
+    # @yield [Blacklight::ClausePresenter] clause presenter
+    # @return [Enumerator] if no block given
     def clause_presenters
       return to_enum(:clause_presenters) unless block_given?
 
@@ -100,14 +116,28 @@ module Blacklight
       end
     end
 
-    # @params [Blacklight::Configuration::FacetField] facet_config
-    # @params [String] facet_item the value of the facet item
-    def facet_item_presenter(facet_config, facet_item)
-      helpers.facet_field_presenter(facet_config, {}).item_presenter(facet_item)
+    # Creates a facet constraint presenter for a single facet item
+    #
+    # @param facet_field_presenter [Blacklight::FacetFieldPresenter] presenter for the facet field
+    # @param facet_config [Blacklight::Configuration::FacetField] configuration for the facet
+    # @param facet_item [String] the facet item
+    # @return [Blacklight::ConstraintPresenter] constraint presenter for the facet item
+    def facet_constraint_presenter(facet_field_presenter, facet_config, facet_item)
+      facet_config.constraint_presenter.new(facet_item_presenter: facet_field_presenter.item_presenter(facet_item), field_label: facet_field_presenter.label)
     end
 
-    def inclusive_facet_item_presenter(facet_config, facet_item, facet_field)
-      Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field)
+    # Creates a constraint presenter for an inclusive facet (multiple values)
+    #
+    # @param facet_field_presenter [Blacklight::FacetFieldPresenter] presenter for the facet field
+    # @param facet_config [Blacklight::Configuration::FacetField] configuration for the facet
+    # @param facet_item [Array] array of facet items
+    # @param facet_field [Symbol, String] the facet field name
+    # @return [Blacklight::ConstraintPresenter] constraint presenter for the inclusive facet
+    def inclusive_facet_constraint_presenter(facet_field_presenter, facet_config, facet_item, facet_field)
+      facet_config.constraint_presenter.new(
+        facet_item_presenter: Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field),
+        field_label: facet_field_presenter.label
+      )
     end
   end
 end
