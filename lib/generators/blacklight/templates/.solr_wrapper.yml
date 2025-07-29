@@ -3,5 +3,5 @@
 env:
   SOLR_MODULES: analysis-extras
 collection:
-  dir: solr/conf/
+  dir: solr/
   name: blacklight-core
