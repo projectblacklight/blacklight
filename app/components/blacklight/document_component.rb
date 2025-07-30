@@ -125,10 +125,10 @@ module Blacklight
     end
 
     def before_render
-      set_slot(:title, nil) unless title
-      set_slot(:thumbnail, nil) unless thumbnail || show?
-      set_slot(:metadata, nil, fields: presenter.field_presenters, show: @show) unless metadata
-      set_slot(:embed, nil) unless embed
+      with_title unless title
+      with_thumbnail unless thumbnail || show?
+      with_metadata(fields: presenter.field_presenters, show: @show) unless metadata
+      with_embed unless embed
 
       view_partials.each do |view_partial|
         with_partial(view_partial) do
