@@ -148,6 +148,8 @@ module Blacklight
       property :index, default: ViewConfig::Index.new(
         # document presenter class used by helpers and views
         document_presenter_class: nil,
+        # document presenter used for json responses
+        json_presenter_class: Blacklight::JsonPresenter,
         # component class used to render a document
         document_component: Blacklight::DocumentComponent,
         sidebar_component: Blacklight::Search::SidebarComponent,
