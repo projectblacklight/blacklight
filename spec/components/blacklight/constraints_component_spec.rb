@@ -77,5 +77,9 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
     it 'renders the search state as lightly-decorated text' do
       expect(page).to have_css('.constraint > .filter-values', text: 'some query').and(have_css('.constraint', text: 'Some Facet:some value'))
     end
+
+    it 'omits the headers' do
+      expect(page).to have_no_css('h2', text: 'Your selections:')
+    end
   end
 end
