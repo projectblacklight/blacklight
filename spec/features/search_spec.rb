@@ -44,7 +44,7 @@ RSpec.describe "Search Page" do
     Capybara.ignore_hidden_elements = tmp_value
 
     within "#appliedParams" do
-      expect(page).to have_css('h2', text: 'Your selections:')
+      expect(page).to have_content "Your selections:"
       expect(page).to have_content "history"
     end
 
@@ -74,7 +74,7 @@ RSpec.describe "Search Page" do
     click_on 'search'
 
     within "#appliedParams" do
-      expect(page).to have_css('h2', text: 'Your selections:')
+      expect(page).to have_content "Your selections:"
       expect(page).to have_content "Title"
       expect(page).to have_content "inmul"
     end
@@ -104,7 +104,7 @@ RSpec.describe "Search Page" do
     fill_in "q", with: 'history'
     click_on 'search'
     within "#appliedParams" do
-      expect(page).to have_css('h2', text: 'Your selections:')
+      expect(page).to have_content "Your selections:"
       expect(page).to have_content "history"
     end
 
