@@ -29,10 +29,7 @@ module Blacklight::Catalog
       format.html { store_preferred_view }
       format.rss  { render layout: false }
       format.atom { render layout: false }
-      format.json do
-        @presenter = Blacklight::JsonPresenter.new(@response,
-                                                   blacklight_config)
-      end
+      format.json { @presenter = json_presenter(@response) }
       additional_response_formats(format)
       document_export_formats(format)
     end
@@ -143,7 +140,14 @@ module Blacklight::Catalog
 
   private
 
+  # @param [Blacklight::Solr::Response] repository_response
+  # @return [Blacklight::JsonPresenter]
+  def json_presenter(repository_response)
+    blacklight_config.index.json_presenter_class.new(repository_response, blacklight_config)
+  end
+
   # This method may be overridden to customize search behavior.
+  # @return [Blacklight::Solr::Response] the solr response object
   def retrieve_search_results
     search_service.search_results
   end
