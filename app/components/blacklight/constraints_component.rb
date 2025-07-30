@@ -139,5 +139,17 @@ module Blacklight
         field_label: facet_field_presenter.label
       )
     end
+
+    # Returns a heading tag for the constraints section
+    #
+    # @return [ActiveSupport::SafeBuffer, nil]
+    def constraints_heading
+      return unless @render_headers
+
+      helpers.tag.h2(
+        t('blacklight.search.filters.title'),
+        class: 'constraints-label h6 mb-0'
+      )
+    end
   end
 end
