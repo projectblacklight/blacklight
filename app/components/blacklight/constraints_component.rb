@@ -146,7 +146,7 @@ module Blacklight
     def constraints_heading
       return unless @render_headers
 
-      helpers.tag.h2(
+      tag.h2(
         t('blacklight.search.filters.title'),
         class: 'constraints-label h6 mb-0'
       )
