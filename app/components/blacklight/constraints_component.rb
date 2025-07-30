@@ -9,7 +9,7 @@ module Blacklight
     # Constraints are stored and used to display search history - with this method, we initialize the ConstraintsComponent
     # in a way that displays well in a table (and without a start-over button)
     def self.for_search_history(**)
-      new(tag: :span, render_heading: false,
+      new(tag: :span, render_headers: false,
           id: nil,
           query_constraint_component: Blacklight::SearchHistoryConstraintLayoutComponent,
           facet_constraint_component_options: { layout: Blacklight::SearchHistoryConstraintLayoutComponent },
