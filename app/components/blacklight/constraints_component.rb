@@ -142,13 +142,14 @@ module Blacklight
 
     # Returns a heading tag for the constraints section
     #
-    # @return [ActiveSupport::SafeBuffer, nil]
-    def constraints_heading
+    # @param [Array] array of classes for constraints heading
+    # @return [ActiveSupport::SafeBuffer, nil] constraints heading html
+    def constraints_heading(classes: %w[constraints-label h6 mb-0])
       return unless @render_headers
 
       tag.h2(
         t('blacklight.search.filters.title'),
-        class: 'constraints-label h6 mb-0'
+        class: classes.join(' ')
       )
     end
   end
