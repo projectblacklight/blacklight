@@ -9,7 +9,7 @@ module Blacklight
       delegate :blacklight_config, to: :helpers
 
       def initialize(document:, search_context:, search_session:)
-        super
+        super()
         @search_context = search_context
         @search_session = search_session
         @document = document
