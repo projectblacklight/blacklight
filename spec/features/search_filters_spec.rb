@@ -53,7 +53,7 @@ RSpec.describe "Facets" do
       expect(page).to have_css("span.facet-count.selected", text: "2")
     end
     within "#appliedParams" do
-      expect(page).to have_content "You searched for:"
+      expect(page).to have_content "Your selections:"
       expect(page).to have_content "history"
     end
 
@@ -140,7 +140,7 @@ RSpec.describe "Facets" do
       expect(page).to have_css("span.facet-count.selected", text: "2")
     end
     within "#appliedParams" do
-      expect(page).to have_content "You searched for:"
+      expect(page).to have_content "Your selections:"
       expect(page).to have_content "history"
     end
   end
@@ -164,7 +164,7 @@ RSpec.describe "Facets" do
       expect(page).to have_css("span.facet-count.selected", text: "2")
     end
     within "#appliedParams" do
-      expect(page).to have_content "You searched for:"
+      expect(page).to have_content "Your selections:"
       expect(page).to have_content "history"
     end
   end

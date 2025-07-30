@@ -136,7 +136,6 @@ ca:
         many_constraint_values: "%{values} seleccionat"
         joiner: " / "
       header: "Cerca"
-      search_constraints_header: "Filtres de la cerca"
       search_results: "Resultats de la cerca"
       errors:
         invalid_solr_id: "El registre que heu sol·licitat no existeix."
@@ -194,7 +193,7 @@ ca:
       group:
         more: "més »"
       filters:
-        title: "Heu cercat per:"
+        title: "Les teves seleccions:"
         label: "%{label}:"
         remove:
           value: "Eliminar el filtre %{value}"

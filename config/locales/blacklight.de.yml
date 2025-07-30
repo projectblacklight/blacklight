@@ -111,7 +111,7 @@ de:
         remove:
           label_value: "Filter %{label}: %{value} entfernen"
           value: Filter %{value} entfernen
-        title: "Sie suchten nach:"
+        title: "Ihre Auswahl:"
       form:
         search:
           label: suchen nach
@@ -147,7 +147,6 @@ de:
         submit: Aktualisieren
         title: Anzahl der Ergebnisse, die pro Seite angezeigt werden
       rss_feed: RSS für Ergebnisse
-      search_constraints_header: Suchen
       search_results: Suchergebnisse
       show:
         label: "%{label}:"

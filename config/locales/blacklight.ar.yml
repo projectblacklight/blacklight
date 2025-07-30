@@ -120,7 +120,7 @@ ar:
         remove:
           label_value: "إزالة القيد %{label}: %{value}"
           value: إزالة القيد %{value}
-        title: "لقد بحثت عن:"
+        title: "اختياراتك:"
       form:
         search:
           label: ابحث عن
@@ -160,7 +160,6 @@ ar:
         submit: تحديث
         title: عدد النتائج المعروضة في الصفحة
       rss_feed: خلاصات RSS للنتائج
-      search_constraints_header: قيود البحث
       search_results: نتائج البحث
       show:
         label: "%{label}:"

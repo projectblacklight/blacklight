@@ -110,7 +110,7 @@ fr:
         remove:
           label_value: "Supprimer la restriction %{label}: %{value}"
           value: Supprimer la restriction %{value}
-        title: "Vous avez demandé :"
+        title: "Vos sélections:"
       form:
         search:
           label: Rechercher
@@ -146,7 +146,6 @@ fr:
         submit: mettre à jour
         title: Nombre de résultats à afficher par page
       rss_feed: RSS pour les résultats
-      search_constraints_header: Recherche
       search_results: Résultats de recherche
       show:
         label: "%{label}:"

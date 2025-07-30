@@ -109,7 +109,7 @@ pt-BR:
         remove:
           label_value: "Remover %{label}: %{value}"
           value: Remover filtro %{value}
-        title: "Sua busca por:"
+        title: "Suas seleções:"
       form:
         search:
           label: busca
@@ -145,7 +145,6 @@ pt-BR:
         submit: Atualizar
         title: Número de resultados para mostrar por página
       rss_feed: RSS para resultadoss
-      search_constraints_header: Busca
       search_results: Resultados da Busca
       show:
         label: "%{label}:"

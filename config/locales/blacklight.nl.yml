@@ -108,7 +108,7 @@ nl:
         remove:
           label_value: "Verwijder zoekfilter %{label}: %{value}"
           value: Verwijder zoekfilter %{value}
-        title: "U zocht op:"
+        title: "Uw selecties:"
       form:
         search:
           label: zoeken op
@@ -144,7 +144,6 @@ nl:
         submit: Update
         title: Toon aantal zoekresultaten per pagina
       rss_feed: RSS voor zoekresultaten
-      search_constraints_header: Zoek filters
       search_results: Zoek resultaten
       show:
         label: "%{label}:"

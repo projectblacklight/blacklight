@@ -9,8 +9,7 @@ module Blacklight
     # Constraints are stored and used to display search history - with this method, we initialize the ConstraintsComponent
     # in a way that displays well in a table (and without a start-over button)
     def self.for_search_history(**)
-      new(tag: :span,
-          render_headers: false,
+      new(tag: :span, render_headers: false,
           id: nil,
           query_constraint_component: Blacklight::SearchHistoryConstraintLayoutComponent,
           facet_constraint_component_options: { layout: Blacklight::SearchHistoryConstraintLayoutComponent },
@@ -22,7 +21,8 @@ module Blacklight
     def initialize(search_state:,
                    tag: :div,
                    render_headers: true,
-                   id: 'appliedParams', classes: 'clearfix constraints-container mb-2',
+                   heading_classes: 'constraints-label h6 mb-0',
+                   id: 'appliedParams', classes: 'clearfix constraints-container mb-2 align-items-center',
                    query_constraint_component: Blacklight::ConstraintLayoutComponent,
                    query_constraint_component_options: {},
                    facet_constraint_component: Blacklight::ConstraintComponent,
@@ -35,6 +35,7 @@ module Blacklight
       @facet_constraint_component_options = facet_constraint_component_options
       @start_over_component = start_over_component
       @render_headers = render_headers
+      @heading_classes = heading_classes
       @tag = tag
       @id = id
       @classes = classes
@@ -137,6 +138,18 @@ module Blacklight
       facet_config.constraint_presenter.new(
         facet_item_presenter: Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field),
         field_label: facet_field_presenter.label
+      )
+    end
+
+    # Returns a heading tag for the constraints section
+    #
+    # @return [ActiveSupport::SafeBuffer, nil] constraints heading html
+    def constraints_heading
+      return unless @render_headers
+
+      tag.h2(
+        t('blacklight.search.filters.title'),
+        class: @heading_classes
       )
     end
   end

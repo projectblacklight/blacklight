@@ -108,7 +108,7 @@ zh:
         remove:
           label_value: "删除限定条件 %{label}: %{value}"
           value: 删除限定条件 %{value}
-        title: 你在搜索：
+        title: 您的选择：
       form:
         search:
           label: 搜索
@@ -144,7 +144,6 @@ zh:
         submit: 更新
         title: 每页显示结果数
       rss_feed: 搜索结果RSS
-      search_constraints_header: 搜索条件
       search_results: 搜索结果
       show:
         label: "%{label}:"

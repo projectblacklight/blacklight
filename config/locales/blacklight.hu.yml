@@ -108,7 +108,7 @@ hu:
         remove:
           label_value: "Feltétel eltávolítása %{label}: %{value}"
           value: Feltételek eltávolítása %{value}
-        title: "Ön ezt kereste:"
+        title: "Az Ön választása:"
       form:
         search:
           label: keresés
@@ -144,7 +144,6 @@ hu:
         submit: Frissítés
         title: Az eredmények száma oldalanként
       rss_feed: Eredmények RSS-ként
-      search_constraints_header: Keresés feltételei
       search_results: Keresés eredményei
       show:
         label: "%{label}:"

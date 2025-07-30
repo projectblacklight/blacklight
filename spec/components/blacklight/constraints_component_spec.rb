@@ -36,7 +36,7 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
     end
 
     it 'has a header' do
-      expect(page).to have_css('h2', text: 'Search Constraints')
+      expect(page).to have_css('h2', text: 'Your selections:')
     end
 
     it 'wraps the output in a div' do
@@ -79,7 +79,7 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
     end
 
     it 'omits the headers' do
-      expect(page).to have_no_css('h2', text: 'Search Constraints')
+      expect(page).to have_no_css('h2', text: 'Your selections:')
     end
   end
 end

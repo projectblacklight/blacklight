@@ -129,7 +129,7 @@ en:
         remove:
           label_value: "Remove constraint %{label}: %{value}"
           value: Remove constraint %{value}
-        title: "You searched for:"
+        title: "Your selections:"
       form:
         search:
           label: search for
@@ -165,7 +165,6 @@ en:
         submit: Update
         title: Number of results to display per page
       rss_feed: RSS for results
-      search_constraints_header: Search Constraints
       search_results: Search Results
       show:
         label: "%{label}:"

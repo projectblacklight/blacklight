@@ -110,7 +110,7 @@ es:
         remove:
           label_value: "Eliminar la restricción%{label}: %{value}"
           value: Eliminar la restricción %{value}
-        title: "Usted ha buscado:"
+        title: "Tus selecciones:"
       form:
         search:
           label: buscar
@@ -146,7 +146,6 @@ es:
         submit: Actualización
         title: El número de resultados a mostrar por página
       rss_feed: RSS de los resultados
-      search_constraints_header: Buscar
       search_results: Resultados de la búsqueda
       show:
         label: "%{label}:"
