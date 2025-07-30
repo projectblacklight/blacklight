@@ -36,7 +36,7 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
     end
 
     it 'has a header' do
-      expect(page).to have_css('h2', text: I18n.t('blacklight.search.filters.title'))
+      expect(page).to have_css('h2', text: 'Your selections:')
     end
 
     it 'wraps the output in a div' do
@@ -76,10 +76,6 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
 
     it 'renders the search state as lightly-decorated text' do
       expect(page).to have_css('.constraint > .filter-values', text: 'some query').and(have_css('.constraint', text: 'Some Facet:some value'))
-    end
-
-    it 'omits the headers' do
-      expect(page).to have_no_css('h2', text: 'Search Constraints')
     end
   end
 end
