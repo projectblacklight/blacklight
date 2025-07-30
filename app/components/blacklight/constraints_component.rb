@@ -22,6 +22,7 @@ module Blacklight
     def initialize(search_state:,
                    tag: :div,
                    render_headers: true,
+                   heading_classes: 'constraints-label h6 mb-0',
                    id: 'appliedParams', classes: 'clearfix constraints-container mb-2 align-items-center',
                    query_constraint_component: Blacklight::ConstraintLayoutComponent,
                    query_constraint_component_options: {},
@@ -35,6 +36,7 @@ module Blacklight
       @facet_constraint_component_options = facet_constraint_component_options
       @start_over_component = start_over_component
       @render_headers = render_headers
+      @heading_classes = heading_classes
       @tag = tag
       @id = id
       @classes = classes
@@ -142,14 +144,13 @@ module Blacklight
 
     # Returns a heading tag for the constraints section
     #
-    # @param [Array] array of classes for constraints heading
     # @return [ActiveSupport::SafeBuffer, nil] constraints heading html
-    def constraints_heading(classes: %w[constraints-label h6 mb-0])
+    def constraints_heading
       return unless @render_headers
 
       tag.h2(
         t('blacklight.search.filters.title'),
-        class: classes.join(' ')
+        class: @heading_classes
       )
     end
   end
