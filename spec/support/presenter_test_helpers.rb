@@ -2,7 +2,7 @@
 
 module PresenterTestHelpers
   def controller
-    @controller ||= ViewComponent::Base.test_controller.constantize.new.tap { |c| c.request = request }.extend(Rails.application.routes.url_helpers)
+    @controller ||= ApplicationController.new.tap { |c| c.request = request }.extend(Rails.application.routes.url_helpers)
   end
 
   def request
