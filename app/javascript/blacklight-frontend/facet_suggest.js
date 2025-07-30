@@ -17,7 +17,7 @@ const FacetSuggest = async (e) => {
     // Drop facet.page so a filtered suggestion list will always start on page 1
     url.searchParams.delete('facet.page');
     const facetSearchParams = url.searchParams.toString();
-    const basePathComponent = url.pathname.split('/')[0];
+    const basePathComponent = url.pathname.split('/')[1];
 
     const urlToFetch = `/${basePathComponent}/facet_suggest/${facetField}/${queryFragment}?${facetSearchParams}`;
 
