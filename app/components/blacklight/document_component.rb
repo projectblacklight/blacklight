@@ -89,8 +89,8 @@ module Blacklight
     def initialize(document: nil, partials: nil,
                    id: nil, classes: [], component: :article, title_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
-                   show: false, **args)
-      @presenter = document || args[self.class.collection_parameter]
+                   show: false)
+      @presenter = document
       @document = @presenter.document
       @view_partials = partials || []
 
@@ -100,7 +100,7 @@ module Blacklight
       @classes = classes
 
       @counter = counter
-      @document_counter = document_counter || args.fetch(self.class.collection_counter_parameter, nil)
+      @document_counter = document_counter
       @counter ||= 1 + @document_counter + counter_offset if @document_counter.present?
 
       @show = show
