@@ -7,7 +7,7 @@ module Blacklight
       def initialize(label:, href:)
         @label = label
         @href = href
-        super
+        super()
       end
 
       attr_reader :label, :href

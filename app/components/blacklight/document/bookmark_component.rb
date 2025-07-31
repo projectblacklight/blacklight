@@ -13,7 +13,7 @@ module Blacklight
         @checked = checked
         @bookmark_path = bookmark_path
         @action = action
-        super
+        super()
       end
 
       # Used by ActionsComponent
