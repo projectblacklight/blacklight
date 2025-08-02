@@ -28,7 +28,8 @@ RSpec.describe Blacklight::Facets::SuggestComponent, type: :component do
   it 'has an input with the data-facet-search-context attribute, which the javascript needs to determine the current search context' do
     with_request_url "/catalog/facet/language_facet?f%5Bformat%5D%5B%5D=Book&facet.prefix=R&facet.sort=index&q=tibet&search_field=all_fields" do
       rendered = render_inline component
-      expect(rendered.css('input[data-facet-search-context="/catalog/facet/language_facet.html?f%5Bformat%5D%5B%5D=Book&facet.prefix=R&facet.sort=index&q=tibet&search_field=all_fields"]').count).to eq 1
+      facet_path = ViewComponent::VERSION::MAJOR == 3 ? '/catalog/facet/language_facet.html' : '/catalog/facet/language_facet'
+      expect(rendered.css("input[data-facet-search-context=\"#{facet_path}?f%5Bformat%5D%5B%5D=Book&facet.prefix=R&facet.sort=index&q=tibet&search_field=all_fields\"]").count).to eq 1
     end
   end
 

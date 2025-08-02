@@ -13,7 +13,9 @@ module Blacklight
       # provided by Blacklight.
       def sidecar_files(*args, **kwargs)
         upstream_sidecar_files(*args, **kwargs).map do |path|
-          app_path = Rails.root.join(path.slice(path.index(view_component_path)..-1).to_s).to_s
+          components_path = ViewComponent::VERSION::MAJOR == 3 ? view_component_path : config.generate.path
+
+          app_path = Rails.root.join(path.slice(path.index(components_path)..-1).to_s).to_s
 
           if File.exist?(app_path)
             app_path
