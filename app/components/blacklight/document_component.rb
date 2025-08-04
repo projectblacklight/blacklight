@@ -33,39 +33,39 @@ module Blacklight
     renders_one :body
 
     # The document title with some reasonable default behavior
-    renders_one :title, (lambda do |*args, component: nil, **kwargs|
+    renders_one :title, (lambda do |component: nil, **kwargs|
       component ||= view_config.title_component || Blacklight::DocumentTitleComponent
 
-      component.new(*args, counter: @counter, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
+      component.new(counter: @counter, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
     end)
 
-    renders_one :embed, (lambda do |static_content = nil, *args, component: nil, **kwargs|
+    renders_one :embed, (lambda do |static_content = nil, component: nil, **kwargs|
       next static_content if static_content.present?
 
       component ||= view_config.embed_component
 
       next unless component
 
-      component.new(*args, presenter: @presenter, document_counter: @document_counter, **kwargs)
+      component.new(presenter: @presenter, document_counter: @document_counter, **kwargs)
     end)
 
     # The primary metadata section
-    renders_one :metadata, (lambda do |static_content = nil, *args, component: nil, fields: nil, **kwargs|
+    renders_one :metadata, (lambda do |static_content = nil, component: nil, fields: nil, **kwargs|
       next static_content if static_content.present?
 
       component ||= view_config.metadata_component || Blacklight::DocumentMetadataComponent
-      component.new(*args, fields: fields || @presenter&.field_presenters || [], **kwargs)
+      component.new(fields: fields || @presenter&.field_presenters || [], **kwargs)
     end)
 
     # Additional metadata sections
     renders_many :metadata_sections
 
-    renders_one :thumbnail, (lambda do |image_options_or_static_content = {}, *args, component: nil, **kwargs|
+    renders_one :thumbnail, (lambda do |image_options_or_static_content = {}, component: nil, **kwargs|
       next image_options_or_static_content if image_options_or_static_content.is_a? String
 
       component ||= view_config.thumbnail_component || Blacklight::Document::ThumbnailComponent
 
-      component.new(*args, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
+      component.new(presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
     end)
 
     # A container for partials rendered using the view config partials configuration. Its use is discouraged, but necessary until
