@@ -19,8 +19,8 @@ module Blacklight
     # Hack so that the default lambdas are triggered
     # so that we don't have to do c.with_top_bar() in the call.
     def before_render
-      set_slot(:top_bar, nil) unless top_bar
-      set_slot(:search_bar, nil) unless search_bar
+      with_top_bar unless top_bar
+      with_search_bar unless search_bar
     end
   end
 end

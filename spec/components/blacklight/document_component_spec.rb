@@ -41,11 +41,12 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   end
 
   it 'has some defined content areas' do
-    component.set_slot(:title) { 'Title' }
-    component.set_slot(:embed, nil, 'Embed')
-    component.set_slot(:metadata, nil, 'Metadata')
-    component.set_slot(:thumbnail, nil, 'Thumbnail')
-    component.set_slot(:actions) { 'Actions' }
+    component.with_title { 'Title' }
+    component.with_embed('Embed')
+    component.with_metadata('Metadata')
+    component.with_thumbnail('Thumbnail')
+    component.with_actions { 'Actions' }
+    render_inline component
 
     expect(rendered).to have_content 'Title'
     expect(rendered).to have_content 'Embed'
@@ -55,7 +56,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
   end
 
   it 'has schema.org properties' do
-    component.set_slot(:body) { '-' }
+    component.with_body { '-' }
+    render_inline component
 
     expect(rendered).to have_css 'article[@itemtype="http://schema.org/Thing"]'
     expect(rendered).to have_css 'article[@itemscope]'
@@ -63,7 +65,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
 
   context 'with a provided body' do
     it 'opts-out of normal component content' do
-      component.set_slot(:body) { 'Body content' }
+      component.with_body { 'Body content' }
+      render_inline component
 
       expect(rendered).to have_content 'Body content'
       expect(rendered).to have_no_css 'header'
@@ -79,7 +82,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     let(:attr) { { counter: 5 } }
 
     it 'has data properties' do
-      component.set_slot(:body) { '-' }
+      component.with_body { '-' }
+      render_inline component
 
       expect(rendered).to have_css 'article[@data-document-id="x"]'
       expect(rendered).to have_css 'article[@data-document-counter="5"]'
@@ -130,7 +134,8 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
 
     it 'renders with an id' do
-      component.set_slot(:body) { '-' }
+      component.with_body { '-' }
+      render_inline component
 
       expect(rendered).to have_css 'article#document'
     end

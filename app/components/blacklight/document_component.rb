@@ -94,10 +94,10 @@ module Blacklight
     def initialize(document: nil, presenter: nil, partials: nil,
                    id: nil, classes: [], component: :article, title_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
-                   show: false, **args)
+                   show: false)
       Blacklight.deprecation.warn('the `presenter` argument to DocumentComponent#initialize is deprecated; pass the `presenter` in as document instead') if presenter
 
-      @presenter = presenter || document || args[self.class.collection_parameter]
+      @presenter = presenter || document
       @document = @presenter.document
       @view_partials = partials || []
 
@@ -107,7 +107,7 @@ module Blacklight
       @classes = classes
 
       @counter = counter
-      @document_counter = document_counter || args.fetch(self.class.collection_counter_parameter, nil)
+      @document_counter = document_counter
       @counter ||= @document_counter + COLLECTION_INDEX_OFFSET + counter_offset if @document_counter.present?
 
       @show = show
@@ -125,10 +125,10 @@ module Blacklight
     end
 
     def before_render
-      set_slot(:title, nil) unless title
-      set_slot(:thumbnail, nil) unless thumbnail || show?
-      set_slot(:metadata, nil, fields: presenter.field_presenters, show: @show) unless metadata
-      set_slot(:embed, nil) unless embed
+      with_title unless title
+      with_thumbnail unless thumbnail || show?
+      with_metadata(fields: presenter.field_presenters, show: @show) unless metadata
+      with_embed unless embed
 
       view_partials.each do |view_partial|
         with_partial(view_partial) do

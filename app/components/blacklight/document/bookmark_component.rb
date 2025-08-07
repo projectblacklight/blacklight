@@ -12,6 +12,7 @@ module Blacklight
         @document = document
         @checked = checked
         @bookmark_path = bookmark_path
+
         super(document: document, action: action, **kwargs)
       end
 

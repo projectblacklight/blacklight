@@ -34,6 +34,20 @@
       "additional_name": "| esbuild"
     },
     {
+      "ruby": "3.3",
+      "rails_version": "8.0.1",
+      "view_component_version": "~> 4.0",
+      "additional_engine_cart_rails_options": "--css=bootstrap",
+      "additional_name": "| ViewComponent 4"
+    },
+    {
+      "ruby": "3.3",
+      "rails_version": "8.0.1",
+      "view_component_version": "~> 4.0",
+      "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
+      "additional_name": "| esbuild, ViewComponent 4"
+    },
+    {
       "ruby": "3.2",
       "rails_version": "7.1.5.1",
       "solr_version": "8.11.2",
