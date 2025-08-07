@@ -2,7 +2,7 @@
   "ruby": ["3.4"],
   "rails_version": ["7.1.5.1", "7.2.2.1"],
   "bootstrap_version": [null],
-  "view_component_version": ["~> 4.0"],
+  "view_component_version": ["4.0.0"],
   "api": [null],
   "additional_engine_cart_rails_options": [""],
   "additional_name": [""],
