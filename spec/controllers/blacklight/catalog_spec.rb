@@ -3,7 +3,7 @@
 RSpec.describe Blacklight::Catalog do
   subject { controller }
 
-  let(:controller) { (Class.new(ApplicationController) { include Blacklight::Catalog }).new }
+  let(:controller) { Class.new(ApplicationController) { include Blacklight::Catalog }.new }
 
   describe "#search_state" do
     subject { controller.send(:search_state) }
