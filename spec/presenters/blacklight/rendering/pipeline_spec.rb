@@ -62,6 +62,34 @@ RSpec.describe Blacklight::Rendering::Pipeline do
       end
     end
 
+    context 'when link_to_facet is in the config' do
+      let(:values) { %w[book manuscript] }
+      let(:field_config) { Blacklight::Configuration::Field.new(field: 'format', key: 'format', link_to_facet: true) }
+      let(:controller) { CatalogController.new }
+      let(:search_state) { Blacklight::SearchState.new({}, controller.blacklight_config, controller) }
+
+      before do
+        allow(context).to receive(:search_state).and_return(search_state)
+        allow(context).to receive(:search_action_path) { |f| "/catalog?f[format][]=#{f['f']['format'].first}" }
+        allow(context).to receive(:link_to) { |value, link|  ActiveSupport::SafeBuffer.new("<a href=#{link}>#{value}</a>") }
+      end
+
+      it 'renders html' do
+        expect(rendered).to eq "<a href=/catalog?f[format][]=book>book</a> and <a href=/catalog?f[format][]=manuscript>manuscript</a>"
+      end
+
+      context 'outside html context' do
+        let(:values) { %w[book manuscript] }
+        let(:field_config) { Blacklight::Configuration::Field.new(field: 'format', link_to_facet: true) }
+        let(:search_state) { Blacklight::SearchState.new({ format: 'json' }, CatalogController.blacklight_config, CatalogController.new) }
+
+        it 'does not render html' do
+          expect(rendered).to eq "book and manuscript"
+        end
+      end
+    end
+  end
+
   describe '.operations' do
     subject { described_class.operations }
 
