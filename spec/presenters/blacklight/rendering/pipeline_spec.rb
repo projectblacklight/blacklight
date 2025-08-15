@@ -37,16 +37,30 @@ RSpec.describe Blacklight::Rendering::Pipeline do
     end
 
     context 'outside of an HTML context' do
-      let(:options) { { format: 'text' } }
+      context 'when options determines format' do
+        let(:options) { { format: 'text' } }
 
-      let(:values) { ['"blah"', "<notatag>"] }
-      let(:field_config) { Blacklight::Configuration::NullField.new itemprop: 'some-prop' }
+        let(:values) { ['"blah"', "<notatag>"] }
+        let(:field_config) { Blacklight::Configuration::NullField.new itemprop: 'some-prop' }
 
-      it 'does not HTML escape values or inject HTML tags' do
-        expect(rendered).to eq '"blah" and <notatag>'
+        it 'does not HTML escape values or inject HTML tags' do
+          expect(rendered).to eq '"blah" and <notatag>'
+        end
+      end
+
+      context 'when context determines format' do
+        let(:values) { ['"blah"', "<notatag>"] }
+        let(:field_config) { Blacklight::Configuration::NullField.new itemprop: 'some-prop' }
+        let(:controller) { CatalogController.new }
+        let(:search_state) { Blacklight::SearchState.new({ format: 'text' }, controller.blacklight_config, controller) }
+
+        before { allow(context).to receive(:search_state).and_return(search_state) }
+
+        it 'does not HTML escape values or inject HTML tags' do
+          expect(rendered).to eq '"blah" and <notatag>'
+        end
       end
     end
-  end
 
   describe '.operations' do
     subject { described_class.operations }
