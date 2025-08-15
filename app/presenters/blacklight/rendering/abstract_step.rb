@@ -22,10 +22,9 @@ module Blacklight
       end
 
       def html?
-        format.nil? || format == 'html'
+        format.nil? || format.to_s == 'html'
       end
 
-      # @return [String, nil]
       def format
         return options[:format] unless context.respond_to?(:search_state)
 
