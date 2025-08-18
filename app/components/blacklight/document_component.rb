@@ -94,10 +94,11 @@ module Blacklight
     def initialize(document: nil, presenter: nil, partials: nil,
                    id: nil, classes: [], component: :article, title_component: nil,
                    counter: nil, document_counter: nil, counter_offset: 0,
-                   show: false)
+                   show: false, **args)
       Blacklight.deprecation.warn('the `presenter` argument to DocumentComponent#initialize is deprecated; pass the `presenter` in as document instead') if presenter
 
-      @presenter = presenter || document
+      # .collection_parameter only works in view_component3, and functionality removed in BL9
+      @presenter = presenter || document || (self.class.respond_to?(:collection_parameter) && args[self.class.collection_parameter])
       @document = @presenter.document
       @view_partials = partials || []
 
@@ -107,7 +108,8 @@ module Blacklight
       @classes = classes
 
       @counter = counter
-      @document_counter = document_counter
+      # .collection_parameter only works in view_component3, and functionality removed in BL9
+      @document_counter = document_counter || (self.class.respond_to?(:collection_counter_parameter) && args.fetch(self.class.collection_counter_parameter, nil))
       @counter ||= @document_counter + COLLECTION_INDEX_OFFSET + counter_offset if @document_counter.present?
 
       @show = show
