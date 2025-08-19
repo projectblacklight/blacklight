@@ -4,7 +4,7 @@
 
 <% document_component = blacklight_config.view_config(:show).document_component -%>
 <%= render document_component.new(id: 'document', document: document_presenter(@document), component: :div, show: true, partials: blacklight_config.view_config(:show).partials) do |component| %>
-  <% component.with_title(as: 'h1', classes: '', link_to_document: false, actions: false) %>
+  <% component.with_title(as: 'h1', classes: '', link_to_document: false) %>
   <% component.with_footer do %>
     <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
       <!-- COinS, for Zotero among others. -->
