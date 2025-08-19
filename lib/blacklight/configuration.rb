@@ -152,9 +152,10 @@ module Blacklight
         json_presenter_class: Blacklight::JsonPresenter,
         # component class used to render a document
         document_component: Blacklight::DocumentComponent,
-        metadata_document: Blacklight::DocumentMetadataComponent,
-        thumbnail_component: Blacklight::Document::ThumbnailComponent,
-        title_component: Blacklight::DocumentTitleComponent,
+        document_embed_component: nil,
+        document_metadata_component: Blacklight::DocumentMetadataComponent,
+        document_thumbnail_component: Blacklight::Document::ThumbnailComponent,
+        document_title_component: Blacklight::DocumentTitleComponent,
         sidebar_component: Blacklight::Search::SidebarComponent,
         dropdown_component: Blacklight::System::DropdownComponent,
         # solr field to use to render a document title
@@ -192,7 +193,7 @@ module Blacklight
         # document presenter class used by helpers and views
         document_presenter_class: nil,
         document_component: Blacklight::DocumentComponent,
-        thumbnail_component: nil,
+        document_thumbnail_component: nil,
         show_tools_component: Blacklight::Document::ShowToolsComponent,
         show_header_tools_component: nil,
         document_header_component: Blacklight::Document::PageHeaderComponent,

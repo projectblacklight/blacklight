@@ -46,6 +46,28 @@ class Blacklight::Configuration
       end
     end
 
+    # Provide backwards compatibility with the configuration keys without the document_ prefix
+    def title_component(*) = document_title_component(*)
+    def metadata_component(*) = document_metadata_component(*)
+    def thumbnail_component(*) = document_thumbnail_component(*)
+    def embed_component(*) = document_embed_component(*)
+
+    def title_component=(value)
+      self.document_title_component = value
+    end
+
+    def metadata_component=(value)
+      self.document_metadata_component = value
+    end
+
+    def thumbnail_component=(value)
+      self.document_thumbnail_component = value
+    end
+
+    def embed_component=(value)
+      self.document_embed_component = value
+    end
+
     class Show < ViewConfig
       # @!attribute route
       #   @return [Hash] Default route parameters for 'show' requests.

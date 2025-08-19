@@ -34,7 +34,7 @@ module Blacklight
 
     # The document title with some reasonable default behavior
     renders_one :title, (lambda do |component: nil, **kwargs|
-      component ||= view_config.title_component
+      component ||= view_config.document_title_component
 
       component&.new(counter: @counter, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
     end)
@@ -42,7 +42,7 @@ module Blacklight
     renders_one :embed, (lambda do |static_content = nil, component: nil, **kwargs|
       next static_content if static_content.present?
 
-      component ||= view_config.embed_component
+      component ||= view_config.document_embed_component
       component&.new(presenter: @presenter, document_counter: @document_counter, **kwargs)
     end)
 
@@ -50,7 +50,7 @@ module Blacklight
     renders_one :metadata, (lambda do |static_content = nil, component: nil, fields: nil, **kwargs|
       next static_content if static_content.present?
 
-      component ||= view_config.metadata_component
+      component ||= view_config.document_metadata_component
       component&.new(fields: fields || @presenter&.field_presenters || [], **kwargs)
     end)
 
@@ -60,7 +60,7 @@ module Blacklight
     renders_one :thumbnail, (lambda do |image_options_or_static_content = {}, component: nil, **kwargs|
       next image_options_or_static_content if image_options_or_static_content.is_a? String
 
-      component ||= view_config.thumbnail_component
+      component ||= view_config.document_thumbnail_component
 
       component&.new(presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
     end)
