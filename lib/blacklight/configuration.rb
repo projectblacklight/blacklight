@@ -156,6 +156,9 @@ module Blacklight
         document_metadata_component: Blacklight::DocumentMetadataComponent,
         document_thumbnail_component: Blacklight::Document::ThumbnailComponent,
         document_title_component: Blacklight::DocumentTitleComponent,
+        document_header_components: [],
+        document_section_components: [:embed, :content, :metadata],
+        document_footer_components: [],
         sidebar_component: Blacklight::Search::SidebarComponent,
         dropdown_component: Blacklight::System::DropdownComponent,
         # solr field to use to render a document title

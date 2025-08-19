@@ -269,4 +269,32 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       expect(page).to have_content "Prefix!"
     end
   end
+
+  context 'with configured components' do
+    let(:static_component) do
+      lambda { |text|
+        inline = Class.new(ViewComponent::Base) do
+          class_attribute :text
+          def self.name = 'StaticComponent'
+          def initialize(**); end
+
+          def call
+            text
+          end
+        end
+
+        inline.tap { |klass| klass.text = text }
+      }
+    end
+
+    it 'renders header, section, and footer components' do
+      blacklight_config.index.document_header_components = [static_component.call('Header')]
+      blacklight_config.index.document_section_components = [static_component.call('Section')]
+      blacklight_config.index.document_footer_components = [static_component.call('Footer')]
+
+      render_inline component
+      puts page.native.inner_html
+      expect(page).to have_content('Header').and have_content('Section').and have_content('Footer')
+    end
+  end
 end
