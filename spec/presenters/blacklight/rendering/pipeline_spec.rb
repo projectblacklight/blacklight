@@ -37,13 +37,55 @@ RSpec.describe Blacklight::Rendering::Pipeline do
     end
 
     context 'outside of an HTML context' do
-      let(:options) { { format: 'text' } }
+      context 'when options determines format' do
+        let(:options) { { format: 'text' } }
 
-      let(:values) { ['"blah"', "<notatag>"] }
-      let(:field_config) { Blacklight::Configuration::NullField.new itemprop: 'some-prop' }
+        let(:values) { ['"blah"', "<notatag>"] }
+        let(:field_config) { Blacklight::Configuration::NullField.new itemprop: 'some-prop' }
 
-      it 'does not HTML escape values or inject HTML tags' do
-        expect(rendered).to eq '"blah" and <notatag>'
+        it 'does not HTML escape values or inject HTML tags' do
+          expect(rendered).to eq '"blah" and <notatag>'
+        end
+      end
+
+      context 'when context determines format' do
+        let(:values) { ['"blah"', "<notatag>"] }
+        let(:field_config) { Blacklight::Configuration::NullField.new itemprop: 'some-prop' }
+        let(:controller) { CatalogController.new }
+        let(:search_state) { Blacklight::SearchState.new({ format: 'text' }, controller.blacklight_config, controller) }
+
+        before { allow(context).to receive(:search_state).and_return(search_state) }
+
+        it 'does not HTML escape values or inject HTML tags' do
+          expect(rendered).to eq '"blah" and <notatag>'
+        end
+      end
+    end
+
+    context 'when link_to_facet is in the config' do
+      let(:values) { %w[book manuscript] }
+      let(:field_config) { Blacklight::Configuration::Field.new(field: 'format', key: 'format', link_to_facet: true) }
+      let(:controller) { CatalogController.new }
+      let(:search_state) { Blacklight::SearchState.new({}, controller.blacklight_config, controller) }
+
+      before do
+        allow(context).to receive(:search_state).and_return(search_state)
+        allow(context).to receive(:search_action_path) { |f| "/catalog?f[format][]=#{f['f']['format'].first}" }
+        allow(context).to receive(:link_to) { |value, link|  ActiveSupport::SafeBuffer.new("<a href=#{link}>#{value}</a>") }
+      end
+
+      it 'renders html' do
+        expect(rendered).to eq "<a href=/catalog?f[format][]=book>book</a> and <a href=/catalog?f[format][]=manuscript>manuscript</a>"
+      end
+
+      context 'outside html context' do
+        let(:values) { %w[book manuscript] }
+        let(:field_config) { Blacklight::Configuration::Field.new(field: 'format', link_to_facet: true) }
+        let(:search_state) { Blacklight::SearchState.new({ format: 'json' }, CatalogController.blacklight_config, CatalogController.new) }
+
+        it 'does not render html' do
+          expect(rendered).to eq "book and manuscript"
+        end
       end
     end
   end
