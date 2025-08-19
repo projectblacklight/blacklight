@@ -8,6 +8,14 @@ class Blacklight::Configuration
     #   @return [Class] document presenter class used by helpers and views
     # @!attribute document_component
     #   @return [Class] component class used to render a document; defaults to Blacklight::DocumentComponent
+    # @!attribute document_title_component
+    #   @return [Class] component class used to render a document title
+    # @!attribute document_metadata_component
+    #   @return [Class] component class used to render the document metadata
+    # @!attribute document_thumbnail_component
+    #   @return [Class] component class used to render a document thumbnail
+    # @!attribute document_embed_component
+    #   @return [Class] component class used to render a document embed
     # @!attribute title_field
     #   @return [String, Symbol] solr field to use to render a document title
     # @!attribute display_type_field
