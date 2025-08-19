@@ -192,6 +192,7 @@ module Blacklight
         # document presenter class used by helpers and views
         document_presenter_class: nil,
         document_component: Blacklight::DocumentComponent,
+        thumbnail_component: nil,
         show_tools_component: Blacklight::Document::ShowToolsComponent,
         show_header_tools_component: nil,
         document_header_component: Blacklight::Document::PageHeaderComponent,

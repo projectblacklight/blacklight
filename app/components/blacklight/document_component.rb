@@ -116,7 +116,7 @@ module Blacklight
 
     def before_render
       with_title unless title
-      with_thumbnail unless thumbnail || show?
+      with_thumbnail unless thumbnail
       with_metadata(fields: presenter.field_presenters, show: @show) unless metadata
       with_embed unless embed
 
