@@ -142,29 +142,35 @@ module Blacklight
       # set to nil if a checkbox is prefered to the icon
       property :bookmark_icon_component, default: Blacklight::Icons::BookmarkIconComponent
 
-      # @!attribute index
-      # General configuration for all views
+      # @!attribute defaults
+      # Default configuration for all views
       # @return [Blacklight::Configuration::ViewConfig::Index]
-      property :index, default: ViewConfig::Index.new(
+      property :defaults, default: ViewConfig.new(
         # document presenter class used by helpers and views
         document_presenter_class: Blacklight::IndexPresenter,
-        # document presenter used for json responses
-        json_presenter_class: Blacklight::JsonPresenter,
         # component class used to render a document
         document_component: Blacklight::DocumentComponent,
         document_embed_component: nil,
         document_metadata_component: Blacklight::DocumentMetadataComponent,
         document_thumbnail_component: Blacklight::Document::ThumbnailComponent,
         document_title_component: Blacklight::DocumentTitleComponent,
-        sidebar_component: Blacklight::Search::SidebarComponent,
-        dropdown_component: Blacklight::System::DropdownComponent,
         # solr field to use to render a document title
         title_field: nil,
         # solr field to use to render format-specific partials
-        display_type_field: nil,
+        display_type_field: nil
+      )
+
+      # @!attribute index
+      # General configuration for search views
+      # @return [Blacklight::Configuration::ViewConfig::Index]
+      property :index, default: ViewConfig::Index.new(
+        document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
+        # document presenter used for json responses
+        json_presenter_class: Blacklight::JsonPresenter,
+        sidebar_component: Blacklight::Search::SidebarComponent,
+        dropdown_component: Blacklight::System::DropdownComponent,
         # the "field access" key to use to look up the document display fields
         document_fields_key: :index_fields,
-        document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
         collection_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
         # what field, if any, to use to render grouped results
         group: false,
@@ -192,7 +198,7 @@ module Blacklight
       property :show, default: ViewConfig::Show.new(
         # document presenter class used by helpers and views
         document_presenter_class: Blacklight::ShowPresenter,
-        document_component: Blacklight::DocumentComponent,
+        document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
         document_thumbnail_component: nil,
         show_tools_component: Blacklight::Document::ShowToolsComponent,
         show_header_tools_component: nil,
@@ -205,7 +211,6 @@ module Blacklight
         # Set this to a hash with additional arguments to merge into the route,
         # or set `controller: :current` to route to the current controller.
         route: nil,
-        document_actions: NestedOpenStructWithHashAccess.new(ToolConfig),
         header_actions: NestedOpenStructWithHashAccess.new(ToolConfig)
       )
 
@@ -214,7 +219,7 @@ module Blacklight
       # @return [Hash{Symbol => Blacklight::Configuration::ActionConfigMapEntry}]
       property :action_mapping, default: NestedOpenStructWithHashAccess.new(
         ActionConfigMapEntry,
-        default: { blacklight_config_property: :index, default: [:index] },
+        default: { blacklight_config_property: :index, default: [:index, :defaults] },
         show: { blacklight_config_property: :show },
         citation: { parent_action_key: :show },
         email_record: { blacklight_config_property: :email },
