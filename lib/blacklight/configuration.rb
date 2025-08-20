@@ -147,7 +147,7 @@ module Blacklight
       # @return [Blacklight::Configuration::ViewConfig::Index]
       property :index, default: ViewConfig::Index.new(
         # document presenter class used by helpers and views
-        document_presenter_class: nil,
+        document_presenter_class: Blacklight::IndexPresenter,
         # document presenter used for json responses
         json_presenter_class: Blacklight::JsonPresenter,
         # component class used to render a document
@@ -191,7 +191,7 @@ module Blacklight
       # @return [Blacklight::Configuration::ViewConfig::Show]
       property :show, default: ViewConfig::Show.new(
         # document presenter class used by helpers and views
-        document_presenter_class: nil,
+        document_presenter_class: Blacklight::ShowPresenter,
         document_component: Blacklight::DocumentComponent,
         document_thumbnail_component: nil,
         show_tools_component: Blacklight::Document::ShowToolsComponent,
