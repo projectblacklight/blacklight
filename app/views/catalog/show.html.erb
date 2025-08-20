@@ -1,6 +1,6 @@
-<%= render 'show_main_content' %>
+<% presenter = document_presenter(@document) %>
+<%= render 'show_main_content', presenter: presenter %>
 
 <% content_for(:sidebar) do %>
-  <% presenter = document_presenter(@document) %>
   <%= render presenter.view_config.sidebar_component.new(presenter: presenter) %>
 <% end %>
