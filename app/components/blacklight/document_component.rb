@@ -34,27 +34,24 @@ module Blacklight
 
     # The document title with some reasonable default behavior
     renders_one :title, (lambda do |component: nil, **kwargs|
-      component ||= view_config.title_component || Blacklight::DocumentTitleComponent
+      component ||= view_config.document_title_component
 
-      component.new(counter: @counter, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
+      component&.new(counter: @counter, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
     end)
 
     renders_one :embed, (lambda do |static_content = nil, component: nil, **kwargs|
       next static_content if static_content.present?
 
-      component ||= view_config.embed_component
-
-      next unless component
-
-      component.new(presenter: @presenter, document_counter: @document_counter, **kwargs)
+      component ||= view_config.document_embed_component
+      component&.new(presenter: @presenter, document_counter: @document_counter, **kwargs)
     end)
 
     # The primary metadata section
     renders_one :metadata, (lambda do |static_content = nil, component: nil, fields: nil, **kwargs|
       next static_content if static_content.present?
 
-      component ||= view_config.metadata_component || Blacklight::DocumentMetadataComponent
-      component.new(fields: fields || @presenter&.field_presenters || [], **kwargs)
+      component ||= view_config.document_metadata_component
+      component&.new(fields: fields || @presenter&.field_presenters || [], **kwargs)
     end)
 
     # Additional metadata sections
@@ -63,9 +60,9 @@ module Blacklight
     renders_one :thumbnail, (lambda do |image_options_or_static_content = {}, component: nil, **kwargs|
       next image_options_or_static_content if image_options_or_static_content.is_a? String
 
-      component ||= view_config.thumbnail_component || Blacklight::Document::ThumbnailComponent
+      component ||= view_config.document_thumbnail_component
 
-      component.new(presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
+      component&.new(presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
     end)
 
     # A container for partials rendered using the view config partials configuration. Its use is discouraged, but necessary until
@@ -119,7 +116,7 @@ module Blacklight
 
     def before_render
       with_title unless title
-      with_thumbnail unless thumbnail || show?
+      with_thumbnail unless thumbnail
       with_metadata(fields: presenter.field_presenters, show: @show) unless metadata
       with_embed unless embed
 

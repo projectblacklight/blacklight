@@ -8,6 +8,14 @@ class Blacklight::Configuration
     #   @return [Class] document presenter class used by helpers and views
     # @!attribute document_component
     #   @return [Class] component class used to render a document; defaults to Blacklight::DocumentComponent
+    # @!attribute document_title_component
+    #   @return [Class] component class used to render a document title
+    # @!attribute document_metadata_component
+    #   @return [Class] component class used to render the document metadata
+    # @!attribute document_thumbnail_component
+    #   @return [Class] component class used to render a document thumbnail
+    # @!attribute document_embed_component
+    #   @return [Class] component class used to render a document embed
     # @!attribute title_field
     #   @return [String, Symbol] solr field to use to render a document title
     # @!attribute display_type_field
@@ -44,6 +52,28 @@ class Blacklight::Configuration
       else
         super
       end
+    end
+
+    # Provide backwards compatibility with the configuration keys without the document_ prefix
+    def title_component(*) = document_title_component(*)
+    def metadata_component(*) = document_metadata_component(*)
+    def thumbnail_component(*) = document_thumbnail_component(*)
+    def embed_component(*) = document_embed_component(*)
+
+    def title_component=(value)
+      self.document_title_component = value
+    end
+
+    def metadata_component=(value)
+      self.document_metadata_component = value
+    end
+
+    def thumbnail_component=(value)
+      self.document_thumbnail_component = value
+    end
+
+    def embed_component=(value)
+      self.document_embed_component = value
     end
 
     class Show < ViewConfig
