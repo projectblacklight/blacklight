@@ -7,8 +7,7 @@ module Blacklight::Solr
     # @param [String] id document's unique key value
     # @param [Hash] params additional solr query parameters
     def find id, params = {}
-      doc_params = params.reverse_merge(blacklight_config.default_document_solr_params)
-                         .merge(blacklight_config.document_unique_id_param => id)
+      doc_params = SingleDocSearchBuilder.new(self, id, params)
 
       solr_response = send_and_receive blacklight_config.document_solr_path || blacklight_config.solr_path, doc_params
       raise Blacklight::Exceptions::RecordNotFound if solr_response.documents.empty?
@@ -24,7 +23,7 @@ module Blacklight::Solr
 
     ##
     # Execute a search query against solr
-    # @param [Hash] params solr query parameters
+    # @param [Hash,Blacklight::SearchBuilder] params solr query parameters
     # @param [String] path solr request handler path
     def search pos_params = nil, path: nil, params: nil, **kwargs
       if pos_params
@@ -47,7 +46,8 @@ module Blacklight::Solr
     # Gets a list of available fields
     # @return [Hash]
     def reflect_fields
-      send_and_receive('admin/luke', params: { fl: '*', 'json.nl' => 'map' })['fields']
+      doc_params = FieldReflectionSearchBuilder.new(self)
+      send_and_receive('admin/luke', doc_params)['fields']
     end
 
     ##
