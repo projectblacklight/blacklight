@@ -136,13 +136,6 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       vc_test_controller.action_name = "show"
     end
 
-    it 'renders with an id' do
-      component.with_body { '-' }
-      render_inline component
-
-      expect(page).to have_css 'article#document'
-    end
-
     it 'renders a title' do
       render_inline component
 

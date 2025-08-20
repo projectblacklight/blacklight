@@ -93,7 +93,7 @@ module Blacklight
 
       @component = component
       @title_component = title_component
-      @id = id || ('document' if show)
+      @id = id
       @classes = classes
 
       @counter = counter
