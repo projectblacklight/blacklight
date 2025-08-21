@@ -29,6 +29,13 @@ class <%= controller_name.classify %>Controller < ApplicationController
     #
     ## Should the raw solr document endpoint (e.g. /catalog/:id/raw) be enabled
     # config.raw_endpoint.enabled = false
+    #
+    ## Should advanced search be enabled
+    # config.advanced_search.enabled = true
+    #
+    ## Optional fine-tuning for advanced search, e.g., set different limits for
+    ## different facets.
+    # config.advanced_search.form_solr_parameters = {}
 
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = {
@@ -38,7 +45,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # solr path which will be added to solr base url before the other solr params.
     #config.solr_path = 'select'
     #config.document_solr_path = 'get'
-    #config.json_solr_path = 'advanced'
+    #config.json_solr_path = 'select'
 
     # items to show per page, each number in the array represent another option to choose from.
     #config.per_page = [10,20,50,100]
@@ -105,6 +112,12 @@ class <%= controller_name.classify %>Controller < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the
     # facet bar
     #
+    # Set :include_in_advanced_search to false for any search field or facet field
+    # that you want to exclude from appearing in the advanced search page.
+    #
+    # Set :include_in_simple_select to false for any search field you want to render
+    # in the Advanced Search page but exclude from the main search box scope selector.
+    #
     # Set :index_range to true if you want the facet pagination view to have facet prefix-based navigation.
     #  (useful when user clicks "more" on a large facet and wants to navigate alphabetically across a large set of results)
     # :index_range can be an array or range of prefixes that will be used to create the navigation (note: It is case sensitive when searching values)
@@ -121,7 +134,9 @@ class <%= controller_name.classify %>Controller < ApplicationController
 
     config.add_facet_field 'example_pivot_field',
                            label: 'Pivot Field',
-                           pivot: ['language_ssim', 'subject_geo_ssim', 'subject_ssim'], collapsing: true
+                           pivot: ['language_ssim', 'subject_geo_ssim', 'subject_ssim'],
+                           collapsing: true,
+                           include_in_advanced_search: false
 
     config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
        :years_5 => { label: 'within 5 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 5 } TO *]" },
@@ -165,7 +180,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
     config.add_show_field 'isbn_ssim', label: 'ISBN'
 
     # "fielded" search configuration. Used by pulldown among other places.
-    # For supported keys in hash, see rdoc for Blacklight::SearchFields
+    # For supported keys in hash, see rdoc for Blacklight::Configuration::SearchField
     #
     # Search fields will inherit the :qt solr request handler from
     # config[:default_solr_parameters], OR can specify a different one
@@ -208,7 +223,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
 
     # Specifying a :qt only to show it's possible, and so our internal automated
     # tests can test it. In this case it's the same as
-    # config[:default_solr_parameters][:qt], so isn't actually neccesary.
+    # config[:default_solr_parameters][:qt], so isn't actually necessary.
     config.add_search_field('subject') do |field|
       field.qt = 'search'
       field.solr_parameters = {
@@ -216,6 +231,13 @@ class <%= controller_name.classify %>Controller < ApplicationController
         qf: '${subject_qf}',
         pf: '${subject_pf}'
       }
+    end
+
+    # Set up a default advanced search configuration by using the current
+    # search_fields and facet_fields configs.
+    if config.advanced_search.enabled
+      config.copy_search_field_config_to_advanced!
+      config.copy_facet_field_config_to_advanced!
     end
 
     # "sort results by" select (pulldown)

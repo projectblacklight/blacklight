@@ -28,4 +28,11 @@
     // This prevents the widget from being squished so the text overflows
     min-width: 7em;
   }
+
+  .btn-link {
+    // Slightly darken link color for a11y (to reach 4.5:1 against bg-light).
+    --bs-btn-color: color-mix(in srgb, var(--bs-link-color), black 10%);
+    --bs-btn-hover-color: color-mix(in srgb, var(--bs-link-hover-color), black 10%);
+    --bs-btn-active-color: color-mix(in srgb, var(--bs-link-hover-color), black 10%);
+  }
 }
