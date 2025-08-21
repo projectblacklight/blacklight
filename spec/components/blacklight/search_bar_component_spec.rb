@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::SearchBarComponent, type: :component do
-  let(:instance) { described_class.new(url: search_action_url, params: params_for_search) }
+  let(:instance) { described_class.new(url: search_action_url, params: params_for_search, advanced_search_url: '/advanced') }
 
   let(:search_action_url) { '/catalog' }
   let(:params_for_search) { { q: 'testParamValue' } }
