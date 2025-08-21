@@ -73,7 +73,8 @@ module Blacklight
       # @!attribute json_solr_path
       # @since v7.34.0
       # @return [String] The url path (relative to the solr base url) to use when using Solr's JSON Query DSL (as with the advanced search)
-      property :json_solr_path, default: 'advanced'
+      # @note You can configure a separate custom 'advanced' requestHandler in solrconfig.xml if desired, but it isn't necessary; the default 'select' handler will work.
+      property :json_solr_path, default: 'select'
       # @!attribute document_unique_id_param
       # @since v5.2.0
       # @return [Symbol] The solr query parameter used for sending the unique identifiers for one or more documents
@@ -304,8 +305,13 @@ module Blacklight
 
       # @!attribute advanced_search
       # @since v7.15.0
-      # @return [#enabled]
-      property :advanced_search, default: OpenStruct.new(enabled: false)
+      # @return [OpenStructWithHashAccess] Configuration for advanced search, including:
+      #   enabled: (Boolean) whether advanced search is enabled
+      #   form_solr_parameters: (Hash) optional parameters to send to Solr for the advanced search
+      #                                form; can override values that are set automatically via the
+      #                                #copy_facet_field_config_to_advanced! method
+      property :advanced_search, default: OpenStructWithHashAccess.new(enabled: true,
+                                                                       form_solr_parameters: {})
 
       # @!attribute enable_search_bar_autofocus
       # @since v7.2.0
@@ -460,6 +466,42 @@ module Blacklight
     # @return [Array<String>] a list of facet groups
     def facet_group_names
       facet_fields.map { |_facet, opts| opts[:group] }.uniq
+    end
+
+    # Use existing search field configs to automatically prepare fields for use
+    # by the advanced search form.
+    def copy_search_field_config_to_advanced!
+      search_fields.each_value do |field|
+        next if field.include_in_advanced_search == false
+        next if field.clause_params
+
+        field.clause_params = {}
+        field.clause_params[:edismax] = field.solr_parameters.dup || {}
+      end
+    end
+
+    # Use existing facet field configs to automatically prepare fields for use
+    # by the advanced search form. If more specific config is needed, e.g., to
+    # set the facet limit for one field to a value other than -1, it can be
+    # expressed in the configuration in advanced_search.form_solr_parameters
+    def copy_facet_field_config_to_advanced!
+      advanced_search.form_solr_parameters ||= {}
+      advanced_search.form_solr_parameters['facet.sort'] ||= 'count'
+      advanced_search.form_solr_parameters['facet.field'] ||= []
+
+      facet_fields.each_value do |field|
+        next if field.include_in_advanced_search == false
+        # Skip query-type and pivot facets that can't be requested via facet.field
+        next if field.query || field.pivot || field.range
+
+        # Add the facet field to the advanced search configuration
+        advanced_search.form_solr_parameters['facet.field'] << field.field unless
+          advanced_search.form_solr_parameters['facet.field'].include?(field.field)
+
+        # Set the facet field's limit to -1 to show ALL values in advanced search
+        advanced_search.form_solr_parameters["f.#{field.field}.facet.limit"] = -1 unless
+          advanced_search.form_solr_parameters["f.#{field.field}.facet.limit"]
+      end
     end
 
     # Add any configured facet fields to the default solr parameters hash

@@ -11,7 +11,7 @@ en:
         sort_label: Sort results by
         start_over_html: Start over
         title: Advanced search
-      more_options: More options
+      more_options: Advanced search
       op:
         label: search operator
         must: all
