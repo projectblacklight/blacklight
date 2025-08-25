@@ -69,6 +69,11 @@ main {
 .navbar-search .search-field {
   min-width: 7em;
 }
+.navbar-search .btn-link {
+  --bs-btn-color: color-mix(in srgb, var(--bs-link-color), black 10%);
+  --bs-btn-hover-color: color-mix(in srgb, var(--bs-link-hover-color), black 10%);
+  --bs-btn-active-color: color-mix(in srgb, var(--bs-link-hover-color), black 10%);
+}
 
 .constraints-container {
   display: flex;

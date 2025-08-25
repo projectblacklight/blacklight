@@ -523,6 +523,58 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
     end
   end
 
+  describe "#add_facets_for_advanced_search_form" do
+    let(:solr_parameters) { Blacklight::Solr::Request.new }
+    let(:mock_controller) { instance_double(CatalogController, action_name: 'advanced_search') }
+    let(:mock_search_state) { instance_double(Blacklight::SearchState, controller: mock_controller) }
+
+    before do
+      allow(search_builder).to receive(:search_state).and_return(mock_search_state)
+    end
+
+    context "when action is advanced_search and form_solr_parameters are configured" do
+      before do
+        blacklight_config.advanced_search.enabled = true
+        blacklight_config.advanced_search.form_solr_parameters = {
+          'facet.sort' => 'count',
+          'facet.field' => %w[format subject_ssim],
+          'f.format.facet.limit' => -1,
+          'f.subject_ssim.facet.limit' => -1
+        }
+      end
+
+      it "merges advanced search form parameters into solr parameters" do
+        solr_parameters['existing.param'] = 'keep_me'
+        subject.add_facets_for_advanced_search_form(solr_parameters)
+
+        expect(solr_parameters['facet.sort']).to eq 'count'
+        expect(solr_parameters['facet.field']).to eq %w[format subject_ssim]
+        expect(solr_parameters['f.format.facet.limit']).to eq(-1)
+        expect(solr_parameters['f.subject_ssim.facet.limit']).to eq(-1)
+        expect(solr_parameters['existing.param']).to eq 'keep_me'
+      end
+    end
+
+    context "when action is not advanced_search" do
+      before do
+        allow(mock_controller).to receive(:action_name).and_return('index')
+        blacklight_config.advanced_search.enabled = true
+        blacklight_config.advanced_search.form_solr_parameters = {
+          'facet.sort' => 'count',
+          'facet.field' => ['format']
+        }
+      end
+
+      it "does not merge advanced search form parameters" do
+        solr_parameters['f.format.facet.limit'] = 21
+
+        subject.add_facets_for_advanced_search_form(solr_parameters)
+
+        expect(solr_parameters['f.format.facet.limit']).to eq 21
+      end
+    end
+  end
+
   describe "#add_facet_fq_to_solr" do
     it "converts a String fq into an Array" do
       solr_parameters = { fq: 'a string' }
@@ -677,12 +729,6 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
   end
 
   context 'with advanced search clause parameters' do
-    before do
-      blacklight_config.search_fields.each_value do |v|
-        v.clause_params = { edismax: v.solr_parameters.dup }
-      end
-    end
-
     let(:user_params) { { op: 'must', clause: { '0': { field: 'title', query: 'the book' }, '1': { field: 'author', query: 'the person' } } } }
 
     it "has proper solr parameters" do

@@ -10,7 +10,7 @@ module Blacklight::Solr
         :add_query_to_solr, :add_facet_fq_to_solr,
         :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
         :add_sorting_to_solr, :add_group_config_to_solr,
-        :add_adv_search_clauses,
+        :add_adv_search_clauses, :add_facets_for_advanced_search_form,
         :add_additional_filters
       ]
     end
@@ -95,6 +95,13 @@ module Blacklight::Solr
     def add_adv_search_clauses(solr_parameters)
       return if search_state.clause_params.blank?
 
+      # We need to specify lucene as the top-level defType when using JSON Query DSL in Solr versions
+      # between 7.2.0 & 9.4.0. After 9.4.0 this is no longer necessary, but also not harmful to include.
+      solr_parameters[:defType] = 'lucene'
+
+      # Disable spellcheck, which doesn't work when using JSON Query DSL
+      solr_parameters[:spellcheck] = 'false'
+
       defaults = { must: [], must_not: [], should: [] }
       default_op = blacklight_params[:op]&.to_sym || :must
       solr_parameters[:mm] = 1 if default_op == :should && search_state.clause_params.values.any? { |clause| }
@@ -115,6 +122,16 @@ module Blacklight::Solr
       return unless field&.clause_params && clause[:query].present?
 
       [op, field.clause_params.transform_values { |v| v.merge(query: clause[:query]) }]
+    end
+
+    # Merge the advanced search form parameters into the solr parameters
+    # @param [Hash] solr_parameters the current solr parameters
+    # @return [Hash] the solr parameters with the additional advanced search form parameters
+    def add_facets_for_advanced_search_form(solr_parameters)
+      return unless search_state.controller&.action_name == 'advanced_search' &&
+                    blacklight_config.advanced_search[:form_solr_parameters]
+
+      solr_parameters.merge!(blacklight_config.advanced_search[:form_solr_parameters])
     end
 
     ##
@@ -243,7 +260,7 @@ module Blacklight::Solr
 
     # Look up facet limit for given facet_field. Will look at config, and
     # if config is 'true' will look up from Solr @response if available. If
-    # no limit is avaialble, returns nil. Used from #add_facetting_to_solr
+    # no limit is available, returns nil. Used from #add_facetting_to_solr
     # to supply f.fieldname.facet.limit values in solr request (no @response
     # available), and used in display (with @response available) to create
     # a facet paginator with the right limit.
