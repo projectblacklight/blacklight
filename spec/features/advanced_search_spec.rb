@@ -5,25 +5,7 @@ require 'spec_helper'
 RSpec.describe "Blacklight Advanced Search Form" do
   describe "advanced search form" do
     before do
-      CatalogController.blacklight_config.search_fields['all_fields']['clause_params'] = {
-        edismax: {}
-      }
-      CatalogController.blacklight_config.search_fields['author']['clause_params'] = {
-        edismax: { qf: '${author_qf}' }
-      }
-      CatalogController.blacklight_config.search_fields['title']['clause_params'] = {
-        edismax: { qf: '${title_qf}' }
-      }
-      CatalogController.blacklight_config.search_fields['subject']['clause_params'] = {
-        edismax: { qf: '${subject_qf}' }
-      }
-      visit '/catalog/advanced?hypothetical_existing_param=true&q=ignore+this+existing+query'
-    end
-
-    after do
-      %w[all_fields author title subject].each do |field|
-        CatalogController.blacklight_config.search_fields[field].delete(:clause_params)
-      end
+      visit '/catalog/advanced'
     end
 
     it "has field and facet blocks" do
@@ -56,6 +38,16 @@ RSpec.describe "Blacklight Advanced Search Form" do
           expect(page).to have_content 'Language'
         end
       end
+
+      it "omits facets configured with include_in_advanced_search: false" do
+        expect(page).to have_no_css('.blacklight-example_pivot_field')
+      end
+
+      it "lists all the values for an included facet" do
+        within('.blacklight-subject_ssim') do
+          expect(page).to have_css('ul.facet-values li', count: 45)
+        end
+      end
     end
 
     it 'scopes searches to fields' do
@@ -64,6 +56,14 @@ RSpec.describe "Blacklight Advanced Search Form" do
       expect(page).to have_content 'Remove constraint Title: Medicine'
       expect(page).to have_content 'Strong Medicine speaks'
       expect(page).to have_css('article.document', count: 1)
+    end
+
+    it 'does not render spellcheck/did you mean? section' do
+      fill_in 'All Fields', with: 'tibet'
+      click_on 'advanced-search-submit'
+      expect(page).to have_content 'Remove constraint All Fields: tibet'
+      expect(page).to have_css('article.document', count: 2)
+      expect(page).to have_no_css('#spell')
     end
 
     it 'can limit to facets' do
