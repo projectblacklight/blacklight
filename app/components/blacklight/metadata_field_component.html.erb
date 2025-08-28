@@ -2,7 +2,7 @@
   <% component.with_label do %>
     <%= label %>
   <% end %>
-  <% component.with_value do %>
-    <%= render_field %>
+  <% render_field_values.each_with_index do |value, index| %>
+    <% component.with_value(value: value, index: index) %>
   <% end %>
 <% end %>

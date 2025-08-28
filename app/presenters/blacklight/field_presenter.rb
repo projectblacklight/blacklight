@@ -33,9 +33,11 @@ module Blacklight
 
     delegate :key, :component, to: :field_config
 
-    # @return [String]
+    # @return [Array<String>]
     def render
-      Rendering::Pipeline.new(values, field_config, document, view_context, pipeline_steps, options).render
+      Array.wrap(
+        Rendering::Pipeline.new(values, field_config, document, view_context, pipeline_steps, options).render
+      )
     end
 
     # @return [Enumerable]

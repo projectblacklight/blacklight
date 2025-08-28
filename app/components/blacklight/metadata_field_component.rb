@@ -27,7 +27,8 @@ module Blacklight
     end
 
     # Override this method in a subclass to change the way this value is rendered
-    def render_field
+    # @return [Array]
+    def render_field_values
       @field.render
     end
 
