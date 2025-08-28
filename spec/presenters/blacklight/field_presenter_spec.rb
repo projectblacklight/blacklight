@@ -6,6 +6,8 @@ RSpec.describe Blacklight::FieldPresenter, :api do
   let(:request_context) { double('View context', params: { x: '1' }, search_state: search_state, should_render_field?: true, blacklight_config: config) }
   let(:document) do
     SolrDocument.new(id: 1,
+                     'join_true' => %w[a b c],
+                     'separator_options' => %w[d e f],
                      'link_to_facet_true' => 'x',
                      'link_to_facet_named' => 'x',
                      'qwer' => 'document qwer value',
@@ -30,6 +32,8 @@ RSpec.describe Blacklight::FieldPresenter, :api do
     Blacklight::Configuration.new.configure do |config|
       config.add_index_field 'qwer'
       config.add_index_field 'asdf', helper_method: :render_asdf_index_field
+      config.add_index_field 'join_true', join: true
+      config.add_index_field 'separator_options', separator_options: { words_connector: '<br/>', last_word_connector: '<br/>' }
       config.add_index_field 'link_to_facet_true', link_to_facet: true
       config.add_index_field 'link_to_facet_named', link_to_facet: :some_field
       config.add_index_field 'highlight', highlight: true
@@ -40,6 +44,7 @@ RSpec.describe Blacklight::FieldPresenter, :api do
       config.add_index_field 'alias', field: 'qwer'
       config.add_index_field 'with_default', default: 'value'
       config.add_index_field 'with_steps', steps: [custom_step]
+      config.add_index_field :some_field
       config.add_facet_field :link_to_facet_true
       config.add_facet_field :some_field
     end
@@ -51,25 +56,33 @@ RSpec.describe Blacklight::FieldPresenter, :api do
     context 'when an explicit html value is provided' do
       let(:options) { { value: '<b>val1</b>' } }
 
-      it { is_expected.not_to be_html_safe }
+      it { is_expected.to eq(['<b>val1</b>']) }
+
+      it 'does not mark value as html_safe' do
+        expect(result.first).not_to be_html_safe
+      end
     end
 
     context 'when an explicit array value with unsafe characters is provided' do
       let(:options) { { value: ['<a', 'b'] } }
 
-      it { is_expected.to eq('&lt;a and b').and be_html_safe }
+      it { is_expected.to eq(%w[<a b]) }
+
+      it 'does not mark values as html_safe' do
+        expect(subject.all?(&:html_safe?)).not_to be true
+      end
     end
 
     context 'when an explicit array value is provided' do
       let(:options) { { value: %w[a b c] } }
 
-      it { is_expected.to eq 'a, b, and c' }
+      it { is_expected.to eq %w[a b c] }
     end
 
     context 'when an explicit value is provided' do
       let(:options) { { value: 'asdf' } }
 
-      it { is_expected.to eq 'asdf' }
+      it { is_expected.to eq ['asdf'] }
     end
 
     context 'when field has a helper method' do
@@ -77,7 +90,7 @@ RSpec.describe Blacklight::FieldPresenter, :api do
         allow(request_context).to receive(:render_asdf_index_field).and_return('custom asdf value')
       end
 
-      it { is_expected.to eq 'custom asdf value' }
+      it { is_expected.to eq ['custom asdf value'] }
     end
 
     context 'when field has link_to_facet with true' do
@@ -88,7 +101,7 @@ RSpec.describe Blacklight::FieldPresenter, :api do
 
       let(:field_name) { 'link_to_facet_true' }
 
-      it { is_expected.to eq 'bar' }
+      it { is_expected.to eq ['bar'] }
     end
 
     context 'when field has link_to_facet with a field name' do
@@ -99,7 +112,7 @@ RSpec.describe Blacklight::FieldPresenter, :api do
 
       let(:field_name) { 'link_to_facet_named' }
 
-      it { is_expected.to eq 'bar' }
+      it { is_expected.to eq ['bar'] }
     end
 
     context 'when no highlight field is available' do
@@ -120,14 +133,14 @@ RSpec.describe Blacklight::FieldPresenter, :api do
 
       let(:field_name) { 'highlight' }
 
-      it { is_expected.to eq '<em>highlight</em>' }
+      it { is_expected.to eq ['<em>highlight</em>'] }
     end
 
     context 'when no options are provided' do
       let(:field_name) { 'qwer' }
 
       it "checks the document field value" do
-        expect(subject).to eq 'document qwer value'
+        expect(subject).to eq ['document qwer value']
       end
     end
 
@@ -138,7 +151,7 @@ RSpec.describe Blacklight::FieldPresenter, :api do
 
       let(:field_name) { 'solr_doc_accessor' }
 
-      it { is_expected.to eq '123' }
+      it { is_expected.to eq ['123'] }
     end
 
     context 'when accessor is set to a value' do
@@ -147,7 +160,7 @@ RSpec.describe Blacklight::FieldPresenter, :api do
       it 'calls the accessor with the field_name as the argument' do
         expect(document).to receive(:solr_doc_accessor).with('explicit_accessor').and_return("123")
 
-        expect(subject).to eq '123'
+        expect(subject).to eq ['123']
       end
     end
 
@@ -157,7 +170,7 @@ RSpec.describe Blacklight::FieldPresenter, :api do
       it 'calls the accessors on the return of the preceeding' do
         allow(document).to receive_message_chain(:solr_doc_accessor, some_method: "123")
 
-        expect(subject).to eq '123'
+        expect(subject).to eq ['123']
       end
     end
 
@@ -165,26 +178,26 @@ RSpec.describe Blacklight::FieldPresenter, :api do
       let(:field_name) { 'explicit_values_with_context' }
 
       it 'calls the accessors on the return of the preceeding' do
-        expect(subject).to eq '1'
+        expect(subject).to eq ['1']
       end
     end
 
     context 'when the field is an alias' do
       let(:field_name) { 'alias' }
 
-      it { is_expected.to eq 'document qwer value' }
+      it { is_expected.to eq ['document qwer value'] }
     end
 
     context 'when the field has a default' do
       let(:field_name) { 'with_default' }
 
-      it { is_expected.to eq 'value' }
+      it { is_expected.to eq ['value'] }
     end
 
     context 'with steps' do
       let(:field_name) { 'with_steps' }
 
-      it { is_expected.to eq 'Static step' }
+      it { is_expected.to eq ['Static step'] }
     end
 
     context 'for a field with the helper_method option' do
@@ -200,12 +213,80 @@ RSpec.describe Blacklight::FieldPresenter, :api do
           args.first
         end
 
-        expect(result).to include :document, :field, :value, :config, :a
-        expect(result[:document]).to eq document
-        expect(result[:field]).to eq 'field_with_helper'
-        expect(result[:value]).to eq ['value']
-        expect(result[:config]).to eq field_config
-        expect(result[:a]).to eq 1
+        expect(result).to contain_exactly({ document: document, field: field_name,
+                                            value: ['value'], config: field_config, a: 1 })
+      end
+    end
+
+    context 'when joining a field' do
+      context 'with join config' do
+        let(:field_name) { :join_true }
+
+        it { is_expected.to eq ['a, b, and c'] }
+
+        it 'marks the value as html_safe' do
+          expect(result.first).to be_html_safe
+        end
+      end
+
+      context 'with separator_options' do
+        let(:field_name) { :separator_options }
+
+        it { is_expected.to eq ['d<br/>e<br/>f'] }
+
+        it 'marks the value as html_safe' do
+          expect(result.first).to be_html_safe
+        end
+      end
+
+      context 'with join option' do
+        let(:options) { { join: true } }
+        let(:field_name) { 'some_field' }
+
+        it { is_expected.to eq ['1 and 2'] }
+
+        it 'marks the value as html_safe' do
+          expect(result.first).to be_html_safe
+        end
+      end
+    end
+
+    context 'with a single value' do
+      let(:options) { { join: true, value: 1 } }
+
+      it 'is not joined' do
+        expect(result).to eq [1]
+      end
+    end
+
+    context 'with a single html value' do
+      let(:options) { { join: true, value: '<b>value</b>' } }
+
+      it { is_expected.to eq ['<b>value</b>'] }
+
+      it 'does not mark the value as html_safe' do
+        expect(result.first).not_to be_html_safe
+      end
+    end
+
+    context 'when an array containing unsafe characters provided' do
+      let(:options) { { join: true, value: ['<a', 'b'] } }
+
+      it 'html escapes the unsafe characters' do
+        expect(result).to eq ["&lt;a and b"]
+      end
+
+      it 'marks the value as html_safe' do
+        expect(result.first).to be_html_safe
+      end
+    end
+
+    context 'when outside the html context' do
+      let(:field_name) { :join_true }
+      let(:options) { { format: 'json' } }
+
+      it 'does not join the values' do
+        expect(result).to eq %w[a b c]
       end
     end
   end
