@@ -4,7 +4,7 @@ module Blacklight
   module Rendering
     class Terminator < AbstractStep
       def render
-        values
+        Array.wrap values
       end
     end
   end
