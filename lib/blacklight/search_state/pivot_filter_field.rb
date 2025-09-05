@@ -102,7 +102,7 @@ module Blacklight
             end
             queries.uniq!
           end
-          [(queries - existing)]
+          [queries - existing]
         end
       end
 
