@@ -735,4 +735,130 @@ RSpec.describe Blacklight::Configuration, :api do
       described_class.default_configuration.delete_at(2)
     end
   end
+
+  describe "#copy_search_field_config_to_advanced!" do
+    let(:config) { described_class.new }
+
+    before do
+      config.add_search_field('title',
+                              solr_parameters: {
+                                'spellcheck.dictionary': 'title',
+                                qf: '${title_qf}',
+                                pf: '${title_pf}'
+                              })
+      config.add_search_field('excluded_field',
+                              solr_parameters: { qf: '${excluded_qf}' },
+                              include_in_advanced_search: false)
+      config.add_search_field('already_configured',
+                              solr_parameters: { qf: '${configured_qf}' },
+                              clause_params: { edismax: { existing_custom: 'params' } })
+    end
+
+    it "copies solr_parameters to clause_params for eligible search fields" do
+      config.copy_search_field_config_to_advanced!
+
+      title_field = config.search_fields['title']
+      expect(title_field.clause_params).to be_present
+      expect(title_field.clause_params[:edismax]).to eq({ 'spellcheck.dictionary': 'title', qf: '${title_qf}', pf: '${title_pf}' })
+    end
+
+    it "skips fields with include_in_advanced_search set to false" do
+      config.copy_search_field_config_to_advanced!
+
+      excluded_field = config.search_fields['excluded_field']
+      expect(excluded_field.clause_params).to be_nil
+    end
+
+    it "skips fields that already have a clause_params config" do
+      config.copy_search_field_config_to_advanced!
+
+      already_configured_field = config.search_fields['already_configured']
+      expect(already_configured_field.clause_params).to eq({ edismax: { existing_custom: 'params' } })
+    end
+
+    it "handles fields with nil solr_parameters" do
+      config.add_search_field('no_solr_params')
+
+      expect { config.copy_search_field_config_to_advanced! }.not_to raise_error
+
+      field = config.search_fields['no_solr_params']
+      expect(field.clause_params).to be_present
+      expect(field.clause_params[:edismax]).to eq({})
+    end
+  end
+
+  describe "#copy_facet_field_config_to_advanced!" do
+    let(:config) { described_class.new }
+
+    before do
+      config.add_facet_field('format',
+                             field: 'format')
+      config.add_facet_field('subject_ssim')
+      config.add_facet_field('excluded_facet',
+                             field: 'excluded_field',
+                             include_in_advanced_search: false)
+      config.add_facet_field('query_facet',
+                             query: { 'recent' => { fq: 'pub_date_ssim:[2020 TO *]' } })
+      config.add_facet_field('pivot_facet',
+                             pivot: %w[author_ssim subject_ssim])
+      config.add_facet_field('range_facet',
+                             range: true,
+                             field: 'pub_date_ssim')
+    end
+
+    it "sets default facet.sort to 'count'" do
+      config.copy_facet_field_config_to_advanced!
+
+      expect(config.advanced_search.form_solr_parameters['facet.sort']).to eq 'count'
+    end
+
+    it "adds eligible facet fields to facet.field array" do
+      config.copy_facet_field_config_to_advanced!
+
+      facet_fields = config.advanced_search.form_solr_parameters['facet.field']
+      expect(facet_fields).to eq(%w[format subject_ssim])
+    end
+
+    it "skips fields with include_in_advanced_search set to false" do
+      config.copy_facet_field_config_to_advanced!
+
+      facet_fields = config.advanced_search.form_solr_parameters['facet.field']
+      expect(facet_fields).not_to include('excluded_field')
+    end
+
+    it "skips fields that are query, pivot, or range facets" do
+      config.copy_facet_field_config_to_advanced!
+
+      facet_fields = config.advanced_search.form_solr_parameters['facet.field']
+      expect(facet_fields).not_to include('query_facet', 'pivot_facet', 'range_facet')
+    end
+
+    it "sets facet limit to -1 to show all values for eligible fields" do
+      config.copy_facet_field_config_to_advanced!
+
+      expect(config.advanced_search.form_solr_parameters['f.format.facet.limit']).to eq(-1)
+      expect(config.advanced_search.form_solr_parameters['f.subject_ssim.facet.limit']).to eq(-1)
+    end
+
+    context "preserving existing advanced search config if present" do
+      before do
+        config.advanced_search.form_solr_parameters = {
+          'facet.sort' => 'index',
+          'f.subject_ssim.facet.limit' => 50
+        }
+      end
+
+      it "preserves existing facet.limit configuration if set" do
+        config.copy_facet_field_config_to_advanced!
+
+        expect(config.advanced_search.form_solr_parameters['f.subject_ssim.facet.limit']).to eq(50)
+      end
+
+      it "preserves existing default facet.sort configuration if set" do
+        config.copy_facet_field_config_to_advanced!
+
+        expect(config.advanced_search.form_solr_parameters['facet.sort']).to eq('index')
+      end
+    end
+  end
 end

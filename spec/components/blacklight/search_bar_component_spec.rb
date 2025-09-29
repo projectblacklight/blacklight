@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::SearchBarComponent, type: :component do
-  let(:instance) { described_class.new(url: search_action_url, params: params_for_search) }
+  let(:instance) { described_class.new(url: search_action_url, params: params_for_search, advanced_search_url: '/advanced') }
 
   let(:search_action_url) { '/catalog' }
   let(:params_for_search) { { q: 'testParamValue' } }
@@ -102,6 +102,29 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
 
     it 'sets the rounded border class' do
       expect(render.css('.rounded-0')).to be_present
+    end
+  end
+
+  context 'advanced search link' do
+    subject(:render) { render_inline(instance) }
+
+    context 'when enabled (default)' do
+      it 'renders the advanced search link' do
+        expect(render.css("a.advanced_search.btn.btn-link[href='/advanced']")).to be_present
+        expect(render.css("a.advanced_search").text).to eq('Advanced search')
+      end
+    end
+
+    context 'when disabled via configuration' do
+      let(:blacklight_config) do
+        Blacklight::Configuration.new.configure do |config|
+          config.advanced_search.enabled = false
+        end
+      end
+
+      it 'does not render the advanced search link' do
+        expect(render.css("a.advanced_search")).not_to be_present
+      end
     end
   end
 end
