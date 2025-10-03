@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'view_component'
+require 'view_component/version'
 
 module Blacklight
   class Engine < Rails::Engine
