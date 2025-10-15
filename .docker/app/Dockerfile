@@ -12,6 +12,7 @@ RUN apk add --update --no-cache \
   shared-mime-info \
   sqlite-dev \
   tzdata \
+  yaml-dev \
   yarn
 
 RUN mkdir /app
