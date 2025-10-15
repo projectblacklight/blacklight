@@ -107,7 +107,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
 
   describe "prepopulated advanced search form" do
     before do
-      visit '/catalog/advanced?op=must&clause[1][field]=title&clause[1]query=medicine&f_inclusive[language_ssim][]=Tibetan&sort=author'
+      visit '/catalog/advanced?op=must&clause[1][field]=title&clause[1]query=medicine&f_inclusive[language_ssim][]=Tibetan&f[format][]=Book&sort=author'
     end
 
     it 'prepopulates the expected fields' do
@@ -139,6 +139,19 @@ RSpec.describe "Blacklight Advanced Search Form" do
       click_on 'Start over'
       expect(page).to have_no_field 'Title', with: 'medicine'
       expect(page).to have_no_field 'Tibetan', checked: true
+    end
+
+    it 'creates constraints for fields not included in advanced search form' do
+      within('div.constraints') do
+        expect(page).to have_content('Format:Book')
+      end
+    end
+
+    it 'does not create constraints for fields included in the advanced search form' do
+      within('div.constraints') do
+        expect(page).to have_no_content('Title:medicine')
+        expect(page).to have_no_content('Language:Tibetan')
+      end
     end
   end
 end
