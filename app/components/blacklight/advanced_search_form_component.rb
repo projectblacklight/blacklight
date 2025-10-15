@@ -68,7 +68,8 @@ module Blacklight
     end
 
     def initialize_constraints
-      params = helpers.search_state.params_for_search.except :page, :f_inclusive, :q, :search_field, :op, :index, :sort
+      params = helpers.search_state.params_for_search.except :clause, :page, :f_inclusive, :q, :search_field, :op,
+                                                             :index, :sort
 
       adv_search_context = helpers.search_state.reset(params)
 
