@@ -117,6 +117,12 @@ RSpec.describe "Blacklight Advanced Search Form" do
       expect(page).to have_select 'sort', selected: 'author'
     end
 
+    it 'creates hidden inputs for fields not included in the advanced search form' do
+      within('form.advanced') do
+        expect(page).to have_field 'f[format][]', type: :hidden, with: 'Book'
+      end
+    end
+
     it "does not create hidden inputs for fields included in adv search form" do
       within('form.advanced') do
         expect(page).to have_no_field('clause[1][query]', type: :hidden, with: 'medicine')
