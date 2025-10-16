@@ -9,19 +9,37 @@
   "include": [
     {
       "ruby": "3.4",
-      "rails_version": "8.0.2",
+      "rails_version": "8.1.0.rc1",
+      "additional_engine_cart_rails_options": "--css=bootstrap"
+    },
+    {
+      "ruby": "3.4",
+      "rails_version": "8.1.0.rc1",
+      "additional_engine_cart_rails_options": "--css=bootstrap",
+      "view_component_version": "~> 3.0",
+      "additional_name": "ViewComponent 3"
+    },
+    {
+      "ruby": "3.4",
+      "rails_version": "8.1.0.rc1",
+      "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
+      "additional_name": "| esbuild"
+    },
+    {
+      "ruby": "3.4",
+      "rails_version": "8.0.3",
       "additional_engine_cart_rails_options": "--css=bootstrap",
       "view_component_version": "~> 3.0",
       "additional_name": "ViewComponent 3"
     },
     {
       "ruby": "3.3",
-      "rails_version": "8.0.2",
+      "rails_version": "8.0.3",
       "additional_engine_cart_rails_options": "--css=bootstrap"
     },
     {
       "ruby": "3.3",
-      "rails_version": "8.0.2",
+      "rails_version": "8.0.3",
       "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
       "additional_name": "| esbuild"
     },
