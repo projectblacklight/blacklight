@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'view_component/version'
+
 module Blacklight
   class Component < ViewComponent::Base
     class << self
