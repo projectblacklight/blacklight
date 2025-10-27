@@ -9,19 +9,12 @@
   "include": [
     {
       "ruby": "3.4",
-      "rails_version": "8.1.0.rc1",
+      "rails_version": "8.1.0",
       "additional_engine_cart_rails_options": "--css=bootstrap"
     },
     {
       "ruby": "3.4",
-      "rails_version": "8.1.0.rc1",
-      "additional_engine_cart_rails_options": "--css=bootstrap",
-      "view_component_version": "~> 3.0",
-      "additional_name": "ViewComponent 3"
-    },
-    {
-      "ruby": "3.4",
-      "rails_version": "8.1.0.rc1",
+      "rails_version": "8.1.0",
       "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
       "additional_name": "| esbuild"
     },
