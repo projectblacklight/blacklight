@@ -87,6 +87,12 @@ RSpec.describe Blacklight::Solr::Repository, :api do
       expect(subject.search(params: {})).to be_a Blacklight::Solr::Response
     end
 
+    it "can be called with no args" do
+      blacklight_config.solr_path = 'xyz'
+      allow(subject.connection).to receive(:send_and_receive).with('xyz', anything).and_return(mock_response)
+      expect(subject.search).to be_a Blacklight::Solr::Response
+    end
+
     it "uses the default solr path" do
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
       expect(subject.search(params: {})).to be_a Blacklight::Solr::Response
