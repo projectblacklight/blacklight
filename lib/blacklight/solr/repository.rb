@@ -30,7 +30,7 @@ module Blacklight::Solr
         Blacklight.deprecation.warn("Passing positional arguments to search() is deprecated. Use the params kwarg instead.")
       end
 
-      request_params = (params || pos_params).reverse_merge(kwargs).reverse_merge({ qt: blacklight_config.qt })
+      request_params = (params || pos_params || {}).reverse_merge(kwargs).reverse_merge({ qt: blacklight_config.qt })
 
       send_and_receive(path || default_search_path(request_params), request_params)
     end
