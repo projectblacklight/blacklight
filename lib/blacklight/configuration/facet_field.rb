@@ -16,6 +16,8 @@ module Blacklight
     #   @return [Boolean] whether to show the facet to the user or not (very similar to the more generic if/unless)
     # @!attribute index_range
     #   @return [Enumerable] a list of facet prefixes (default: A-Z) to allow users to 'jump' to particular values
+    # @!attribute suggest
+    #   @return [Boolean] whether to display a suggest/autocomplete on the detailed facet view that allows users to filter facet values
     # @!attribute date
     #   @return [Symbol|Hash] the i18n localization option for a date or time value; used as the second parameter for the I18n.l method
     # @!attribute link_to_facet
