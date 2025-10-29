@@ -58,11 +58,24 @@ RSpec.describe Blacklight::Facets::SuggestComponent, type: :component do
 
   context 'when the facet is not explicitly configured with a suggest key' do
     let(:facet) { Blacklight::Configuration::FacetField.new key: 'language_facet' }
+    let(:presenter) { Blacklight::FacetFieldPresenter.new(facet, nil, vc_test_controller.view_context, nil) }
 
     it 'displays' do
       with_request_url "/catalog/facet/language_facet" do
         rendered = render_inline component
         expect(rendered.css("input.facet-suggest").count).to eq 1
+      end
+    end
+
+    context "with blacklight_config.default_facet_suggest = false" do
+      before do
+        allow(vc_test_controller.view_context.blacklight_config).to receive(:default_facet_suggest).and_return(false)
+      end
+
+      it 'does not display' do
+        with_request_url "/catalog/facet/language_facet" do
+          expect(render_inline(component).to_s).to eq ''
+        end
       end
     end
   end

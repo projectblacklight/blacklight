@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe Blacklight::Facets::FiltersComponent, type: :component do
-  let(:facet_field) { Blacklight::Configuration::FacetField.new key: 'language_facet', suggest: true }
+  let(:facet_field) { Blacklight::Configuration::FacetField.new key: 'language_facet', suggest?: true }
   let(:presenter) do
     instance_double(Blacklight::FacetFieldPresenter, facet_field: facet_field, label: 'Lang',
-                                                     view_context: view_context, suggest: true, key: 'lang')
+                                                     view_context: view_context, suggest?: true, key: 'lang')
   end
   let(:view_context) { vc_test_controller.view_context }
 

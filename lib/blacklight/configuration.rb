@@ -275,6 +275,10 @@ module Blacklight
       # @since v5.10.0
       # @return [Integer]
       property :default_facet_limit, default: 10
+      # @!attribute default_facet_suggest
+      # @since v9.0.0
+      # @return [Boolean]
+      property :default_facet_suggest, default: true
       # @!attribute default_more_limit
       # @since v7.0.0
       # @return [Integer]

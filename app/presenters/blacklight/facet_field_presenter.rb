@@ -4,23 +4,30 @@ module Blacklight
   class FacetFieldPresenter
     attr_reader :facet_field, :display_facet, :view_context, :search_state
 
-    delegate :key, :suggest, to: :facet_field
+    delegate :key, to: :facet_field
     delegate :field_name, to: :display_facet
 
     # @param [Blacklight::Configuration::FacetField] facet_field
     # @param [Blacklight::Solr::Response::Facets::FacetField] display_facet
     # @param [#search_action_path,#facet_field_presenter] view_context
     # @param [Blacklight::SearchState] search_state
-    def initialize(facet_field, display_facet, view_context, search_state = view_context.search_state)
+    def initialize(facet_field, display_facet, view_context, search_state = nil)
       @facet_field = facet_field
       @display_facet = display_facet
       @view_context = view_context
-      @search_state = search_state
+      @search_state = search_state || view_context&.search_state
     end
 
     # @param [Blacklight::Solr::Response::Facets::FacetItem, String] facet_item
     def item_presenter(facet_item)
       facet_field.item_presenter.new(facet_item, facet_field, view_context, key, search_state)
+    end
+
+    # Is facet suggest feature configured on for this facet, or by global default.
+    #
+    # @return [Boolean]
+    def suggest?
+      !!(facet_field.suggest.nil? ? blacklight_config.default_facet_suggest : facet_field.suggest)
     end
 
     def collapsed?

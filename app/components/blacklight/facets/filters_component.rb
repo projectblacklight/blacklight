@@ -21,7 +21,7 @@ module Blacklight::Facets
     delegate :display_facet, to: :presenter
 
     def render?
-      facet.suggest != false || render_index_navigation?
+      presenter.suggest? || render_index_navigation?
     end
 
     def render_index_navigation?
