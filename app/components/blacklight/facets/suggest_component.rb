@@ -11,11 +11,10 @@ module Blacklight
 
       attr_accessor :presenter
 
-      delegate :suggest, :key, :label, to: :presenter
+      delegate :key, :label, to: :presenter
 
       def render?
-        # Draw if suggest is true or not present
-        suggest != false
+        presenter.suggest?
       end
     end
   end
