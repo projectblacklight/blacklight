@@ -9,7 +9,6 @@ module Blacklight::Catalog
   include Blacklight::Configurable
   include Blacklight::SearchContext
   include Blacklight::Searchable
-  include Blacklight::Facetable
 
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
@@ -82,11 +81,11 @@ module Blacklight::Catalog
     raise ActionController::RoutingError, 'Not Found' unless @facet
 
     @response = if params[:query_fragment].present?
-                  facet_search_service.facet_suggest_response(@facet.key, params[:query_fragment])
+                  search_service.facet_suggest_response(@facet.key, params[:query_fragment])
                 else
-                  facet_search_service.facet_field_response(@facet.key)
+                  search_service.facet_field_response(@facet.key)
                 end
-
+    # @display_facet is a Blacklight::Solr::Response::Facets::FacetField
     @display_facet = @response.aggregations[@facet.field]
 
     # @presenter is a Blacklight::FacetFieldPresenter
