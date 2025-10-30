@@ -1,6 +1,6 @@
 {
   "name": "blacklight-frontend",
-  "version": "9.0.0-beta7",
+  "version": "9.0.0-beta8",
   "description": "The frontend code and styles for Blacklight",
   "exports": {
     "./blacklight.esm.js": "./app/assets/javascripts/blacklight/blacklight.esm.js",
