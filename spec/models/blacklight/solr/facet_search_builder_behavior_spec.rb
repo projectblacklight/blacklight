@@ -901,29 +901,20 @@ RSpec.describe Blacklight::Solr::FacetSearchBuilderBehavior, :api do
     end
   end
 
-  # context 'with advanced search clause parameters' do
-  #   before do
-  #     blacklight_config.search_fields.each_value do |v|
-  #       v.clause_params = { edismax: v.solr_parameters.dup }
-  #     end
-  #   end
+  context 'with advanced search clause parameters' do
+    before do
+      blacklight_config.search_fields.each_value do |v|
+        v.clause_params = { edismax: v.solr_parameters.dup }
+      end
+    end
 
-  #   let(:user_params) { { op: 'must', clause: { '0': { field: 'title', query: 'the book' }, '1': { field: 'author', query: 'the person' } } } }
+    let(:user_params) { { op: 'must', clause: { '0': { field: 'title', query: 'the book' }, '1': { field: 'author', query: 'the person' } } } }
 
-  #   it "has proper solr parameters" do
-  #     expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 0, :edismax, :query)).to eq 'the book'
-  #     expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 0, :edismax, :qf)).to eq '${title_qf}'
-  #     expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :query)).to eq 'the person'
-  #     expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :qf)).to eq '${author_qf}'
-  #   end
-  # end
-
-  # describe '#where' do
-  #   let(:user_params) { {} }
-
-  #   it 'adds additional query filters on the search' do
-  #     subject.where(id: [1, 2, 3])
-  #     expect(subject.to_hash).to include q: '{!lucene}id:(1 OR 2 OR 3)'
-  #   end
-  # end
+    it "has proper solr parameters" do
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 0, :edismax, :query)).to eq 'the book'
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 0, :edismax, :qf)).to eq '${title_qf}'
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :query)).to eq 'the person'
+      expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :qf)).to eq '${author_qf}'
+    end
+  end
 end
