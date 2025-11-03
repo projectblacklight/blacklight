@@ -1,16 +1,23 @@
 # frozen_string_literal: true
 
 module Blacklight::Solr
+  # This depends on being imported into a class that extends AbstractSearchBuilder
   module SearchBuilderBehavior
     extend ActiveSupport::Concern
 
     included do
       self.default_processor_chain = [
-        :default_solr_parameters, :add_search_field_default_parameters,
-        :add_query_to_solr, :add_facet_fq_to_solr,
-        :add_facetting_to_solr, :add_solr_fields_to_query, :add_paging_to_solr,
-        :add_sorting_to_solr, :add_group_config_to_solr,
-        :add_adv_search_clauses, :add_facets_for_advanced_search_form,
+        :default_solr_parameters,
+        :add_search_field_default_parameters,
+        :add_query_to_solr,
+        :add_facet_fq_to_solr,
+        :add_facetting_to_solr,
+        :add_solr_fields_to_query,
+        :add_paging_to_solr,
+        :add_sorting_to_solr,
+        :add_group_config_to_solr,
+        :add_adv_search_clauses,
+        :add_facets_for_advanced_search_form,
         :add_additional_filters
       ]
     end
