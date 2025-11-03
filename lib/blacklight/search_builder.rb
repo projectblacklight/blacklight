@@ -2,9 +2,81 @@
 
 module Blacklight
   ##
-  # Blacklight's SearchBuilder converts blacklight request parameters into
-  # query parameters appropriate for search index. It does so by evaluating a
-  # chain of processing methods to populate a result hash (see {#to_hash}).
+  # SearchBuilder is the primary search builder for generating main search result queries.
+  # It converts Blacklight request parameters into query parameters appropriate for the
+  # search index by evaluating a chain of processing methods.
+  #
+  # ## When to Use SearchBuilder
+  #
+  # Use SearchBuilder (or extend it) for:
+  # - **Main search results pages** - The primary search interface users see
+  # - **Advanced search** - Complex multi-field search forms
+  #
+  # SearchBuilder handles common search functionality like:
+  # - Query parsing and field searching
+  # - Facet filtering and constraints
+  # - Pagination (rows, start, page)
+  # - Sorting and result ordering
+  # - Field selection for display
+  #
+  # ## Typical Usage Patterns
+  #
+  # Most applications will extend SearchBuilder to add custom query logic:
+  #
+  #   class SearchBuilder < Blacklight::SearchBuilder
+  #     include Blacklight::Solr::SearchBuilderBehavior
+  #
+  #     # Add custom processor to the chain
+  #     self.default_processor_chain += [:add_institution_filter]
+  #
+  #     def add_institution_filter(solr_parameters)
+  #       return unless current_user&.institution
+  #       solr_parameters[:fq] ||= []
+  #       solr_parameters[:fq] << "institution_id:#{current_user.institution.id}"
+  #     end
+  #   end
+  #
+  # ## When NOT to Use SearchBuilder
+  #
+  # Don't use SearchBuilder for:
+  # - **Facet queries** - Use {Blacklight::FacetSearchBuilder} instead
+  # - **Single document retrieval** - Use repository methods directly
+  # - **Specialized admin queries** - Consider extending {AbstractSearchBuilder}
+  #
+  # ## Important: Query Parameter Customizations
+  #
+  # **If your customizations modify Solr's `q` or `fq` parameters, you likely need
+  # to add the same logic to both SearchBuilder AND FacetSearchBuilder.**
+  #
+  # This is because facet queries inherit the same base query context as search results.
+  # For example, if you add an institution filter to search results, users would expect
+  # facet values to also be filtered by that same institution:
+  #
+  #   # Add to BOTH SearchBuilder and FacetSearchBuilder
+  #   def add_institution_filter(solr_parameters)
+  #     return unless current_user&.institution
+  #     solr_parameters[:fq] ||= []
+  #     solr_parameters[:fq] << "institution_id:#{current_user.institution.id}"
+  #   end
+  #
+  # Common parameters that affect both builders:
+  # - Access control filters (`fq`)
+  # - Institution or tenant scoping (`fq`)
+  # - Date range constraints (`fq`)
+  # - Status filtering (published, active, etc.) (`fq`)
+  # - Query modifications that change search scope (`q`)
+  #
+  # ## Processor Chain Methods
+  #
+  # When including `Blacklight::Solr::SearchBuilderBehavior`, you get these processors:
+  # - `default_solr_parameters` - Base configuration defaults
+  # - `add_query_to_solr` - Main user query (q parameter)
+  # - `add_facet_fq_to_solr` - Applied facet filters
+  # - `add_facetting_to_solr` - Facet field configuration
+  # - `add_paging_to_solr` - Pagination (rows, start)
+  # - `add_sorting_to_solr` - Sort parameters
+  # - `add_solr_fields_to_query` - Field lists (fl parameter)
+  #
   class SearchBuilder < AbstractSearchBuilder
     ##
     # Update the :q (query) parameter
