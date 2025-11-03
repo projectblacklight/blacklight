@@ -49,29 +49,6 @@ RSpec.describe Blacklight::SearchBuilder, :api do
     end
   end
 
-  describe "#append" do
-    let(:processor_chain) { [:a, :b, :c] }
-
-    it "provides a new search builder with the processor chain" do
-      builder = subject.append(:d, :e)
-      expect(subject.processor_chain).to eq processor_chain
-      expect(builder.processor_chain).not_to eq subject.processor_chain
-      expect(builder.processor_chain).to contain_exactly(:a, :b, :c, :d, :e)
-    end
-  end
-
-  describe "#except" do
-    let(:processor_chain) { [:a, :b, :c, :d, :e] }
-
-    it "provide a new search builder excepting arguments" do
-      builder = subject.except(:b, :d, :does_not_exist)
-      expect(builder).not_to equal(subject)
-      expect(subject.processor_chain).to eq processor_chain
-      expect(builder.processor_chain).not_to eq subject.processor_chain
-      expect(builder.processor_chain).to contain_exactly(:a, :c, :e)
-    end
-  end
-
   describe "#to_hash" do
     it "updates if data is changed" do
       subject.merge(q: 'xyz')
@@ -244,11 +221,6 @@ RSpec.describe Blacklight::SearchBuilder, :api do
 
     it "is marked as changed when where() changes" do
       subject.where(a: 1)
-      expect(subject.send(:params_changed?)).to be true
-    end
-
-    it "is marked as changed when the processor chain changes" do
-      subject.append(:a)
       expect(subject.send(:params_changed?)).to be true
     end
 
