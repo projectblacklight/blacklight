@@ -22,8 +22,10 @@ module Blacklight
       @search_state.class
     end
 
-    # a solr query method
-    # @yield [search_builder] optional block yields configured SearchBuilder, caller can modify or create new SearchBuilder to be used. Block should return SearchBuilder to be used.
+    # Fetch query results from solr
+    # @yield [search_builder] optional block yields configured SearchBuilder,  caller can modify or create new
+    #                         SearchBuilder to be used. Block should return SearchBuilder to be used.
+    #                         This is used in blacklight_range_limit
     # @return [Blacklight::Solr::Response] the solr response object
     def search_results
       builder = search_builder.with(search_state)

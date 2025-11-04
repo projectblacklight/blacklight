@@ -21,6 +21,7 @@ module Blacklight
 
     ##
     # Append additional processor chain directives
+    # This is used in blacklight_range_limit
     def append(*addl_processor_chain)
       params_will_change!
       builder = self.class.new(processor_chain + addl_processor_chain, scope)
