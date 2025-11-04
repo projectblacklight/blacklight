@@ -1,12 +1,17 @@
-<label class="form-label" for="facet_suggest_<%= key %>">
-  <%= I18n.t('blacklight.search.facets.suggest.label', field_label: label) %>
-</label>
-<%= text_field_tag "facet_suggest_#{key}",
-  nil,
-  class: "facet-suggest form-control mb-3",
-  data: {
-    facet_field: key,
-    facet_search_context: helpers.search_facet_path(id: key)
-  },
-  placeholder: I18n.t('blacklight.search.form.search.placeholder')
-%>
+<div class="input-group">
+  <label class="input-group-text" for="facet_suggest_<%= key %>">
+    <%= I18n.t('blacklight.search.facets.suggest.label', field_label: label.downcase.pluralize) %>
+  </label>
+  <%= search_field_tag "facet_suggest_#{key}",
+    nil,
+    class: "facet-suggest form-control",
+    data: {
+      facet_field: key,
+      facet_search_context: helpers.search_facet_path(id: key)
+    },
+    placeholder: I18n.t('blacklight.search.facets.suggest.placeholder')
+  %>
+  <span class="input-group-text">
+    <%= render Blacklight::Icons::SearchComponent.new %>
+  </span>
+</div>
