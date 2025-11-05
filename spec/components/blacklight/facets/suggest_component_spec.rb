@@ -37,7 +37,7 @@ RSpec.describe Blacklight::Facets::SuggestComponent, type: :component do
     with_request_url "/catalog/facet/language_facet" do
       rendered = render_inline component
       label = rendered.css('label').first
-      expect(label.text.strip).to eq 'Filter Language'
+      expect(label.text.strip).to eq 'Filter languages'
 
       id_in_label_for = label.attribute('for').text
       expect(id_in_label_for).to eq('facet_suggest_language_facet')
