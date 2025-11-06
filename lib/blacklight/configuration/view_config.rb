@@ -8,6 +8,12 @@ class Blacklight::Configuration
     #   @return [Class] document presenter class used by helpers and views
     # @!attribute document_component
     #   @return [Class] component class used to render a document; defaults to Blacklight::DocumentComponent
+    # @!attribute document_header_components
+    #   @return [Array<Class>] component classes that render above the main document section
+    # @!attribute document_section_components
+    #   @return [Array<Symbol, String, Class>] component classes (or slot names) that render the main document section below the title
+    # @!attribute document_footer_components
+    #   @return [Array<Class>] component classes that render below the main document section
     # @!attribute document_title_component
     #   @return [Class] component class used to render a document title
     # @!attribute document_metadata_component
