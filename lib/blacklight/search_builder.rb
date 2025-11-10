@@ -19,6 +19,43 @@ module Blacklight
       self
     end
 
+    ##
+    # Append additional processor chain directives
+    # This is used in blacklight_range_limit
+    def append(*addl_processor_chain)
+      params_will_change!
+      builder = self.class.new(processor_chain + addl_processor_chain, scope)
+                    .with(search_state)
+                    .merge(@merged_params)
+                    .reverse_merge(@reverse_merged_params)
+
+      builder.start = @start if @start
+      builder.rows  = @rows if @rows
+      builder.page  = @page if @page
+      builder.facet = @facet if @facet
+      builder
+    end
+
+    ##
+    # Converse to append, remove processor chain directives,
+    # returning a new builder that's a copy of receiver with
+    # specified change.
+    #
+    # Methods in argument that aren't currently in processor
+    # chain are ignored as no-ops, rather than raising.
+    def except(*except_processor_chain)
+      builder = self.class.new(processor_chain - except_processor_chain, scope)
+                    .with(search_state)
+                    .merge(@merged_params)
+                    .reverse_merge(@reverse_merged_params)
+
+      builder.start = @start if @start
+      builder.rows  = @rows if @rows
+      builder.page  = @page if @page
+      builder.facet = @facet if @facet
+      builder
+    end
+
     def start=(value)
       params_will_change!
       @start = value.to_i
