@@ -205,8 +205,6 @@ main {
 
 .bookmark-toggle {
   --bl-icon-color: var(--bs-primary);
-  /* override for line 21.
-      Creates weird spacing in toolbar when min-width is set to 8rem */
 }
 .no-js .bookmark-toggle input[type=submit] {
   display: inline;
@@ -238,6 +236,10 @@ main {
 }
 .bookmark-toggle .toggle-bookmark .toggle-bookmark-input:checked + span svg.bookmark-unchecked {
   display: none;
+}
+.bookmark-toggle {
+  /* override for line 21.
+      Creates weird spacing in toolbar when min-width is set to 8rem */
 }
 .bookmark-toggle .header-tools .toggle-bookmark-label {
   min-width: 2rem;
@@ -371,12 +373,12 @@ main {
   float: left;
 }
 
+.facet-field-heading a {
+  color: inherit;
+}
 .facet-field-heading {
   /* This prevents the contained stretch link from covering the panel body */
   position: relative;
-}
-.facet-field-heading a {
-  color: inherit;
 }
 
 /* Pivot Facets
