@@ -2,9 +2,53 @@
 
 module Blacklight
   ##
-  # Blacklight's SearchBuilder converts blacklight request parameters into
-  # query parameters appropriate for search index. It does so by evaluating a
-  # chain of processing methods to populate a result hash (see {#to_hash}).
+  # Base class for all Blacklight search builders that converts Blacklight request
+  # parameters into query parameters appropriate for search index. It does so by
+  # evaluating a chain of processing methods to populate a result hash (see {#to_hash}).
+  #
+  # ## When to Use AbstractSearchBuilder
+  #
+  # You typically **should not use AbstractSearchBuilder directly**. Instead, use one of its subclasses:
+  # - {Blacklight::SearchBuilder} for main search results
+  # - {Blacklight::FacetSearchBuilder} for facet queries (e.g., "more facets" functionality)
+  #
+  # ## Creating Custom Search Builders
+  #
+  # You may extend AbstractSearchBuilder when creating specialized search builders that don't
+  # fit the standard search results or facet patterns. Common use cases include:
+  # - Building queries for specialized indexes or collections
+  # - Creating search builders for administrative interfaces
+  # - Implementing custom search workflows that require different processor chains
+  #
+  # ## Processor Chain Pattern
+  #
+  # All search builders use a "processor chain" pattern where methods are called in sequence
+  # to build up the final query parameters. Each method in the chain receives a hash of
+  # Solr parameters and can modify it:
+  #
+  #   class CustomSearchBuilder < AbstractSearchBuilder
+  #     self.default_processor_chain = [:add_defaults, :add_custom_logic]
+  #
+  #     def add_defaults(solr_parameters)
+  #       solr_parameters[:rows] = 20
+  #     end
+  #
+  #     def add_custom_logic(solr_parameters)
+  #       solr_parameters[:fq] ||= []
+  #       solr_parameters[:fq] << 'status:active'
+  #     end
+  #   end
+  #
+  # Methods can be added to the processor chain by modifying `default_processor_chain`
+  # or by using `append()` and `except()` methods on search builder instances.
+  #
+  # ## Important: Shared Query Logic Pattern
+  #
+  # When customizing search builders that modify core query parameters (`q` or `fq`),
+  # you often need to apply the same logic to both SearchBuilder and FacetSearchBuilder
+  # to ensure consistent behavior between search results and facet values.
+  #
+  #
   class AbstractSearchBuilder
     class_attribute :default_processor_chain
     self.default_processor_chain = []
