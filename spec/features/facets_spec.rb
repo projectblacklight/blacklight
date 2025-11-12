@@ -112,6 +112,15 @@ RSpec.describe "Facets" do
       expect(page).to have_css 'a.facet-select', count: 2
     end
 
+    it 'can show suggestions including a period', :js do
+      visit '/catalog/facet/subject_ssim'
+      fill_in 'facet_suggest_subject_ssim', with: 'iran.'
+
+      expect(page).to have_css '.facet-suggestions'
+      expect(page).to have_link 'Iran. Vizārat-i Kishvar'
+      expect(page).to have_css 'a.facet-select', count: 1
+    end
+
     it 'shows the user facet suggestions that are relevant to their q param', :js do
       visit '/catalog/facet/subject_ssim?q=tibet&search_field=all_fields'
       fill_in 'facet_suggest_subject_ssim', with: 'la'
