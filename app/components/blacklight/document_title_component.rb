@@ -18,7 +18,7 @@ module Blacklight
       @document_component = document_component
       @actions = actions
       @document = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(@presenter.document,
-                                                                        "Don't use the @document instance variable. Instead use @presenter",
+                                                                        "Don't use the @document instance variable. Instead use @presenter.document",
                                                                         ActiveSupport::Deprecation.new)
     end
     # rubocop:enable Metrics/ParameterLists
