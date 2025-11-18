@@ -10,7 +10,7 @@
        attribute (HTML5-style doc-*) that contains the id/primary key
        of the object in question -- used by plugin for a unique value for
        DOM id's.
-  Uses HTML for a checkbox compatible with Bootstrap 4.
+  Uses HTML for a checkbox compatible with Bootstrap.
    new CheckboxSubmit(document.querySelector('form.something')).render()
 */
 export default class CheckboxSubmit {
@@ -36,7 +36,7 @@ export default class CheckboxSubmit {
     }).then((json) => {
       this.labelTarget.removeAttribute('disabled')
       this.checkboxTarget.removeAttribute('disabled')
-      // For accessibility return keyboard focus 
+      // For accessibility return keyboard focus
       // back to the checkbox after form submission
       this.checkboxTarget.focus()
       this.updateStateFor(!this.checked)
