@@ -1,65 +1,51 @@
 {
   "ruby": ["3.4"],
-  "rails_version": ["7.1.5.1", "7.2.2.1"],
+  "rails_version": ["8.1.1"],
   "bootstrap_version": [null],
   "view_component_version": ["~> 4.0"],
   "api": [null],
-  "additional_engine_cart_rails_options": [""],
+  "additional_engine_cart_rails_options": ["--css=bootstrap"],
   "additional_name": [""],
   "include": [
     {
-      "ruby": "3.4",
-      "rails_version": "8.1.0",
-      "additional_engine_cart_rails_options": "--css=bootstrap"
-    },
-    {
-      "ruby": "3.4",
-      "rails_version": "8.1.0",
+      "rails_version": "8.1.1",
       "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
       "additional_name": "| esbuild"
     },
     {
-      "ruby": "3.4",
-      "rails_version": "8.0.3",
+      "rails_version": "8.0.4",
       "additional_engine_cart_rails_options": "--css=bootstrap",
       "view_component_version": "~> 3.0",
       "additional_name": "ViewComponent 3"
     },
     {
       "ruby": "3.3",
-      "rails_version": "8.0.3",
+      "rails_version": "8.0.4",
       "additional_engine_cart_rails_options": "--css=bootstrap"
+      "additional_name": "| Rails 8.0 + Ruby 3.3"
     },
     {
-      "ruby": "3.3",
-      "rails_version": "8.0.3",
+      "ruby": "3.4",
+      "rails_version": "8.0.4",
       "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
       "additional_name": "| esbuild"
     },
     {
       "ruby": "3.2",
-      "rails_version": "7.1.5.1",
+      "rails_version": "8.0.4",
       "solr_version": "8.11.2",
-      "additional_name": "| Solr 8.11.2"
+      "additional_name": "| Solr 8.11.2 and Ruby 3.2"
     },
     {
-      "ruby": "3.3",
-      "rails_version": "7.1.5.1",
-      "additional_name": "| Propshaft",
-      "additional_engine_cart_rails_options": "-a propshaft --css=bootstrap"
-    },
-    {
-      "ruby": "3.3",
-      "rails_version": "7.1.5.1",
+      "rails_version": "8.1.1",
       "api": "true",
       "additional_engine_cart_rails_options": "--api --skip-yarn",
       "additional_name": "| API"
     },
     {
-      "ruby": "3.3",
-      "rails_version": "7.2.2.1",
+      "rails_version": "7.2.3",
       "additional_engine_cart_rails_options": "-a propshaft --css=bootstrap --js=esbuild",
-      "additional_name": "| Propshaft, esbuild"
+      "additional_name": "| Rails 7.2 + Propshaft, esbuild"
     }
   ]
 }
