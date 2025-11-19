@@ -48,8 +48,8 @@ Blacklight assumes a modern browser with support for [Baseline 2023](https://web
 
 ## Dependencies
 
-* [Ruby](https://www.ruby-lang.org/) 3.1+
-* [Ruby on Rails](https://rubyonrails.org/) 6.1+
+* [Ruby](https://www.ruby-lang.org/) 3.2+
+* [Ruby on Rails](https://rubyonrails.org/) 7.2+
 
 Blacklight aims to support the currently [supported versions of Ruby](https://www.ruby-lang.org/en/downloads/branches/) and the [supported versions of Ruby on Rails](https://guides.rubyonrails.org/maintenance_policy.html).  We aim to keep our [test configuration](blob/main/.github/workflows/ruby.yml) up to date with these supported versions.
 
