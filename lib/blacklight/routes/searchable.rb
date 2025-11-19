@@ -18,7 +18,7 @@ module Blacklight
         mapper.get "opensearch"
         mapper.get 'suggest', as: 'suggest_index'
         mapper.get "facet/:id", action: 'facet', as: 'facet'
-        mapper.get "facet_suggest/:id/(:query_fragment)", action: 'facet', as: 'facet_suggest', defaults: { only_values: true }
+        mapper.get "facet_suggest/:id", action: 'facet', as: 'facet_suggest', defaults: { only_values: true }
       end
     end
   end

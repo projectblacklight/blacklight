@@ -16,10 +16,13 @@ const FacetSuggest = async (e) => {
 
     // Drop facet.page so a filtered suggestion list will always start on page 1
     url.searchParams.delete('facet.page');
+    // add our queryFragment for facet filtering
+    url.searchParams.append('query_fragment', queryFragment);
+
     const facetSearchParams = url.searchParams.toString();
     const basePathComponent = url.pathname.split('/')[1];
 
-    const urlToFetch = `/${basePathComponent}/facet_suggest/${facetField}/${queryFragment}?${facetSearchParams}`;
+    const urlToFetch = `/${basePathComponent}/facet_suggest/${facetField}?${facetSearchParams}`;
 
     const response = await fetch(urlToFetch);
     if (response.ok) {

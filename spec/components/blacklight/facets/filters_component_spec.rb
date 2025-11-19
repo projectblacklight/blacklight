@@ -22,7 +22,7 @@ RSpec.describe Blacklight::Facets::FiltersComponent, type: :component do
     let(:component) { described_class.new(presenter: presenter) }
 
     it 'draws default classes' do
-      expect(page).to have_css(".facet-filters.card.card-body.bg-light.p-3.mb-3.border-0")
+      expect(page).to have_css(".facet-filters.mt-1.mb-3")
     end
   end
 

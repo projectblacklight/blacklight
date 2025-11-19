@@ -3,7 +3,7 @@
 module Blacklight::Facets
   class FiltersComponent < Blacklight::Component
     # @param [Blacklight::FacetFieldPresenter] presenter
-    def initialize(presenter:, classes: 'facet-filters card card-body bg-light p-3 mb-3 border-0',
+    def initialize(presenter:, classes: 'facet-filters mt-1 mb-3',
                    suggestions_component: Blacklight::Facets::SuggestComponent,
                    index_navigation_component: Blacklight::Facets::IndexNavigationComponent)
       @presenter = presenter

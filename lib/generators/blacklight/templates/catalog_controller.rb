@@ -12,7 +12,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
   # rescue_from Blacklight::Exceptions::InvalidRequest, with: :my_handling_method
 
   configure_blacklight do |config|
-    ## Specify the style of markup to be generated (may be 4 or 5)
+    ## Specify the style of markup to be generated
     # config.bootstrap_version = 5
     #
     ## Class for sending and receiving requests from a search index
