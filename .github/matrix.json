@@ -8,11 +8,13 @@
   "additional_name": [""],
   "include": [
     {
+      "ruby": "3.4",
       "rails_version": "8.1.1",
       "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
       "additional_name": "| esbuild"
     },
     {
+      "ruby": "3.4",
       "rails_version": "8.0.4",
       "additional_engine_cart_rails_options": "--css=bootstrap",
       "view_component_version": "~> 3.0",
@@ -21,7 +23,7 @@
     {
       "ruby": "3.3",
       "rails_version": "8.0.4",
-      "additional_engine_cart_rails_options": "--css=bootstrap"
+      "additional_engine_cart_rails_options": "--css=bootstrap",
       "additional_name": "| Rails 8.0 + Ruby 3.3"
     },
     {
@@ -37,12 +39,14 @@
       "additional_name": "| Solr 8.11.2 and Ruby 3.2"
     },
     {
+      "ruby": "3.4",
       "rails_version": "8.1.1",
       "api": "true",
       "additional_engine_cart_rails_options": "--api --skip-yarn",
       "additional_name": "| API"
     },
     {
+      "ruby": "3.4",
       "rails_version": "7.2.3",
       "additional_engine_cart_rails_options": "-a propshaft --css=bootstrap --js=esbuild",
       "additional_name": "| Rails 7.2 + Propshaft, esbuild"
