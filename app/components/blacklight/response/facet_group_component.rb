@@ -31,7 +31,6 @@ module Blacklight
       end
 
       def render?
-        # debugger
         body.present?
       end
     end

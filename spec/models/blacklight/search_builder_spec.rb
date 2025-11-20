@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::SearchBuilder, :api do
+RSpec.describe SearchBuilder, :api do
   subject(:builder) { described_class.new processor_chain, scope }
 
   let(:processor_chain) { [] }
@@ -8,7 +8,7 @@ RSpec.describe Blacklight::SearchBuilder, :api do
   let(:scope) { double blacklight_config: blacklight_config, search_state_class: nil }
 
   context "with default processor chain" do
-    subject { described_class.new scope }
+    subject { Blacklight::SearchBuilder.new scope }
 
     it "uses the class-level default_processor_chain" do
       expect(subject.processor_chain).to eq []
@@ -19,7 +19,7 @@ RSpec.describe Blacklight::SearchBuilder, :api do
     let(:state_class) { Class.new(Blacklight::SearchState) }
     let(:scope) { double blacklight_config: blacklight_config, search_state_class: state_class }
 
-    it "uses the class-level default_processor_chain" do
+    it "uses the search_state_class in the scope" do
       expect(subject.search_state).to be_a state_class
     end
   end

@@ -13,14 +13,7 @@ module Blacklight
     desc <<-EOS
     This generator makes the following changes to your application:
      1. Creates several database migrations if they do not exist in /db/migrate
-     2. Creates config/blacklight.yml with a default configuration
     EOS
-
-    # Copy all files in templates/config directory to host config
-    def create_configuration_files
-      copy_file "config/blacklight.yml", "config/blacklight.yml"
-      gsub_file 'config/blacklight.yml', '__VERSION__', Blacklight::VERSION
-    end
 
     # Setup the database migrations
     def copy_migrations
