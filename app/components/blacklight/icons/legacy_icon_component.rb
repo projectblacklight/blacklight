@@ -18,7 +18,7 @@ module Blacklight
 
       def svg
         Rails.cache.fetch([:blacklight_icon_svg, @name]) do
-          @icon.svg if @icon.present?
+          @icon.presence&.svg
         end
       end
 
