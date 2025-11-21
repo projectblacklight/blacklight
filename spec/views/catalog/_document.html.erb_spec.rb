@@ -16,7 +16,7 @@ RSpec.describe "catalog/_document" do
     stub_template "catalog/_a_default.html.erb" => "a_partial"
     stub_template "catalog/_b_default.html.erb" => "b_partial"
     stub_template "catalog/_c_default.html.erb" => "c_partial"
-    render partial: "catalog/document", locals: { document: document, document_counter: 1, view_config: blacklight_config.index }
+    render partial: "catalog/document", locals: { document: document, document_counter: 1, view_config: blacklight_config.view_config(:index) }
     expect(rendered).to match /a_partial/
     expect(rendered).to match /b_partial/
     expect(rendered).to match /c_partial/
@@ -38,7 +38,7 @@ RSpec.describe "catalog/_document" do
     end
 
     it 'renders the document component' do
-      render partial: "catalog/document", locals: { document: document, document_counter: 1, view_config: blacklight_config.index }
+      render partial: "catalog/document", locals: { document: document, document_counter: 1, view_config: blacklight_config.view_config(:index) }
       expect(rendered).to match /blah/
     end
   end
