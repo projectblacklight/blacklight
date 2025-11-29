@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'GET /catalog/suggest' do
+RSpec.describe 'GET /catalog/suggest', :solr do
   it 'returns suggestions' do
     get '/catalog/suggest?q=new'
     expect(response.body).to eq <<-RESULT

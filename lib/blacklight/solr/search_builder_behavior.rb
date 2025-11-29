@@ -24,6 +24,33 @@ module Blacklight::Solr
       ]
     end
 
+    def limit_to_specific_records(solr_parameters, document_ids)
+      solr_parameters[:fq] ||= []
+      solr_parameters[:fq] += ["{!terms f=id}#{document_ids.join(',')}"]
+    end
+
+    ##
+    # Pagination parameters for selecting the previous and next documents
+    # out of a result set.
+    def previous_and_next_document_params(index, window = 1)
+      solr_params = blacklight_config.document_pagination_params.dup
+
+      if solr_params.empty?
+        solr_params[:fl] = blacklight_config.document_model.unique_key
+      end
+
+      if index > 0
+        solr_params[:start] = index - window # get one before
+        solr_params[:rows] = (2 * window) + 1 # and one after
+      else
+        solr_params[:start] = 0 # there is no previous doc
+        solr_params[:rows] = 2 * window # but there should be one after
+      end
+
+      solr_params[:facet] = false
+      solr_params
+    end
+
     ####
     # Start with general defaults from BL config. Need to use custom
     # merge to dup values, to avoid later mutating the original by mistake.
@@ -367,12 +394,6 @@ module Blacklight::Solr
       end
     end
 
-    def search_state
-      return super if defined?(super)
-
-      @search_state ||= Blacklight::SearchState.new(blacklight_params, blacklight_config)
-    end
-
     def add_search_field_query_builder_params(solr_parameters)
       q, additional_parameters = search_field.query_builder.call(self, search_field, solr_parameters)
 
@@ -391,6 +412,10 @@ module Blacklight::Solr
       # our local params, otherwise it'll try and spellcheck the local
       # params!
       solr_parameters["spellcheck.q"] ||= search_state.query_param
+    end
+
+    def request
+      Blacklight::Solr::Request.new
     end
   end
 end
