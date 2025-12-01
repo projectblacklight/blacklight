@@ -8,6 +8,12 @@
   "additional_name": [""],
   "include": [
     {
+      "ruby": "4.0",
+      "rails_version": "8.1.1",
+      "additional_engine_cart_rails_options": "--css=bootstrap",
+      "additional_name": "| Ruby 4"
+    },
+    {
       "ruby": "3.4",
       "rails_version": "8.1.1",
       "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
