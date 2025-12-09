@@ -83,10 +83,3 @@ Summary of technical steps:
   1. Build derivative products included in release with `bundle exec rake build:npm`
   1. Publish with `npm publish`.
 
-
-
-## Using the javascript
-Blacklight ships with Javascript that can be compiled either by Webpacker or by
-Sprockets. To use Webpacker see the directions at https://github.com/projectblacklight/blacklight/wiki/Using-Webpacker-to-compile-javascript-assets
-
-If you prefer to use Sprockets, simply run the install generator, which will run the assets generator. For details see https://github.com/projectblacklight/blacklight/wiki/Using-Sprockets-to-compile-javascript-assets
