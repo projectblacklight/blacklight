@@ -56,7 +56,7 @@ module Blacklight::Controller
   end
 
   # This must be on every controller that uses the layout, because it is used in
-  # the header to draw Blacklight::SearchNavbarComponent (via the shared/header_navbar template)
+  # the header to draw Blacklight::SearchNavbarComponent
   # @return [Blacklight::SearchState] a memoized instance of the parameter state.
   def search_state
     @search_state ||= search_state_class.new(params, blacklight_config, self)
