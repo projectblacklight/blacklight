@@ -187,7 +187,7 @@
   <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
 
   <requestDispatcher handleSelect="true" >
-    <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048" />
+    <requestParsers multipartUploadLimitInKB="2048" />
   </requestDispatcher>
 
   <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
