@@ -86,8 +86,12 @@ module Blacklight
       super
 
       if single && tag.blank? && ex.blank?
-        self.tag = "#{key}_single"
-        self.ex = "#{key}_single"
+        if Blacklight.solr?
+          self.tag = "#{key}_single"
+          self.ex = "#{key}_single"
+        else
+          Blacklight.logger.warn "the `single' property on the facet configuration (for #{key}) is not yet supported for elasticsearch"
+        end
       end
 
       self

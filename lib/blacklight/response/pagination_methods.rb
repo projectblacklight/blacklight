@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Blacklight::Solr::Response::PaginationMethods
+module Blacklight::Response::PaginationMethods
   include Kaminari::PageScopeMethods
   include Kaminari::ConfigurationMethods::ClassMethods
 

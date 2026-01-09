@@ -138,10 +138,17 @@ class <%= controller_name.classify %>Controller < ApplicationController
                            collapsing: true,
                            include_in_advanced_search: false
 
+    gte = ->(date) {
+      if Blacklight.repository_class == Blacklight::Solr::Repository
+        "pub_date_ssim:[#{date} TO *]"
+      else
+        { 'range' => { 'pub_date_ssim' => { 'gte' => date } } }
+      end
+    }
     config.add_facet_field 'example_query_facet_field', label: 'Publish Date', :query => {
-       :years_5 => { label: 'within 5 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 5 } TO *]" },
-       :years_10 => { label: 'within 10 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 10 } TO *]" },
-       :years_25 => { label: 'within 25 Years', fq: "pub_date_ssim:[#{Time.zone.now.year - 25 } TO *]" }
+       :years_5 => { label: 'within 5 Years', fq: gte.call(Time.zone.now.year - 5) },
+       :years_10 => { label: 'within 10 Years', fq: gte.call(Time.zone.now.year - 10) },
+       :years_25 => { label: 'within 25 Years', fq: gte.call(Time.zone.now.year - 25) }
     }
 
 

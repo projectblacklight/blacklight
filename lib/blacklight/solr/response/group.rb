@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Blacklight::Solr::Response::Group
-  include Blacklight::Solr::Response::PaginationMethods
+  include Blacklight::Response::PaginationMethods
 
   attr_reader :key, :group, :response
 

@@ -34,7 +34,6 @@ module Blacklight
 
       builder = yield(builder) if block_given?
       response = repository.search(params: builder)
-
       if response.grouped? && grouped_key_for_results
         response.group(grouped_key_for_results)
       elsif response.grouped? && response.grouped.length == 1
@@ -74,7 +73,9 @@ module Blacklight
     def previous_and_next_documents_for_search(index, request_params, extra_controller_params = {})
       p = previous_and_next_document_params(index)
       new_state = request_params.is_a?(Blacklight::SearchState) ? request_params : Blacklight::SearchState.new(request_params, blacklight_config)
-      query = search_builder.with(new_state).start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
+      builder = search_builder.with(new_state)
+      builder.processor_chain.delete(:add_aggregation)
+      query = builder.start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
       response = repository.search(params: query)
       document_list = response.documents
 
@@ -120,27 +121,7 @@ module Blacklight
       solr_params
     end
 
-    ##
-    # Pagination parameters for selecting the previous and next documents
-    # out of a result set.
-    def previous_and_next_document_params(index, window = 1)
-      solr_params = blacklight_config.document_pagination_params.dup
-
-      if solr_params.empty?
-        solr_params[:fl] = blacklight_config.document_model.unique_key
-      end
-
-      if index > 0
-        solr_params[:start] = index - window # get one before
-        solr_params[:rows] = (2 * window) + 1 # and one after
-      else
-        solr_params[:start] = 0 # there is no previous doc
-        solr_params[:rows] = 2 * window # but there should be one after
-      end
-
-      solr_params[:facet] = false
-      solr_params
-    end
+    delegate :previous_and_next_document_params, to: :search_builder
 
     ##
     # Retrieve a set of documents by id
@@ -148,7 +129,6 @@ module Blacklight
     # @param [HashWithIndifferentAccess] extra_controller_params
     def fetch_many(ids, extra_controller_params)
       extra_controller_params ||= {}
-
       query = search_builder
               .with(search_state)
               .where(blacklight_config.document_model.unique_key => ids)

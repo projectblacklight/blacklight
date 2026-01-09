@@ -14,7 +14,7 @@ RSpec.describe Blacklight::SearchService, :api do
   let(:context) { { whatever: :value } }
   let(:search_state) { Blacklight::SearchState.new(user_params, blacklight_config) }
   let(:service) { described_class.new(config: blacklight_config, search_state: search_state, **context) }
-  let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
+  let(:repository) {  Blacklight.repository_class.new(blacklight_config) }
   let(:user_params) { {} }
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
@@ -62,7 +62,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    describe "for a query returning a grouped response" do
+    describe "for a query returning a grouped response", :solr do
       let(:user_params) { { q: all_docs_query } }
 
       before do
@@ -75,7 +75,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    describe "for a query returning multiple groups", :integration do
+    describe "for a query returning multiple groups", :integration, :solr do
       let(:user_params) { { q: all_docs_query } }
 
       before do
@@ -179,7 +179,7 @@ RSpec.describe Blacklight::SearchService, :api do
   describe 'Paging', :integration do
     let(:user_params) { { q: all_docs_query } }
 
-    it 'starts with first results by default' do
+    it 'starts with first results by default', :solr do
       (solr_response,) = service.search_results
       expect(solr_response.params[:start].to_i).to eq 0
     end
@@ -309,7 +309,7 @@ RSpec.describe Blacklight::SearchService, :api do
   end
 
   # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
-  describe "Searches should return spelling suggestions", :integration do
+  describe "Searches should return spelling suggestions", :integration, :solr do
     context "for just-poor-enough-query term" do
       let(:user_params) { { q: 'boo' } }
 
@@ -380,7 +380,6 @@ RSpec.describe Blacklight::SearchService, :api do
 
     it "returns the previous and next documents for a search" do
       _response, docs = service.previous_and_next_documents_for_search(4, q: '')
-
       expect(docs.first.id).to eq @full_response.documents[3].id
       expect(docs.last.id).to eq @full_response.documents[5].id
     end
@@ -410,11 +409,18 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     it 'allows the query parameters to be customized using configuration' do
-      blacklight_config.document_pagination_params[:fl] = 'id,format'
+      if defined?(RSolr)
+        blacklight_config.document_pagination_params[:fl] = 'id,format'
 
-      _response, docs = service.previous_and_next_documents_for_search(0, q: '')
+        _response, docs = service.previous_and_next_documents_for_search(0, q: '')
 
-      expect(docs.last.to_h).to eq @full_response.documents[1].to_h.slice('id', 'format')
+        expect(docs.last.to_h).to eq @full_response.documents[1].to_h.slice('id', 'format')
+      else
+        blacklight_config.document_pagination_params = { fields: %w[id format], _source: false }
+
+        _response, docs = service.previous_and_next_documents_for_search(0, q: '')
+        expect(docs.last.to_h).to eq @full_response.documents[1].to_h.slice('id', 'format')
+      end
     end
   end
 

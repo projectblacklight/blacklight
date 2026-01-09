@@ -8,11 +8,18 @@ module Blacklight
 
     desc <<-EOF
       This generator makes the following changes to your application:
-       1. Installs solr_wrapper into your application
-       2. Copies default blacklight solr config directory into your application
-       3. Copies default .solr_wrapper into your application
-       4. Adds rsolr to your Gemfile
+       1. Creates config/blacklight.yml
+       2. Installs solr_wrapper into your application
+       3. Copies default blacklight solr config directory into your application
+       4. Copies default .solr_wrapper into your application
+       5. Adds rsolr to your Gemfile
     EOF
+
+    # Copy all files in templates/config directory to host config
+    def create_configuration_file
+      copy_file "config/blacklight_solr.yml", "config/blacklight.yml"
+      gsub_file 'config/blacklight.yml', '__VERSION__', Blacklight::VERSION
+    end
 
     def install_solrwrapper
       gem_group :development, :test do
@@ -23,6 +30,7 @@ module Blacklight
     end
 
     def copy_solr_conf
+      raise "XXXXXX"
       directory 'solr'
     end
 
