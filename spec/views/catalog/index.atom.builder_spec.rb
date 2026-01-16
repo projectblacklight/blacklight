@@ -15,7 +15,7 @@ RSpec.describe "catalog/index" do
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
   let(:search_builder) { Blacklight::SearchBuilder.new(view) }
-  let(:response) { Blacklight::Solr::Response.new({ response: { numFound: 30 } }, search_builder) }
+  let(:response) { blacklight_config.response_model.new({ response: { numFound: 30 } }, search_builder) }
 
   before do
     allow(view).to receive_messages(action_name: 'index', blacklight_config: blacklight_config)

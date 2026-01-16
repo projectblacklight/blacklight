@@ -25,14 +25,15 @@ def with_solr(&block)
   if ENV['SOLR_ENV'] == 'docker-compose'
     yield
   elsif system('docker compose version')
+    container = ENV['BLACKLIGHT_REPOSITORY'].presence || 'solr'
     # We're not running `docker compose up' but still want to use a docker instance of solr.
     begin
-      puts "Starting Solr"
-      system_with_error_handling "docker compose up -d solr"
+      puts "Starting #{container}"
+      system_with_error_handling "docker compose up -d #{container}"
       yield
     ensure
-      puts "Stopping Solr"
-      system_with_error_handling "docker compose stop solr"
+      puts "Stopping #{container}"
+      system_with_error_handling "docker compose stop #{container}"
     end
   else
     SolrWrapper.wrap do |solr|

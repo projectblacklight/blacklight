@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'generators/blacklight/solr_generator'
 
-RSpec.describe Blacklight::SolrGenerator do
+RSpec.describe Blacklight::SolrGenerator, :solr do
   let(:destination) { Dir.mktmpdir }
 
   describe "#solr_wrapper_config" do

@@ -1,0 +1,13 @@
+load_defaults: __VERSION__
+development:
+  adapter: elasticsearch
+  index: blacklight
+  url: http://127.0.0.1:9200
+test: &test
+  adapter: elasticsearch
+  index: blacklight
+  url: http://127.0.0.1:9200
+production:
+  adapter: elasticsearch
+  index: blacklight
+  url: http://127.0.0.1:9200

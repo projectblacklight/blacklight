@@ -35,6 +35,7 @@ jobs:
       VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
       BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
       BLACKLIGHT_API_TEST: ${{ matrix.api }}
+      BLACKLIGHT_REPOSITORY: ${{ matrix.repository }}
       ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-kamal --skip-solid --skip-coffee --skip-test ${{ matrix.additional_engine_cart_rails_options }}"
       BUNDLER_VERSION: ${{ matrix.bundler_version || '2.7.2' }}
     steps:
