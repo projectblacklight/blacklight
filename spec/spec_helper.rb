@@ -59,12 +59,7 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  if defined? Devise::Test::ControllerHelpers
-    config.include Devise::Test::ControllerHelpers, type: :controller
-  else
-    config.include Devise::TestHelpers, type: :controller
-    config.include Devise::TestHelpers, type: :i18n
-  end
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   config.infer_spec_type_from_file_location!
   config.include PresenterTestHelpers, type: :presenter
