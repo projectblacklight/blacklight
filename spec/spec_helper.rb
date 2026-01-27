@@ -48,11 +48,7 @@ RSpec.configure do |config|
   # When we're testing the API, only run the api tests
   config.filter_run api: true if ENV['BLACKLIGHT_API_TEST'].present?
 
-  if Rails.version.to_f >= 7.1
-    config.fixture_paths = [Rails.root.join("spec/fixtures")]
-  else
-    config.fixture_path = Rails.root.join("spec/fixtures")
-  end
+  config.fixture_paths = [Rails.root.join("spec/fixtures")]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
