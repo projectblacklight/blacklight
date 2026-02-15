@@ -62,6 +62,7 @@ const Modal = (() => {
   // Trigger selectors identify forms or hyperlinks that should open
   // inside a modal dialog.
   modal.triggerLinkSelector  = 'a[data-blacklight-modal~=trigger]';
+  modal.triggerformSelector  = 'form[data-blacklight-modal~=trigger]';
 
   // preserve selectors identify forms or hyperlinks that, if activated already
   // inside a modal dialog, should have destinations remain inside the modal -- but
@@ -71,6 +72,7 @@ const Modal = (() => {
   // be preserved. MUST be manually prefixed with the modal selector,
   // so they only apply to things inside a modal.
   modal.preserveLinkSelector = modal.modalSelector + ' a[data-blacklight-modal~=preserve]';
+  modal.preserveFormSelector = modal.modalSelector + ' form[data-blacklight-modal~=preserve]';
 
   modal.containerSelector    = '[data-blacklight-modal~=container]';
 
@@ -145,6 +147,35 @@ const Modal = (() => {
       .catch(error => modal.onFailure(error))
   };
 
+  modal.modalAjaxFormSubmit = function(e) {
+    e.preventDefault();
+
+    const closest = e.target.closest(`${modal.triggerFormSelector}, ${modal.preserveFormSelector}`);
+
+    const method = (closest.getAttribute("method") || "GET").toUpperCase();
+    const formData = new FormData(closest);
+    const formAction = closest.getAttribute('action');
+
+    const href = (method == "GET") ? `${ formAction }?${ new URLSearchParams(formData).toString() }` : formAction;
+    const fetchArgs = {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    }
+    if (method != "GET") {
+      fetchArgs.body = formData;
+      fetchArgs.method = method;
+    }
+
+    fetch(href, fetchArgs)
+      .then(response => {
+         if (!response.ok) {
+           throw new TypeError("Request failed");
+         }
+         return response.text();
+       })
+      .then(data => modal.receiveAjax(data))
+      .catch(error => modal.onFailure(error));
+  }
+
   modal.setupModal = function() {
     // Register several click handlers in ONE event handler for efficiency
     //
@@ -154,8 +185,16 @@ const Modal = (() => {
     document.addEventListener('click', (e) => {
       if (e.target.closest(`${modal.triggerLinkSelector}, ${modal.preserveLinkSelector}`))
         modal.modalAjaxLinkClick(e)
-      else if (e.target.matches(`${modal.modalSelector}`) || e.target.closest('[data-bl-dismiss="modal"]'))
+      else if (e.target.matches(`${modal.modalSelector}`) || e.target.closest('[data-bl-dismiss="modal"]')) {
+        e.preventDefault()
         modal.hide()
+      }
+    })
+
+    document.addEventListener('submit', (e) => {
+      if (e.target.closest(`${modal.triggerFormSelector}, ${modal.preserveFormSelector}`)) {
+        modal.modalAjaxFormSubmit(e)
+      }
     })
 
     // Make sure user-agent dismissal of html 'dialog', etc `esc` key, triggers
