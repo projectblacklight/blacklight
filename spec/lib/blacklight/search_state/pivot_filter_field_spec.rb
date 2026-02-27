@@ -73,7 +73,7 @@ RSpec.describe Blacklight::SearchState::PivotFilterField do
       new_state = filter.remove(value_class.new(fq: { some_other_field: '3' }, value: '1'))
 
       expect(new_state.params[:f]).not_to include :some_other_field
-      expect(new_state.filter('pivot_field').values&.map(&:fq)).to eql([some_other_field: nil])
+      expect(new_state.filter('pivot_field').values&.map(&:fq)).to eql([{ some_other_field: nil }])
     end
 
     it 'removes the filter parameter entirely if there are no filters left' do

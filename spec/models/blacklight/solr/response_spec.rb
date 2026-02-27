@@ -256,6 +256,19 @@ RSpec.describe Blacklight::Solr::Response, :api do
     end
   end
 
+  context 'with invalid encoding' do
+    let(:raw_response) do
+      { 'response' => { 'numFound' => 1, 'start' => 0, 'docs' => [
+        { 'id' => '123', 'title' => '大五碼'.dup.force_encoding(Encoding::Big5) }
+      ] } }
+    end
+
+    it 'correctly encodes as UTF-8' do
+      expect(r.docs[0]['title']).to eq '大五碼'
+      expect(r.docs[0]['title'].encoding).to eq Encoding::UTF_8
+    end
+  end
+
   context 'with no results' do
     let(:raw_response) { {} }
     let(:request_params) { {} }
