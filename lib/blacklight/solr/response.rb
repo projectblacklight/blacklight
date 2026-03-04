@@ -18,7 +18,7 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   def initialize(data, request_params, options = {})
     @search_builder = request_params if request_params.is_a?(Blacklight::SearchBuilder)
 
-    super(force_to_utf8(ActiveSupport::HashWithIndifferentAccess.new(data)))
+    super(ActiveSupport::HashWithIndifferentAccess.new(data))
     @request_params = ActiveSupport::HashWithIndifferentAccess.new(request_params)
     self.blacklight_config = options[:blacklight_config]
     self.options = options
@@ -60,22 +60,5 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
 
   def export_formats
     documents.map { |x| x.export_formats.keys }.flatten.uniq
-  end
-
-  private
-
-  def force_to_utf8(value)
-    case value
-    when Hash
-      value.each { |k, v| value[k] = force_to_utf8(v) }
-    when Array
-      value.each { |v| force_to_utf8(v) }
-    when String
-      if value.encoding != Encoding::UTF_8
-        Blacklight.logger&.warn "Found a non utf-8 value in Blacklight::Solr::Response. \"#{value}\" Encoding is #{value.encoding}"
-        value.dup.force_encoding('UTF-8')
-      end
-    end
-    value
   end
 end
