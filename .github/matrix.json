@@ -1,6 +1,6 @@
 {
   "ruby": ["3.4"],
-  "rails_version": ["8.1.1"],
+  "rails_version": ["8.1.2"],
   "bootstrap_version": [null],
   "bundler_version": ["2.7.2"],
   "view_component_version": ["~> 4.0"],
@@ -10,13 +10,13 @@
   "include": [
     {
       "ruby": "4.0",
-      "rails_version": "8.1.1",
+      "rails_version": "8.1.2",
       "additional_engine_cart_rails_options": "--css=bootstrap",
       "additional_name": "| Ruby 4"
     },
     {
       "ruby": "3.4",
-      "rails_version": "8.1.1",
+      "rails_version": "8.1.2",
       "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
       "additional_name": "| esbuild"
     },
