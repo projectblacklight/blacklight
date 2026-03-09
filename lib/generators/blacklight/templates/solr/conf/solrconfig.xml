@@ -8,7 +8,7 @@
 
   <luceneMatchVersion>6.1.0</luceneMatchVersion>
 
-  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/>
+  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}" />
 
   <updateHandler class="solr.DirectUpdateHandler2">
     <updateLog>
@@ -98,7 +98,7 @@
     </arr>
   </requestHandler>
 
-  <requestHandler name="permissions" class="solr.SearchHandler" >
+  <requestHandler name="permissions" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="facet">off</str>
       <str name="echoParams">all</str>
@@ -186,7 +186,7 @@
 
   <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
 
-  <requestDispatcher handleSelect="true" >
+  <requestDispatcher handleSelect="true">
     <requestParsers multipartUploadLimitInKB="2048" />
   </requestDispatcher>
 
