@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<schema name="Hydra" version="1.5">
+<schema name="Blacklight-default" version="1.6">
   <!-- NOTE: various comments and unused configuration possibilities have been purged
      from this file.  Please refer to http://wiki.apache.org/solr/SchemaXml,
      as well as the default schema file included with Solr -->
@@ -309,7 +309,7 @@
   <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" />
-    <fieldType name="rand" class="solr.RandomSortField" omitNorms="true" />
+    <fieldType name="rand" class="solr.RandomSortField" />
 
     <!-- Default numeric field types.  -->
     <fieldType name="int" class="solr.IntPointField" docValues="true" />
@@ -364,7 +364,7 @@
     <fieldType name="bbox" class="solr.BBoxField" geo="true" distanceUnits="kilometers" numberType="_bbox_coord" storeSubFields="false" />
     <fieldType name="_bbox_coord" class="solr.DoublePointField" docValues="true" stored="false" />
 
-    <fieldType name="text" class="solr.TextField" omitNorms="false">
+    <fieldType name="text" class="solr.TextField">
       <analyzer>
         <tokenizer class="solr.ICUTokenizerFactory" />
         <filter class="solr.ICUFoldingFilterFactory" />  <!-- NFKC, case folding, diacritics removed -->
@@ -381,7 +381,7 @@
     </fieldType>
 
     <!-- single token analyzed text, for sorting.  Punctuation is significant. -->
-    <fieldtype name="alphaSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+    <fieldtype name="alphaSort" class="solr.TextField" sortMissingLast="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory" />
         <filter class="solr.ICUFoldingFilterFactory" />
