@@ -31,7 +31,7 @@ jobs:
       matrix: ${{fromJson(needs.set_matrix.outputs.matrix)}}
     env:
       RAILS_VERSION: ${{ matrix.rails_version }}
-      SOLR_VERSION: ${{ matrix.solr_version || 'latest' }}
+      SOLR_VERSION: ${{ matrix.solr_version || '9' }}
       VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
       BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
       BLACKLIGHT_API_TEST: ${{ matrix.api }}
