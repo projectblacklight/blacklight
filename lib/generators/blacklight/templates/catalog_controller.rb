@@ -164,6 +164,14 @@ class <%= controller_name.classify %>Controller < ApplicationController
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
+    #   You can configure some components related to the show field:
+    #     - component: should have a similar API to
+    #       Blacklight::MetadataFieldComponent, and describes how
+    #       the values should be displayed
+    #     - layout_component: should have a similar API to
+    #       Blacklight::MetadataFieldLayoutComponent, and describes
+    #       how the overall layout of the field (both label and
+    #       values) should be displayed
     config.add_show_field 'title_tsim', label: 'Title'
     config.add_show_field 'title_vern_ssim', label: 'Title'
     config.add_show_field 'subtitle_tsim', label: 'Subtitle'

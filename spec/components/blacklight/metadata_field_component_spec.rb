@@ -2,6 +2,14 @@
 
 require 'spec_helper'
 
+class CustomLayoutComponent < ViewComponent::Base
+  def initialize(field:); end
+
+  def call
+    'Hello from the custom layout component!'
+  end
+end
+
 RSpec.describe Blacklight::MetadataFieldComponent, type: :component do
   let(:view_context) { vc_test_controller.view_context }
   let(:document) { SolrDocument.new('field' => ['Value']) }
@@ -34,6 +42,24 @@ RSpec.describe Blacklight::MetadataFieldComponent, type: :component do
 
     it 'renders the right field label' do
       expect(page).to have_css 'dt.blacklight-field', text: 'custom label'
+    end
+
+    context 'with a custom layout component specified in the field config' do
+      let(:field_config) { Blacklight::Configuration::Field.new(layout_component: CustomLayoutComponent, key: 'field', field: 'field', label: 'Field label') }
+
+      it 'displays the custom layout component' do
+        expect(page.text).to include 'Hello from the custom layout component!'
+      end
+    end
+  end
+
+  context 'with a custom layout component passed in through args' do
+    before do
+      render_inline(described_class.new(field: field, layout: CustomLayoutComponent))
+    end
+
+    it 'displays the custom layout component' do
+      expect(page.text).to include 'Hello from the custom layout component!'
     end
   end
 end

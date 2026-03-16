@@ -9,7 +9,7 @@ module Blacklight
     # @param show [Boolean] are we showing only a single document (vs a list of search results); used for backwards-compatibility
     def initialize(field:, layout: nil, show: false, view_type: nil)
       @field = field
-      @layout = layout || Blacklight::MetadataFieldLayoutComponent
+      @layout = layout || field.layout_component || Blacklight::MetadataFieldLayoutComponent
       @view_type = view_type
       @show = show
     end
