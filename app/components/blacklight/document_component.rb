@@ -36,7 +36,7 @@ module Blacklight
     renders_one :title, (lambda do |component: nil, **kwargs|
       component ||= view_config.document_title_component
 
-      component&.new(counter: @counter, presenter: @presenter, as: @title_component, actions: !@show, link_to_document: !@show, document_component: self, **kwargs)
+      component&.new(counter: @counter, presenter: @presenter, as: @title_component, link_to_document: !@show, document_component: self, **kwargs)
     end)
 
     renders_one :embed, (lambda do |static_content = nil, component: nil, **kwargs|
@@ -57,6 +57,8 @@ module Blacklight
     # Additional metadata sections
     renders_many :metadata_sections
 
+    renders_one :actions
+
     renders_one :thumbnail, (lambda do |image_options_or_static_content = {}, component: nil, **kwargs|
       next image_options_or_static_content if image_options_or_static_content.is_a? String
 
@@ -68,9 +70,6 @@ module Blacklight
     # A container for partials rendered using the view config partials configuration. Its use is discouraged, but necessary until
     # the ecosystem fully adopts view components.
     renders_many :partials
-
-    # Backwards compatibility
-    renders_one :actions
 
     # rubocop:disable Metrics/ParameterLists
     # @param document [Blacklight::DocumentPresenter]
@@ -127,11 +126,30 @@ module Blacklight
       end
     end
 
+    # Content for the document actions area
+    def actions
+      return [] if hide_actions?
+
+      if block_given?
+        return super
+      end
+
+      if actions?
+        return Array(super)
+      end
+
+      Array(helpers.render_index_doc_actions(presenter.document, wrapping_class: 'index-document-functions col-sm-3 col-lg-2 mb-4 mb-sm-0'))
+    end
+
     private
 
     delegate :view_config, to: :@presenter
 
     attr_reader :document_counter, :counter, :document, :presenter, :view_partials
+
+    def hide_actions?
+      show?
+    end
 
     def show?
       @show
