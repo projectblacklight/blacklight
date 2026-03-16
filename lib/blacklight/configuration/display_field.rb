@@ -35,6 +35,7 @@ module Blacklight
     #   @return [Blacklight::FieldPresenter]
     # @!attribute component
     #   @return [Blacklight::MetadataFieldComponent]
+    # @!attribute layout_component
 
     ##
     # Default rendering pipeline:
