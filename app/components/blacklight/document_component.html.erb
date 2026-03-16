@@ -8,14 +8,20 @@
   itemtype: document.itemtype,
   class: classes.flatten.join(' ') do %>
   <%= header %>
+  <% header_components.each do |component| %>
+    <%= render component.new(presenter: @presenter, counter: @counter, document_counter: @document_counter) %>
+  <% end %>
+
   <% if body.present? %>
     <%= body %>
   <% else %>
     <div class="document-main-section">
       <%= title %>
-      <%= embed %>
-      <%= content %>
-      <%= metadata %>
+
+      <% section_components.each do |section| %>
+        <%= section %>
+      <% end %>
+
       <% metadata_sections.each do |section| %>
         <%= section %>
       <% end %>
@@ -27,5 +33,10 @@
 
     <%= thumbnail %>
   <% end %>
+
+  <% footer_components.each do |component| %>
+    <%= render component.new(presenter: @presenter, counter: @counter, document_counter: @document_counter) %>
+  <% end %>
+
   <%= footer %>
 <% end %>
