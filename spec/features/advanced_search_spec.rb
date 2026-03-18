@@ -103,6 +103,19 @@ RSpec.describe "Blacklight Advanced Search Form" do
       expect(page).to have_content('Pākistānī ʻaurat dorāhe par')
       expect(page).to have_css('article.document', count: 10)
     end
+
+    it 'returns all records when no query is present' do
+      click_on 'advanced-search-submit'
+      expect(page).to have_content('1 - 10 of 30')
+    end
+
+    it 'performs a faceted search when query is present' do
+      within '#facet-language_ssim' do
+        check 'Urdu 3'
+      end
+      click_on 'advanced-search-submit'
+      expect(page).to have_css('article.document', count: 3)
+    end
   end
 
   describe "prepopulated advanced search form" do
