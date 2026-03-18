@@ -102,7 +102,7 @@ module Blacklight::Solr
 
     # Transform "clause" parameters into the Solr JSON Query DSL
     def add_adv_search_clauses(solr_parameters)
-      return if search_state.clause_params.blank?
+      return if search_state.clause_params.blank? || search_state.clause_params.all? { |_k, v| v[:query].blank? }
 
       # We need to specify lucene as the top-level defType when using JSON Query DSL in Solr versions
       # between 7.2.0 & 9.4.0. After 9.4.0 this is no longer necessary, but also not harmful to include.
