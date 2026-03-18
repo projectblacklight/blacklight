@@ -4,9 +4,7 @@
      from this file.  Please refer to http://wiki.apache.org/solr/SolrConfigXml,
      as well as the default solrconfig file included with Solr -->
 
-  <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
-
-  <luceneMatchVersion>6.1.0</luceneMatchVersion>
+  <luceneMatchVersion>9.0.0</luceneMatchVersion>
 
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}" />
 
@@ -16,17 +14,11 @@
     </updateLog>
   </updateHandler>
 
-  <!-- solr lib dirs, which are needed for Solr 8 compatibility but ignored in solr 9.8 and above -->
   <lib dir="${solr.install.dir:../../../..}/modules/analysis-extras/lib" />
-  <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lib" />
-  <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lucene-libs" />
 
   <dataDir>${solr.data.dir:}</dataDir>
 
-  <requestHandler name="search" class="solr.SearchHandler" default="true">
-    <!-- default values for query parameters can be specified, these
-         will be overridden by parameters in the request
-      -->
+  <requestHandler name="/select" class="solr.SearchHandler">
      <lst name="defaults">
        <str name="defType">edismax</str>
        <str name="echoParams">explicit</str>

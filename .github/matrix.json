@@ -42,8 +42,8 @@
     {
       "ruby": "3.2",
       "rails_version": "8.0.4",
-      "solr_version": "8.11.2",
-      "additional_name": "| Solr 8.11.2 and Ruby 3.2"
+      "solr_version": "9",
+      "additional_name": "| Solr 9 and Ruby 3.2"
     },
     {
       "ruby": "3.4",
