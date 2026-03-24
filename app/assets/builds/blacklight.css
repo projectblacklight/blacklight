@@ -95,8 +95,8 @@ main {
   height: 1.1rem;
   width: 1.25rem;
   vertical-align: text-bottom;
-  margin-right: -0.2rem;
-  margin-left: 0.25rem;
+  margin-inline-end: -0.2rem;
+  margin-inline-start: 0.25rem;
   transition: background-color 0.15s ease-in-out;
 }
 .applied-filter .remove {
@@ -358,17 +358,17 @@ main {
   text-indent: var(--bl-facet-label-indent);
 }
 .facet-values .facet-count {
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 .facet-values .facet-checkbox {
   width: 1.25rem;
 }
 
 .facet-extended-list .sort-options {
-  text-align: right;
+  text-align: end;
 }
 .facet-extended-list .prev-next-links {
-  float: left;
+  float: start;
 }
 
 .facet-field-heading {
@@ -389,7 +389,7 @@ main {
   --bl-facet-toggle-hide-icon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-square" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" /><path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" /></svg>');
 }
 .pivot-facet li.treeitem:not(:has(button.facet-toggle-handle)) {
-  margin-left: calc(var(--bl-facet-toggle-width) + var(--bl-facet-toggle-margin));
+  margin-inline-start: calc(var(--bl-facet-toggle-width) + var(--bl-facet-toggle-margin));
 }
 
 .facet-toggle-handle {
@@ -401,7 +401,7 @@ main {
   border: 0;
   width: var(--bl-facet-toggle-width);
   height: var(--bl-facet-toggle-height);
-  margin-right: var(--bl-facet-toggle-margin);
+  margin-inline-end: var(--bl-facet-toggle-margin);
 }
 .facet-toggle-handle.collapsed .show {
   display: flex;

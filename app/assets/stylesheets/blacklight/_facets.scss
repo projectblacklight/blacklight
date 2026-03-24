@@ -124,7 +124,7 @@
   }
 
   .facet-count {
-    margin-left: auto;
+    margin-inline-start: auto;
   }
 
   .facet-checkbox {
@@ -134,11 +134,11 @@
 
 .facet-extended-list {
   .sort-options {
-    text-align: right;
+    text-align: end;
   }
 
   .prev-next-links {
-    float: left;
+    float: start;
   }
 }
 
@@ -164,7 +164,9 @@
   // If the item has no expand button, we align it with its siblings that do
   // by giving it left margin equal to the sum of the button's width & margin
   li.treeitem:not(:has(button.facet-toggle-handle)) {
-    margin-left: calc(var(--bl-facet-toggle-width) + var(--bl-facet-toggle-margin));
+    margin-inline-start: calc(
+      var(--bl-facet-toggle-width) + var(--bl-facet-toggle-margin)
+    );
   }
 }
 
@@ -177,7 +179,7 @@
   border: 0;
   width: var(--bl-facet-toggle-width);
   height: var(--bl-facet-toggle-height);
-  margin-right: var(--bl-facet-toggle-margin);
+  margin-inline-end: var(--bl-facet-toggle-margin);
 
   &.collapsed {
     .show {
@@ -204,12 +206,12 @@
   }
 
   .show .icon {
-    background: transparent escape-svg(var(--bl-facet-toggle-show-icon)) center /
-      var(--bl-facet-toggle-width) auto no-repeat;
+    background: transparent escape-svg(var(--bl-facet-toggle-show-icon))
+      center / var(--bl-facet-toggle-width) auto no-repeat;
   }
 
   .hide .icon {
-    background: transparent escape-svg(var(--bl-facet-toggle-hide-icon)) center /
-      var(--bl-facet-toggle-width) auto no-repeat;
+    background: transparent escape-svg(var(--bl-facet-toggle-hide-icon))
+      center / var(--bl-facet-toggle-width) auto no-repeat;
   }
 }
