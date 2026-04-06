@@ -36,7 +36,11 @@ class <%= controller_name.classify %>Controller < ApplicationController
     ## Optional fine-tuning for advanced search, e.g., set different limits for
     ## different facets.
     # config.advanced_search.form_solr_parameters = {}
-
+    #
+    ## What type of HTTP request to make to solr. Use `:post' to support requests longer than the URI length limit.
+    ## (default is `:get')
+    # config.http_method = :post
+    #
     ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
     config.default_solr_params = {
       rows: 10
