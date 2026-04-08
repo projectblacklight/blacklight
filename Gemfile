@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 # Please see blacklight.gemspec for dependency information.
-gemspec path: File.expand_path('..', __FILE__)
+gemspec path: File.expand_path(__dir__)
 
 group :test do
   gem 'activerecord-jdbcsqlite3-adapter', platform: :jruby
