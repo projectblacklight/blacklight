@@ -46,6 +46,10 @@ class <%= controller_name.classify %>Controller < ApplicationController
       rows: 10
     }
 
+    # If you add any inputs to the search form, you must specify them so that they are not stripped out as unpermitted.
+    # By default this includes the fields required for basic search and advanced search.
+    # config.search_state_fields += [:search_type]
+
     # solr path which will be added to solr base url before the other solr params.
     #config.solr_path = 'select'
     #config.document_solr_path = 'get'
