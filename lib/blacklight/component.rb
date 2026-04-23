@@ -26,11 +26,14 @@ module Blacklight
       private
 
       def app_sidecar_path(path)
-        relative_path = SIDECAR_ROOTS.lazy.filter_map do |root|
-          path.to_s[%r{(?:^|/)(#{Regexp.escape(root)}/.*)\z}, 1]
-        end.first
+        SIDECAR_ROOTS.lazy.filter_map do |root|
+          suffix = path.to_s[%r{(?:^|/)#{Regexp.escape(root)}/(.*)\z}, 1]
+          next unless suffix
 
-        Rails.root.join(relative_path).to_s if relative_path
+          SIDECAR_ROOTS.lazy.map do |candidate_root|
+            Rails.root.join(candidate_root, suffix).to_s
+          end.find { |candidate| File.exist?(candidate) }
+        end.first
       end
     end
   end
