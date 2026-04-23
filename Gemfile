@@ -9,6 +9,10 @@ group :test do
   gem 'activerecord-jdbcsqlite3-adapter', platform: :jruby
 end
 
+group :development do
+  gem 'sassc', require: false
+end
+
 # BEGIN ENGINE_CART BLOCK
 # engine_cart: 2.5.0
 # engine_cart stanza: 2.5.0
