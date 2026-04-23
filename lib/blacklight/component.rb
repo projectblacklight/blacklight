@@ -30,9 +30,12 @@ module Blacklight
           suffix = path.to_s[%r{(?:^|/)#{Regexp.escape(root)}/(.*)\z}, 1]
           next unless suffix
 
-          SIDECAR_ROOTS.lazy.map do |candidate_root|
-            Rails.root.join(candidate_root, suffix).to_s
-          end.find { |candidate| File.exist?(candidate) }
+          SIDECAR_ROOTS.lazy.each do |candidate_root|
+            candidate = Rails.root.join(candidate_root, suffix).to_s
+            return candidate if File.exist?(candidate)
+          end
+
+          nil
         end.first
       end
     end

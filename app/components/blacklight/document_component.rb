@@ -19,7 +19,7 @@ module Blacklight
   #      ... custom code ...
   #    end
   #  end
-  class DocumentComponent < Blacklight::Component
+  class DocumentComponent < Blacklight::Component # rubocop:disable Metrics/ClassLength
     include Blacklight::ContentAreasShim
 
     with_collection_parameter :document
