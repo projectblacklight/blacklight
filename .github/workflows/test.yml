@@ -4,7 +4,7 @@ on:
       ref:
         required: false
         type: string
-        default: ''
+        default: ""
         description: The branch or reference to run the workflow against
 jobs:
   set_matrix:
@@ -43,7 +43,6 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          bundler: "latest"
           ruby-version: ${{ matrix.ruby }}
       - name: Change permissions
         run: "chmod -f -R o-w /opt/hostedtoolcache/Ruby/3.2.5/x64/lib/ruby/gems/3.2.0/gems | :"

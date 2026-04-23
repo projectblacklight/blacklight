@@ -10,10 +10,10 @@ group :test do
 end
 
 # BEGIN ENGINE_CART BLOCK
-# engine_cart: 0.10.0
-# engine_cart stanza: 0.10.0
+# engine_cart: 2.5.0
+# engine_cart stanza: 2.5.0
 # the below comes from engine_cart, a gem used to test this Rails engine gem in the context of a Rails app.
-file = File.expand_path('Gemfile', ENV['ENGINE_CART_DESTINATION'] || ENV['RAILS_ROOT'] || File.expand_path('.internal_test_app', File.dirname(__FILE__)))
+file = File.expand_path('Gemfile', ENV.fetch('ENGINE_CART_DESTINATION') { ENV.fetch('RAILS_ROOT') { File.expand_path('.internal_test_app', File.dirname(__FILE__)) } })
 if File.exist?(file)
   begin
     eval_gemfile file
@@ -23,7 +23,6 @@ if File.exist?(file)
   end
 else
   Bundler.ui.warn "[EngineCart] Unable to find test application dependencies in #{file}, using placeholder dependencies"
-
   if ENV['RAILS_VERSION']
     if ENV['RAILS_VERSION'] == 'edge'
       gem 'rails', github: 'rails/rails'
@@ -32,11 +31,9 @@ else
       gem 'rails', ENV['RAILS_VERSION']
     end
   end
-
-  unless ENV['VIEW_COMPONENT_VERSION'].to_s == ""
-    gem 'view_component', ENV.fetch('VIEW_COMPONENT_VERSION')
-  end
 end
 # END ENGINE_CART BLOCK
 
 eval_gemfile File.expand_path("spec/test_app_templates/Gemfile.extra", File.dirname(__FILE__))
+
+gem "easy_translate", "~> 0.5.1"

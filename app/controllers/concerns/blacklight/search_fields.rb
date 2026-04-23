@@ -40,7 +40,7 @@ module Blacklight::SearchFields
   # if not set in blacklight_config, defaults to first field listed in #search_field_list
   # @deprecated
   def default_search_field
-    blacklight_config.default_search_field || (Deprecation.silence(Blacklight::SearchFields) { search_field_list.first })
+    blacklight_config.default_search_field || Deprecation.silence(Blacklight::SearchFields) { search_field_list.first }
   end
   deprecation_deprecate default_search_field: 'Use Blacklight::Configuration#default_search_field'
 end
