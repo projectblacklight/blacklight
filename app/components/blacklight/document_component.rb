@@ -150,10 +150,10 @@ module Blacklight
     end
 
     def before_render
-      set_slot(:title, nil) unless title
-      set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
-      set_slot(:metadata, nil, component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters, show: @show) unless metadata
-      set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
+      with_title unless title
+      with_thumbnail(component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
+      with_metadata(component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters, show: @show) unless metadata
+      with_embed(component: @embed_component || presenter.view_config&.embed_component) unless embed
 
       # Blacklight 8 allows applications to pass in the partials to render instead of requiring the template to render the slots.
       if partials.empty? && view_partials.present? # rubocop:disable Style/GuardClause
