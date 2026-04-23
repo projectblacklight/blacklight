@@ -45,4 +45,22 @@ RSpec.describe Blacklight::Component, type: :component do
       expect(page).to have_css('.custom-modal')
     end
   end
+
+  context "with overrides in app/views/components" do
+    around do |ex|
+      FileUtils.mkdir_p(Rails.root.join('app/views/components/blacklight/system'))
+      Rails.root.join("app/views/components/blacklight/system/modal_component.html.erb").open("w") do |f|
+        f.puts '<div class="custom-modal-from-views">Overridden</div>'
+      end
+
+      ex.run
+    ensure
+      Rails.root.join('app/views/components/blacklight/system/modal_component.html.erb').unlink
+    end
+
+    it "renders the application template" do
+      render_inline(component_class.new)
+      expect(page).to have_css('.custom-modal-from-views')
+    end
+  end
 end
