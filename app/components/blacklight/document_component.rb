@@ -73,7 +73,13 @@ module Blacklight
       component ||= presenter&.view_config&.thumbnail_component || Blacklight::Document::ThumbnailComponent
       Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !component && @presenter.nil?
 
-      component.new(*args, document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
+      thumbnail_kwargs = { document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs }
+
+      if component.instance_method(:initialize).owner == ViewComponent::Base
+        component.new
+      else
+        component.new(*args, **thumbnail_kwargs)
+      end
     end)
 
     # A container for partials rendered using the view config partials configuration. Its use is discouraged, but necessary until
