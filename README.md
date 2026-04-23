@@ -75,3 +75,12 @@ Blacklight ships with Javascript that can be compiled either by Webpacker or by
 Sprockets. To use Webpacker see the directions at https://github.com/projectblacklight/blacklight/wiki/Using-Webpacker-to-compile-javascript-assets
 
 If you prefer to use Sprockets, simply run the install generator, which will run the assets generator. For details see https://github.com/projectblacklight/blacklight/wiki/Using-Sprockets-to-compile-javascript-assets
+
+For Rails 8 importmap/Propshaft applications, Blacklight loads its browser-side javascript with
+regular asset tags from the Blacklight layout. Running `rails generate blacklight:install` still
+needs the asset generator step so the host app gets the supporting gems (`bootstrap`,
+`jquery-rails`, `twitter-typeahead-rails`, and `dartsass-rails`) on its asset load path, but it
+does not need a Sprockets `application.js` manifest. The generated app also gets a Dartsass
+initializer that switches Dartsass to a directory-to-directory no-op build and creates
+`app/assets/builds/`, since Blacklight only needs the gem present for Bootstrap's Sass integration
+and does not rely on app-level Sass compilation.
