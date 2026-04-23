@@ -108,11 +108,14 @@ module Blacklight
         raise ArgumentError, 'missing keyword: :document or :presenter'
       end
 
+      collection_parameter = component_collection_parameter
+      counter_parameter = component_collection_counter_parameter
+
       if document.is_a?(Blacklight::DocumentPresenter) && presenter.nil?
         @presenter = document
-        @document = @presenter.document || args[self.class.collection_parameter]
+        @document = @presenter.document || args[collection_parameter]
       else
-        @document = document || presenter&.document || args[self.class.collection_parameter]
+        @document = document || presenter&.document || args[collection_parameter]
         @presenter = presenter
       end
 
@@ -131,7 +134,7 @@ module Blacklight
       @thumbnail_component = thumbnail_component
 
       @counter = counter
-      @document_counter = document_counter || args.fetch(self.class.collection_counter_parameter, nil)
+      @document_counter = document_counter || args.fetch(counter_parameter, nil)
       @counter ||= @document_counter + COLLECTION_INDEX_OFFSET + counter_offset if @document_counter.present?
 
       @show = show
@@ -173,6 +176,22 @@ module Blacklight
     private
 
     attr_reader :view_partials
+
+    def component_collection_parameter
+      if self.class.respond_to?(:__vc_collection_parameter)
+        self.class.__vc_collection_parameter
+      else
+        self.class.collection_parameter
+      end
+    end
+
+    def component_collection_counter_parameter
+      if self.class.respond_to?(:__vc_collection_counter_parameter)
+        self.class.__vc_collection_counter_parameter
+      else
+        self.class.collection_counter_parameter
+      end
+    end
 
     def presenter
       @presenter ||= helpers.document_presenter(@document)
