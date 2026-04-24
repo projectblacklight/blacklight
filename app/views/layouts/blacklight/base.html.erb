@@ -17,13 +17,13 @@
     <% if Rails.root.join('config/importmap.rb').exist? %>
       <%= stylesheet_link_tag "blacklight/propshaft", media: "all", "data-turbo-track": "reload" %>
       <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-      <%= javascript_include_tag "jquery3", "data-turbo-track": "reload" %>
-      <%= javascript_include_tag "twitter/typeahead/typeahead.bundle", "data-turbo-track": "reload" %>
-      <%= javascript_include_tag "popper", "data-turbo-track": "reload" %>
-      <%= javascript_include_tag "bootstrap-global-this-define", "data-turbo-track": "reload" %>
-      <%= javascript_include_tag "bootstrap", "data-turbo-track": "reload" %>
-      <%= javascript_include_tag "bootstrap-global-this-undefine", "data-turbo-track": "reload" %>
-      <%= javascript_include_tag "blacklight/blacklight", "data-turbo-track": "reload" %>
+      <%= javascript_include_tag_if_exists "jquery3", "data-turbo-track": "reload" %>
+      <%= javascript_include_tag_if_exists "twitter/typeahead/typeahead.bundle", "data-turbo-track": "reload" %>
+      <%= javascript_include_tag_if_exists "popper", "data-turbo-track": "reload" %>
+      <%= javascript_include_tag_if_exists "bootstrap-global-this-define", "data-turbo-track": "reload" %>
+      <%= javascript_include_tag_if_exists "bootstrap", "data-turbo-track": "reload" %>
+      <%= javascript_include_tag_if_exists "bootstrap-global-this-undefine", "data-turbo-track": "reload" %>
+      <%= javascript_include_tag_if_exists "blacklight/blacklight", "data-turbo-track": "reload" %>
       <%= javascript_importmap_tags %>
     <% else %>
       <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
