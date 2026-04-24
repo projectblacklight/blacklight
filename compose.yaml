@@ -11,7 +11,7 @@ services:
     depends_on:
       - solr
     ports:
-      - "3000:3000"
+      - "3007:3000"
     environment:
       - SOLR_URL # Set via environment variable or use default defined in .env file
       - RAILS_VERSION # Set via environment variable or use default defined in .env file
@@ -30,9 +30,6 @@ services:
     ports:
       - "${SOLR_PORT}:8983"
     entrypoint:
-      - docker-entrypoint.sh
-      - solr-precreate
-      - blacklight-core
-      - /opt/solr/conf
-      - "-Xms256m"
-      - "-Xmx512m"
+      - bash
+      - -lc
+      - rm -f /var/solr/data/solr.xml && rm -rf /var/solr/data/blacklight-core && exec docker-entrypoint.sh solr-precreate blacklight-core /opt/solr/conf -Xms256m -Xmx512m

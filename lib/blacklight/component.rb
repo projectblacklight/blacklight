@@ -5,20 +5,38 @@ module Blacklight
     class << self
       alias upstream_sidecar_files sidecar_files
 
+      SIDECAR_ROOTS = ['app/components', 'app/views/components'].freeze
+
       def reset_compiler!
         @__vc_compiler = nil
       end
 
       def sidecar_files(*args, **kwargs)
         upstream_sidecar_files(*args, **kwargs).map do |path|
-          app_path = Rails.root.join(path.slice(path.index(view_component_path)..-1).to_s).to_s
+          app_path = app_sidecar_path(path)
 
-          if File.exist?(app_path)
+          if app_path && File.exist?(app_path)
             app_path
           else
             path
           end
         end
+      end
+
+      private
+
+      def app_sidecar_path(path)
+        SIDECAR_ROOTS.lazy.filter_map do |root|
+          suffix = path.to_s[%r{(?:^|/)#{Regexp.escape(root)}/(.*)\z}, 1]
+          next unless suffix
+
+          SIDECAR_ROOTS.lazy.each do |candidate_root|
+            candidate = Rails.root.join(candidate_root, suffix).to_s
+            return candidate if File.exist?(candidate)
+          end
+
+          nil
+        end.first
       end
     end
   end

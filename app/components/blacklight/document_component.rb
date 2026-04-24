@@ -19,7 +19,7 @@ module Blacklight
   #      ... custom code ...
   #    end
   #  end
-  class DocumentComponent < Blacklight::Component
+  class DocumentComponent < Blacklight::Component # rubocop:disable Metrics/ClassLength
     include Blacklight::ContentAreasShim
 
     with_collection_parameter :document
@@ -73,7 +73,13 @@ module Blacklight
       component ||= presenter&.view_config&.thumbnail_component || Blacklight::Document::ThumbnailComponent
       Deprecation.warn(Blacklight::DocumentComponent, 'Pass the presenter to the DocumentComponent') if !component && @presenter.nil?
 
-      component.new(*args, document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs)
+      thumbnail_kwargs = { document: @document, presenter: @presenter, counter: @counter, image_options: image_options_or_static_content, **kwargs }
+
+      if component.instance_method(:initialize).owner == ViewComponent::Base
+        component.new
+      else
+        component.new(*args, **thumbnail_kwargs)
+      end
     end)
 
     # A container for partials rendered using the view config partials configuration. Its use is discouraged, but necessary until
@@ -108,11 +114,14 @@ module Blacklight
         raise ArgumentError, 'missing keyword: :document or :presenter'
       end
 
+      collection_parameter = component_collection_parameter
+      counter_parameter = component_collection_counter_parameter
+
       if document.is_a?(Blacklight::DocumentPresenter) && presenter.nil?
         @presenter = document
-        @document = @presenter.document || args[self.class.collection_parameter]
+        @document = @presenter.document || args[collection_parameter]
       else
-        @document = document || presenter&.document || args[self.class.collection_parameter]
+        @document = document || presenter&.document || args[collection_parameter]
         @presenter = presenter
       end
 
@@ -131,7 +140,7 @@ module Blacklight
       @thumbnail_component = thumbnail_component
 
       @counter = counter
-      @document_counter = document_counter || args.fetch(self.class.collection_counter_parameter, nil)
+      @document_counter = document_counter || args.fetch(counter_parameter, nil)
       @counter ||= @document_counter + COLLECTION_INDEX_OFFSET + counter_offset if @document_counter.present?
 
       @show = show
@@ -150,10 +159,10 @@ module Blacklight
     end
 
     def before_render
-      set_slot(:title, nil) unless title
-      set_slot(:thumbnail, nil, component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
-      set_slot(:metadata, nil, component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters, show: @show) unless metadata
-      set_slot(:embed, nil, component: @embed_component || presenter.view_config&.embed_component) unless embed
+      with_title unless title
+      with_thumbnail(component: @thumbnail_component || presenter.view_config&.thumbnail_component) unless thumbnail || show?
+      with_metadata(component: @metadata_component || presenter&.view_config&.metadata_component, fields: presenter.field_presenters, show: @show) unless metadata
+      with_embed(component: @embed_component || presenter.view_config&.embed_component) unless embed
 
       # Blacklight 8 allows applications to pass in the partials to render instead of requiring the template to render the slots.
       if partials.empty? && view_partials.present? # rubocop:disable Style/GuardClause
@@ -173,6 +182,22 @@ module Blacklight
     private
 
     attr_reader :view_partials
+
+    def component_collection_parameter
+      if self.class.respond_to?(:__vc_collection_parameter)
+        self.class.__vc_collection_parameter
+      else
+        self.class.collection_parameter
+      end
+    end
+
+    def component_collection_counter_parameter
+      if self.class.respond_to?(:__vc_collection_counter_parameter)
+        self.class.__vc_collection_counter_parameter
+      else
+        self.class.collection_counter_parameter
+      end
+    end
 
     def presenter
       @presenter ||= helpers.document_presenter(@document)

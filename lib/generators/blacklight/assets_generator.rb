@@ -3,18 +3,23 @@ module Blacklight
   class Assets < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
 
-    class_option :'bootstrap-version', type: :string, default: ENV.fetch('BOOTSTRAP_VERSION', '~> 4.0'), desc: "Set the generated app's bootstrap version"
+    class_option :'bootstrap-version', type: :string, default: ENV.fetch('BOOTSTRAP_VERSION', '~> 5.3'), desc: "Set the generated app's bootstrap version"
 
     # This could be skipped if you want to use webpacker
     def add_javascript_dependencies
       gem 'bootstrap', options[:'bootstrap-version']
+      gem 'jquery-rails'
       gem 'twitter-typeahead-rails', '0.11.1.pre.corejavascript'
     end
 
     def appease_rails7
       return unless Rails.version > '7'
 
-      gem "sassc-rails", "~> 2.1"
+      if using_importmap?
+        gem 'dartsass-rails'
+      else
+        gem "sassc-rails", "~> 2.1"
+      end
     end
 
     # Add sprockets javascript if needed
@@ -39,12 +44,14 @@ module Blacklight
     end
 
     def assets
+      configure_importmap_dartsass if using_importmap?
+      return if using_importmap?
+
       copy_file "blacklight.scss", "app/assets/stylesheets/blacklight.scss"
 
       # Ensure this method is idempotent
       return if has_blacklight_assets?
 
-      gem 'jquery-rails'
       contents = "\n//\n// Required by Blacklight\n"
       contents += "//= require popper\n"
       contents += "// Twitter Typeahead for autocomplete\n"
@@ -75,6 +82,19 @@ module Blacklight
 
     def using_importmap?
       @using_importmap ||= root.join('config/importmap.rb').exist?
+    end
+
+    def configure_importmap_dartsass
+      initializer = root.join('config/initializers/dartsass.rb')
+      empty_directory 'app/assets/builds'
+      create_file 'app/assets/builds/.keep' unless root.join('app/assets/builds/.keep').exist?
+      return if initializer.exist?
+
+      create_file initializer do
+        <<~RUBY
+          Rails.application.config.dartsass.builds = { "." => "." }
+        RUBY
+      end
     end
 
     def turbolinks?

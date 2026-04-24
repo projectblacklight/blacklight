@@ -55,8 +55,32 @@ following steps:
 1. run `npm run js-compile-bundle` to build the bundle
 1. run `npm publish` to push the javascript package to https://npmjs.org/package/blacklight-frontend
 
+## Building the Propshaft stylesheet
+Rails 8 importmap/Propshaft applications load `app/assets/stylesheets/blacklight/propshaft.css`.
+That file is generated from Blacklight's SCSS sources plus Bootstrap and should be rebuilt whenever
+the SCSS under `app/assets/stylesheets/blacklight/` changes.
+
+To rebuild it:
+
+```bash
+bundle exec rake blacklight:assets:build_propshaft_css
+```
+
+The generated CSS file is committed to the repository because Propshaft serves plain CSS assets and
+does not compile the engine's SCSS sources at runtime. Applications using Blacklight can still add
+their own overrides in app-level CSS, which loads after the engine stylesheet.
+
 ## Using the javascript
 Blacklight ships with Javascript that can be compiled either by Webpacker or by
 Sprockets. To use Webpacker see the directions at https://github.com/projectblacklight/blacklight/wiki/Using-Webpacker-to-compile-javascript-assets
 
 If you prefer to use Sprockets, simply run the install generator, which will run the assets generator. For details see https://github.com/projectblacklight/blacklight/wiki/Using-Sprockets-to-compile-javascript-assets
+
+For Rails 8 importmap/Propshaft applications, Blacklight loads its browser-side javascript with
+regular asset tags from the Blacklight layout. Running `rails generate blacklight:install` still
+needs the asset generator step so the host app gets the supporting gems (`bootstrap`,
+`jquery-rails`, `twitter-typeahead-rails`, and `dartsass-rails`) on its asset load path, but it
+does not need a Sprockets `application.js` manifest. The generated app also gets a Dartsass
+initializer that switches Dartsass to a directory-to-directory no-op build and creates
+`app/assets/builds/`, since Blacklight only needs the gem present for Bootstrap's Sass integration
+and does not rely on app-level Sass compilation.

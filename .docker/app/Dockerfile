@@ -8,6 +8,8 @@ RUN apk add --update --no-cache \
   git \
   libxml2-dev \
   libxslt-dev \
+  libffi-dev \
+  yaml-dev \
   nodejs \
   shared-mime-info \
   sqlite-dev \
@@ -16,6 +18,16 @@ RUN apk add --update --no-cache \
 
 RUN mkdir /app
 WORKDIR /app
+
+
+ENV BUNDLER_VERSION=2.5.22
+
+RUN gem uninstall bundler -a -x --force || true \
+ && gem install bundler -v ${BUNDLER_VERSION} \
+ && bundle _${BUNDLER_VERSION}_ --version
+
+# CRITICAL for alpine + arm
+RUN bundle config set force_ruby_platform true
 
 RUN gem update --system && \
   gem install bundler && \

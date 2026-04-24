@@ -25,13 +25,13 @@ jobs:
   test:
     needs: set_matrix
     runs-on: ubuntu-latest
-    name: ruby ${{ matrix.ruby }} | rails ${{ matrix.rails_version }} ${{ matrix.additional_name }}
+    name: ruby ${{ matrix.ruby }} | rails ${{ matrix.rails_version }} | bootstrap ${{ matrix.bootstrap_version || 'default' }} ${{ matrix.additional_name }}
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.set_matrix.outputs.matrix)}}
     env:
       RAILS_VERSION: ${{ matrix.rails_version }}
-      SOLR_VERSION: ${{ matrix.solr_version || 'latest' }}
+      SOLR_VERSION: ${{ matrix.solr_version || '9.10.1' }}
       VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
       BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
       BLACKLIGHT_API_TEST: ${{ matrix.api }}

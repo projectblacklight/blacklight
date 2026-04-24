@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'engine_cart/rake_task'
+require 'pathname'
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |t|
@@ -43,6 +44,20 @@ def with_solr
   end
 end
 
+def blacklight_root
+  Pathname(__dir__).join('..').expand_path
+end
+
+def blacklight_propshaft_css_output
+  blacklight_root.join('app/assets/stylesheets/blacklight/propshaft.css')
+end
+
+def blacklight_bootstrap_stylesheets_path
+  Gem::Specification.find_all_by_name('bootstrap').max_by(&:version)&.full_gem_path&.then do |path|
+    File.join(path, 'assets/stylesheets')
+  end
+end
+
 # rubocop:disable Rails/RakeEnvironment
 desc "Run test suite"
 task :ci do
@@ -53,6 +68,41 @@ task :ci do
 end
 
 namespace :blacklight do
+  namespace :assets do
+    desc 'Build the Propshaft-compatible Blacklight stylesheet'
+    task :build_propshaft_css do
+      begin
+        require 'sassc'
+      rescue LoadError
+        abort 'Missing dependency: install the `sassc` gem to build blacklight/propshaft.css'
+      end
+
+      bootstrap_stylesheets_path = blacklight_bootstrap_stylesheets_path
+      abort 'Could not locate the `bootstrap` gem stylesheets to build blacklight/propshaft.css' unless bootstrap_stylesheets_path
+
+      source = <<~SCSS
+        $logo-image: url("logo.png");
+        @import "bootstrap";
+        @import "blacklight/blacklight";
+      SCSS
+
+      css = SassC::Engine.new(
+        source,
+        syntax: :scss,
+        load_paths: [
+          blacklight_root.join('app/assets/stylesheets').to_s,
+          bootstrap_stylesheets_path
+        ],
+        style: :compressed,
+        filename: 'blacklight_propshaft.scss'
+      ).render.sub(/^\uFEFF/, '')
+
+      output = blacklight_propshaft_css_output
+      File.write(output, css)
+      puts "Wrote #{output.relative_path_from(blacklight_root)}"
+    end
+  end
+
   desc "Run tests with coverage"
   task :coverage do
     ENV['COVERAGE'] = 'true'

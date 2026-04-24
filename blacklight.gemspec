@@ -25,14 +25,14 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.7'
 
-  s.add_dependency "rails", '>= 6.1', '< 8.1'
+  s.add_dependency "rails", '>= 6.1', '< 9'
   s.add_dependency "globalid"
   s.add_dependency "jbuilder", '~> 2.7'
   s.add_dependency "kaminari", ">= 0.15" # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "deprecation"
   s.add_dependency "i18n", '>= 1.7.0' # added named parameters
   s.add_dependency "ostruct", '>= 0.3.2'
-  s.add_dependency "view_component", '>= 2.74', '< 4'
+  s.add_dependency "view_component", '>= 3', '< 5.0'
   s.add_dependency 'hashdiff'
   s.add_dependency "zeitwerk"
 
