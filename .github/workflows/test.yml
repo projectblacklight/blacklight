@@ -25,7 +25,7 @@ jobs:
   test:
     needs: set_matrix
     runs-on: ubuntu-latest
-    name: ruby ${{ matrix.ruby }} | rails ${{ matrix.rails_version }} ${{ matrix.additional_name }}
+    name: ruby ${{ matrix.ruby }} | rails ${{ matrix.rails_version }} | bootstrap ${{ matrix.bootstrap_version || 'default' }} ${{ matrix.additional_name }}
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.set_matrix.outputs.matrix)}}
