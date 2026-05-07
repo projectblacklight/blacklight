@@ -23,13 +23,13 @@ the University of Virginia Library and is made public under an Apache 2.0 licens
 Add Blacklight to your `Gemfile`:
 
 ```ruby
-gem "blacklight"
+bundle add blacklight
 ```
 
 Run the install generator which will copy over some initial templates, migrations, routes, and configuration:
 
 ```bash
-rails generate blacklight:install
+bin/rails generate blacklight:install
 ```
 
 
