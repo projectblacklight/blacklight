@@ -459,9 +459,11 @@ Style/YAMLFileRead: # new in 1.53
   Enabled: true
 Capybara/ClickLinkOrButtonStyle: # new in 2.19
   Enabled: true
-Capybara/MatchStyle: # new in 2.17
+Capybara/AssertStyle: # new in 2.17
   Enabled: true
-Capybara/NegationMatcher: # new in 2.14
+Capybara/RSpec/MatchStyle:
+  Enabled: true
+Capybara/RSpec/NegationMatcher: # new in 2.14
   Enabled: true
   Exclude:
     - "spec/models/**/*"
@@ -471,7 +473,7 @@ Capybara/SpecificActions: # new in 2.14
   Enabled: true
 Capybara/SpecificFinders: # new in 2.13
   Enabled: true
-Capybara/SpecificMatcher: # new in 2.12
+Capybara/RSpec/SpecificMatcher: # new in 2.12
   Enabled: true
 Capybara/RSpec/HaveSelector: # new in 2.19
   Enabled: true
@@ -649,7 +651,7 @@ Style/RedundantFormat: # new in 1.72
   Enabled: true
 Capybara/FindAllFirst: # new in 2.22
   Enabled: true
-Capybara/NegationMatcherAfterVisit: # new in 2.22
+Capybara/RSpec/NegationMatcherAfterVisit: # new in 2.22
   Enabled: true
 RSpec/IncludeExamples: # new in 3.6
   Enabled: true
@@ -662,4 +664,62 @@ Naming/PredicateMethod: # new in 1.76
 Style/EmptyStringInsideInterpolation: # new in 1.76
   Enabled: true
 Style/RedundantArrayFlatten: # new in 1.76
+  Enabled: true
+Gemspec/AttributeAssignment: # new in 1.77
+  Enabled: true
+Layout/EmptyLinesAfterModuleInclusion: # new in 1.79
+  Enabled: true
+Lint/DataDefineOverride: # new in 1.85
+  Enabled: true
+Lint/UnreachablePatternBranch: # new in 1.85
+  Enabled: true
+Style/ArrayIntersectWithSingleElement: # new in 1.81
+  Enabled: true
+Style/CollectionQuerying: # new in 1.77
+  Enabled: true
+Style/EmptyClassDefinition: # new in 1.84
+  Enabled: true
+Style/FileOpen: # new in 1.85
+  Enabled: true
+Style/MapJoin: # new in 1.85
+  Enabled: true
+Style/ModuleMemberExistenceCheck: # new in 1.82
+  Enabled: true
+Style/NegativeArrayIndex: # new in 1.84
+  Enabled: true
+Style/OneClassPerFile: # new in 1.85
+  Enabled: true
+Style/PartitionInsteadOfDoubleSelect: # new in 1.85
+  Enabled: true
+Style/PredicateWithKind: # new in 1.85
+  Enabled: true
+Style/ReduceToHash: # new in 1.85
+  Enabled: true
+Style/RedundantMinMaxBy: # new in 1.85
+  Enabled: true
+Style/ReverseFind: # new in 1.84
+  Enabled: true
+Style/SelectByKind: # new in 1.85
+  Enabled: true
+Style/SelectByRange: # new in 1.85
+  Enabled: true
+Style/TallyMethod: # new in 1.85
+  Enabled: true
+Capybara/RSpec/CurrentPathExpectation: # new in 1.18
+  Enabled: true
+Capybara/RSpec/HaveContent: # new in 2.23
+  Enabled: true
+Capybara/RSpec/VisibilityMatcher: # new in 1.39
+  Enabled: true
+RSpec/LeakyLocalVariable: # new in 3.8
+  Enabled: true
+RSpec/Output: # new in 3.9
+  Enabled: true
+RSpecRails/HttpStatusNameConsistency: # new in 2.32
+  Enabled: true
+Rails/FindByOrAssignmentMemoization: # new in 2.33
+  Enabled: true
+Rails/OrderArguments: # new in 2.33
+  Enabled: true
+Rails/RedirectBackOrTo: # new in 2.34
   Enabled: true

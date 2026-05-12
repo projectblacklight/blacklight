@@ -41,11 +41,11 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     component.with_actions { 'Actions' }
     render_inline component
 
-    expect(page).to have_content 'Title'
-    expect(page).to have_content 'Embed'
-    expect(page).to have_content 'Metadata'
-    expect(page).to have_content 'Thumbnail'
-    expect(page).to have_content 'Actions'
+    expect(page).to have_text 'Title'
+    expect(page).to have_text 'Embed'
+    expect(page).to have_text 'Metadata'
+    expect(page).to have_text 'Thumbnail'
+    expect(page).to have_text 'Actions'
   end
 
   it 'has schema.org properties' do
@@ -61,7 +61,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       component.with_body { 'Body content' }
       render_inline component
 
-      expect(page).to have_content 'Body content'
+      expect(page).to have_text 'Body content'
       expect(page).to have_no_css 'header'
       expect(page).to have_no_css 'dl'
     end
@@ -167,7 +167,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       end
 
       it 'renders an embed' do
-        expect(page).to have_content 'embed'
+        expect(page).to have_text 'embed'
       end
     end
 
@@ -242,7 +242,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
 
     it 'renders partials' do
-      expect(page).to have_content 'Partials'
+      expect(page).to have_text 'Partials'
     end
   end
 
@@ -266,7 +266,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
 
     it 'shows the prefix' do
-      expect(page).to have_content "Prefix!"
+      expect(page).to have_text "Prefix!"
     end
   end
 end

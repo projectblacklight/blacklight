@@ -7,7 +7,7 @@ RSpec.describe "Facets" do
       click_on "Tibetan"
     end
     within "#sortAndPerPage" do
-      expect(page).to have_content "1 - 6 of 6"
+      expect(page).to have_text "1 - 6 of 6"
     end
 
     expect(page).to have_css(".blacklight-language_ssim")
@@ -22,7 +22,7 @@ RSpec.describe "Facets" do
       click_on "India"
     end
     within ("#sortAndPerPage") do
-      expect(page).to have_content "1 - 2 of 2"
+      expect(page).to have_text "1 - 2 of 2"
     end
     within "#facet-language_ssim" do
       expect(page).to have_css("span.selected", text: "Tibetan")
@@ -39,28 +39,28 @@ RSpec.describe "Facets" do
     fill_in "q", with: 'history'
     click_on 'search'
     within ("#sortAndPerPage") do
-      expect(page).to have_content "1 - 10 of 11"
+      expect(page).to have_text "1 - 10 of 11"
     end
 
     within "#facet-language_ssim" do
       click_on "Tibetan"
     end
     within ("#sortAndPerPage") do
-      expect(page).to have_content "1 - 2 of 2"
+      expect(page).to have_text "1 - 2 of 2"
     end
     within "#facet-language_ssim" do
       expect(page).to have_css("span.selected", text: "Tibetan")
       expect(page).to have_css("span.facet-count.selected", text: "2")
     end
     within "#appliedParams" do
-      expect(page).to have_content "Your selections:"
-      expect(page).to have_content "history"
+      expect(page).to have_text "Your selections:"
+      expect(page).to have_text "history"
     end
 
     click_on "2004"
 
     within ("#sortAndPerPage") do
-      expect(page).to have_content "1 entry found"
+      expect(page).to have_text "1 entry found"
     end
     within "#facet-language_ssim" do
       expect(page).to have_css("span.selected", text: "Tibetan")
@@ -85,7 +85,7 @@ RSpec.describe "Facets" do
       click_on 'remove'
     end
     expect(page).to have_no_link 'remove'
-    expect(page).to have_content('Welcome!')
+    expect(page).to have_text('Welcome!')
   end
 
   it "retains filters when you change the search term" do
@@ -140,8 +140,8 @@ RSpec.describe "Facets" do
       expect(page).to have_css("span.facet-count.selected", text: "2")
     end
     within "#appliedParams" do
-      expect(page).to have_content "Your selections:"
-      expect(page).to have_content "history"
+      expect(page).to have_text "Your selections:"
+      expect(page).to have_text "history"
     end
   end
 
@@ -164,8 +164,8 @@ RSpec.describe "Facets" do
       expect(page).to have_css("span.facet-count.selected", text: "2")
     end
     within "#appliedParams" do
-      expect(page).to have_content "Your selections:"
-      expect(page).to have_content "history"
+      expect(page).to have_text "Your selections:"
+      expect(page).to have_text "history"
     end
   end
 

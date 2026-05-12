@@ -39,7 +39,7 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
     before { rendered }
 
     it 'renders the provided component' do
-      expect(page).to have_content 'Custom facet rendering'
+      expect(page).to have_text 'Custom facet rendering'
     end
   end
 
@@ -64,7 +64,7 @@ RSpec.describe Blacklight::FacetComponent, type: :component do
     end
 
     it 'renders the partial' do
-      expect(page).to have_content 'facet partial'
+      expect(page).to have_text 'facet partial'
     end
   end
 

@@ -23,7 +23,7 @@ module Blacklight
         flash[:error] = I18n.t('blacklight.search_history.clear.failure')
       end
 
-      redirect_back fallback_location: blacklight.search_history_path
+      redirect_back_or_to(blacklight.search_history_path)
     end
   end
 end

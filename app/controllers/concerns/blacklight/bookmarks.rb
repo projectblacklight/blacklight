@@ -99,7 +99,7 @@ module Blacklight::Bookmarks
         flash[:error] = I18n.t('blacklight.bookmarks.add.failure', count: @bookmarks.length)
       end
 
-      redirect_back fallback_location: bookmarks_path
+      redirect_back_or_to(bookmarks_path)
     end
   end
 
@@ -127,12 +127,12 @@ module Blacklight::Bookmarks
       if request.xhr?
         render(json: { bookmarks: { count: current_or_guest_user.bookmarks.count } })
       else
-        redirect_back fallback_location: bookmarks_path, notice: I18n.t('blacklight.bookmarks.remove.success')
+        redirect_back_or_to(bookmarks_path, notice: I18n.t('blacklight.bookmarks.remove.success'))
       end
     elsif request.xhr?
       head :internal_server_error # ajaxy request needs no redirect and should not have flash set
     else
-      redirect_back fallback_location: bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') }
+      redirect_back_or_to(bookmarks_path, flash: { error: I18n.t('blacklight.bookmarks.remove.failure') })
     end
   end
 

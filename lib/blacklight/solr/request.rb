@@ -2,7 +2,7 @@
 
 class Blacklight::Solr::InvalidParameter < ArgumentError; end
 
-class Blacklight::Solr::Request < ActiveSupport::HashWithIndifferentAccess
+class Blacklight::Solr::Request < ActiveSupport::HashWithIndifferentAccess # rubocop:disable Style/OneClassPerFile
   def initialize(constructor = {})
     if constructor.is_a?(Hash)
       super()

@@ -8,10 +8,10 @@ RSpec.describe "Did You Mean" do
       fill_in "q", with: 'politica'
       click_on 'search'
 
-      expect(page).to have_content("Did you mean")
+      expect(page).to have_text("Did you mean")
       click_on 'policy'
       within ("#sortAndPerPage") do
-        expect(page).to have_content "1 - 2 of 2"
+        expect(page).to have_text "1 - 2 of 2"
       end
     end
   end
@@ -24,10 +24,10 @@ RSpec.describe "Did You Mean" do
       fill_in "q", with: 'yehudiyam'
       click_on 'search'
 
-      expect(page).to have_content("Did you mean")
+      expect(page).to have_text("Did you mean")
       click_on 'yehudiyim'
       within ("#sortAndPerPage") do
-        expect(page).to have_content "1 entry found"
+        expect(page).to have_text "1 entry found"
       end
       within ("select#search_field") do
         expect(page).to have_css("option[selected]", text: "Title")
@@ -43,10 +43,10 @@ RSpec.describe "Did You Mean" do
       fill_in "q", with: 'shirma'
       click_on 'search'
 
-      expect(page).to have_content("Did you mean")
+      expect(page).to have_text("Did you mean")
       click_on 'sharma'
       within ("#sortAndPerPage") do
-        expect(page).to have_content "1 entry found"
+        expect(page).to have_text "1 entry found"
       end
       within ("select#search_field") do
         expect(page).to have_css("option[selected]", text: "Author")
@@ -62,10 +62,10 @@ RSpec.describe "Did You Mean" do
       fill_in "q", with: 'wome'
       click_on 'search'
 
-      expect(page).to have_content("Did you mean")
+      expect(page).to have_text("Did you mean")
       click_on 'women'
       within ("#sortAndPerPage") do
-        expect(page).to have_content "1 - 3 of 3"
+        expect(page).to have_text "1 - 3 of 3"
       end
       within ("select#search_field") do
         expect(page).to have_css("option[selected]", text: "Subject")
@@ -78,7 +78,7 @@ RSpec.describe "Did You Mean" do
       fill_in "q", with: 'ooofda ooofda'
       click_on 'search'
 
-      expect(page).to have_no_content("Did you mean")
+      expect(page).to have_no_text("Did you mean")
     end
 
     it "has separate suggestions" do
@@ -86,7 +86,7 @@ RSpec.describe "Did You Mean" do
       click_on 'search'
 
       within(".suggest") do
-        expect(page).to have_content("Did you mean")
+        expect(page).to have_text("Did you mean")
         expect(page).to have_link('policy')
         expect(page).to have_link('bon')
         expect(page).to have_no_link('policy bon')
@@ -94,7 +94,7 @@ RSpec.describe "Did You Mean" do
 
       click_on 'bon'
       within ("#sortAndPerPage") do
-        expect(page).to have_content "1 entry found"
+        expect(page).to have_text "1 entry found"
       end
     end
 
@@ -103,7 +103,7 @@ RSpec.describe "Did You Mean" do
       click_on 'search'
 
       within(".suggest") do
-        expect(page).to have_content("Did you mean")
+        expect(page).to have_text("Did you mean")
         expect(page).to have_link('bon', count: 1)
         expect(page).to have_no_link('bon bon')
       end
@@ -114,10 +114,10 @@ RSpec.describe "Did You Mean" do
     fill_in "q", with: 'ayaz'
     click_on 'search'
 
-    expect(page).to have_content("Did you mean")
+    expect(page).to have_text("Did you mean")
     click_on 'bya'
     within ("#sortAndPerPage") do
-      expect(page).to have_content "1 - 3 of 3"
+      expect(page).to have_text "1 - 3 of 3"
     end
   end
 
@@ -125,7 +125,7 @@ RSpec.describe "Did You Mean" do
     # polit gives 5 results in 30 record demo index - 5 is default cutoff
     fill_in "q", with: 'polit'
     click_on 'search'
-    expect(page).to have_content("Did you mean")
+    expect(page).to have_text("Did you mean")
   end
 
   context 'spellcheck collations are enabled' do
@@ -141,10 +141,10 @@ RSpec.describe "Did You Mean" do
       fill_in "q", with: 'Yoshido Hajime'
       click_on 'search'
 
-      expect(page).to have_content("Did you mean")
+      expect(page).to have_text("Did you mean")
       click_on 'yoshida Hajime'
       within ("#sortAndPerPage") do
-        expect(page).to have_content "1 - 2 of 2"
+        expect(page).to have_text "1 - 2 of 2"
       end
     end
   end
