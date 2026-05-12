@@ -18,7 +18,7 @@ RSpec.describe "Search Page" do
     expect(page).to have_css("button[type='submit'] .submit-search-text")
     expect(page).to have_no_link "Start Over"
 
-    expect(page).to have_content "Welcome!"
+    expect(page).to have_text "Welcome!"
     tmp_value = Capybara.ignore_hidden_elements
     Capybara.ignore_hidden_elements = false
     expect(page).to have_css("link[rel=stylesheet]")
@@ -44,8 +44,8 @@ RSpec.describe "Search Page" do
     Capybara.ignore_hidden_elements = tmp_value
 
     within "#appliedParams" do
-      expect(page).to have_content "Your selections:"
-      expect(page).to have_content "history"
+      expect(page).to have_text "Your selections:"
+      expect(page).to have_text "history"
     end
 
     within ("select#search_field") do
@@ -53,8 +53,8 @@ RSpec.describe "Search Page" do
     end
 
     within ("#sortAndPerPage") do
-      expect(page).to have_content "Sort by"
-      expect(page).to have_content "1 - 10 of 11"
+      expect(page).to have_text "Sort by"
+      expect(page).to have_text "1 - 10 of 11"
       within '#sort-dropdown' do
         expect(page).to have_link('relevance')
         expect(page).to have_link('year')
@@ -74,18 +74,18 @@ RSpec.describe "Search Page" do
     click_on 'search'
 
     within "#appliedParams" do
-      expect(page).to have_content "Your selections:"
-      expect(page).to have_content "Title"
-      expect(page).to have_content "inmul"
+      expect(page).to have_text "Your selections:"
+      expect(page).to have_text "Title"
+      expect(page).to have_text "inmul"
     end
     within ("select#search_field") do
       expect(page).to have_css("option[selected]", text: "Title")
     end
     within(".index_title") do
-      expect(page).to have_content "1."
+      expect(page).to have_text "1."
     end
     within ("#sortAndPerPage") do
-      expect(page).to have_content "1 entry found"
+      expect(page).to have_text "1 entry found"
     end
   end
 
@@ -94,8 +94,8 @@ RSpec.describe "Search Page" do
     fill_in "q", with: 'history'
     click_on 'search'
     within "#documents" do
-      expect(page).to have_content "次按驟變"
-      expect(page).to have_content "DK861.K3 V5"
+      expect(page).to have_text "次按驟變"
+      expect(page).to have_text "DK861.K3 V5"
     end
   end
 
@@ -104,15 +104,15 @@ RSpec.describe "Search Page" do
     fill_in "q", with: 'history'
     click_on 'search'
     within "#appliedParams" do
-      expect(page).to have_content "Your selections:"
-      expect(page).to have_content "history"
+      expect(page).to have_text "Your selections:"
+      expect(page).to have_text "history"
     end
 
     expect(page).to have_css "#q[value='history']"
 
     click_on "Start Over"
 
-    expect(page).to have_content "Welcome!"
+    expect(page).to have_text "Welcome!"
     expect(page).to have_no_css "#q[value='history']"
   end
 end

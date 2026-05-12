@@ -8,80 +8,80 @@
 
 # Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
-Capybara/CurrentPathExpectation:
+Capybara/RSpec/CurrentPathExpectation:
   Exclude:
-    - 'spec/features/alternate_controller_spec.rb'
+    - "spec/features/alternate_controller_spec.rb"
 
 # Offense count: 6
-Capybara/NegationMatcherAfterVisit:
+Capybara/RSpec/NegationMatcherAfterVisit:
   Exclude:
-    - 'spec/features/bookmarks_spec.rb'
-    - 'spec/features/facets_spec.rb'
-    - 'spec/features/modal_spec.rb'
-    - 'spec/features/record_view_spec.rb'
-    - 'spec/features/search_context_spec.rb'
+    - "spec/features/bookmarks_spec.rb"
+    - "spec/features/facets_spec.rb"
+    - "spec/features/modal_spec.rb"
+    - "spec/features/record_view_spec.rb"
+    - "spec/features/search_context_spec.rb"
 
 # Offense count: 13
-Capybara/VisibilityMatcher:
+Capybara/RSpec/VisibilityMatcher:
   Exclude:
-    - 'spec/features/facets_spec.rb'
-    - 'spec/features/search_filters_spec.rb'
-    - 'spec/helpers/blacklight_helper_spec.rb'
+    - "spec/features/facets_spec.rb"
+    - "spec/features/search_filters_spec.rb"
+    - "spec/helpers/blacklight_helper_spec.rb"
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Lint/AmbiguousBlockAssociation:
   Exclude:
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
+    - "lib/blacklight/solr/search_builder_behavior.rb"
 
 # Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
 Lint/AmbiguousOperator:
   Exclude:
-    - 'spec/helpers/blacklight/url_helper_behavior_spec.rb'
-    - 'spec/helpers/blacklight_helper_spec.rb'
-    - 'spec/models/blacklight/facet_paginator_spec.rb'
-    - 'spec/services/blacklight/search_service_spec.rb'
+    - "spec/helpers/blacklight/url_helper_behavior_spec.rb"
+    - "spec/helpers/blacklight_helper_spec.rb"
+    - "spec/models/blacklight/facet_paginator_spec.rb"
+    - "spec/services/blacklight/search_service_spec.rb"
 
 # Offense count: 43
 # This cop supports safe autocorrection (--autocorrect).
 Lint/AmbiguousRegexpLiteral:
   Exclude:
-    - 'spec/controllers/catalog_controller_spec.rb'
-    - 'spec/features/alternate_controller_spec.rb'
-    - 'spec/helpers/blacklight/url_helper_behavior_spec.rb'
-    - 'spec/helpers/catalog_helper_spec.rb'
-    - 'spec/models/record_mailer_spec.rb'
-    - 'spec/views/catalog/_document.html.erb_spec.rb'
-    - 'spec/views/catalog/_sort_and_per_page.html.erb_spec.rb'
-    - 'spec/views/catalog/index.html.erb_spec.rb'
-    - 'spec/views/catalog/show.html.erb_spec.rb'
+    - "spec/controllers/catalog_controller_spec.rb"
+    - "spec/features/alternate_controller_spec.rb"
+    - "spec/helpers/blacklight/url_helper_behavior_spec.rb"
+    - "spec/helpers/catalog_helper_spec.rb"
+    - "spec/models/record_mailer_spec.rb"
+    - "spec/views/catalog/_document.html.erb_spec.rb"
+    - "spec/views/catalog/_sort_and_per_page.html.erb_spec.rb"
+    - "spec/views/catalog/index.html.erb_spec.rb"
+    - "spec/views/catalog/show.html.erb_spec.rb"
 
 # Offense count: 1
 Lint/BinaryOperatorWithIdenticalOperands:
   Exclude:
-    - 'spec/models/blacklight/document/active_model_shim_spec.rb'
+    - "spec/models/blacklight/document/active_model_shim_spec.rb"
 
 # Offense count: 14
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: enums
 Lint/ConstantDefinitionInBlock:
   Exclude:
-    - 'spec/controllers/bookmarks_controller_spec.rb'
-    - 'spec/controllers/catalog_controller_spec.rb'
-    - 'spec/models/blacklight/configurable_spec.rb'
-    - 'spec/models/blacklight/document/active_model_shim_spec.rb'
-    - 'spec/models/blacklight/document_spec.rb'
-    - 'spec/models/blacklight/solr/document_spec.rb'
-    - 'spec/presenters/blacklight/show_presenter_spec.rb'
+    - "spec/controllers/bookmarks_controller_spec.rb"
+    - "spec/controllers/catalog_controller_spec.rb"
+    - "spec/models/blacklight/configurable_spec.rb"
+    - "spec/models/blacklight/document/active_model_shim_spec.rb"
+    - "spec/models/blacklight/document_spec.rb"
+    - "spec/models/blacklight/solr/document_spec.rb"
+    - "spec/presenters/blacklight/show_presenter_spec.rb"
 
 # Offense count: 2
 # Configuration parameters: AllowComments, AllowEmptyLambdas.
 Lint/EmptyBlock:
   Exclude:
-    - 'app/controllers/concerns/blacklight/bookmarks.rb'
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
+    - "app/controllers/concerns/blacklight/bookmarks.rb"
+    - "lib/blacklight/solr/search_builder_behavior.rb"
 
 # Offense count: 53
 # Configuration parameters: AllowedParentClasses.
@@ -92,11 +92,11 @@ Lint/MissingSuper:
 # This cop supports safe autocorrection (--autocorrect).
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
-    - 'spec/features/did_you_mean_spec.rb'
-    - 'spec/features/search_filters_spec.rb'
-    - 'spec/features/search_pagination_spec.rb'
-    - 'spec/features/search_spec.rb'
-    - 'spec/models/blacklight/solr/repository_spec.rb'
+    - "spec/features/did_you_mean_spec.rb"
+    - "spec/features/search_filters_spec.rb"
+    - "spec/features/search_pagination_spec.rb"
+    - "spec/features/search_spec.rb"
+    - "spec/models/blacklight/solr/repository_spec.rb"
 
 # Offense count: 80
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
@@ -140,20 +140,20 @@ Metrics/PerceivedComplexity:
 # SupportedStylesForLeadingUnderscores: disallowed, required, optional
 Naming/MemoizedInstanceVariableName:
   Exclude:
-    - 'app/helpers/blacklight/render_partials_helper_behavior.rb'
-    - 'app/models/concerns/blacklight/document/semantic_fields.rb'
-    - 'lib/blacklight/solr/response.rb'
+    - "app/helpers/blacklight/render_partials_helper_behavior.rb"
+    - "app/models/concerns/blacklight/document/semantic_fields.rb"
+    - "lib/blacklight/solr/response.rb"
 
 # Offense count: 9
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
 # AllowedNames: as, at, by, cc, db, id, if, in, io, ip, of, on, os, pp, to
 Naming/MethodParameterName:
   Exclude:
-    - 'app/models/concerns/blacklight/document.rb'
-    - 'app/presenters/blacklight/rendering/link_to_facet.rb'
-    - 'lib/blacklight/nested_open_struct_with_hash_access.rb'
-    - 'lib/blacklight/solr/document.rb'
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
+    - "app/models/concerns/blacklight/document.rb"
+    - "app/presenters/blacklight/rendering/link_to_facet.rb"
+    - "lib/blacklight/nested_open_struct_with_hash_access.rb"
+    - "lib/blacklight/solr/document.rb"
+    - "lib/blacklight/solr/search_builder_behavior.rb"
 
 # Offense count: 9
 # Configuration parameters: EnforcedStyle, CheckMethodNames, CheckSymbols, AllowedIdentifiers, AllowedPatterns.
@@ -161,16 +161,16 @@ Naming/MethodParameterName:
 # AllowedIdentifiers: TLS1_1, TLS1_2, capture3, iso8601, rfc1123_date, rfc822, rfc2822, rfc3339, x86_64
 Naming/VariableNumber:
   Exclude:
-    - 'spec/lib/blacklight/search_state_spec.rb'
-    - 'spec/models/blacklight/search_builder_spec.rb'
+    - "spec/lib/blacklight/search_state_spec.rb"
+    - "spec/models/blacklight/search_builder_spec.rb"
 
 # Offense count: 5
 RSpec/BeforeAfterAll:
   Exclude:
-    - 'spec/controllers/search_history_controller_spec.rb'
-    - 'spec/models/blacklight/configurable_spec.rb'
-    - 'spec/models/blacklight/document/dublin_core_spec.rb'
-    - 'spec/models/blacklight/solr/document_spec.rb'
+    - "spec/controllers/search_history_controller_spec.rb"
+    - "spec/models/blacklight/configurable_spec.rb"
+    - "spec/models/blacklight/document/dublin_core_spec.rb"
+    - "spec/models/blacklight/solr/document_spec.rb"
 
 # Offense count: 111
 # Configuration parameters: Prefixes, AllowedPatterns.
@@ -186,61 +186,61 @@ RSpec/ExampleLength:
 # Offense count: 8
 RSpec/ExpectInHook:
   Exclude:
-    - 'spec/controllers/catalog_controller_spec.rb'
+    - "spec/controllers/catalog_controller_spec.rb"
 
 # Offense count: 107
 # Configuration parameters: AssignmentOnly.
 RSpec/InstanceVariable:
   Exclude:
-    - 'spec/controllers/bookmarks_controller_spec.rb'
-    - 'spec/controllers/search_history_controller_spec.rb'
-    - 'spec/helpers/catalog_helper_spec.rb'
-    - 'spec/lib/blacklight/open_struct_with_hash_access_spec.rb'
-    - 'spec/lib/tasks/blacklight_task_spec.rb'
-    - 'spec/models/blacklight/configuration_spec.rb'
-    - 'spec/models/blacklight/document/dublin_core_spec.rb'
-    - 'spec/models/blacklight/solr/document_spec.rb'
-    - 'spec/models/record_mailer_spec.rb'
-    - 'spec/services/blacklight/search_service_spec.rb'
+    - "spec/controllers/bookmarks_controller_spec.rb"
+    - "spec/controllers/search_history_controller_spec.rb"
+    - "spec/helpers/catalog_helper_spec.rb"
+    - "spec/lib/blacklight/open_struct_with_hash_access_spec.rb"
+    - "spec/lib/tasks/blacklight_task_spec.rb"
+    - "spec/models/blacklight/configuration_spec.rb"
+    - "spec/models/blacklight/document/dublin_core_spec.rb"
+    - "spec/models/blacklight/solr/document_spec.rb"
+    - "spec/models/record_mailer_spec.rb"
+    - "spec/services/blacklight/search_service_spec.rb"
 
 # Offense count: 4
 RSpec/IteratedExpectation:
   Exclude:
-    - 'spec/models/blacklight/solr/response/group_response_spec.rb'
-    - 'spec/models/blacklight/solr/response/group_spec.rb'
-    - 'spec/models/blacklight/solr/response_spec.rb'
+    - "spec/models/blacklight/solr/response/group_response_spec.rb"
+    - "spec/models/blacklight/solr/response/group_spec.rb"
+    - "spec/models/blacklight/solr/response_spec.rb"
 
 # Offense count: 16
 RSpec/LeakyConstantDeclaration:
   Exclude:
-    - 'spec/controllers/bookmarks_controller_spec.rb'
-    - 'spec/controllers/catalog_controller_spec.rb'
-    - 'spec/models/blacklight/configurable_spec.rb'
-    - 'spec/models/blacklight/document/active_model_shim_spec.rb'
-    - 'spec/models/blacklight/document_spec.rb'
-    - 'spec/models/blacklight/solr/document_spec.rb'
-    - 'spec/presenters/blacklight/show_presenter_spec.rb'
+    - "spec/controllers/bookmarks_controller_spec.rb"
+    - "spec/controllers/catalog_controller_spec.rb"
+    - "spec/models/blacklight/configurable_spec.rb"
+    - "spec/models/blacklight/document/active_model_shim_spec.rb"
+    - "spec/models/blacklight/document_spec.rb"
+    - "spec/models/blacklight/solr/document_spec.rb"
+    - "spec/presenters/blacklight/show_presenter_spec.rb"
 
 # Offense count: 9
 RSpec/MessageChain:
   Exclude:
-    - 'spec/controllers/bookmarks_controller_spec.rb'
-    - 'spec/presenters/blacklight/field_presenter_spec.rb'
-    - 'spec/views/shared/_user_util_links.html.erb_spec.rb'
+    - "spec/controllers/bookmarks_controller_spec.rb"
+    - "spec/presenters/blacklight/field_presenter_spec.rb"
+    - "spec/views/shared/_user_util_links.html.erb_spec.rb"
 
 # Offense count: 27
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: have_received, receive
 RSpec/MessageSpies:
   Exclude:
-    - 'spec/controllers/catalog_controller_spec.rb'
-    - 'spec/helpers/blacklight/configuration_helper_behavior_spec.rb'
-    - 'spec/helpers/blacklight/url_helper_behavior_spec.rb'
-    - 'spec/helpers/blacklight_helper_spec.rb'
-    - 'spec/helpers/catalog_helper_spec.rb'
-    - 'spec/models/blacklight/search_builder_spec.rb'
-    - 'spec/models/blacklight/suggest_search_spec.rb'
-    - 'spec/presenters/blacklight/field_presenter_spec.rb'
+    - "spec/controllers/catalog_controller_spec.rb"
+    - "spec/helpers/blacklight/configuration_helper_behavior_spec.rb"
+    - "spec/helpers/blacklight/url_helper_behavior_spec.rb"
+    - "spec/helpers/blacklight_helper_spec.rb"
+    - "spec/helpers/catalog_helper_spec.rb"
+    - "spec/models/blacklight/search_builder_spec.rb"
+    - "spec/models/blacklight/suggest_search_spec.rb"
+    - "spec/presenters/blacklight/field_presenter_spec.rb"
 
 # Offense count: 408
 RSpec/MultipleExpectations:
@@ -265,50 +265,50 @@ RSpec/NestedGroups:
 # Offense count: 4
 RSpec/RepeatedDescription:
   Exclude:
-    - 'spec/features/search_results_spec.rb'
-    - 'spec/helpers/catalog_helper_spec.rb'
+    - "spec/features/search_results_spec.rb"
+    - "spec/helpers/catalog_helper_spec.rb"
 
 # Offense count: 2
 RSpec/RepeatedExample:
   Exclude:
-    - 'spec/models/blacklight/solr/document_spec.rb'
+    - "spec/models/blacklight/solr/document_spec.rb"
 
 # Offense count: 2
 RSpec/RepeatedExampleGroupDescription:
   Exclude:
-    - 'spec/services/blacklight/search_service_spec.rb'
+    - "spec/services/blacklight/search_service_spec.rb"
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 RSpec/ScatteredLet:
   Exclude:
-    - 'spec/views/catalog/index.atom.builder_spec.rb'
+    - "spec/views/catalog/index.atom.builder_spec.rb"
 
 # Offense count: 19
 RSpec/StubbedMock:
   Exclude:
-    - 'spec/controllers/catalog_controller_spec.rb'
-    - 'spec/helpers/blacklight/configuration_helper_behavior_spec.rb'
-    - 'spec/helpers/blacklight/url_helper_behavior_spec.rb'
-    - 'spec/helpers/blacklight_helper_spec.rb'
-    - 'spec/helpers/catalog_helper_spec.rb'
-    - 'spec/models/blacklight/suggest_search_spec.rb'
-    - 'spec/presenters/blacklight/field_presenter_spec.rb'
+    - "spec/controllers/catalog_controller_spec.rb"
+    - "spec/helpers/blacklight/configuration_helper_behavior_spec.rb"
+    - "spec/helpers/blacklight/url_helper_behavior_spec.rb"
+    - "spec/helpers/blacklight_helper_spec.rb"
+    - "spec/helpers/catalog_helper_spec.rb"
+    - "spec/models/blacklight/suggest_search_spec.rb"
+    - "spec/presenters/blacklight/field_presenter_spec.rb"
 
 # Offense count: 1
 RSpec/SubjectDeclaration:
   Exclude:
-    - 'spec/models/blacklight/document/cache_key_spec.rb'
+    - "spec/models/blacklight/document/cache_key_spec.rb"
 
 # Offense count: 15
 RSpec/SubjectStub:
   Exclude:
-    - 'spec/controllers/catalog_controller_spec.rb'
-    - 'spec/lib/blacklight/search_state_spec.rb'
-    - 'spec/models/blacklight/document/cache_key_spec.rb'
-    - 'spec/models/blacklight/search_builder_spec.rb'
-    - 'spec/presenters/blacklight/document_presenter_spec.rb'
-    - 'spec/services/blacklight/search_service_spec.rb'
+    - "spec/controllers/catalog_controller_spec.rb"
+    - "spec/lib/blacklight/search_state_spec.rb"
+    - "spec/models/blacklight/document/cache_key_spec.rb"
+    - "spec/models/blacklight/search_builder_spec.rb"
+    - "spec/presenters/blacklight/document_presenter_spec.rb"
+    - "spec/services/blacklight/search_service_spec.rb"
 
 # Offense count: 81
 # Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
@@ -321,31 +321,31 @@ RSpec/VerifiedDoubles:
 # SupportedStyles: strict, flexible
 Rails/Date:
   Exclude:
-    - 'spec/models/search_spec.rb'
+    - "spec/models/search_spec.rb"
 
 # Offense count: 17
 Rails/HelperInstanceVariable:
   Exclude:
-    - 'app/helpers/blacklight/catalog_helper_behavior.rb'
-    - 'app/helpers/blacklight/component_helper_behavior.rb'
-    - 'app/helpers/blacklight/document_helper_behavior.rb'
-    - 'app/helpers/blacklight/layout_helper_behavior.rb'
-    - 'app/helpers/blacklight/render_partials_helper_behavior.rb'
+    - "app/helpers/blacklight/catalog_helper_behavior.rb"
+    - "app/helpers/blacklight/component_helper_behavior.rb"
+    - "app/helpers/blacklight/document_helper_behavior.rb"
+    - "app/helpers/blacklight/layout_helper_behavior.rb"
+    - "app/helpers/blacklight/render_partials_helper_behavior.rb"
 
 # Offense count: 2
 Rails/I18nLocaleAssignment:
   Exclude:
-    - 'spec/helpers/blacklight_helper_spec.rb'
+    - "spec/helpers/blacklight_helper_spec.rb"
 
 # Offense count: 1
 Rails/OutputSafety:
   Exclude:
-    - 'app/presenters/blacklight/rendering/join.rb'
+    - "app/presenters/blacklight/rendering/join.rb"
 
 # Offense count: 11
 Security/Eval:
   Exclude:
-    - 'spec/models/blacklight/solr/response_spec.rb'
+    - "spec/models/blacklight/solr/response_spec.rb"
 
 # Offense count: 9
 # This cop supports safe autocorrection (--autocorrect).
@@ -353,12 +353,12 @@ Security/Eval:
 # SupportedStyles: prefer_alias, prefer_alias_method
 Style/Alias:
   Exclude:
-    - 'app/models/concerns/blacklight/document.rb'
-    - 'app/models/concerns/blacklight/document/dublin_core.rb'
-    - 'lib/blacklight/configuration.rb'
-    - 'lib/blacklight/search_builder.rb'
-    - 'lib/blacklight/solr/response.rb'
-    - 'lib/blacklight/solr/response/group_response.rb'
+    - "app/models/concerns/blacklight/document.rb"
+    - "app/models/concerns/blacklight/document/dublin_core.rb"
+    - "lib/blacklight/configuration.rb"
+    - "lib/blacklight/search_builder.rb"
+    - "lib/blacklight/solr/response.rb"
+    - "lib/blacklight/solr/response/group_response.rb"
 
 # Offense count: 3
 # This cop supports safe autocorrection (--autocorrect).
@@ -369,8 +369,8 @@ Style/Alias:
 # AllowedMethods: lambda, proc, it
 Style/BlockDelimiters:
   Exclude:
-    - 'app/views/catalog/index.rss.builder'
-    - 'app/views/catalog/opensearch.xml.builder'
+    - "app/views/catalog/index.rss.builder"
+    - "app/views/catalog/opensearch.xml.builder"
 
 # Offense count: 47
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -385,8 +385,8 @@ Style/ClassAndModuleChildren:
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/CommentedKeyword:
   Exclude:
-    - 'spec/controllers/catalog_controller_spec.rb'
-    - 'spec/services/blacklight/search_service_spec.rb'
+    - "spec/controllers/catalog_controller_spec.rb"
+    - "spec/services/blacklight/search_service_spec.rb"
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
@@ -394,13 +394,13 @@ Style/CommentedKeyword:
 # SupportedStyles: assign_to_condition, assign_inside_condition
 Style/ConditionalAssignment:
   Exclude:
-    - 'lib/blacklight/solr/response/spelling.rb'
+    - "lib/blacklight/solr/response/spelling.rb"
 
 # Offense count: 2
 Style/DocumentDynamicEvalDefinition:
   Exclude:
-    - 'app/builders/blacklight/action_builder.rb'
-    - 'lib/blacklight/configuration/fields.rb'
+    - "app/builders/blacklight/action_builder.rb"
+    - "lib/blacklight/configuration/fields.rb"
 
 # Offense count: 142
 # Configuration parameters: AllowedConstants.
@@ -411,15 +411,15 @@ Style/Documentation:
 # This cop supports safe autocorrection (--autocorrect).
 Style/ExpandPathArguments:
   Exclude:
-    - 'Gemfile'
-    - 'lib/generators/blacklight/controller_generator.rb'
-    - 'lib/generators/blacklight/document_generator.rb'
-    - 'lib/generators/blacklight/install_generator.rb'
-    - 'lib/generators/blacklight/models_generator.rb'
-    - 'lib/generators/blacklight/search_builder_generator.rb'
-    - 'lib/generators/blacklight/solr_generator.rb'
-    - 'lib/generators/blacklight/test_support_generator.rb'
-    - 'lib/generators/blacklight/user_generator.rb'
+    - "Gemfile"
+    - "lib/generators/blacklight/controller_generator.rb"
+    - "lib/generators/blacklight/document_generator.rb"
+    - "lib/generators/blacklight/install_generator.rb"
+    - "lib/generators/blacklight/models_generator.rb"
+    - "lib/generators/blacklight/search_builder_generator.rb"
+    - "lib/generators/blacklight/solr_generator.rb"
+    - "lib/generators/blacklight/test_support_generator.rb"
+    - "lib/generators/blacklight/user_generator.rb"
 
 # Offense count: 17
 # This cop supports safe autocorrection (--autocorrect).
@@ -434,11 +434,11 @@ Style/FormatStringToken:
 # Configuration parameters: MinBodyLength, AllowConsecutiveConditionals.
 Style/GuardClause:
   Exclude:
-    - 'app/controllers/concerns/blacklight/bookmarks.rb'
-    - 'app/controllers/concerns/blacklight/catalog.rb'
-    - 'app/controllers/concerns/blacklight/search_context.rb'
-    - 'app/helpers/blacklight/catalog_helper_behavior.rb'
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
+    - "app/controllers/concerns/blacklight/bookmarks.rb"
+    - "app/controllers/concerns/blacklight/catalog.rb"
+    - "app/controllers/concerns/blacklight/search_context.rb"
+    - "app/helpers/blacklight/catalog_helper_behavior.rb"
+    - "lib/blacklight/solr/search_builder_behavior.rb"
 
 # Offense count: 32
 # This cop supports safe autocorrection (--autocorrect).
@@ -449,15 +449,15 @@ Style/IfUnlessModifier:
 # This cop supports safe autocorrection (--autocorrect).
 Style/MultilineIfModifier:
   Exclude:
-    - 'app/views/catalog/index.atom.builder'
-    - 'lib/blacklight/solr/response/facets.rb'
+    - "app/views/catalog/index.atom.builder"
+    - "lib/blacklight/solr/response/facets.rb"
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowMethodComparison, ComparisonsThreshold.
 Style/MultipleComparison:
   Exclude:
-    - 'lib/blacklight/configuration/context.rb'
+    - "lib/blacklight/configuration/context.rb"
 
 # Offense count: 8
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -465,45 +465,45 @@ Style/MultipleComparison:
 # SupportedStyles: predicate, comparison
 Style/NumericPredicate:
   Exclude:
-    - 'app/helpers/blacklight/catalog_helper_behavior.rb'
-    - 'app/services/blacklight/search_service.rb'
-    - 'lib/blacklight/search_builder.rb'
-    - 'lib/blacklight/solr/facet_paginator.rb'
-    - 'lib/blacklight/solr/response/facets.rb'
-    - 'lib/blacklight/solr/search_builder_behavior.rb'
-    - 'lib/railties/blacklight.rake'
+    - "app/helpers/blacklight/catalog_helper_behavior.rb"
+    - "app/services/blacklight/search_service.rb"
+    - "lib/blacklight/search_builder.rb"
+    - "lib/blacklight/solr/facet_paginator.rb"
+    - "lib/blacklight/solr/response/facets.rb"
+    - "lib/blacklight/solr/search_builder_behavior.rb"
+    - "lib/railties/blacklight.rake"
 
 # Offense count: 14
 Style/OpenStructUse:
   Exclude:
-    - 'lib/blacklight/configuration.rb'
-    - 'lib/blacklight/open_struct_with_hash_access.rb'
-    - 'lib/blacklight/solr/response/facets.rb'
-    - 'spec/components/blacklight/facet_item_pivot_component_spec.rb'
-    - 'spec/lib/blacklight/search_state/filter_field_spec.rb'
-    - 'spec/models/blacklight/configuration_spec.rb'
-    - 'spec/models/blacklight/solr/response_spec.rb'
+    - "lib/blacklight/configuration.rb"
+    - "lib/blacklight/open_struct_with_hash_access.rb"
+    - "lib/blacklight/solr/response/facets.rb"
+    - "spec/components/blacklight/facet_item_pivot_component_spec.rb"
+    - "spec/lib/blacklight/search_state/filter_field_spec.rb"
+    - "spec/models/blacklight/configuration_spec.rb"
+    - "spec/models/blacklight/solr/response_spec.rb"
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowSafeAssignment, AllowInMultilineConditions.
 Style/ParenthesesAroundCondition:
   Exclude:
-    - 'app/views/catalog/_document.atom.builder'
+    - "app/views/catalog/_document.atom.builder"
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: PreferredDelimiters.
 Style/PercentLiteralDelimiters:
   Exclude:
-    - 'lib/blacklight/engine.rb'
+    - "lib/blacklight/engine.rb"
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
 Style/RedundantParentheses:
   Exclude:
-    - 'app/views/catalog/_document.atom.builder'
-    - 'lib/railties/blacklight.rake'
+    - "app/views/catalog/_document.atom.builder"
+    - "lib/railties/blacklight.rake"
 
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
@@ -511,24 +511,24 @@ Style/RedundantParentheses:
 # SupportedStyles: implicit, explicit
 Style/RescueStandardError:
   Exclude:
-    - 'lib/blacklight.rb'
-    - 'lib/blacklight/configuration/fields.rb'
-    - 'lib/railties/blacklight.rake'
+    - "lib/blacklight.rb"
+    - "lib/blacklight/configuration/fields.rb"
+    - "lib/railties/blacklight.rake"
 
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowAsExpressionSeparator.
 Style/Semicolon:
   Exclude:
-    - 'spec/models/blacklight/solr/repository_spec.rb'
-    - 'spec/views/catalog/_paginate_compact.html.erb_spec.rb'
+    - "spec/models/blacklight/solr/repository_spec.rb"
+    - "spec/views/catalog/_paginate_compact.html.erb_spec.rb"
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowModifier.
 Style/SoleNestedConditional:
   Exclude:
-    - 'app/controllers/concerns/blacklight/controller.rb'
+    - "app/controllers/concerns/blacklight/controller.rb"
 
 # Offense count: 32
 # This cop supports safe autocorrection (--autocorrect).

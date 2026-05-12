@@ -11,7 +11,7 @@ RSpec.describe "Bookmarks" do
       sign_in 'user1'
       visit root_path
       click_on 'Bookmarks'
-      expect(page).to have_content 'You have no bookmarks'
+      expect(page).to have_text 'You have no bookmarks'
     end
   end
 
@@ -20,8 +20,8 @@ RSpec.describe "Bookmarks" do
     click_on 'Bookmark'
     click_on 'Bookmarks'
     click_on 'Clear Bookmarks'
-    expect(page).to have_content 'Cleared your bookmarks.'
-    expect(page).to have_content 'You have no bookmarks'
+    expect(page).to have_text 'Cleared your bookmarks.'
+    expect(page).to have_text 'You have no bookmarks'
   end
 
   it "add and remove bookmarks from search results" do
@@ -30,11 +30,11 @@ RSpec.describe "Bookmarks" do
     fill_in "q", with: 'Sumadhvavijayaḥ'
     click_on 'search'
     click_on 'Bookmark'
-    expect(page).to have_content 'Successfully added bookmark.'
+    expect(page).to have_text 'Successfully added bookmark.'
     fill_in "q", with: 'Sumadhvavijayaḥ'
     click_on 'search'
     click_on 'Remove bookmark'
-    expect(page).to have_content 'Successfully removed bookmark.'
+    expect(page).to have_text 'Successfully removed bookmark.'
   end
 
   it "adds and delete bookmarks from the show page" do
@@ -42,7 +42,7 @@ RSpec.describe "Bookmarks" do
     visit solr_document_path('2007020969')
     click_on 'Bookmark'
     click_on 'Remove bookmark'
-    expect(page).to have_content 'Successfully removed bookmark.'
+    expect(page).to have_text 'Successfully removed bookmark.'
   end
 
   context 'when bookmark_icon_component is set to nil' do
@@ -72,7 +72,7 @@ RSpec.describe "Bookmarks" do
     sign_in 'user1'
     visit bookmarks_path
     expect(page).to have_button("Remove bookmark")
-    expect(page).to have_content("Strong Medicine speaks")
+    expect(page).to have_text("Strong Medicine speaks")
   end
 
   it "cites items in bookmarks" do
@@ -80,7 +80,7 @@ RSpec.describe "Bookmarks" do
     click_on 'Bookmark'
     click_on 'Bookmarks'
     click_on 'Cite'
-    expect(page).to have_content 'Strong Medicine speaks'
+    expect(page).to have_text 'Strong Medicine speaks'
   end
 
   it "cites all items in current bookmarks" do
@@ -91,12 +91,12 @@ RSpec.describe "Bookmarks" do
     click_on 'Bookmark'
 
     visit "/bookmarks?per_page=1"
-    expect(page).to have_content 'Strong Medicine speaks'
-    expect(page).to have_no_content 'Ci an zhou bian'
+    expect(page).to have_text 'Strong Medicine speaks'
+    expect(page).to have_no_text 'Ci an zhou bian'
 
     click_on 'Cite'
-    expect(page).to have_content 'Strong Medicine speaks'
-    expect(page).to have_content 'Ci an zhou bian'
+    expect(page).to have_text 'Strong Medicine speaks'
+    expect(page).to have_text 'Ci an zhou bian'
   end
 
   context "when the bookmark icon is configured (default)" do
@@ -126,7 +126,7 @@ RSpec.describe "Bookmarks" do
       expect(page).to have_no_css('#bookmarks_nav')
       find('.blacklight-icons-bookmark').click
 
-      expect(page).to have_content 'In Bookmarks'
+      expect(page).to have_text 'In Bookmarks'
 
       visit solr_document_path('2007020969')
       expect(find('.toggle-bookmark-input', visible: false)).to be_checked

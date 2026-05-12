@@ -5,8 +5,8 @@ RSpec.describe "Search History Page" do
     it "has a link to the history page" do
       visit root_path
       click_on 'History'
-      expect(page).to have_content 'Search History'
-      expect(page).to have_content 'You have no search history'
+      expect(page).to have_text 'Search History'
+      expect(page).to have_text 'You have no search history'
     end
   end
 
@@ -19,15 +19,15 @@ RSpec.describe "Search History Page" do
     end
 
     it "shows searches" do
-      expect(page).to have_content 'Your recent searches'
-      expect(page).to have_content 'book'
-      expect(page).to have_no_content 'dang'
+      expect(page).to have_text 'Your recent searches'
+      expect(page).to have_text 'book'
+      expect(page).to have_no_text 'dang'
       visit root_path
       fill_in "q", with: 'dang'
       click_on 'search'
       click_on 'History'
-      expect(page).to have_content 'book'
-      expect(page).to have_content 'dang'
+      expect(page).to have_text 'book'
+      expect(page).to have_text 'dang'
     end
   end
 
@@ -43,10 +43,10 @@ RSpec.describe "Search History Page" do
 
     it "is able to clear the history" do
       click_on "Clear Search History"
-      expect(page).to have_content 'Cleared your search history.'
-      expect(page).to have_content 'You have no search history'
-      expect(page).to have_no_content 'book'
-      expect(page).to have_no_content 'dang'
+      expect(page).to have_text 'Cleared your search history.'
+      expect(page).to have_text 'You have no search history'
+      expect(page).to have_no_text 'book'
+      expect(page).to have_no_text 'dang'
     end
   end
 end

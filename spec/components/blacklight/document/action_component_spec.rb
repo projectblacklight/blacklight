@@ -42,7 +42,7 @@ RSpec.describe Blacklight::Document::ActionComponent, type: :component do
     end
 
     it 'render the partial' do
-      expect(page).to have_content 'tool'
+      expect(page).to have_text 'tool'
     end
   end
 end

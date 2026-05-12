@@ -44,7 +44,7 @@ RSpec.describe "Search Results" do
 
   it "provides search hints if there are no results" do
     search_for 'asdfghj'
-    expect(page).to have_content "No results found for your search"
+    expect(page).to have_text "No results found for your search"
   end
 
   it "provides search hints if there are no results" do
@@ -52,8 +52,8 @@ RSpec.describe "Search Results" do
     fill_in "q", with: "inmul"
     select "Author", from: "search_field"
     click_on 'search'
-    expect(page).to have_content "No results found for your search"
-    expect(page).to have_content "you searched by Author"
+    expect(page).to have_text "No results found for your search"
+    expect(page).to have_text "you searched by Author"
     click_on "try searching everything"
     expect(page).to have_xpath("//a[contains(@href, 77826928)]")
   end

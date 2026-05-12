@@ -2,6 +2,7 @@
 
 RSpec.describe Blacklight::ShowPresenter, :api do
   include Capybara::RSpecMatchers
+
   subject { presenter }
 
   let(:request_context) { double }

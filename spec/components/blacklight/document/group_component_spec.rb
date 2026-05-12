@@ -27,7 +27,7 @@ RSpec.describe Blacklight::Document::GroupComponent, type: :component do
   end
 
   it 'renders the group documents' do
-    expect(page).to have_content 'results'
+    expect(page).to have_text 'results'
   end
 
   context 'with a limit applied' do
