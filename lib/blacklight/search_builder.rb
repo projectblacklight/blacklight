@@ -127,8 +127,8 @@ module Blacklight
                 .tap { clear_changes }
     end
 
-    alias_method :query, :to_hash
-    alias_method :to_h, :to_hash
+    alias query to_hash
+    alias to_h to_hash
 
     # The CatalogController #index action uses this.
     # Solr parameters can come from a number of places. From lowest
@@ -172,7 +172,7 @@ module Blacklight
       val = 0 if @start < 0
       val
     end
-    alias_method :padding, :start
+    alias padding start
 
     def page=(value)
       params_will_change!
