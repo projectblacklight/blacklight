@@ -71,9 +71,7 @@ module Blacklight::Controller
   end
 
   def search_action_path *args
-    if args.first.is_a?(Hash) && args.first[:only_path].nil?
-      args.first[:only_path] = true
-    end
+    args.first[:only_path] = true if args.first.is_a?(Hash) && args.first[:only_path].nil?
 
     search_action_url(*args)
   end

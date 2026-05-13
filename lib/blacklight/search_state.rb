@@ -123,13 +123,9 @@ module Blacklight
       # params hash we'll return
       my_params = to_h.merge(self.class.new(params_to_merge, blacklight_config, controller))
 
-      if block_given?
-        yield my_params
-      end
+      yield my_params if block_given?
 
-      if my_params[:page] && (my_params[:per_page] != params[:per_page] || my_params[:sort] != params[:sort])
-        my_params[:page] = 1
-      end
+      my_params[:page] = 1 if my_params[:page] && (my_params[:per_page] != params[:per_page] || my_params[:sort] != params[:sort])
 
       Parameters.sanitize(my_params)
     end

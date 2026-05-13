@@ -31,7 +31,7 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
   def documents
     @documents ||= (response['docs'] || []).collect { |doc| document_factory.build(doc, self, options) }
   end
-  alias_method :docs, :documents
+  alias docs documents
 
   def grouped
     @groups ||= self["grouped"].map do |field, group|

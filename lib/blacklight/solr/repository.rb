@@ -26,9 +26,7 @@ module Blacklight::Solr
     # @param [Hash,Blacklight::SearchBuilder] params solr query parameters
     # @param [String] path solr request handler path
     def search pos_params = nil, path: nil, params: nil, **kwargs
-      if pos_params
-        Blacklight.deprecation.warn("Passing positional arguments to search() is deprecated. Use the params kwarg instead.")
-      end
+      Blacklight.deprecation.warn("Passing positional arguments to search() is deprecated. Use the params kwarg instead.") if pos_params
 
       request_params = (params || pos_params || {}).reverse_merge(kwargs).reverse_merge({ qt: blacklight_config.qt })
 

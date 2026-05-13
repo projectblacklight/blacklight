@@ -353,9 +353,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
       end
 
       it "includes proper 'q' when LocalParams are used" do
-        if /\{[^}]+\}/.match?(subject[:q])
-          expect(subject[:q]).to match(/\{[^}]+\}wome/)
-        end
+        expect(subject[:q]).to match(/\{[^}]+\}wome/) if /\{[^}]+\}/.match?(subject[:q])
       end
 
       it "includes spellcheck.q, without LocalParams" do

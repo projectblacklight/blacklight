@@ -16,11 +16,15 @@ xml.feed("xmlns" => "http://www.w3.org/2005/Atom",
 
   # Navigational and context links
 
-  xml.link("rel" => "next",
-           "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.next_page.to_s))) if @response.next_page
+  if @response.next_page
+    xml.link("rel" => "next",
+             "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.next_page.to_s)))
+  end
 
-  xml.link("rel" => "previous",
-           "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.prev_page.to_s))) if @response.prev_page
+  if @response.prev_page
+    xml.link("rel" => "previous",
+             "href" => url_for(search_state.to_h.merge(only_path: false, page: @response.prev_page.to_s)))
+  end
 
   xml.link("rel" => "first",
            "href" => url_for(search_state.to_h.merge(only_path: false, page: "1")))

@@ -208,16 +208,16 @@ module Blacklight::Solr::Response::Facets
       options = facet_field_aggregation_options(facet_field_name)
       facet_field = FacetField.new(facet_field_name, items, options.merge(response: self))
 
-      if values[nil]
-        facet_field.missing = items.find(&:missing)
-      end
+      facet_field.missing = items.find(&:missing) if values[nil]
 
       hash[facet_field_name] = facet_field
 
       # alias all the possible blacklight config names..
+      next unless blacklight_config && !blacklight_config.facet_fields[facet_field_name]
+
       blacklight_config.facet_fields.select { |_k, v| v.field == facet_field_name }.each_key do |key|
         hash[key] = hash[facet_field_name]
-      end if blacklight_config && !blacklight_config.facet_fields[facet_field_name]
+      end
     end
   end
 
@@ -321,10 +321,12 @@ module Blacklight::Solr::Response::Facets
       options = facet_field_aggregation_options(facet_field_name).merge(data: data, response: self)
       facet_field = FacetField.new(facet_field_name, items, options)
 
-      facet_field.missing = Blacklight::Solr::Response::Facets::FacetItem.new(
-        hits: data.dig('missing', 'count'),
-        data: data['missing']
-      ) if data['missing']
+      if data['missing']
+        facet_field.missing = Blacklight::Solr::Response::Facets::FacetItem.new(
+          hits: data.dig('missing', 'count'),
+          data: data['missing']
+        )
+      end
 
       hash[facet_field_name] = facet_field
     end

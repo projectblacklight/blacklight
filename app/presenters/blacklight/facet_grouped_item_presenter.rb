@@ -34,9 +34,7 @@ module Blacklight
 
     # @private
     def add_href(_path_options = {})
-      if facet_config.url_method
-        return view_context.public_send(facet_config.url_method, facet_config.key, facet_item)
-      end
+      return view_context.public_send(facet_config.url_method, facet_config.key, facet_item) if facet_config.url_method
 
       new_state = search_state.filter(facet_config).remove(@group)
       new_state = new_state.filter(facet_config).add(@group + [facet_item])

@@ -548,7 +548,7 @@ module Blacklight
         conf.klass = klass
       end
     end
-    alias_method :inheritable_copy, :build
+    alias inheritable_copy build
 
     # Get a view configuration for the given view type + action. The effective
     # view configuration is inherited from:
