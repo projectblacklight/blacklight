@@ -39,7 +39,7 @@ namespace :blacklight do
         puts "Unable to reach: #{conn.uri}"
         exit 1
       end
-    rescue => e
+    rescue StandardError => e
       puts e
       exit 1
     end
@@ -68,7 +68,7 @@ namespace :blacklight do
           puts "\tdoc count: #{response.docs.length}"
           puts "\tfacet fields: #{response.facets.length}"
         end
-      rescue => e
+      rescue StandardError => e
         errors += 1
         puts e
       end
@@ -90,7 +90,7 @@ namespace :blacklight do
           puts "\tdoc count: #{docs.length}"
           puts "\tfacet fields: #{response.facets.length}"
         end
-      rescue => e
+      rescue StandardError => e
         errors += 1
         puts e
       end
@@ -110,7 +110,7 @@ namespace :blacklight do
         if verbose
           puts "\tstatus: #{response.header['status']}"
         end
-      rescue => e
+      rescue StandardError => e
         errors += 1
         puts e
       end
