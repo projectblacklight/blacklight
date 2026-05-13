@@ -85,7 +85,7 @@ module Blacklight
                         else
                           YAML.safe_load(blacklight_erb, [], [], true)
                         end
-    rescue => e
+    rescue StandardError => e
       raise("#{blacklight_config_file} was found, but could not be parsed.\n#{e.inspect}")
     end
 
