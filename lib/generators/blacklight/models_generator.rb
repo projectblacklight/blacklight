@@ -8,7 +8,7 @@ module Blacklight
   class ModelsGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
 
-    source_root File.expand_path('../templates', __FILE__)
+    source_root File.expand_path('templates', __dir__)
 
     desc <<-EOS
     This generator makes the following changes to your application:

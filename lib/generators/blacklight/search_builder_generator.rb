@@ -6,7 +6,7 @@ module Blacklight
   class SearchBuilderGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
 
-    source_root File.expand_path('../templates', __FILE__)
+    source_root File.expand_path('templates', __dir__)
 
     argument :model_name, type: :string, default: "search_builder"
 

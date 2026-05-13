@@ -407,20 +407,6 @@ Style/DocumentDynamicEvalDefinition:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 9
-# This cop supports safe autocorrection (--autocorrect).
-Style/ExpandPathArguments:
-  Exclude:
-    - "Gemfile"
-    - "lib/generators/blacklight/controller_generator.rb"
-    - "lib/generators/blacklight/document_generator.rb"
-    - "lib/generators/blacklight/install_generator.rb"
-    - "lib/generators/blacklight/models_generator.rb"
-    - "lib/generators/blacklight/search_builder_generator.rb"
-    - "lib/generators/blacklight/solr_generator.rb"
-    - "lib/generators/blacklight/test_support_generator.rb"
-    - "lib/generators/blacklight/user_generator.rb"
-
 # Offense count: 17
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: MaxUnannotatedPlaceholdersAllowed, Mode, AllowedMethods, AllowedPatterns.

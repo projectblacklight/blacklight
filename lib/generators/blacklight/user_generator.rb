@@ -7,7 +7,7 @@ module Blacklight
   class UserGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
 
-    source_root File.expand_path('../templates', __FILE__)
+    source_root File.expand_path('templates', __dir__)
 
     argument     :model_name, type: :string, default: "user"
     class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic (this is default)."
