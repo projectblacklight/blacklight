@@ -5,7 +5,7 @@ RSpec.describe "Search Pagination" do
     visit root_path
     fill_in "q", with: ''
     click_on 'search'
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "1 - 10 of "
       within '#per_page-dropdown' do
         expect(page).to have_link('10')
@@ -30,14 +30,14 @@ RSpec.describe "Search Pagination" do
     visit root_path
     fill_in "q", with: ''
     click_on 'search'
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "1 - 10 of "
     end
 
-    within ("#per_page-dropdown") do
+    within("#per_page-dropdown") do
       click_on '20'
     end
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "1 - 20 of "
     end
   end
@@ -60,17 +60,17 @@ RSpec.describe "Search Pagination" do
       visit root_path
       fill_in "q", with: ''
       click_on 'search'
-      within ("#sortAndPerPage") do
+      within("#sortAndPerPage") do
         expect(page).to have_text "1 - 15 of "
         within '#per_page-dropdown' do
           expect(page).to have_link('15')
           expect(page).to have_link('30')
         end
       end
-      within ("#per_page-dropdown") do
+      within("#per_page-dropdown") do
         click_on '30'
       end
-      within ("#sortAndPerPage") do
+      within("#sortAndPerPage") do
         expect(page).to have_text "1 - 30 of "
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe "Search Pagination" do
     within "#sortAndPerPage" do
       expect(page).to have_text "11 - 20 of "
     end
-    within ("#per_page-dropdown") do
+    within("#per_page-dropdown") do
       click_on '20'
     end
     within "#sortAndPerPage" do

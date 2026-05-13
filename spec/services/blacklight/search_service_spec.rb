@@ -145,7 +145,7 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     it 'has all facets specified in initializer' do
-      expect(@facets.keys).to include *blacklight_config.facet_fields.keys
+      expect(@facets.keys).to include(*blacklight_config.facet_fields.keys)
       expect(@facets.none? { |_k, v| v.nil? }).to be true
     end
 

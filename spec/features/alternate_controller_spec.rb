@@ -6,11 +6,11 @@ RSpec.describe "Alternate Controller Behaviors" do
     expect(page).to have_css("form[action='#{search_alternate_url}']")
     fill_in "q", with: "history"
     click_on 'search'
-    expect(current_path).to match /#{search_alternate_path}/
+    expect(current_path).to match(/#{search_alternate_path}/)
     within "#per_page-dropdown .dropdown-menu" do
       click_on '10 per page'
     end
-    expect(current_path).to match /#{search_alternate_path}/
+    expect(current_path).to match(/#{search_alternate_path}/)
   end
 
   it "has the correct search field form" do
@@ -18,9 +18,9 @@ RSpec.describe "Alternate Controller Behaviors" do
     expect(page).to have_css("form[action='#{search_alternate_url}']")
     fill_in "q", with: "history"
     click_on 'search'
-    expect(current_path).to match /#{search_alternate_path}/
+    expect(current_path).to match(/#{search_alternate_path}/)
     click_on 'relevance'
-    expect(current_path).to match /#{search_alternate_path}/
+    expect(current_path).to match(/#{search_alternate_path}/)
   end
 
   it "displays document thumbnails" do
