@@ -89,6 +89,9 @@ Rails/ApplicationMailer:
 Style/AccessModifierDeclarations:
   Enabled: false
 
+Style/FormatStringToken:
+  EnforcedStyle: template
+
 Style/MissingRespondToMissing:
   Exclude:
     - "lib/blacklight/nested_open_struct_with_hash_access.rb"

@@ -367,14 +367,6 @@ Style/DocumentDynamicEvalDefinition:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 17
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: MaxUnannotatedPlaceholdersAllowed, Mode, AllowedMethods, AllowedPatterns.
-# SupportedStyles: annotated, template, unannotated
-# AllowedMethods: redirect
-Style/FormatStringToken:
-  EnforcedStyle: template
-
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: MinBodyLength, AllowConsecutiveConditionals.
