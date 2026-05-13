@@ -9,7 +9,7 @@ RSpec.describe "Search Page" do
   it "shows welcome" do
     visit root_path
     expect(page).to have_field("search for")
-    within ("select#search_field") do
+    within("select#search_field") do
       expect(page).to have_css('option', text: 'All Fields')
       expect(page).to have_css('option', text: 'Title')
       expect(page).to have_css('option', text: 'Author')
@@ -48,11 +48,11 @@ RSpec.describe "Search Page" do
       expect(page).to have_text "history"
     end
 
-    within ("select#search_field") do
+    within("select#search_field") do
       expect(page).to have_css("option[selected]", text: "All Fields")
     end
 
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "Sort by"
       expect(page).to have_text "1 - 10 of 11"
       within '#sort-dropdown' do
@@ -78,13 +78,13 @@ RSpec.describe "Search Page" do
       expect(page).to have_text "Title"
       expect(page).to have_text "inmul"
     end
-    within ("select#search_field") do
+    within("select#search_field") do
       expect(page).to have_css("option[selected]", text: "Title")
     end
     within(".index_title") do
       expect(page).to have_text "1."
     end
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "1 entry found"
     end
   end

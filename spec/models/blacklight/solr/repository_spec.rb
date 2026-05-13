@@ -160,7 +160,7 @@ RSpec.describe Blacklight::Solr::Repository, :api do
       end
 
       describe "setting to post" do
-        let (:blacklight_config) do
+        let(:blacklight_config) do
           config = Blacklight::Configuration.new
           config.http_method = :post
           config
@@ -214,7 +214,7 @@ RSpec.describe Blacklight::Solr::Repository, :api do
   end
 
   describe "http_method configuration", :integration do
-    let (:blacklight_config) do
+    let(:blacklight_config) do
       config = Blacklight::Configuration.new
       config.http_method = :post
       config

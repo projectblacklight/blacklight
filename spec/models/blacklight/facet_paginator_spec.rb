@@ -171,6 +171,6 @@ RSpec.describe Blacklight::FacetPaginator, :api do
     # this method is just for API compatability with kaminari 0.16.1
     subject { described_class.new([book], offset: 0, limit: nil).total_pages }
 
-    it { is_expected.to eq -1 }
+    it { is_expected.to eq(-1) }
   end
 end

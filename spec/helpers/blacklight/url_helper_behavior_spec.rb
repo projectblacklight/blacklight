@@ -13,7 +13,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
   before do
     allow(controller).to receive_messages(controller_name: 'test', search_state_class: Blacklight::SearchState)
     allow(helper).to receive(:search_action_path) do |*args|
-      search_catalog_url *args
+      search_catalog_url(*args)
     end
 
     allow(helper).to receive_messages(blacklight_config: blacklight_config)
@@ -35,16 +35,16 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     it "builds a link tag to catalog using session[:search] for query params" do
       allow(helper).to receive(:current_search_session).and_return double(query_params: query_params)
       tag = helper.link_back_to_catalog
-      expect(tag).to match /q=query/
-      expect(tag).to match /f=facets/
-      expect(tag).not_to match /page=/
-      expect(tag).not_to match /per_page=/
+      expect(tag).to match(/q=query/)
+      expect(tag).to match(/f=facets/)
+      expect(tag).not_to match(/page=/)
+      expect(tag).not_to match(/per_page=/)
     end
 
     it "builds a link tag to bookmarks using session[:search] for query params" do
       allow(helper).to receive(:current_search_session).and_return double(query_params: bookmarks_query_params)
       tag = helper.link_back_to_catalog
-      expect(tag).to match /Back to Bookmarks/
+      expect(tag).to match(/Back to Bookmarks/)
       expect(tag).to match %r{/bookmarks}
     end
 
@@ -53,16 +53,16 @@ RSpec.describe Blacklight::UrlHelperBehavior do
         allow(helper).to receive_messages(current_search_session: double(query_params: query_params))
         allow(helper).to receive_messages(search_session: { 'per_page' => 15, 'counter' => 31 })
         tag = helper.link_back_to_catalog
-        expect(tag).to match /page=3/
-        expect(tag).to match /per_page=15/
+        expect(tag).to match(/page=3/)
+        expect(tag).to match(/per_page=15/)
       end
 
       it "omits per_page if the value is the same as the default" do
         allow(helper).to receive_messages(current_search_session: double(query_params: query_params))
         allow(helper).to receive_messages(search_session: { 'per_page' => 10, 'counter' => 31 })
         tag = helper.link_back_to_catalog
-        expect(tag).to match /page=4/
-        expect(tag).not_to match /per_page=/
+        expect(tag).to match(/page=4/)
+        expect(tag).not_to match(/per_page=/)
       end
     end
 
@@ -92,8 +92,8 @@ RSpec.describe Blacklight::UrlHelperBehavior do
         expect(my_engine).to receive(:url_for)
           .with({ q: "query", f: "facets", controller: "catalog" })
           .and_return('link-url')
-        expect(tag).to match /Back to Search/
-        expect(tag).to match /link-url/
+        expect(tag).to match(/Back to Search/)
+        expect(tag).to match(/link-url/)
       end
     end
   end

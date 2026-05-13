@@ -12,7 +12,7 @@ RSpec.describe "catalog/index.html.erb" do
     it "renders the Search::SidebarComponent component" do
       render
 
-      expect(sidebar).to match /Limit your search/
+      expect(sidebar).to match(/Limit your search/)
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe "catalog/index.html.erb" do
 
     it "renders the search_header partial" do
       render
-      expect(rendered).to match /sortAndPerPage/
+      expect(rendered).to match(/sortAndPerPage/)
     end
   end
 end

@@ -28,29 +28,6 @@ Capybara/RSpec/VisibilityMatcher:
     - "spec/features/search_filters_spec.rb"
     - "spec/helpers/blacklight_helper_spec.rb"
 
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-Lint/AmbiguousOperator:
-  Exclude:
-    - "spec/helpers/blacklight/url_helper_behavior_spec.rb"
-    - "spec/helpers/blacklight_helper_spec.rb"
-    - "spec/models/blacklight/facet_paginator_spec.rb"
-    - "spec/services/blacklight/search_service_spec.rb"
-
-# Offense count: 43
-# This cop supports safe autocorrection (--autocorrect).
-Lint/AmbiguousRegexpLiteral:
-  Exclude:
-    - "spec/controllers/catalog_controller_spec.rb"
-    - "spec/features/alternate_controller_spec.rb"
-    - "spec/helpers/blacklight/url_helper_behavior_spec.rb"
-    - "spec/helpers/catalog_helper_spec.rb"
-    - "spec/models/record_mailer_spec.rb"
-    - "spec/views/catalog/_document.html.erb_spec.rb"
-    - "spec/views/catalog/_sort_and_per_page.html.erb_spec.rb"
-    - "spec/views/catalog/index.html.erb_spec.rb"
-    - "spec/views/catalog/show.html.erb_spec.rb"
-
 # Offense count: 1
 Lint/BinaryOperatorWithIdenticalOperands:
   Exclude:
@@ -80,16 +57,6 @@ Lint/EmptyBlock:
 # Configuration parameters: AllowedParentClasses.
 Lint/MissingSuper:
   Enabled: false
-
-# Offense count: 29
-# This cop supports safe autocorrection (--autocorrect).
-Lint/ParenthesesAsGroupedExpression:
-  Exclude:
-    - "spec/features/did_you_mean_spec.rb"
-    - "spec/features/search_filters_spec.rb"
-    - "spec/features/search_pagination_spec.rb"
-    - "spec/features/search_spec.rb"
-    - "spec/models/blacklight/solr/repository_spec.rb"
 
 # Offense count: 80
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.

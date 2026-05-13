@@ -440,7 +440,7 @@ RSpec.describe CatalogController, :api do
       it "responds to an extension-registered format properly" do
         get :show, params: { id: doc_id, format: 'mock' }
         expect(response).to be_successful
-        expect(response.body).to match /mock_export/
+        expect(response.body).to match(/mock_export/)
       end
     end # dynamic export formats
   end # describe show action
@@ -594,7 +594,7 @@ RSpec.describe CatalogController, :api do
 
     it "does not show user util links" do
       get :index
-      expect(response.body).not_to match /Login/
+      expect(response.body).not_to match(/Login/)
     end
   end
 

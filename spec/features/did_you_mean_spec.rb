@@ -10,7 +10,7 @@ RSpec.describe "Did You Mean" do
 
       expect(page).to have_text("Did you mean")
       click_on 'policy'
-      within ("#sortAndPerPage") do
+      within("#sortAndPerPage") do
         expect(page).to have_text "1 - 2 of 2"
       end
     end
@@ -26,10 +26,10 @@ RSpec.describe "Did You Mean" do
 
       expect(page).to have_text("Did you mean")
       click_on 'yehudiyim'
-      within ("#sortAndPerPage") do
+      within("#sortAndPerPage") do
         expect(page).to have_text "1 entry found"
       end
-      within ("select#search_field") do
+      within("select#search_field") do
         expect(page).to have_css("option[selected]", text: "Title")
       end
     end
@@ -45,10 +45,10 @@ RSpec.describe "Did You Mean" do
 
       expect(page).to have_text("Did you mean")
       click_on 'sharma'
-      within ("#sortAndPerPage") do
+      within("#sortAndPerPage") do
         expect(page).to have_text "1 entry found"
       end
-      within ("select#search_field") do
+      within("select#search_field") do
         expect(page).to have_css("option[selected]", text: "Author")
       end
     end
@@ -64,10 +64,10 @@ RSpec.describe "Did You Mean" do
 
       expect(page).to have_text("Did you mean")
       click_on 'women'
-      within ("#sortAndPerPage") do
+      within("#sortAndPerPage") do
         expect(page).to have_text "1 - 3 of 3"
       end
-      within ("select#search_field") do
+      within("select#search_field") do
         expect(page).to have_css("option[selected]", text: "Subject")
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe "Did You Mean" do
       end
 
       click_on 'bon'
-      within ("#sortAndPerPage") do
+      within("#sortAndPerPage") do
         expect(page).to have_text "1 entry found"
       end
     end
@@ -116,7 +116,7 @@ RSpec.describe "Did You Mean" do
 
     expect(page).to have_text("Did you mean")
     click_on 'bya'
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "1 - 3 of 3"
     end
   end
@@ -143,7 +143,7 @@ RSpec.describe "Did You Mean" do
 
       expect(page).to have_text("Did you mean")
       click_on 'yoshida Hajime'
-      within ("#sortAndPerPage") do
+      within("#sortAndPerPage") do
         expect(page).to have_text "1 - 2 of 2"
       end
     end

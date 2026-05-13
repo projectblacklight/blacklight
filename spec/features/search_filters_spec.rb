@@ -21,7 +21,7 @@ RSpec.describe "Facets" do
     within "#facet-subject_geo_ssim" do
       click_on "India"
     end
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "1 - 2 of 2"
     end
     within "#facet-language_ssim" do
@@ -38,14 +38,14 @@ RSpec.describe "Facets" do
     visit root_path
     fill_in "q", with: 'history'
     click_on 'search'
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "1 - 10 of 11"
     end
 
     within "#facet-language_ssim" do
       click_on "Tibetan"
     end
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "1 - 2 of 2"
     end
     within "#facet-language_ssim" do
@@ -59,7 +59,7 @@ RSpec.describe "Facets" do
 
     click_on "2004"
 
-    within ("#sortAndPerPage") do
+    within("#sortAndPerPage") do
       expect(page).to have_text "1 entry found"
     end
     within "#facet-language_ssim" do
