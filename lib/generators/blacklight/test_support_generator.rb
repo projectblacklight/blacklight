@@ -8,7 +8,7 @@ require 'rails/generators'
 require 'rails/generators/base'
 module Blacklight
   class TestSupport < Rails::Generators::Base
-    source_root File.expand_path('../templates', __FILE__)
+    source_root File.expand_path('templates', __dir__)
 
     desc <<-EOS
       Generate blacklight testing configurations for blacklight's own tests, or for blacklight plugins to use for testing
