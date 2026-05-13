@@ -16,7 +16,7 @@ RSpec.describe "catalog/_paginate_compact.html.erb" do
   end
 
   it "renders ActiveRecord collections" do
-    50.times { b = Bookmark.new; b.user = user; b.save! }
+    50.times { Bookmark.create!(user: user) }
     render partial: 'catalog/paginate_compact', object: Bookmark.page(1).per(25)
     expect(rendered).to have_css ".page-entries"
     expect(rendered).to have_css "a[@rel=next]"
