@@ -200,7 +200,7 @@ module Blacklight::Solr
         if facet.pivot
           solr_parameters.append_facet_pivot with_ex_local_param(facet.ex, facet.pivot.join(","))
         elsif facet.query
-          solr_parameters.append_facet_query facet.query.values.map { |x| with_ex_local_param(facet.ex, x[:fq]) }
+          solr_parameters.append_facet_query(facet.query.values.map { |x| with_ex_local_param(facet.ex, x[:fq]) })
         else
           solr_parameters.append_facet_fields with_ex_local_param(facet.ex, facet.field)
         end
