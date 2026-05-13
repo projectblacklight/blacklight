@@ -28,13 +28,6 @@ Capybara/RSpec/VisibilityMatcher:
     - "spec/features/search_filters_spec.rb"
     - "spec/helpers/blacklight_helper_spec.rb"
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowedMethods, AllowedPatterns.
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - "lib/blacklight/solr/search_builder_behavior.rb"
-
 # Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
 Lint/AmbiguousOperator:
