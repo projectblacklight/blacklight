@@ -16,7 +16,9 @@ class TestAppGenerator < Rails::Generators::Base
       run "bundle install"
     end
     options = '--devise'
-    options += ' --skip-assets' if ENV['BLACKLIGHT_API_TEST'].present?
+    if ENV['BLACKLIGHT_API_TEST'].present?
+      options += ' --skip-assets'
+    end
 
     generate :'blacklight:install', options
   end

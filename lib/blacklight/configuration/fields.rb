@@ -95,7 +95,9 @@ module Blacklight
                          field_config_from_field_or_hash(config_key, *args)
                        end
 
-        field_config.match = Regexp.new("^#{(field_config.field || field_config.key).to_s.gsub('*', '.+')}$") if (field_config.field || field_config.key).to_s =~ /\*/
+        if (field_config.field || field_config.key).to_s =~ /\*/
+          field_config.match = Regexp.new("^#{(field_config.field || field_config.key).to_s.gsub('*', '.+')}$")
+        end
 
         # look up any dynamic fields
         if field_config.match
@@ -103,7 +105,9 @@ module Blacklight
           return
         end
 
-        yield field_config if block_given?
+        if block_given?
+          yield field_config
+        end
 
         field_config.normalize!(self)
         field_config.validate!
@@ -136,7 +140,9 @@ module Blacklight
       end
 
       def reflected_fields
-        return nil if @table[:reflected_fields] == false
+        if @table[:reflected_fields] == false
+          return nil
+        end
 
         @table[:reflected_fields] ||= Rails.cache.fetch("blacklight_configuration/admin/reflected_fields", expires_in: 1.hour) do
           repository.reflect_fields

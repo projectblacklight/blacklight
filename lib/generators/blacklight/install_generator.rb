@@ -62,7 +62,9 @@ module Blacklight
 
     def generate_blacklight_user
       generator_args = [model_name]
-      generator_args << "--devise #{options[:devise]}" if options[:devise]
+      if options[:devise]
+        generator_args << "--devise #{options[:devise]}"
+      end
 
       generate 'blacklight:user', generator_args.join(" ")
     end

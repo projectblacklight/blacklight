@@ -22,7 +22,9 @@ module Blacklight
 
     # @return [Array]
     def fetch
-      value = retrieve_highlight if field_config.highlight
+      if field_config.highlight
+        value = retrieve_highlight
+      end
       if value.blank?
         value = if field_config.accessor
                   retieve_using_accessor

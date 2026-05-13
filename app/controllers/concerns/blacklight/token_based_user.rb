@@ -6,7 +6,9 @@ module Blacklight::TokenBasedUser
   extend ActiveSupport::Concern
 
   included do
-    helper_method :encrypt_user_id if respond_to? :helper_method
+    if respond_to? :helper_method
+      helper_method :encrypt_user_id
+    end
 
     rescue_from Blacklight::Exceptions::ExpiredSessionToken do
       head :unauthorized
@@ -30,7 +32,9 @@ module Blacklight::TokenBasedUser
   def decrypt_user_id(encrypted_user_id)
     user_id, timestamp = message_encryptor.decrypt_and_verify(encrypted_user_id)
 
-    raise Blacklight::Exceptions::ExpiredSessionToken if timestamp < 1.hour.ago
+    if timestamp < 1.hour.ago
+      raise Blacklight::Exceptions::ExpiredSessionToken
+    end
 
     user_id
   end

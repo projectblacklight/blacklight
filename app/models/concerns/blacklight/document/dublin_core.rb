@@ -36,8 +36,8 @@ module Blacklight::Document::DublinCore
     xml.target!
   end
 
-  alias export_as_xml export_as_oai_dc_xml
-  alias export_as_dc_xml export_as_oai_dc_xml
+  alias_method :export_as_xml, :export_as_oai_dc_xml
+  alias_method :export_as_dc_xml, :export_as_oai_dc_xml
 
   private
 

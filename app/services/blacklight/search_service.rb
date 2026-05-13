@@ -126,7 +126,9 @@ module Blacklight
     def previous_and_next_document_params(index, window = 1)
       solr_params = blacklight_config.document_pagination_params.dup
 
-      solr_params[:fl] = blacklight_config.document_model.unique_key if solr_params.empty?
+      if solr_params.empty?
+        solr_params[:fl] = blacklight_config.document_model.unique_key
+      end
 
       if index > 0
         solr_params[:start] = index - window # get one before

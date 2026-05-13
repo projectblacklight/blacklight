@@ -13,7 +13,9 @@ module Blacklight
       # enough version of Rails to have zeitwerk config
       #
       # See: https://github.com/cbeer/engine_cart/issues/117
-      Rails.autoloaders.main.ignore(Rails.root.join('lib/generators')) if Rails.try(:autoloaders).try(:main).respond_to?(:ignore)
+      if Rails.try(:autoloaders).try(:main).respond_to?(:ignore)
+        Rails.autoloaders.main.ignore(Rails.root.join('lib/generators'))
+      end
     end
 
     config.after_initialize do
@@ -29,7 +31,7 @@ module Blacklight
       end
     end
 
-    PRECOMPILE_ASSETS = %w[favicon.ico blacklight/blacklight.js blacklight/blacklight.js.map blacklight/blacklight.esm.js blacklight/blacklight.esm.js.map].freeze
+    PRECOMPILE_ASSETS = %w(favicon.ico blacklight/blacklight.js blacklight/blacklight.js.map blacklight/blacklight.esm.js blacklight/blacklight.esm.js.map).freeze
 
     initializer "blacklight.assets.precompile" do |app|
       # When Rails has been generated in API mode, it does not have sprockets available

@@ -307,6 +307,31 @@ Security/Eval:
   Exclude:
     - "spec/models/blacklight/solr/response_spec.rb"
 
+# Offense count: 9
+# This cop supports safe autocorrection (--autocorrect).
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: prefer_alias, prefer_alias_method
+Style/Alias:
+  Exclude:
+    - "app/models/concerns/blacklight/document.rb"
+    - "app/models/concerns/blacklight/document/dublin_core.rb"
+    - "lib/blacklight/configuration.rb"
+    - "lib/blacklight/search_builder.rb"
+    - "lib/blacklight/solr/response.rb"
+    - "lib/blacklight/solr/response/group_response.rb"
+
+# Offense count: 3
+# This cop supports safe autocorrection (--autocorrect).
+# Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, AllowedMethods, AllowedPatterns, AllowBracesOnProceduralOneLiners, BracesRequiredMethods.
+# SupportedStyles: line_count_based, semantic, braces_for_chaining, always_braces
+# ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object
+# FunctionalMethods: let, let!, subject, watch
+# AllowedMethods: lambda, proc, it
+Style/BlockDelimiters:
+  Exclude:
+    - "app/views/catalog/index.rss.builder"
+    - "app/views/catalog/opensearch.xml.builder"
+
 # Offense count: 47
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle, EnforcedStyleForClasses, EnforcedStyleForModules.
@@ -323,6 +348,14 @@ Style/CommentedKeyword:
     - "spec/controllers/catalog_controller_spec.rb"
     - "spec/services/blacklight/search_service_spec.rb"
 
+# Offense count: 1
+# This cop supports safe autocorrection (--autocorrect).
+# Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
+# SupportedStyles: assign_to_condition, assign_inside_condition
+Style/ConditionalAssignment:
+  Exclude:
+    - "lib/blacklight/solr/response/spelling.rb"
+
 # Offense count: 2
 Style/DocumentDynamicEvalDefinition:
   Exclude:
@@ -333,6 +366,44 @@ Style/DocumentDynamicEvalDefinition:
 # Configuration parameters: AllowedConstants.
 Style/Documentation:
   Enabled: false
+
+# Offense count: 17
+# This cop supports safe autocorrection (--autocorrect).
+# Configuration parameters: MaxUnannotatedPlaceholdersAllowed, Mode, AllowedMethods, AllowedPatterns.
+# SupportedStyles: annotated, template, unannotated
+# AllowedMethods: redirect
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+# Offense count: 6
+# This cop supports safe autocorrection (--autocorrect).
+# Configuration parameters: MinBodyLength, AllowConsecutiveConditionals.
+Style/GuardClause:
+  Exclude:
+    - "app/controllers/concerns/blacklight/bookmarks.rb"
+    - "app/controllers/concerns/blacklight/catalog.rb"
+    - "app/controllers/concerns/blacklight/search_context.rb"
+    - "app/helpers/blacklight/catalog_helper_behavior.rb"
+    - "lib/blacklight/solr/search_builder_behavior.rb"
+
+# Offense count: 32
+# This cop supports safe autocorrection (--autocorrect).
+Style/IfUnlessModifier:
+  Enabled: false
+
+# Offense count: 4
+# This cop supports safe autocorrection (--autocorrect).
+Style/MultilineIfModifier:
+  Exclude:
+    - "app/views/catalog/index.atom.builder"
+    - "lib/blacklight/solr/response/facets.rb"
+
+# Offense count: 1
+# This cop supports safe autocorrection (--autocorrect).
+# Configuration parameters: AllowMethodComparison, ComparisonsThreshold.
+Style/MultipleComparison:
+  Exclude:
+    - "lib/blacklight/configuration/context.rb"
 
 # Offense count: 8
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -358,6 +429,27 @@ Style/OpenStructUse:
     - "spec/lib/blacklight/search_state/filter_field_spec.rb"
     - "spec/models/blacklight/configuration_spec.rb"
     - "spec/models/blacklight/solr/response_spec.rb"
+
+# Offense count: 1
+# This cop supports safe autocorrection (--autocorrect).
+# Configuration parameters: AllowSafeAssignment, AllowInMultilineConditions.
+Style/ParenthesesAroundCondition:
+  Exclude:
+    - "app/views/catalog/_document.atom.builder"
+
+# Offense count: 1
+# This cop supports safe autocorrection (--autocorrect).
+# Configuration parameters: PreferredDelimiters.
+Style/PercentLiteralDelimiters:
+  Exclude:
+    - "lib/blacklight/engine.rb"
+
+# Offense count: 2
+# This cop supports safe autocorrection (--autocorrect).
+Style/RedundantParentheses:
+  Exclude:
+    - "app/views/catalog/_document.atom.builder"
+    - "lib/railties/blacklight.rake"
 
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).

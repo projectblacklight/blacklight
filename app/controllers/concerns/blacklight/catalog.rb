@@ -13,7 +13,9 @@ module Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
-    helper_method :sms_mappings, :has_search_parameters? if respond_to? :helper_method
+    if respond_to? :helper_method
+      helper_method :sms_mappings, :has_search_parameters?
+    end
 
     record_search_parameters
   end
@@ -206,9 +208,11 @@ module Blacklight::Catalog
   def document_export_formats(format)
     format.any do
       format_name = params.fetch(:format, '').to_sym
-      raise ActionController::UnknownFormat unless @response.export_formats.include? format_name
-
-      render_document_export_format format_name
+      if @response.export_formats.include? format_name
+        render_document_export_format format_name
+      else
+        raise ActionController::UnknownFormat
+      end
     end
   end
 

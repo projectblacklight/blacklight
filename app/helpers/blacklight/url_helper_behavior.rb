@@ -61,7 +61,9 @@ module Blacklight::UrlHelperBehavior
   def session_tracking_path document, params = {}
     return if document.nil? || !blacklight_config.track_search_session.storage
 
-    return main_app.public_send(controller_tracking_method, params.merge(id: document)) if main_app.respond_to?(controller_tracking_method)
+    if main_app.respond_to?(controller_tracking_method)
+      return main_app.public_send(controller_tracking_method, params.merge(id: document))
+    end
 
     raise "Unable to find #{controller_tracking_method} route helper. " \
           "Did you add `concerns :searchable` routing mixin to your `config/routes.rb`?"
@@ -100,7 +102,9 @@ module Blacklight::UrlHelperBehavior
                end
     label = opts.delete(:label)
 
-    label ||= t('blacklight.back_to_bookmarks') if link_url =~ /bookmarks/
+    if link_url =~ /bookmarks/
+      label ||= t('blacklight.back_to_bookmarks')
+    end
 
     label ||= t('blacklight.back_to_search')
 

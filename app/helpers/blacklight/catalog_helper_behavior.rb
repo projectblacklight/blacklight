@@ -81,9 +81,9 @@ module Blacklight::CatalogHelperBehavior
     offset ||= @response.start if @response
     offset ||= 0
 
-    return if render_grouped_response?
-
-    idx + 1 + offset
+    unless render_grouped_response?
+      idx + 1 + offset
+    end
   end
 
   ##
@@ -167,7 +167,9 @@ module Blacklight::CatalogHelperBehavior
                      end
     end
 
-    constraints += search_state.filters.collect { |filter| render_search_to_page_title_filter(filter.key, filter.values) } if search_state.filters.any?
+    if search_state.filters.any?
+      constraints += search_state.filters.collect { |filter| render_search_to_page_title_filter(filter.key, filter.values) }
+    end
 
     constraints.join(t('blacklight.search.page_title.joiner'))
   end

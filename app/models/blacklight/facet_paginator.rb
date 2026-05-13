@@ -91,7 +91,9 @@ module Blacklight
       # no way to make it make sense otherwise.
       resort_params = params.merge(request_keys[:sort] => sort_method, request_keys[:page] => nil)
 
-      resort_params.except!(request_keys[:prefix]) if sort_method == 'count'
+      if sort_method == 'count'
+        resort_params.except!(request_keys[:prefix])
+      end
 
       resort_params
     end

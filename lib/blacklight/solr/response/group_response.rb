@@ -11,7 +11,7 @@ class Blacklight::Solr::Response::GroupResponse
     @response = response
   end
 
-  alias group_field key
+  alias_method :group_field, :key
 
   def groups
     @groups ||= group["groups"].map do |g|

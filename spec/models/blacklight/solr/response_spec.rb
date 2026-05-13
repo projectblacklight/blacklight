@@ -91,7 +91,9 @@ RSpec.describe Blacklight::Solr::Response, :api do
     expect(r.entry_name(count: 1)).to eq 'entry'
     expect(r.entry_name(count: 2)).to eq 'entries'
     expect(r.size).to eq 26
-    expect(r.max_pages).to be_nil if Kaminari.config.respond_to? :max_pages
+    if Kaminari.config.respond_to? :max_pages
+      expect(r.max_pages).to be_nil
+    end
     expect(r).to be_a Kaminari::PageScopeMethods
   end
 

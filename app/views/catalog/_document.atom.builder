@@ -14,7 +14,9 @@ xml.entry do
 
   xml.id polymorphic_url(search_state.url_for_document(document))
 
-  xml.author { xml.name(document.to_semantic_values[:author].first) } if document.to_semantic_values.key? :author
+  if document.to_semantic_values.key? :author
+    xml.author { xml.name(document.to_semantic_values[:author].first) }
+  end
 
   with_format(:html) do
     xml.summary "type" => "html" do
@@ -24,8 +26,8 @@ xml.entry do
   end
 
   # If they asked for a format, give it to them.
-  if params["content_format"] &&
-     document.export_formats[params["content_format"].to_sym]
+  if (params["content_format"] &&
+    document.export_formats[params["content_format"].to_sym])
 
     type = document.export_formats[params["content_format"].to_sym][:content_type]
 

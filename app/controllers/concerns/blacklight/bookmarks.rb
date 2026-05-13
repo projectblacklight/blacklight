@@ -148,10 +148,10 @@ module Blacklight::Bookmarks
   private
 
   def verify_user
-    return if current_or_guest_user || (action == "index" && token_or_current_or_guest_user)
-
-    flash[:notice] = I18n.t('blacklight.bookmarks.need_login')
-    raise Blacklight::Exceptions::AccessDenied
+    unless current_or_guest_user || (action == "index" && token_or_current_or_guest_user)
+      flash[:notice] = I18n.t('blacklight.bookmarks.need_login')
+      raise Blacklight::Exceptions::AccessDenied
+    end
   end
 
   def start_new_search_session?

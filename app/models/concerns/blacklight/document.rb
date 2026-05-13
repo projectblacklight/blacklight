@@ -32,7 +32,7 @@ module Blacklight::Document
   end
 
   attr_reader :response, :_source
-  alias solr_response response
+  alias_method :solr_response, :response
 
   delegate :[], :key?, :keys, :to_h, :as_json, to: :_source
 

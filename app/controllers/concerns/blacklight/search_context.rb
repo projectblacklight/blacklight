@@ -6,7 +6,9 @@ module Blacklight::SearchContext
   # The following code is executed when someone includes Blacklight::Catalog::SearchSession in their
   # own controller.
   included do
-    helper_method :current_search_session, :search_session if respond_to? :helper_method
+    if respond_to? :helper_method
+      helper_method :current_search_session, :search_session
+    end
   end
 
   class_methods do
@@ -124,9 +126,9 @@ module Blacklight::SearchContext
 
     session[:history].unshift(search.id)
 
-    return unless session[:history].length > blacklight_config.search_history_window
-
-    session[:history] = session[:history].slice(0, blacklight_config.search_history_window)
+    if session[:history].length > blacklight_config.search_history_window
+      session[:history] = session[:history].slice(0, blacklight_config.search_history_window)
+    end
   end
 
   # A list of query parameters that should not be persisted for a search
