@@ -160,7 +160,11 @@ RSpec.describe Blacklight::Solr::Repository, :api do
       end
 
       describe "setting to post" do
-        let (:blacklight_config) { config = Blacklight::Configuration.new; config.http_method = :post; config }
+        let (:blacklight_config) do
+          config = Blacklight::Configuration.new
+          config.http_method = :post
+          config
+        end
 
         it "keep value set to post" do
           expect(blacklight_config.http_method).to eq :post
@@ -210,7 +214,11 @@ RSpec.describe Blacklight::Solr::Repository, :api do
   end
 
   describe "http_method configuration", :integration do
-    let (:blacklight_config) { config = Blacklight::Configuration.new; config.http_method = :post; config }
+    let (:blacklight_config) do
+      config = Blacklight::Configuration.new
+      config.http_method = :post
+      config
+    end
 
     it "sends a post request to solr and get a response back" do
       response = subject.search(params: { q: all_docs_query })
