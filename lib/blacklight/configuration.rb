@@ -139,22 +139,86 @@ module Blacklight
       # set to nil if a checkbox is prefered to the icon
       property :bookmark_icon_component, default: Blacklight::Icons::BookmarkIconComponent
 
+      property :components, default: {
+        icons: {
+          bookmark: Blacklight::Icons::BookmarkIconComponent
+        }
+      }
+
       # @!attribute index
       # General configuration for all views
       # @return [Blacklight::Configuration::ViewConfig::Index]
       property :index, default: ViewConfig::Index.new(
+        components: {
+          # any of these components should receive a document object (probably DocumentPresenter) and do something useful.
+          document: {
+            root: Blacklight::DocumentComponent,
+
+            # existing component config; mostly deprecated by section config?
+            embed: nil,
+            metadata: Blacklight::DocumentMetadataComponent,
+            thumbnail: Blacklight::Document::ThumbnailComponent,
+            title: Blacklight::DocumentTitleComponent,
+
+            # new config
+            layout: nil,
+            search_context_constraints: nil,
+            actions: [],
+            header: [],
+            sidebar: [],
+            section: [
+              [:document, :embed], # alias to a top-level key for backwards compatibility.
+              [:document, :metadata],
+              [:document, :thumbnail]
+            ],
+            footer: []
+          },
+          facets: {
+            # possibly too low-level to want to express here:
+            group: Blacklight::Response::FacetGroupComponent,
+            filters: Blacklight::Facets::FiltersComponent,
+            pagination: Blacklight::FacetFieldPaginationComponent,
+
+            # new stuff
+            default: nil,
+            layout: nil,
+            modal: nil
+          },
+          # any of these components should receive a search object (probably a SearchPresenter or something)
+          search_results: {
+            search_bar: nil,
+            header: [
+              [:search_results, :constraints]
+            ],
+            constraints: Blacklight::ConstraintsComponent,
+            search_header: Blacklight::SearchHeaderComponent,
+            sidebar: [
+              [:sesarch_results, :facets]
+            ],
+            facets: Blacklight::Search::SidebarComponent,
+
+            # new stuff:
+            title: nil,
+            head: nil,
+            footer: [
+              # pagination?
+            ]
+          },
+          system: {
+            dropdown: Blacklight::System::DropdownComponent,
+
+            # new stuff
+            button: nil,
+            flex: nil,
+            accordion: nil,
+            skip_link: nil,
+            modal: nil
+          }
+        },
         # document presenter class used by helpers and views
         document_presenter_class: Blacklight::IndexPresenter,
         # document presenter used for json responses
         json_presenter_class: Blacklight::JsonPresenter,
-        # component class used to render a document
-        document_component: Blacklight::DocumentComponent,
-        document_embed_component: nil,
-        document_metadata_component: Blacklight::DocumentMetadataComponent,
-        document_thumbnail_component: Blacklight::Document::ThumbnailComponent,
-        document_title_component: Blacklight::DocumentTitleComponent,
-        sidebar_component: Blacklight::Search::SidebarComponent,
-        dropdown_component: Blacklight::System::DropdownComponent,
         # solr field to use to render a document title
         title_field: nil,
         # solr field to use to render format-specific partials
@@ -167,18 +231,6 @@ module Blacklight
         group: false,
         # additional response formats for search results
         respond_to: OpenStructWithHashAccess.new,
-        # component class used to render the facet grouping
-        facet_group_component: Blacklight::Response::FacetGroupComponent,
-        # component class used to render the facet search and start at
-        facet_filters_component: Blacklight::Facets::FiltersComponent,
-        # component class used to render the facet pagination
-        facet_pagination_component: Blacklight::FacetFieldPaginationComponent,
-        # component class used to render search constraints
-        constraints_component: Blacklight::ConstraintsComponent,
-        # component class used to render the search bar
-        search_bar_component: nil,
-        # component class used to render the header above the documents
-        search_header_component: Blacklight::SearchHeaderComponent,
         # pagination parameters to pass to kaminari
         pagination_options: Blacklight::Engine.config.blacklight.default_pagination_options.dup
       )
@@ -707,7 +759,11 @@ module Blacklight
                     end
 
       view_config = Array(action_config.default - [action_config.blacklight_config_property || default]).inject(view_config) do |config, top_level_config|
-        config.reverse_merge(self[top_level_config])
+        result = config.reverse_merge(self[top_level_config])
+
+        result[:components] = (self[top_level_config][:components] || {}).deep_merge(result[:components])
+
+        result
       end
 
       if view_type && action_config.view_specific_property
