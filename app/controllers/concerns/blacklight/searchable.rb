@@ -30,6 +30,17 @@ module Blacklight::Searchable
     search_service.search_results
   end
 
+  # This method may be overridden to customize search behavior.
+  # @return [Blacklight::Document] the document object
+  def retrieve_document(id)
+    search_service.fetch(params[:id])
+  end
+
+  # This method may be overridden to customize search behavior.
+  # @return [Array<Blacklight::Document>] the document objects
+  def retrieve_documents(ids)
+    search_service.fetch(Array(ids))
+  end
 
   # Override this method on the class that includes Blacklight::Searchable to provide more context to the search service if necessary.
   # For example, if your search builder needs to be aware of the current user, override this method to return a hash including the current user.

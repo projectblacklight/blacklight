@@ -37,7 +37,7 @@ module Blacklight::Catalog
   # get a single document from the index
   # to add responses for formats other than html or json see _Blacklight::Document::Export_
   def show
-    @document = search_service.fetch(params[:id])
+    @document = retrieve_document(params[:id])
 
     respond_to do |format|
       format.html { @search_context = setup_next_and_previous_documents }
@@ -54,7 +54,7 @@ module Blacklight::Catalog
   def raw
     raise(ActionController::RoutingError, 'Not Found') unless blacklight_config.raw_endpoint.enabled
 
-    @document = search_service.fetch(params[:id])
+    @document = retrieve_document(params[:id])
     render json: @document
   end
 
@@ -120,7 +120,7 @@ module Blacklight::Catalog
   # @return [Array] first value is a Blacklight::Solr::Response and the second
   #                 is a list of documents
   def action_documents
-    @documents = search_service.fetch(Array(params[:id]))
+    @documents = retrieve_documents(params[:id])
     raise Blacklight::Exceptions::RecordNotFound if @documents.blank?
 
     @documents
