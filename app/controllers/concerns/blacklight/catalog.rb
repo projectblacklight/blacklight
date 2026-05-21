@@ -145,12 +145,6 @@ module Blacklight::Catalog
     blacklight_config.index.json_presenter_class.new(repository_response, blacklight_config)
   end
 
-  # This method may be overridden to customize search behavior.
-  # @return [Blacklight::Solr::Response] the solr response object
-  def retrieve_search_results
-    search_service.search_results
-  end
-
   #
   # non-routable methods ->
   #
