@@ -125,6 +125,8 @@ module Blacklight
       # @return [Class]
       property :connection_config, default: Blacklight.connection_config
 
+      property :search_presenter_class, default: Blacklight::SearchPresenter
+
       ##
       # == Blacklight view configuration
 

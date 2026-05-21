@@ -17,6 +17,8 @@ module Blacklight::Searchable
     # want to override any of the methods (e.g. SearchService#fetch)
     class_attribute :search_service_class
     self.search_service_class = Blacklight::SearchService
+
+    class_attribute :search_presenter_class, default: nil, instance_reader: false
   end
 
   # @return [Blacklight::SearchService]
@@ -27,7 +29,12 @@ module Blacklight::Searchable
   # This method may be overridden to customize search behavior.
   # @return [Blacklight::Solr::Response] the solr response object
   def retrieve_search_results
-    search_service.search_results
+    (search_presenter_class || blacklight_config.search_presenter_class).new(
+      blacklight_config: blacklight_config,
+      response: search_service.search_results,
+      search_state: search_state,
+      view_context: view_context
+    )
   end
 
   # This method may be overridden to customize search behavior.
@@ -53,5 +60,12 @@ module Blacklight::Searchable
   # @return [Blacklight::SuggestSearch]
   def suggestions_service
     Blacklight::SuggestSearch.new(params, search_service.repository).suggestions
+  end
+
+  def search_presenter_class
+    return @search_presenter_class if defined?(@search_presenter_class)
+    return self.class.search_presenter_class if self.class.search_presenter_class
+
+    blacklight_config.search_presenter_class
   end
 end
