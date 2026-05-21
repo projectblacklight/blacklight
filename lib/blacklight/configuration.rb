@@ -211,8 +211,8 @@ module Blacklight
       # @return [Hash{Symbol => Blacklight::Configuration::ActionConfigMapEntry}]
       property :action_mapping, default: NestedOpenStructWithHashAccess.new(
         ActionConfigMapEntry,
-        default: { blacklight_config_property: :index, default: [:index] },
-        show: { blacklight_config_property: :show },
+        default: { blacklight_config_property: :index, view_specific_property: :view, default: [:index] },
+        show: { blacklight_config_property: :show, view_specific_property: nil },
         citation: { parent_action_key: :show },
         email_record: { blacklight_config_property: :email },
         sms_record: { blacklight_config_property: :sms }
@@ -570,7 +570,7 @@ module Blacklight
         view_type = nil
       end
 
-      @view_config[[view_type, action_name]] ||= action_config(action_name, (view.fetch(view_type, nil) if view_type))
+      @view_config[[view_type, action_name]] ||= action_config(action_name, view_type)
     end
 
     # YARD will include inline disabling as docs, cannot do multiline inside @!macro.  AND this must be separate from doc block.
@@ -683,7 +683,7 @@ module Blacklight
       end
     end
 
-    def action_config(action_name, view_type_specific_config, default: :index)
+    def resolved_action_config(action_name)
       action_config = action_mapping[action_name]
       action_config ||= action_mapping[:default]
 
@@ -694,6 +694,11 @@ module Blacklight
         action_config = action_config.reverse_merge(parent_config)
       end
       action_config = action_config.reverse_merge(action_mapping[:default]) if action_config != action_mapping[:default]
+      action_config
+    end
+
+    def action_config(action_name, view_type, default: :index)
+      action_config = resolved_action_config(action_name)
 
       view_config = if action_config.blacklight_config_property
                       self[action_config.blacklight_config_property]
@@ -705,7 +710,10 @@ module Blacklight
         config.reverse_merge(self[top_level_config])
       end
 
-      view_config = view_config.merge(view_type_specific_config) if view_type_specific_config
+      if view_type && action_config.view_specific_property
+        view_type_specific_config = dig(action_config.view_specific_property, view_type) if self[action_config.view_specific_property]&.key?(view_type)
+        view_config = view_config.merge(view_type_specific_config) if view_type_specific_config
+      end
 
       view_config
     end
