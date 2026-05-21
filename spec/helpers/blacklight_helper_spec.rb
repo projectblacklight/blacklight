@@ -114,6 +114,16 @@ RSpec.describe BlacklightHelper do
     end
 
     describe "render_index_doc_actions" do
+      let(:blacklight_config) do
+        Blacklight::Configuration.new do |config|
+          config.add_results_document_tool(:bookmark, component: Blacklight::Document::BookmarkComponent, if: :render_bookmarks_control?)
+        end
+      end
+
+      before do
+        allow(helper).to receive_messages(blacklight_config: blacklight_config)
+      end
+
       it "renders partials" do
         allow(controller).to receive(:render_bookmarks_control?).and_return(true)
         response = helper.render_index_doc_actions(document)
@@ -126,8 +136,8 @@ RSpec.describe BlacklightHelper do
       end
 
       it "renders view type specific actions" do
-        allow(helper).to receive(:document_index_view_type).and_return(:custom)
-        config.view.custom(document_actions: [])
+        blacklight_config.view.clear
+        blacklight_config.view.custom(document_actions: [])
         expect(helper.render_index_doc_actions(document)).to be_blank
       end
     end
