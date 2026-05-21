@@ -25,13 +25,13 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 3.3'
 
-  s.add_dependency "rails", '>= 7.0', '< 9'
+  s.add_dependency "rails", '>= 7.2', '< 9'
   s.add_dependency "globalid"
   s.add_dependency "jbuilder", '~> 2.7'
   s.add_dependency "kaminari", ">= 0.15" # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "i18n", '>= 1.7.0' # added named parameters
   s.add_dependency "ostruct", '>= 0.3.2'
-  s.add_dependency "view_component", '>= 3.0', '< 5.0'
+  s.add_dependency "view_component", '~> 4.0'
   s.add_dependency "zeitwerk"
 
   s.add_development_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
