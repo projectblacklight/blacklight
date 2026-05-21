@@ -140,6 +140,19 @@ module Blacklight
       property :bookmark_icon_component, default: Blacklight::Icons::BookmarkIconComponent
 
       property :components, default: {
+        document: {},
+        facets: {},
+        search_results: {},
+        system: {
+          # also defined in the index configuration for backwards compatibility.
+          dropdown: Blacklight::System::DropdownComponent,
+          # new stuff
+          button: nil,
+          flex: nil,
+          accordion: nil,
+          skip_link: nil,
+          modal: nil
+        },
         icons: {
           bookmark: Blacklight::Icons::BookmarkIconComponent
         }
@@ -205,14 +218,7 @@ module Blacklight
             ]
           },
           system: {
-            dropdown: Blacklight::System::DropdownComponent,
-
-            # new stuff
-            button: nil,
-            flex: nil,
-            accordion: nil,
-            skip_link: nil,
-            modal: nil
+            dropdown: Blacklight::System::DropdownComponent
           }
         },
         # document presenter class used by helpers and views
@@ -769,7 +775,9 @@ module Blacklight
       if view_type && action_config.view_specific_property
         view_type_specific_config = dig(action_config.view_specific_property, view_type) if self[action_config.view_specific_property]&.key?(view_type)
         view_config = view_config.merge(view_type_specific_config) if view_type_specific_config
+        view_config[:components] = (view_config[:components] || {}).deep_merge(view_type_specific_config[:components]) if view_type_specific_config&.dig(:components)
       end
+      view_config[:components] = self[:components].deep_merge(view_config[:components])
 
       view_config
     end

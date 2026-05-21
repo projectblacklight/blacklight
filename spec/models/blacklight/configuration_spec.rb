@@ -679,7 +679,7 @@ RSpec.describe Blacklight::Configuration, :api do
 
     context 'with a view' do
       it 'includes the configuration-level view parameters' do
-        expect(config.view_config(:atom)).to have_attributes config.index.to_h.except(:partials)
+        expect(config.view_config(:atom)).to have_attributes config.index.to_h.except(:components, :partials)
         expect(config.view_config(:atom)).to have_attributes partials: [:document]
       end
     end
