@@ -367,12 +367,6 @@ module Blacklight::Solr
       end
     end
 
-    def search_state
-      return super if defined?(super)
-
-      @search_state ||= Blacklight::SearchState.new(blacklight_params, blacklight_config)
-    end
-
     def add_search_field_query_builder_params(solr_parameters)
       q, additional_parameters = search_field.query_builder.call(self, search_field, solr_parameters)
 
