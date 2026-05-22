@@ -160,6 +160,7 @@ module Blacklight
       solr_response = if repository.respond_to?(:find_many)
                         repository.find_many(query)
                       else
+                        Blacklight.deprecation.warn("Repository#find_many is not implemented. Falling back to Repository#search.")
                         repository.search(query)
                       end
 
