@@ -452,16 +452,18 @@ RSpec.describe CatalogController, :api do
     end
 
     context 'when searching for something' do
+      render_views
       before do
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:opensearch_response)
-          .and_return(['a', [SolrDocument.new(id: 'my_fake_doc'),
-                             SolrDocument.new(id: 'my_other_doc')]])
+        expect(search_service).to receive(:search_results)
+          .and_return(instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'),
+                                                                              SolrDocument.new(id: 'my_other_doc')]))
       end
 
       it "returns valid JSON" do
         get :opensearch, params: { format: 'json', q: 'a' }
         expect(response).to be_successful
+        expect(response.parsed_body).to eq %w[a my_fake_doc my_other_doc]
       end
     end
   end

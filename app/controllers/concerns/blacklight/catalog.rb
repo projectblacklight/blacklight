@@ -107,7 +107,10 @@ module Blacklight::Catalog
   def opensearch
     respond_to do |format|
       format.xml { render layout: false }
-      format.json { render json: search_service.opensearch_response }
+      format.json do
+        @response = retrieve_search_results
+        @presenter = json_presenter(@response)
+      end
     end
   end
 
