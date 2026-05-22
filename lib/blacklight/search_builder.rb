@@ -36,7 +36,7 @@ module Blacklight
     end
 
     def blacklight_params
-      @search_state.params
+      search_state.params
     end
     Blacklight.deprecation.deprecate_methods(self, blacklight_params: 'Use search_state.params instead of blacklight_params directly')
 
@@ -44,7 +44,7 @@ module Blacklight
     # Set the parameters to pass through the processor chain
     def with(blacklight_params_or_search_state = {})
       params_will_change!
-      @search_state = blacklight_params_or_search_state.is_a?(Blacklight::SearchState) ? blacklight_params_or_search_state : @search_state.reset(blacklight_params_or_search_state)
+      @search_state = blacklight_params_or_search_state.is_a?(Blacklight::SearchState) ? blacklight_params_or_search_state : search_state.reset(blacklight_params_or_search_state)
       self
     end
 
@@ -55,7 +55,7 @@ module Blacklight
     #    search_builder.where(id: [1,2,3]) # produces: q:"{!lucene}id:(1 OR 2 OR 3)"
     def where(conditions)
       params_will_change!
-      @search_state = @search_state.reset(@search_state.params.merge(q: conditions))
+      @search_state = search_state.reset(search_state.params.merge(q: conditions))
       @additional_filters = conditions
       self
     end
