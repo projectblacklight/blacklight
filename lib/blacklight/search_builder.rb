@@ -9,7 +9,7 @@ module Blacklight
     class_attribute :default_processor_chain
     self.default_processor_chain = []
 
-    attr_reader :processor_chain, :search_state, :blacklight_params
+    attr_reader :processor_chain, :search_state
 
     # @overload initialize(scope)
     #   @param [Object] scope the scope where the filter methods reside in.
@@ -27,20 +27,23 @@ module Blacklight
         raise ArgumentError, "wrong number of arguments. (#{options.size} for 1..2)"
       end
 
-      @blacklight_params = {}
       search_state_class = @scope.try(:search_state_class) || Blacklight::SearchState
-      @search_state = search_state_class.new(@blacklight_params, @scope&.blacklight_config, @scope)
+      @search_state = search_state_class.new({}, @scope&.blacklight_config, @scope)
       @additional_filters = {}
       @merged_params = {}
       @reverse_merged_params = {}
     end
+
+    def blacklight_params
+      @search_state.params
+    end
+    Blacklight.deprecation.deprecate_methods(self, blacklight_params: 'Use search_state.params instead of blacklight_params directly')
 
     ##
     # Set the parameters to pass through the processor chain
     def with(blacklight_params_or_search_state = {})
       params_will_change!
       @search_state = blacklight_params_or_search_state.is_a?(Blacklight::SearchState) ? blacklight_params_or_search_state : @search_state.reset(blacklight_params_or_search_state)
-      @blacklight_params = @search_state.params.dup
       self
     end
 
@@ -52,7 +55,6 @@ module Blacklight
     def where(conditions)
       params_will_change!
       @search_state = @search_state.reset(@search_state.params.merge(q: conditions))
-      @blacklight_params = @search_state.params
       @additional_filters = conditions
       self
     end
