@@ -28,8 +28,7 @@ module Blacklight::Controller
     # Which class to use for the search state. You can subclass SearchState if you
     # want to override any of the methods (e.g. SearchState#url_for_document)
     # TODO: move to Searchable
-    class_attribute :search_state_class
-    self.search_state_class = Blacklight::SearchState
+    class_attribute :search_state_class, default: Blacklight::SearchState
   end
 
   # @private
