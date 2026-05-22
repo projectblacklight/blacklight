@@ -524,13 +524,11 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
   end
 
   describe "#add_facets_for_advanced_search_form" do
+    let(:user_params) do
+      Blacklight::SearchState.new({}, blacklight_config, mock_controller)
+    end
     let(:solr_parameters) { Blacklight::Solr::Request.new }
     let(:mock_controller) { instance_double(CatalogController, action_name: 'advanced_search') }
-    let(:mock_search_state) { instance_double(Blacklight::SearchState, controller: mock_controller) }
-
-    before do
-      allow(search_builder).to receive(:search_state).and_return(mock_search_state)
-    end
 
     context "when action is advanced_search and form_solr_parameters are configured" do
       before do
