@@ -42,6 +42,11 @@ module Blacklight::Searchable
     search_service.fetch(Array(ids))
   end
 
+  # @return [Blacklight::SearchBuilder]
+  def search_builder
+    blacklight_config.search_builder_class.new(self, blacklight_config: blacklight_config).with(search_state)
+  end
+
   # Override this method on the class that includes Blacklight::Searchable to provide more context to the search service if necessary.
   # For example, if your search builder needs to be aware of the current user, override this method to return a hash including the current user.
   # Then the search builder could use some property about the current user to construct a constraint on the search.
