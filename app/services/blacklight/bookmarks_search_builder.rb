@@ -11,7 +11,7 @@ module Blacklight
     # @return [void]
     def bookmarked(solr_parameters)
       solr_parameters[:fq] ||= []
-      bookmarks = @scope.context.fetch(:bookmarks)
+      bookmarks = @scope.search_service_context.fetch(:bookmarks)
       return unless bookmarks
 
       document_ids = bookmarks.collect { |b| b.document_id.to_s }

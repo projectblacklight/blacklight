@@ -80,11 +80,13 @@ module Blacklight::Catalog
     @facet = blacklight_config.facet_fields[params[:id]]
     raise ActionController::RoutingError, 'Not Found' unless @facet
 
-    @response = if params[:query_fragment].present?
-                  search_service.facet_suggest_response(@facet.key, params[:query_fragment])
-                else
-                  search_service.facet_field_response(@facet.key)
-                end
+    builder = search_builder.with(search_state).facet(@facet.key)
+    if params[:query_fragment].present?
+      builder = builder.facet_suggestion_query(params[:query_fragment])
+    end
+
+    @response = retrieve_search_results(params: builder)
+
     # @display_facet is a Blacklight::Solr::Response::Facets::FacetField
     @display_facet = @response.aggregations[@facet.field]
 

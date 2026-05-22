@@ -26,8 +26,8 @@ module Blacklight::Searchable
 
   # This method may be overridden to customize search behavior.
   # @return [Blacklight::Solr::Response] the solr response object
-  def retrieve_search_results
-    search_service.search_results
+  def retrieve_search_results(params: nil)
+    search_service.search_results(params: params || search_builder.with(search_state).rows(search_state.per_page).page(search_state.page))
   end
 
   # This method may be overridden to customize search behavior.
@@ -44,7 +44,7 @@ module Blacklight::Searchable
 
   # @return [Blacklight::SearchBuilder]
   def search_builder
-    blacklight_config.search_builder_class.new(self, blacklight_config: blacklight_config).with(search_state)
+    blacklight_config.search_builder_class.new(self, blacklight_config: blacklight_config)
   end
 
   # Override this method on the class that includes Blacklight::Searchable to provide more context to the search service if necessary.

@@ -31,10 +31,7 @@ module Blacklight
     # @return [Blacklight::Solr::Response] the solr response object
     def search_results(params: nil)
       unless params
-        builder = search_builder.with(search_state)
-        builder.page = search_state.page
-        builder.rows = search_state.per_page
-
+        builder = search_builder.with(search_state).page(search_state.page).rows(search_state.per_page)
         builder = yield(builder) if block_given?
       end
 
@@ -63,12 +60,14 @@ module Blacklight
 
     ##
     # Get the solr response when retrieving only a single facet field
+    # @deprecated
     # @return [Blacklight::Solr::Response] the solr response
     def facet_field_response(facet_field, extra_controller_params = {})
       query = search_builder.with(search_state).facet(facet_field)
       repository.search(params: query.merge(extra_controller_params))
     end
 
+    # @deprecated
     def facet_suggest_response(facet_field, facet_suggestion_query, extra_controller_params = {})
       query = search_builder.with(search_state).facet(facet_field).facet_suggestion_query(facet_suggestion_query)
       repository.search(params: query.merge(extra_controller_params))
