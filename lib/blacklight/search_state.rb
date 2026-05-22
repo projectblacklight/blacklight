@@ -37,6 +37,10 @@ module Blacklight
       params[:q]
     end
 
+    def query_boolean_operator
+      params[:op]
+    end
+
     def clause_params
       params[:clause] || {}
     end
