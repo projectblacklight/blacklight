@@ -17,6 +17,13 @@ module Blacklight::Searchable
     # want to override any of the methods (e.g. SearchService#fetch)
     class_attribute :search_service_class
     self.search_service_class = Blacklight::SearchService
+
+    # Which class to use for the search state. You can subclass SearchState if you
+    # want to override any of the methods (e.g. SearchState#url_for_document)
+    class_attribute :search_state_class
+    self.search_state_class = Blacklight::SearchState
+
+    helper_method :search_state if respond_to? :helper_method
   end
 
   # @return [Blacklight::SearchService]
@@ -35,5 +42,12 @@ module Blacklight::Searchable
   # @return [Blacklight::SuggestSearch]
   def suggestions_service
     Blacklight::SuggestSearch.new(params, search_service.repository).suggestions
+  end
+
+  # This must be on every controller that uses the layout, because it is used in
+  # the header to draw Blacklight::SearchNavbarComponent
+  # @return [Blacklight::SearchState] a memoized instance of the parameter state.
+  def search_state
+    @search_state ||= search_state_class.new(params, blacklight_config, self)
   end
 end
