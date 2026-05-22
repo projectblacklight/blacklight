@@ -12,10 +12,10 @@ module Blacklight
     attr_reader :processor_chain, :search_state, :blacklight_params
 
     # @overload initialize(scope)
-    #   @param [Object] scope the scope where the filter methods reside in.
+    #   @param [Blacklight::SearchService] scope the scope where the filter methods reside in.
     # @overload initialize(processor_chain, scope)
     #   @param [List<Symbol>,TrueClass] processor_chain options a list of filter methods to run or true, to use the default methods
-    #   @param [Object] scope the scope where the filter methods reside in.
+    #   @param [Blacklight::SearchService] scope the scope where the filter methods reside in.
     def initialize(*options)
       case options.size
       when 1
