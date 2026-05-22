@@ -17,7 +17,7 @@ module Blacklight
     attr_reader :blacklight_config, :context
 
     def search_builder
-      search_builder_class.new(self)
+      search_builder_class.new(self, blacklight_config: blacklight_config)
     end
 
     # Fetch query results from solr

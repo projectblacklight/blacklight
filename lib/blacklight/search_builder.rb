@@ -9,14 +9,14 @@ module Blacklight
     class_attribute :default_processor_chain
     self.default_processor_chain = []
 
-    attr_reader :processor_chain, :search_state
+    attr_reader :processor_chain, :search_state, :blacklight_config
 
     # @overload initialize(scope)
     #   @param [Object] scope the scope where the filter methods reside in.
     # @overload initialize(processor_chain, scope)
     #   @param [List<Symbol>,TrueClass] processor_chain options a list of filter methods to run or true, to use the default methods
     #   @param [Object] scope the scope where the filter methods reside in.
-    def initialize(*options)
+    def initialize(*options, blacklight_config: nil)
       case options.size
       when 1
         @processor_chain = default_processor_chain.dup
@@ -27,8 +27,9 @@ module Blacklight
         raise ArgumentError, "wrong number of arguments. (#{options.size} for 1..2)"
       end
 
+      @blacklight_config = blacklight_config || @scope&.blacklight_config
       search_state_class = @scope.try(:search_state_class) || Blacklight::SearchState
-      @search_state = search_state_class.new({}, @scope&.blacklight_config, @scope)
+      @search_state = search_state_class.new({}, @blacklight_config, @scope)
       @additional_filters = {}
       @merged_params = {}
       @reverse_merged_params = {}
@@ -155,8 +156,6 @@ module Blacklight
         end
       end
     end
-
-    delegate :blacklight_config, to: :scope
 
     def start=(value)
       params_will_change!
