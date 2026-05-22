@@ -18,10 +18,6 @@ module Blacklight
       search_builder_class.new(self)
     end
 
-    def search_state_class
-      @search_state.class
-    end
-
     # Fetch query results from solr
     # @yield [search_builder] optional block yields configured SearchBuilder,  caller can modify or create new
     #                         SearchBuilder to be used. Block should return SearchBuilder to be used.
