@@ -6,7 +6,9 @@ module Blacklight
     def initialize(config:, search_state:, search_builder_class: config.search_builder_class, **context)
       @blacklight_config = config
       @search_state = search_state
-      @user_params = @search_state.params
+      @user_params = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(@search_state.params,
+                                                                           'Use @search_state.params instead of @user_params',
+                                                                           Blacklight.deprecation)
       @search_builder_class = search_builder_class
       @context = context
     end
