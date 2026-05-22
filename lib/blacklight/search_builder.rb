@@ -9,7 +9,7 @@ module Blacklight
     class_attribute :default_processor_chain
     self.default_processor_chain = []
 
-    attr_reader :processor_chain, :search_state, :blacklight_config
+    attr_reader :processor_chain, :blacklight_config
 
     # @overload initialize(scope)
     #   @param [Object] scope the scope where the filter methods reside in.
@@ -28,11 +28,16 @@ module Blacklight
       end
 
       @blacklight_config = blacklight_config || @scope&.blacklight_config
-      search_state_class = @scope.try(:search_state_class) || Blacklight::SearchState
-      @search_state = search_state_class.new({}, @blacklight_config, @scope)
       @additional_filters = {}
       @merged_params = {}
       @reverse_merged_params = {}
+    end
+
+    def search_state
+      @search_state ||= begin
+        search_state_class = @scope.try(:search_state_class) || Blacklight::SearchState
+        @search_state = search_state_class.new({}, blacklight_config, @scope)
+      end
     end
 
     def blacklight_params
