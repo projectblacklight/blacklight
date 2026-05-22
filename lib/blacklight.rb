@@ -122,6 +122,6 @@ module Blacklight
   end
 
   def self.deprecation
-    @deprecation ||= ActiveSupport::Deprecation.new('9.0', 'Blacklight')
+    @deprecation ||= ActiveSupport::Deprecation.new('10.0', 'Blacklight')
   end
 end
