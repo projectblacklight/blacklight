@@ -112,7 +112,7 @@ module Blacklight::Solr
       solr_parameters[:spellcheck] = 'false'
 
       defaults = { must: [], must_not: [], should: [] }
-      default_op = blacklight_params[:op]&.to_sym || :must
+      default_op = search_state.query_boolean_operator&.to_sym || :must
       solr_parameters[:mm] = 1 if default_op == :should && search_state.clause_params.values.any? { |clause| }
 
       search_state.clause_params.each_value do |clause|
