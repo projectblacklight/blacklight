@@ -44,7 +44,14 @@ module Blacklight::Searchable
 
   # @return [Blacklight::SearchBuilder]
   def search_builder
-    blacklight_config.search_builder_class.new(self, blacklight_config: blacklight_config)
+    klass = blacklight_config.search_builder_class
+
+    if klass.initialize_supports_blacklight_config_parameter?
+      klass.new(self, blacklight_config: blacklight_config)
+    else
+      # deprecated behavior for implementations that don't support the new initializer signature.
+      klass.new(self)
+    end
   end
 
   # Override this method on the class that includes Blacklight::Searchable to provide more context to the search service if necessary.
