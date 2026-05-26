@@ -162,6 +162,26 @@ module Blacklight
       end
     end
 
+    def for_previous_and_next_documents(index, window = 1)
+      document_pagination_params = blacklight_config.document_pagination_params.dup
+
+      if document_pagination_params.empty?
+        document_pagination_params[:fl] = blacklight_config.document_model.unique_key
+      end
+
+      merge(document_pagination_params)
+
+      if index > 0
+        self.start = [index - window, 0].max
+        self.rows = (2 * window) + 1
+      else
+        self.start = 0
+        self.rows = 2 * window
+      end
+
+      self
+    end
+
     # An undefined value that can be used to detect if a parameter was passed in or not, since nil and false may be valid values for some parameters.
     UNDEFINED = Object.new.freeze
 

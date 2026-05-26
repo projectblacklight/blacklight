@@ -379,40 +379,40 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     it "returns the previous and next documents for a search" do
-      _response, docs = service.previous_and_next_documents_for_search(4, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(4, { q: '' })
 
       expect(docs.first.id).to eq @full_response.documents[3].id
       expect(docs.last.id).to eq @full_response.documents[5].id
     end
 
     it "returns only the next document if the counter is 0" do
-      _response, docs = service.previous_and_next_documents_for_search(0, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(0, { q: '' })
 
       expect(docs.first).to be_nil
       expect(docs.last.id).to eq @full_response.documents[1].id
     end
 
     it "returns only the previous document if the counter is the total number of documents" do
-      _response, docs = service.previous_and_next_documents_for_search(@full_response.total - 1, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(@full_response.total - 1, { q: '' })
       expect(docs.first.id).to eq @full_response.documents.slice(-2).id
       expect(docs.last).to be_nil
     end
 
     it "returns an array of nil values if there is only one result" do
-      _response, docs = service.previous_and_next_documents_for_search(0, q: 'id:2007020969')
+      _response, docs = service.previous_and_next_documents_for_search(0, { q: 'id:2007020969' })
       expect(docs.last).to be_nil
       expect(docs.first).to be_nil
     end
 
     it 'returns only the unique key by default' do
-      _response, docs = service.previous_and_next_documents_for_search(0, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(0, { q: '' })
       expect(docs.last.to_h).to eq 'id' => @full_response.documents[1].id
     end
 
     it 'allows the query parameters to be customized using configuration' do
       blacklight_config.document_pagination_params[:fl] = 'id,format'
 
-      _response, docs = service.previous_and_next_documents_for_search(0, q: '')
+      _response, docs = service.previous_and_next_documents_for_search(0, { q: '' })
 
       expect(docs.last.to_h).to eq @full_response.documents[1].to_h.slice('id', 'format')
     end
