@@ -37,7 +37,7 @@ module Blacklight::Searchable
   end
 
   # This method may be overridden to customize search behavior.
-  # @return [Array<Blacklight::Document>] the solr document object
+  # @return [Array<Blacklight::Document>] an array of solr document objects
   def retrieve_documents(ids)
     search_service.fetch(Array(ids))
   end
