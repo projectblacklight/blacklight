@@ -162,14 +162,19 @@ module Blacklight
       end
     end
 
+    # An undefined value that can be used to detect if a parameter was passed in or not, since nil and false may be valid values for some parameters.
+    UNDEFINED = Object.new.freeze
+
     def start=(value)
+      return if value.nil?
+
       params_will_change!
       @start = value.to_i
     end
 
     # @param [#to_i] value
-    def start(value = nil)
-      if value
+    def start(value = Blacklight::SearchBuilder::UNDEFINED)
+      if value != Blacklight::SearchBuilder::UNDEFINED
         self.start = value
         return self
       end
@@ -181,14 +186,16 @@ module Blacklight
     alias padding start
 
     def page=(value)
+      return if value.nil?
+
       params_will_change!
       @page = value.to_i
       @page = 1 if @page < 1
     end
 
     # @param [#to_i] value
-    def page(value = nil)
-      if value
+    def page(value = Blacklight::SearchBuilder::UNDEFINED)
+      if value != Blacklight::SearchBuilder::UNDEFINED
         self.page = value
         return self
       end
@@ -196,13 +203,15 @@ module Blacklight
     end
 
     def rows=(value)
+      return if value.nil?
+
       params_will_change!
       @rows = [value, blacklight_config.max_per_page].map(&:to_i).min
     end
 
     # @param [#to_i] value
-    def rows(value = nil)
-      if value
+    def rows(value = Blacklight::SearchBuilder::UNDEFINED)
+      if value != Blacklight::SearchBuilder::UNDEFINED
         self.rows = value
         return self
       end
