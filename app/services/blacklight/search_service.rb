@@ -7,10 +7,10 @@ module Blacklight
     # @params [Blacklight::SearchState] search_state
     # @params [Class] search_builder_class a class that inherits from Blacklight::SearchBuilder
     # @params [Hash] context any data the search builder needs to access. For example, the current user.
-    def initialize(config:, search_state:, search_builder_class: config.search_builder_class, **context)
+    def initialize(config:, search_state: nil, search_builder_class: config.search_builder_class, **context)
       @blacklight_config = config
       @search_state = search_state
-      @user_params = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(@search_state.params,
+      @user_params = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(@search_state&.params || {},
                                                                            'Use @search_state.params instead of @user_params',
                                                                            Blacklight.deprecation)
       @search_builder_class = search_builder_class
@@ -31,7 +31,7 @@ module Blacklight
     # @return [Blacklight::Solr::Response] the solr response object
     def search_results(params: nil)
       unless params
-        builder = search_builder.with(search_state).page(search_state.page).rows(search_state.per_page)
+        builder = search_builder.with(search_state).page(search_state&.page).rows(search_state&.per_page)
         builder = yield(builder) if block_given?
       end
 
@@ -114,7 +114,7 @@ module Blacklight
       query = search_builder.with(search_state).merge(solr_opensearch_params(field)).merge(extra_controller_params)
       response = repository.search(params: query)
 
-      [search_state.query_param, response.documents.flat_map { |doc| doc[field] }.uniq]
+      [search_state&.query_param, response.documents.flat_map { |doc| doc[field] }.uniq]
     end
     Blacklight.deprecation.deprecate_methods Blacklight::SearchService, opensearch_response: "The opensearch_response method is deprecated without replacement."
 
