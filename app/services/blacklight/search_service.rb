@@ -88,6 +88,7 @@ module Blacklight
     # the second item is an other array. This second array contains
     # all of the field values for each of the documents...
     # where the field is the "field" argument passed in.
+    # @deprecated
     def opensearch_response(field = nil, extra_controller_params = {})
       field ||= blacklight_config.view_config(:opensearch).title_field
 
@@ -96,6 +97,7 @@ module Blacklight
 
       [search_state.query_param, response.documents.flat_map { |doc| doc[field] }.uniq]
     end
+    Blacklight.deprecation.deprecate_methods Blacklight::SearchService, opensearch_response: "The opensearch_response method is deprecated without replacement."
 
     private
 
@@ -111,12 +113,14 @@ module Blacklight
 
     ##
     # Opensearch autocomplete parameters for plucking a field's value from the results
+    # @deprecated
     def solr_opensearch_params(field)
       solr_params = {}
       solr_params[:rows] ||= 10
       solr_params[:fl] = field || blacklight_config.view_config(:opensearch).title_field
       solr_params
     end
+    Blacklight.deprecation.deprecate_methods Blacklight::SearchService, solr_opensearch_params: "The solr_opensearch_params method is deprecated without replacement."
 
     ##
     # Pagination parameters for selecting the previous and next documents
