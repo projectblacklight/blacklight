@@ -137,15 +137,23 @@ RSpec.describe Blacklight::SearchBuilder, :api do
 
   describe "#page" do
     it "is the current user parameter page number" do
-      expect(subject.with(page: 2).send(:page)).to eq 2
+      expect(subject.with(page: 2).page).to eq 2
     end
 
     it "is page 1 if not page number given" do
-      expect(subject.send(:page)).to eq 1
+      expect(subject.page).to eq 1
     end
 
     it "coerces parameters to integers" do
-      expect(subject.with(page: '2b').send(:page)).to eq 2
+      expect(subject.with(page: '2b').page).to eq 2
+    end
+
+    it 'sets the page number' do
+      expect(subject.page(3).page).to eq 3
+    end
+
+    it 'gracefully handles setting the page number with a nil value' do
+      expect(subject.page(nil).page).to eq 1
     end
   end
 
@@ -158,6 +166,10 @@ RSpec.describe Blacklight::SearchBuilder, :api do
 
     it "sets the number of rows" do
       expect(subject.rows(17).rows).to eq 17
+    end
+
+    it "gracefully hnadles setting the number of rows to a nil value" do
+      expect(subject.rows(nil).rows).to eq 10
     end
 
     it "is the per_page parameter" do
