@@ -72,6 +72,9 @@ RSpec.describe Blacklight::Solr::Repository, :api do
   end
 
   describe "#search" do
+    let(:scope) { instance_double(CatalogController, blacklight_config: blacklight_config, search_state_class: Blacklight::SearchState, action_name: 'index') }
+    let(:builder) { SearchBuilder.new(scope, blacklight_config: blacklight_config) }
+
     context 'with positional params' do
       it "uses the search-specific solr path" do
         blacklight_config.solr_path = 'xyz'
@@ -84,32 +87,28 @@ RSpec.describe Blacklight::Solr::Repository, :api do
     it "uses the search-specific solr path" do
       blacklight_config.solr_path = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('xyz', anything).and_return(mock_response)
-      expect(subject.search(params: {})).to be_a Blacklight::Solr::Response
-    end
-
-    it "can be called with no args" do
-      blacklight_config.solr_path = 'xyz'
-      allow(subject.connection).to receive(:send_and_receive).with('xyz', anything).and_return(mock_response)
-      expect(subject.search).to be_a Blacklight::Solr::Response
+      expect(subject.search(builder: builder)).to be_a Blacklight::Solr::Response
     end
 
     it "uses the default solr path" do
       allow(subject.connection).to receive(:send_and_receive).with('select', anything).and_return(mock_response)
-      expect(subject.search(params: {})).to be_a Blacklight::Solr::Response
+      expect(subject.search(builder: builder)).to be_a Blacklight::Solr::Response
     end
 
     it "uses a default :qt param" do
       blacklight_config.qt = 'xyz'
-      allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'xyz' })).and_return(mock_response)
-      expect(subject.search(params: {})).to be_a Blacklight::Solr::Response
+      allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: hash_including('qt' => 'xyz'))).and_return(mock_response)
+      expect(subject.search(builder: builder)).to be_a Blacklight::Solr::Response
     end
 
+    # @deprecated Remove in Blacklight 10
     it "uses the provided :qt param" do
       blacklight_config.qt = 'xyz'
       allow(subject.connection).to receive(:send_and_receive).with('select', hash_including(params: { qt: 'abc' })).and_return(mock_response)
       expect(subject.search(params: { qt: 'abc' })).to be_a Blacklight::Solr::Response
     end
 
+    # @deprecated Remove in Blacklight 10
     it "preserves the class of the incoming params" do
       search_params = ActiveSupport::HashWithIndifferentAccess.new
       search_params[:q] = "query"
@@ -120,20 +119,25 @@ RSpec.describe Blacklight::Solr::Repository, :api do
       expect(response.params).to be_a ActiveSupport::HashWithIndifferentAccess
     end
 
-    it "calls send_and_receive with params returned from request factory method" do
-      expect(blacklight_config.http_method).to eq :get
-      input_params = { q: all_docs_query }
-      allow(subject.connection).to receive(:send_and_receive) do |path, params|
-        expect(path).to eq 'select'
-        expect(params[:method]).to eq :get
-        expect(params[:params]).to include input_params
-      end.and_return('response' => { 'docs' => [] })
-      subject.search(params: input_params)
+    context 'when the q parameter is provided' do
+      before do
+        builder.with(q: 'something')
+      end
+
+      it "calls send_and_receive with params returned from request factory method" do
+        expect(blacklight_config.http_method).to eq :get
+        allow(subject.connection).to receive(:send_and_receive) do |path, params|
+          expect(path).to eq 'select'
+          expect(params[:method]).to eq :get
+          expect(params[:params]).to include(q: 'something')
+        end.and_return('response' => { 'docs' => [] })
+        subject.search(builder: builder)
+      end
     end
 
     it "raises a Blacklight exception if RSolr can't connect to the Solr instance" do
       allow(repository.connection).to receive(:send_and_receive).and_raise(Errno::ECONNREFUSED)
-      expect { subject.search(params: {}) }.to raise_exception(/Unable to connect to Solr instance/)
+      expect { subject.search(builder: builder) }.to raise_exception(/Unable to connect to Solr instance/)
     end
 
     it "raises a Blacklight exception if RSolr raises a timeout error connecting to Solr instance" do
@@ -141,7 +145,7 @@ RSpec.describe Blacklight::Solr::Repository, :api do
       allow(rsolr_timeout).to receive(:to_s).and_return("mocked RSolr timeout")
 
       allow(repository.connection).to receive(:send_and_receive).and_raise(rsolr_timeout)
-      expect { subject.search(params: {}) }.to raise_exception(Blacklight::Exceptions::RepositoryTimeout, /Timeout connecting to Solr instance/)
+      expect { subject.search(builder: builder) }.to raise_exception(Blacklight::Exceptions::RepositoryTimeout, /Timeout connecting to Solr instance/)
     end
   end
 

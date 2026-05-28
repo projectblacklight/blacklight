@@ -16,21 +16,31 @@ module Blacklight::Solr
     end
 
     # Find multiple documents by their ids
-    # @param [Hash] _params query parameters
-    def find_many(params)
-      search(params: params, path: blacklight_config.fetch_many_documents_path)
+    # @param [Blacklight::SearchBuilder] builder query parameters
+    def find_many(builder)
+      search(builder: builder, path: blacklight_config.fetch_many_documents_path)
     end
 
     ##
     # Execute a search query against solr
-    # @param [Hash,Blacklight::SearchBuilder] params solr query parameters
+    # @param [Hash] params solr query parameters - deprecated
+    # @param [Blacklight::SearchBuilder] builder solr query parameters
     # @param [String] path solr request handler path
-    def search pos_params = nil, path: nil, params: nil, **kwargs
+    def search pos_params = nil, path: nil, params: nil, builder: nil, **kwargs
       if pos_params
         Blacklight.deprecation.warn("Passing positional arguments to search() is deprecated. Use the params kwarg instead.")
       end
 
-      request_params = (params || pos_params || {}).reverse_merge(kwargs).reverse_merge({ qt: blacklight_config.qt })
+      if params
+        if params.is_a?(Blacklight::SearchBuilder)
+          builder = params
+          Blacklight.deprecation.warn("Use 'builder' argument rather than 'params' when passing a Blacklight::SearchBuilder to Blacklight::Solr::Repository#search")
+        else
+          Blacklight.deprecation.warn("The 'params' argument is deprecated. Pass a Blacklight::SearchBuilder to Blacklight::Solr::Repository#search using the builder kwarg")
+        end
+      end
+
+      request_params = (builder || params || pos_params).reverse_merge(kwargs).reverse_merge({ qt: blacklight_config.qt })
 
       send_and_receive(path || default_search_path(request_params), request_params)
     end
