@@ -76,12 +76,57 @@ module Blacklight::ElasticSearch
     # The request parameters, augmented with Solr-style `start`/`rows` aliases so
     # that adapter-agnostic callers (e.g. `response.params[:start]`) keep working.
     def params
-      @params ||= request_params.merge(start: start, rows: rows)
+      @params ||= begin
+        # For Solr, request_params are the Solr parameters.
+        # For ES, request_params is often the SearchBuilder.
+        # We want this to return something that looks like Solr parameters
+        # so that adapter-agnostic code (like FacetPaginator and many views)
+        # can find things like facet.limit, facet.offset, facet.sort, etc.
+        p = if @search_builder
+              @search_builder.search_state.params
+            else
+              request_params
+            end
+
+        # We'll also merge in some Solr aliases for start/rows, which Solr's
+        # Response::Params also provides.
+        ActiveSupport::HashWithIndifferentAccess.new(p).merge(start: start, rows: rows)
+      end
     end
 
     # Elasticsearch does not provide result grouping in the way Solr does.
     def grouped?
       false
+    end
+
+    # @return [Hash] options for the facet field, including limit, offset, sort, etc.
+    def facet_field_aggregation_options(field_name)
+      options = super
+      return options unless blacklight_config
+
+      # If the limit is the Solr default (100) and it wasn't explicitly set in the params,
+      # try to get a better default from the blacklight config.
+      if options[:limit] == 100 && params[:'facet.limit'].blank? && params[:"f.#{field_name}.facet.limit"].blank?
+        facet_config = blacklight_config.facet_fields[field_name]
+
+        limit = if facet_config&.limit
+                  facet_config.limit == true ? blacklight_config.default_facet_limit : facet_config.limit
+                else
+                  blacklight_config.default_facet_limit
+                end
+
+        options[:limit] = limit if limit
+      end
+
+      # Elasticsearch terms aggregations don't support an offset, so we have to
+      # determine it from the search state if it's not present in the params.
+      if options[:offset].zero? && search_builder && search_builder.facet == field_name
+        options[:offset] = (search_builder.search_state.facet_page - 1) * (options[:limit] || 10)
+        options[:sort] ||= search_builder.search_state.facet_sort
+        options[:prefix] ||= search_builder.search_state.facet_prefix
+      end
+
+      options
     end
 
     # @return [NullSpelling] spelling suggestions are not supported
@@ -108,7 +153,13 @@ module Blacklight::ElasticSearch
             Blacklight::Solr::Response::Facets::FacetItem.new(value: bucket['key'], hits: bucket['doc_count'])
           end
 
-          facet_field = Blacklight::Solr::Response::Facets::FacetField.new(field_name, items, response: self)
+          options = facet_field_aggregation_options(field_name)
+
+          if options[:offset] && options[:offset].positive?
+            items = items[options[:offset]..] || []
+          end
+
+          facet_field = Blacklight::Solr::Response::Facets::FacetField.new(field_name, items, options.merge(response: self))
           result[field_name] = facet_field
 
           next unless blacklight_config

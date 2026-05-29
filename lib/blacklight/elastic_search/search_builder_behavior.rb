@@ -20,7 +20,8 @@ module Blacklight::ElasticSearch
         :add_sorting_to_request,
         :add_highlighting_to_request,
         :add_source_fields_to_request,
-        :add_additional_filters_to_request
+        :add_additional_filters_to_request,
+        :add_facet_paging_to_request
       ]
     end
 
@@ -61,16 +62,22 @@ module Blacklight::ElasticSearch
     # Build terms aggregations for each configured facet field. Pivot and query
     # facets are not supported by this adapter and are skipped.
     def add_facetting_to_request(request)
-      facet_fields_to_include_in_request.each do |field_name, facet|
-        if facet.pivot || facet.query
+      facet_fields_to_include_in_request.each do |field_name, facet_config|
+        next if facet.present? && facet == field_name
+
+        if facet_config.pivot || facet_config.query
           Blacklight.logger&.debug("Skipping facet '#{field_name}': pivot and query facets are not supported by the Elasticsearch adapter")
           next
         end
 
         size = facet_limit_with_pagination(field_name) || blacklight_config.default_facet_limit
-        order = facet.sort == 'index' ? { '_key' => 'asc' } : { '_count' => 'desc' }
+        order = if facet_config.sort == 'index'
+                  { '_key' => 'asc' }
+                else
+                  [{ '_count' => 'desc' }, { '_key' => 'asc' }]
+                end
 
-        request.append_aggregation(field_name, terms: { field: facet.field, size: size, order: order })
+        request.append_aggregation(field_name, terms: { field: facet_config.field, size: size, order: order })
       end
     end
 
@@ -131,6 +138,46 @@ module Blacklight::ElasticSearch
       end
     end
 
+    # Handle facet-specific pagination parameters (e.g. for the facet modal)
+    def add_facet_paging_to_request(request)
+      return if facet.blank?
+
+      # We don't need any documents when we're only fetching facet values
+      request[:size] = 0
+
+      facet_config = blacklight_config.facet_fields[facet]
+      return if facet_config.blank?
+
+      limit = facet_limit_for(facet) || blacklight_config.default_facet_limit
+      page = search_state.facet_page
+      sort = search_state.facet_sort
+      prefix = search_state.facet_prefix
+      offset = (page - 1) * limit
+
+      # Since Elasticsearch's terms aggregation does not support an offset, we
+      # request enough items to cover the offset and the requested limit (plus
+      # one to detect whether more values are available).
+      size = offset + limit + 1
+      order = if sort == 'index'
+                { '_key' => 'asc' }
+              else
+                [{ '_count' => 'desc' }, { '_key' => 'asc' }]
+              end
+
+      # Elasticsearch uses the `include` parameter for prefix filtering and
+      # suggestions, which expects a regular expression.
+      include_regex = if facet_suggestion_query.present? && prefix.present?
+                        "#{lucene_case_insensitive_regex(prefix)}.*#{lucene_case_insensitive_regex(facet_suggestion_query)}.*"
+                      elsif facet_suggestion_query.present?
+                        ".*#{lucene_case_insensitive_regex(facet_suggestion_query)}.*"
+                      elsif prefix.present?
+                        "#{lucene_case_insensitive_regex(prefix)}.*"
+                      end
+
+      agg = { field: facet_config.field, size: size, order: order, include: include_regex }.compact
+      request.append_aggregation(facet, terms: agg)
+    end
+
     private
 
     # @return [Blacklight::ElasticSearch::Request]
@@ -143,6 +190,18 @@ module Blacklight::ElasticSearch
     # Solr-style `fl` field-list parameter.
     def default_document_pagination_params
       { _source: Array(blacklight_config.document_model.unique_key) }
+    end
+
+    # Convert a string into a case-insensitive Lucene regular expression
+    # by replacing each letter with a character class (e.g. "a" -> "[aA]").
+    def lucene_case_insensitive_regex(str)
+      str.chars.map do |char|
+        if char =~ /[[:alpha:]]/
+          "[#{char.downcase}#{char.upcase}]"
+        else
+          Regexp.escape(char)
+        end
+      end.join
     end
 
     # The fields a full-text query should target. When a search field is
