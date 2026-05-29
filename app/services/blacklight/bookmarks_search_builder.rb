@@ -6,17 +6,17 @@ module Blacklight
     ##
     # Filters the query to only include the bookmarked items
     #
-    # @param [Hash] solr_parameters
+    # @param [Blacklight::Solr::Request] request_parameters
     #
     # @return [void]
-    def bookmarked(solr_parameters)
-      solr_parameters[:fq] ||= []
+    def bookmarked(request_parameters)
       bookmarks = @scope.context.fetch(:bookmarks)
       return unless bookmarks
 
       document_ids = bookmarks.collect { |b| b.document_id.to_s }
-      solr_parameters[:fq] += ["{!terms f=id}#{document_ids.join(',')}"]
+      request_parameters.append_ids_filter(blacklight_config.document_model.unique_key, document_ids)
     end
+
     self.default_processor_chain += [:bookmarked]
   end
 end
