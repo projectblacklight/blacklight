@@ -100,6 +100,18 @@ module Blacklight::Solr
       solr_parameters.append_boolean_query(:must, bool_query)
     end
 
+    # Solr-specific request parameters for fetching documents with a
+    # minimal field set and without faceting. Used by
+    # Blacklight::SearchService when paging to the previous/next document.
+    #
+    # @return [Hash]
+    def default_document_pagination_params
+      {
+        fl: blacklight_config.document_model.unique_key,
+        facet: false
+      }
+    end
+
     # Transform "clause" parameters into the Solr JSON Query DSL
     def add_adv_search_clauses(solr_parameters)
       return if search_state.clause_params.blank? || search_state.clause_params.all? { |_k, v| v[:query].blank? }
