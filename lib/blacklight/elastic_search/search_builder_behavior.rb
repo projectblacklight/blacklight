@@ -138,6 +138,13 @@ module Blacklight::ElasticSearch
       Blacklight::ElasticSearch::Request.new
     end
 
+    # Override the base SearchBuilder default so that `for_previous_and_next_documents`
+    # merges an Elasticsearch-appropriate `_source` restriction instead of a
+    # Solr-style `fl` field-list parameter.
+    def default_document_pagination_params
+      { _source: Array(blacklight_config.document_model.unique_key) }
+    end
+
     # The fields a full-text query should target. When a search field is
     # selected, its `elastic_query_fields` (configured in the controller) scope
     # the query; otherwise the configuration-wide default is used (and when that

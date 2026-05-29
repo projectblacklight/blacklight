@@ -14,7 +14,9 @@ RSpec.describe Blacklight::SearchService, :api do
   let(:context) { { whatever: :value } }
   let(:search_state) { Blacklight::SearchState.new(user_params, blacklight_config) }
   let(:service) { described_class.new(config: blacklight_config, search_state: search_state, **context) }
-  let(:repository) { Blacklight::Solr::Repository.new(blacklight_config) }
+  # Use whichever repository the application is configured for (Solr or
+  # Elasticsearch) so this spec exercises the configured adapter.
+  let(:repository) { blacklight_config.repository_class.new(blacklight_config) }
   let(:user_params) { {} }
 
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
@@ -25,6 +27,16 @@ RSpec.describe Blacklight::SearchService, :api do
 
   before do
     allow(service).to receive(:repository).and_return(repository)
+  end
+
+  # Repository-appropriate params for restricting the returned document fields
+  # (Solr's `fl` vs. Elasticsearch's `_source`).
+  def field_restriction_params(*fields)
+    if blacklight_config.repository_class == Blacklight::ElasticSearch::Repository
+      { _source: fields }
+    else
+      { fl: fields.join(',') }
+    end
   end
 
   describe '#search_builder_class' do
@@ -62,7 +74,8 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    describe "for a query returning a grouped response" do
+    # Result grouping is a Solr-only feature.
+    describe "for a query returning a grouped response", :solr_only do
       let(:user_params) { { q: all_docs_query } }
 
       before do
@@ -75,7 +88,8 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    describe "for a query returning multiple groups", :integration do
+    # Result grouping is a Solr-only feature.
+    describe "for a query returning multiple groups", :integration, :solr_only do
       let(:user_params) { { q: all_docs_query } }
 
       before do
@@ -144,7 +158,8 @@ RSpec.describe Blacklight::SearchService, :api do
       expect(@facets).to have_at_least(1).facet
     end
 
-    it 'has all facets specified in initializer' do
+    # Includes the Solr-only pivot and query facets.
+    it 'has all facets specified in initializer', :solr_only do
       expect(@facets.keys).to include(*blacklight_config.facet_fields.keys)
       expect(@facets.none? { |_k, v| v.nil? }).to be true
     end
@@ -236,7 +251,10 @@ RSpec.describe Blacklight::SearchService, :api do
       let(:rows) { 5000 }
       let(:user_params) { { q: all_docs_query, page: page, rows: rows } }
 
-      it 'has no results when prompted for page after last result' do
+      # Elasticsearch limits deep pagination (from + size) to index.max_result_window
+      # (default 10,000), so requesting a page far beyond the results raises rather
+      # than returning an empty set.
+      it 'has no results when prompted for page after last result', :solr_only do
         solr_response3 = service.search_results
         expect(solr_response3.docs).to have(0).docs
       end
@@ -296,7 +314,7 @@ RSpec.describe Blacklight::SearchService, :api do
     let(:response) { service.fetch([doc_id]) }
 
     before do
-      blacklight_config.fetch_many_document_params[:fl] = 'id,format'
+      blacklight_config.fetch_many_document_params.merge!(field_restriction_params('id', 'format'))
     end
 
     it 'has the expected value in the id field' do
@@ -304,12 +322,15 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     it 'returns all the requested fields' do
-      expect(response.first['format']).to eq ['Book']
+      # Solr returns multi-valued fields as arrays; Elasticsearch's _source keeps
+      # the originally-indexed scalar, so normalize before comparing.
+      expect(Array(response.first['format'])).to eq ['Book']
     end
   end
 
   # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
-  describe "Searches should return spelling suggestions", :integration do
+  # Spellcheck ("did you mean") is a Solr-only feature.
+  describe "Searches should return spelling suggestions", :integration, :solr_only do
     context "for just-poor-enough-query term" do
       let(:user_params) { { q: 'boo' } }
 
@@ -410,7 +431,7 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     it 'allows the query parameters to be customized using configuration' do
-      blacklight_config.document_pagination_params[:fl] = 'id,format'
+      blacklight_config.document_pagination_params.merge!(field_restriction_params('id', 'format'))
 
       _response, docs = service.previous_and_next_documents_for_search(0, { q: '' })
 

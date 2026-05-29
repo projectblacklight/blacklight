@@ -81,6 +81,15 @@ module Blacklight::ElasticSearch
       {}
     end
 
+    # Fetch documents with only the unique key field and without aggregations
+    # (Elasticsearch's equivalent of Solr's `fl` / `facet: false`). Used by
+    # Blacklight::SearchService when paging to the previous/next document.
+    # @param [String] unique_key the document model's unique key field
+    # @return [Hash]
+    def default_document_pagination_params(unique_key)
+      { _source: Array(unique_key) }
+    end
+
     # Suggestions ("autocomplete") are not supported by this adapter.
     def suggestions(_request_params)
       Blacklight.logger&.debug("Suggestions are not supported by the Elasticsearch adapter")
@@ -170,40 +179,11 @@ module Blacklight::ElasticSearch
     end
 
     def body_for(request_params)
-      body = request_params.respond_to?(:to_hash) ? request_params.to_hash : (request_params || {})
-      sanitize_body(body)
-    end
-
-    # Blacklight (and callers like SearchService#previous_and_next_document_params)
-    # may merge Solr-style parameters into the request. Translate the ones that
-    # have an Elasticsearch equivalent and drop the rest so the Query DSL body
-    # stays valid.
-    def sanitize_body(body)
-      body = body.dup
-
-      fl = delete_param(body, :fl)
-      body[:_source] ||= Array(fl) if fl
-
-      body.delete(:aggs) if delete_param(body, :facet) == false
-
-      start = delete_param(body, :start)
-      body[:from] ||= start.to_i if start
-
-      rows = delete_param(body, :rows)
-      body[:size] ||= rows.to_i if rows
-
-      # Solr-only parameters that have no Elasticsearch equivalent.
-      delete_param(body, :qt)
-      delete_param(body, :spellcheck)
-
-      body
-    end
-
-    # Delete a key that may be present as either a Symbol or a String.
-    # @return the deleted value, or nil
-    def delete_param(body, key)
-      value = body.delete(key)
-      value.nil? ? body.delete(key.to_s) : value
+      if request_params.respond_to?(:to_hash)
+        request_params.to_hash
+      else
+        request_params || {}
+      end
     end
 
     def unique_key
