@@ -69,11 +69,24 @@ module Blacklight
 
     # Get the previous and next document from a search result
     # @return [Blacklight::Solr::Response, Array<Blacklight::SolrDocument>] the solr response and a list of the first and last document
-    def previous_and_next_documents_for_search(index, request_params, extra_controller_params = {})
-      p = previous_and_next_document_params(index)
-      new_state = request_params.is_a?(Blacklight::SearchState) ? request_params : Blacklight::SearchState.new(request_params, blacklight_config)
-      query = search_builder.with(new_state).start(p.delete(:start)).rows(p.delete(:rows)).merge(extra_controller_params).merge(p)
-      response = repository.search(params: query)
+    def previous_and_next_documents_for_search(index, request_params, params: nil, **extra_controller_params)
+      unless params
+        new_state = request_params.is_a?(Blacklight::SearchState) ? request_params : Blacklight::SearchState.new(request_params, blacklight_config)
+        builder = search_builder.with(new_state)
+
+        search_service_params = Blacklight.deprecation.silence do
+          previous_and_next_document_params(index)
+        end
+
+        builder = if search_service_params.empty?
+                    builder.for_previous_and_next_documents(index).merge(extra_controller_params)
+                  else
+                    Blacklight.deprecation.warn("SearchService#previous_and_next_document_params returned parameters. Implement customizations in SearchBuilder#for_previous_and_next_document instead")
+                    builder.start(search_service_params.delete(:start)).rows(search_service_params.delete(:rows)).merge(extra_controller_params).merge(search_service_params)
+                  end
+      end
+
+      response = repository.search(params: params || builder)
       document_list = response.documents
 
       # only get the previous doc if there is one
@@ -122,27 +135,11 @@ module Blacklight
     end
     Blacklight.deprecation.deprecate_methods Blacklight::SearchService, solr_opensearch_params: "The solr_opensearch_params method is deprecated without replacement."
 
-    ##
-    # Pagination parameters for selecting the previous and next documents
-    # out of a result set.
-    def previous_and_next_document_params(index, window = 1)
-      solr_params = blacklight_config.document_pagination_params.dup
-
-      if solr_params.empty?
-        solr_params[:fl] = blacklight_config.document_model.unique_key
-      end
-
-      if index > 0
-        solr_params[:start] = index - window # get one before
-        solr_params[:rows] = (2 * window) + 1 # and one after
-      else
-        solr_params[:start] = 0 # there is no previous doc
-        solr_params[:rows] = 2 * window # but there should be one after
-      end
-
-      solr_params[:facet] = false
-      solr_params
+    def previous_and_next_document_params(*, **)
+      {}
     end
+    Blacklight.deprecation.deprecate_methods(Blacklight::SearchService,
+                                             previous_and_next_document_params: "Use SearchBuilder#for_previous_and_next_documents instead of SearchService#previous_and_next_document_params")
 
     ##
     # Retrieve a set of documents by id
