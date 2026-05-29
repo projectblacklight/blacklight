@@ -114,13 +114,13 @@ RSpec.describe Blacklight::ElasticSearch::Repository, :api do
     before { allow(connection).to receive(:indices).and_return(indices) }
 
     context 'when the index does not exist' do
-      before do
-        allow(indices).to receive(:exists?).and_return(false)
-        allow(indices).to receive(:create)
-      end
+      before { allow(indices).to receive(:create) }
 
+      # We create-and-rescue rather than issuing a HEAD `exists?` first, because
+      # a HEAD request as the client's first call trips Elasticsearch's product
+      # verification and emits a spurious warning.
       it 'creates the index, mapping text fields as text and other strings as keyword' do
-        repository.create_index!
+        expect(repository.create_index!).to be true
 
         expect(indices).to have_received(:create) do |index:, body:|
           expect(index).to eq 'blacklight-test'
@@ -147,13 +147,21 @@ RSpec.describe Blacklight::ElasticSearch::Repository, :api do
 
     context 'when the index already exists' do
       before do
-        allow(indices).to receive(:exists?).and_return(true)
-        allow(indices).to receive(:create)
+        allow(indices).to receive(:create).and_raise(StandardError.new('[400] resource_already_exists_exception'))
       end
 
-      it 'does not recreate it' do
-        repository.create_index!
-        expect(indices).not_to have_received(:create)
+      it 'rescues the already-exists error and returns false' do
+        expect(repository.create_index!).to be false
+      end
+    end
+
+    context 'when index creation fails for another reason' do
+      before do
+        allow(indices).to receive(:create).and_raise(StandardError.new('[503] cluster unavailable'))
+      end
+
+      it 're-raises the error' do
+        expect { repository.create_index! }.to raise_error(StandardError, /cluster unavailable/)
       end
     end
   end

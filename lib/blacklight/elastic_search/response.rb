@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
 module Blacklight::ElasticSearch
-  # Normalizes an Elasticsearch search response into the same interface that
-  # the rest of Blacklight expects from Blacklight::Solr::Response, so views,
-  # presenters, and components work unchanged regardless of the configured
-  # adapter.
+  # Normalizes an Elasticsearch search response into the interface the rest of
+  # Blacklight expects from Blacklight::Solr::Response, so views, presenters, and
+  # components work unchanged regardless of the configured adapter.
+  #
+  # It subclasses Blacklight::Solr::Response so that code (and specs) that check
+  # for `Blacklight::Solr::Response` continue to work; the Solr-shaped accessors
+  # are overridden to read Elasticsearch's response shape.
   #
   # Solr-only concepts (spelling suggestions, result grouping, and
   # more-like-this) are represented with null/empty implementations.
-  class Response < ActiveSupport::HashWithIndifferentAccess
-    include Blacklight::Solr::Response::PaginationMethods
-
+  class Response < Blacklight::Solr::Response
     # A stand-in for Blacklight::Solr::Response::Spelling, which Elasticsearch
     # does not provide an equivalent of.
     class NullSpelling
@@ -23,21 +24,11 @@ module Blacklight::ElasticSearch
       end
     end
 
-    attr_reader :request_params, :search_builder
-    attr_accessor :blacklight_config, :options
-
-    delegate :document_factory, to: :blacklight_config
-
     # @param [Hash] data the raw Elasticsearch response
     # @param [Hash, Blacklight::SearchBuilder] request_params a SearchBuilder or a Hash of parameters
     def initialize(data, request_params, options = {})
-      @search_builder = request_params if request_params.is_a?(Blacklight::SearchBuilder)
-
-      super(ActiveSupport::HashWithIndifferentAccess.new(to_hash_safe(data)))
-
-      @request_params = ActiveSupport::HashWithIndifferentAccess.new(to_hash_safe(request_params))
-      self.blacklight_config = options[:blacklight_config]
-      self.options = options
+      data = data.to_hash if data.respond_to?(:to_hash)
+      super
     end
 
     def hits
@@ -49,7 +40,6 @@ module Blacklight::ElasticSearch
         source = (hit['_source'] || {}).dup
         source[unique_key] ||= hit['_id']
         source['_highlighting'] = hit['highlight'] if hit['highlight'].present?
-        source['score'] ||= hit['_score'] if hit['_score']
 
         document_factory.build(source, self, options)
       end
@@ -83,9 +73,10 @@ module Blacklight::ElasticSearch
       total.zero?
     end
 
-    # @return [ActiveSupport::HashWithIndifferentAccess] the request parameters
+    # The request parameters, augmented with Solr-style `start`/`rows` aliases so
+    # that adapter-agnostic callers (e.g. `response.params[:start]`) keep working.
     def params
-      request_params
+      @params ||= request_params.merge(start: start, rows: rows)
     end
 
     # Elasticsearch does not provide result grouping in the way Solr does.
@@ -101,10 +92,6 @@ module Blacklight::ElasticSearch
     # More-like-this is not supported by this adapter.
     def more_like(_document)
       []
-    end
-
-    def export_formats
-      documents.map { |x| x.export_formats.keys }.flatten.uniq
     end
 
     # Convert Elasticsearch aggregations into the hash of
@@ -147,14 +134,6 @@ module Blacklight::ElasticSearch
         Blacklight::Solr::Response::Facets::NullFacetField.new(key, response: self)
       end
       h.with_indifferent_access
-    end
-
-    def to_hash_safe(value)
-      if value.respond_to?(:to_hash)
-        value.to_hash
-      else
-        value || {}
-      end
     end
   end
 end

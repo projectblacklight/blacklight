@@ -122,10 +122,16 @@ module Blacklight::ElasticSearch
     # they can be used for exact-match filtering, sorting, and aggregations.
     #
     # Override the mapping by setting `blacklight_config.elasticsearch_index_settings`.
+    #
+    # @return [Boolean] true if the index was created, false if it already existed
     def create_index!
-      return if connection.indices.exists?(index: index_name)
-
       connection.indices.create(index: index_name, body: index_settings)
+      true
+    rescue StandardError => e
+      # An already-existing index is not an error. Re-raise anything else.
+      raise unless index_already_exists?(e)
+
+      false
     end
 
     # @return [String] the configured index name
@@ -134,6 +140,12 @@ module Blacklight::ElasticSearch
     end
 
     private
+
+    # @return [Boolean] whether the error indicates the index already exists
+    def index_already_exists?(error)
+      message = error.respond_to?(:message) ? error.message : error.to_s
+      message.include?('resource_already_exists_exception') || message.include?('index_already_exists_exception')
+    end
 
     def search_request(body)
       response = connection.search(index: index_name, body: body)
@@ -158,11 +170,40 @@ module Blacklight::ElasticSearch
     end
 
     def body_for(request_params)
-      if request_params.respond_to?(:to_hash)
-        request_params.to_hash
-      else
-        request_params || {}
-      end
+      body = request_params.respond_to?(:to_hash) ? request_params.to_hash : (request_params || {})
+      sanitize_body(body)
+    end
+
+    # Blacklight (and callers like SearchService#previous_and_next_document_params)
+    # may merge Solr-style parameters into the request. Translate the ones that
+    # have an Elasticsearch equivalent and drop the rest so the Query DSL body
+    # stays valid.
+    def sanitize_body(body)
+      body = body.dup
+
+      fl = delete_param(body, :fl)
+      body[:_source] ||= Array(fl) if fl
+
+      body.delete(:aggs) if delete_param(body, :facet) == false
+
+      start = delete_param(body, :start)
+      body[:from] ||= start.to_i if start
+
+      rows = delete_param(body, :rows)
+      body[:size] ||= rows.to_i if rows
+
+      # Solr-only parameters that have no Elasticsearch equivalent.
+      delete_param(body, :qt)
+      delete_param(body, :spellcheck)
+
+      body
+    end
+
+    # Delete a key that may be present as either a Symbol or a String.
+    # @return the deleted value, or nil
+    def delete_param(body, key)
+      value = body.delete(key)
+      value.nil? ? body.delete(key.to_s) : value
     end
 
     def unique_key
