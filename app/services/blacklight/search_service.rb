@@ -149,22 +149,19 @@ module Blacklight
     # Retrieve a set of documents by id
     # @param [Array] ids
     # @param [HashWithIndifferentAccess] extra_controller_params
-    def fetch_many(ids, extra_controller_params)
-      extra_controller_params ||= {}
-
-      requested_rows = extra_controller_params.delete(:rows)
-      if requested_rows
-        Blacklight.deprecation.warn("Passing :rows to fetch_many is deprecated. Create an issue in blacklight if you see this warning. " \
-                                    "Otherwise, :rows will be ignored in Blackight 10")
-      else
-        requested_rows = ids.count
-      end
-
+    def fetch_many(ids, extra_controller_params = nil)
       query = search_builder
               .with(search_state)
               .where(blacklight_config.document_model.unique_key => ids)
               .merge(blacklight_config.fetch_many_document_params)
-              .merge(extra_controller_params)
+
+      requested_rows = ids.count
+      if extra_controller_params.present?
+        Blacklight.deprecation.warn("The extra_controller_params argument to fetch_many is deprecated without replacement and will be removed in Blacklight 10.")
+        requested_rows = extra_controller_params.delete(:rows) || requested_rows
+        query = query.merge(extra_controller_params) if extra_controller_params.present?
+      end
+
       query.rows(requested_rows)
 
       # find_many was introduced in Blacklight 8.4. Before that, we used the
