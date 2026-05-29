@@ -40,6 +40,14 @@ module Blacklight::ElasticSearch
       bool[:must_not] << query
     end
 
+    # Filter the results to a specific set of document ids. The field is ignored
+    # because Elasticsearch matches against the document `_id`.
+    # @param [String] _field
+    # @param [Array<String>] values
+    def append_ids_filter(_field, values)
+      append_filter_query(ids: { values: Array(values) })
+    end
+
     # Add a terms (or other) aggregation used to compute facet values
     def append_aggregation(name, aggregation)
       self[:aggs] ||= {}

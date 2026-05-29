@@ -52,6 +52,13 @@ class Blacklight::Solr::Request < ActiveSupport::HashWithIndifferentAccess # rub
     self['fq'] << query
   end
 
+  # Filter the results to a specific set of values in the given field.
+  # @param [String] field
+  # @param [Array<String>] values
+  def append_ids_filter(field, values)
+    append_filter_query("{!terms f=#{field}}#{Array(values).join(',')}")
+  end
+
   def append_facet_fields(values)
     self['facet.field'] ||= []
     self['facet.field'] += Array(values)
