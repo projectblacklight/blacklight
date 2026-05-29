@@ -36,3 +36,23 @@ services:
       - /opt/solr/conf
       - "-Xms256m"
       - "-Xmx512m"
+
+  # Optional search engine for running Blacklight against Elasticsearch/OpenSearch
+  # instead of Solr. Enable by setting BLACKLIGHT_ADAPTER=elasticsearch.
+  elasticsearch:
+    image: "elasticsearch:${ELASTICSEARCH_VERSION:-9.0.4}"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "${ELASTICSEARCH_PORT:-9200}:9200"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://localhost:9200/_cluster/health || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12

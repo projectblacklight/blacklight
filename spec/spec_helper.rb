@@ -48,6 +48,24 @@ RSpec.configure do |config|
   # When we're testing the API, only run the api tests
   config.filter_run api: true if ENV['BLACKLIGHT_API_TEST'].present?
 
+  # When running the suite against the Elasticsearch adapter, skip examples that
+  # exercise Solr-only features that are intentionally disabled for that adapter
+  # (spellcheck/"did you mean", result grouping, pivot/query facets,
+  # more-like-this, autocomplete suggestions, and the Solr JSON Query DSL
+  # advanced search). Tag such examples or groups with `:solr_only`.
+  #
+  # The adapter is detected from the (statically generated) config/blacklight.yml
+  # so the suite behaves correctly without re-supplying BLACKLIGHT_ADAPTER; the
+  # environment variable is used as a fallback.
+  configured_adapter = begin
+    Blacklight.connection_config&.fetch(:adapter, nil)
+  rescue StandardError
+    nil
+  end
+  if (configured_adapter || ENV.fetch('BLACKLIGHT_ADAPTER', nil)).to_s =~ /elastic|opensearch/
+    config.filter_run_excluding :solr_only
+  end
+
   config.fixture_paths = [Rails.root.join("spec/fixtures")]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

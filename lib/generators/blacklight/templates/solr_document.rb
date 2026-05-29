@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-# Represents a single document returned from Solr
+# Represents a single document returned from the search index
 class <%= model_name.classify %>
-  include Blacklight::Solr::Document
+  # Mixes in the behavior appropriate for the search index adapter configured
+  # in config/blacklight.yml (Solr by default, or Elasticsearch).
+  include Blacklight.document_mixin
 
   # self.unique_key = 'id'
 

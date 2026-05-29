@@ -74,7 +74,7 @@ RSpec.describe CatalogController, :api do
         expect(assigns(:response).docs).to be_empty
       end
 
-      it "has a spelling suggestion for an appropriately poor query", :integration do
+      it "has a spelling suggestion for an appropriately poor query", :integration, :solr_only do
         get :index, params: { q: 'boo' }
         expect(assigns(:response).spelling.words).not_to be_nil
       end

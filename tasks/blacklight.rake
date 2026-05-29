@@ -20,6 +20,22 @@ def system_with_error_handling(*args)
   end
 end
 
+# @return [Symbol] :elasticsearch when the test app is configured to use the
+#   Elasticsearch adapter, otherwise :solr
+def configured_search_engine
+  ENV['BLACKLIGHT_ADAPTER'].to_s =~ /elastic|opensearch/ ? :elasticsearch : :solr
+end
+
+# Bring up the appropriate search engine (Solr or Elasticsearch) for the
+# duration of the block, based on the BLACKLIGHT_ADAPTER environment variable.
+def with_search_engine(&)
+  if configured_search_engine == :elasticsearch
+    with_elasticsearch(&)
+  else
+    with_solr(&)
+  end
+end
+
 def with_solr(&block)
   # We're being invoked by the app entrypoint script and solr is already up via docker compose
   if ENV['SOLR_ENV'] == 'docker-compose'
@@ -41,10 +57,31 @@ def with_solr(&block)
   end
 end
 
+def with_elasticsearch
+  # We're being invoked by the app entrypoint script and the cluster is already up via docker compose
+  if ENV['SOLR_ENV'] == 'docker-compose'
+    yield
+  elsif system('docker compose version')
+    begin
+      puts "Starting Elasticsearch"
+      # --wait blocks until the container reports healthy (see the healthcheck in
+      # compose.yaml) so we don't try to index before the cluster is ready.
+      system_with_error_handling "docker compose up -d --wait elasticsearch"
+      yield
+    ensure
+      puts "Stopping Elasticsearch"
+      system_with_error_handling "docker compose stop elasticsearch"
+    end
+  else
+    raise "Running the test suite against Elasticsearch requires Docker Compose. " \
+          "Start an Elasticsearch instance yourself and set ELASTICSEARCH_URL, then run the specs directly."
+  end
+end
+
 # rubocop:disable Rails/RakeEnvironment
 desc "Run test suite"
 task ci: ['build:npm'] do
-  with_solr do
+  with_search_engine do
     Rake::Task['blacklight:internal:seed'].invoke
     Rake::Task['blacklight:coverage'].invoke
   end
@@ -75,7 +112,7 @@ namespace :blacklight do
 
   desc 'Run Solr and Blacklight for interactive development'
   task :server, [:rails_server_args] => ['engine_cart:generate'] do |_t, args|
-    with_solr do
+    with_search_engine do
       Rake::Task['blacklight:internal:seed'].invoke
 
       within_test_app do

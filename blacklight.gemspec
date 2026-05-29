@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency "zeitwerk"
 
   s.add_development_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
+  s.add_development_dependency "elasticsearch", ">= 8.0", "< 10"  # Client for the optional Elasticsearch/OpenSearch adapter (client major version should match the server).
   s.add_development_dependency "rspec-rails", "~> 7.0"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
   s.add_development_dependency 'axe-core-rspec'

@@ -2,7 +2,9 @@
 
 require 'spec_helper'
 
-RSpec.describe "Blacklight Advanced Search Form" do
+# The advanced search form builds queries using Solr's JSON Query DSL, which is
+# not supported by the Elasticsearch adapter.
+RSpec.describe "Blacklight Advanced Search Form", :solr_only do
   describe "advanced search form" do
     before do
       visit '/catalog/advanced'

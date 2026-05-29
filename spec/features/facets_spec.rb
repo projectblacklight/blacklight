@@ -63,7 +63,8 @@ RSpec.describe "Facets" do
     expect(page).to have_css('#facet-format', visible: true) # assert that it didn't re-collapse
   end
 
-  it 'is able to expand pivot facets when javascript is enabled', :js do
+  # Pivot facets are a Solr-only feature.
+  it 'is able to expand pivot facets when javascript is enabled', :js, :solr_only do
     visit root_path
 
     click_on 'Pivot Field'

@@ -2,7 +2,8 @@
 
 require 'spec_helper'
 
-RSpec.describe 'GET /catalog/suggest' do
+# Autocomplete suggestions are backed by the Solr suggester component.
+RSpec.describe 'GET /catalog/suggest', :solr_only do
   it 'returns suggestions' do
     get '/catalog/suggest?q=new'
     expect(response.body).to eq <<-RESULT

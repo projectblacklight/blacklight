@@ -26,6 +26,9 @@ jobs:
     needs: set_matrix
     runs-on: ubuntu-latest
     name: ruby ${{ matrix.ruby }} | rails ${{ matrix.rails_version }} ${{ matrix.additional_name }}
+    # The Elasticsearch configuration is still reaching feature parity with Solr,
+    # so it is allowed to fail without failing the overall build.
+    continue-on-error: ${{ matrix.experimental == true }}
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.set_matrix.outputs.matrix)}}
@@ -35,6 +38,8 @@ jobs:
       VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
       BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
       BLACKLIGHT_API_TEST: ${{ matrix.api }}
+      BLACKLIGHT_ADAPTER: ${{ matrix.search_engine }}
+      ELASTICSEARCH_URL: http://localhost:9200
       ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-kamal --skip-thruster --skip-solid --skip-coffee --skip-test ${{ matrix.additional_engine_cart_rails_options }}"
       BUNDLER_VERSION: ${{ matrix.bundler_version || '2.7.2' }}
     steps:

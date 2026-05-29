@@ -60,6 +60,45 @@ Code contributions are always welcome, instructions for contributing can be foun
 ## Configuring Apache Solr
 You'll also want some information about how Blacklight expects [Apache Solr](http://lucene.apache.org/solr ) to run, which you can find in [Solr Configuration](https://github.com/projectblacklight/blacklight/wiki/Solr-Configuration#solr-configuration)
 
+## Using Elasticsearch / OpenSearch (experimental)
+Blacklight defaults to Apache Solr, but it can also run against an Elasticsearch
+(or API-compatible OpenSearch) cluster. Select the adapter in
+`config/blacklight.yml`:
+
+```yaml
+development:
+  adapter: elasticsearch
+  url: http://127.0.0.1:9200
+  index: blacklight-core
+```
+
+Applications using this adapter must add an Elasticsearch client to their
+`Gemfile` (the gem is not a runtime dependency of Blacklight):
+
+```ruby
+bundle add elasticsearch
+# or, for OpenSearch:
+# bundle add opensearch-ruby
+```
+
+With the adapter selected, the generated `SearchBuilder` and `SolrDocument`
+classes automatically mix in the correct behavior (`include
+Blacklight.search_builder_behavior` / `include Blacklight.document_mixin`).
+
+Some features that depend on Solr-specific functionality are not available when
+using Elasticsearch and are automatically disabled: spellcheck/"did you mean",
+result grouping, pivot and query facets, more-like-this, autocomplete
+suggestions, and the Solr JSON Query DSL advanced search.
+
+`rails blacklight:index:seed` will create the index (if needed) and load the
+sample data. The default index mapping understands Blacklight's Solr field
+naming conventions: fields ending in a text suffix (e.g. `title_tsim`) are
+mapped as analyzed `text` for full-text search, while other string fields
+(e.g. `format`, `language_ssim`, `pub_date_si`) are mapped as `keyword` for
+filtering, sorting, and faceting. Override the mapping with
+`config.elasticsearch_index_settings` in your `CatalogController` if you need
+full control over the schema.
+
 ## Building the javascript
 The javascript includes some derivative combination files that are built at release time, that can be used by some javascript pipelines. The derivatives are placed at `app/assets/javascripts/blacklight`, and files there should not be edited by hand.
 
