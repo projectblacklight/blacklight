@@ -162,14 +162,18 @@ module Blacklight
       end
     end
 
+    def default_document_pagination_params
+      { fl: blacklight_config.document_model.unique_key }
+    end
+
     def for_previous_and_next_documents(index, window = 1)
       document_pagination_params = blacklight_config.document_pagination_params.dup
 
       if document_pagination_params.empty?
-        document_pagination_params[:fl] = blacklight_config.document_model.unique_key
+        merge(default_document_pagination_params)
+      else
+        merge(document_pagination_params)
       end
-
-      merge(document_pagination_params)
 
       if index > 0
         self.start = [index - window, 0].max
