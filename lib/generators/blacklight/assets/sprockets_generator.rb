@@ -42,7 +42,7 @@ module Blacklight
         end
       end
 
-      def assets
+      def assets # rubocop:disable Metrics/MethodLength
         create_file 'app/assets/stylesheets/blacklight.scss' do
           <<~CONTENT
             @import 'bootstrap';
