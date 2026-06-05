@@ -28,7 +28,7 @@ def wait_for_solr(port: 8983, timeout: 30)
       Net::HTTP.get_response(URI("http://localhost:#{port}/solr/admin/cores?action=STATUS"))
       puts " ready."
       return
-    rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Net::OpenTimeout
+    rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Net::OpenTimeout, EOFError
       print "."
       sleep 1
     end
