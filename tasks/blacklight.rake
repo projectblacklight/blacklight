@@ -25,13 +25,16 @@ def wait_for_solr(port: 8983, timeout: 30)
   print "Waiting for Solr to be ready"
   timeout.times do
     begin
-      Net::HTTP.get_response(URI("http://localhost:#{port}/solr/admin/cores?action=STATUS"))
-      puts " ready."
-      return
+      response = Net::HTTP.get_response(URI("http://localhost:#{port}/solr/blacklight-core/admin/ping"))
+      if response.is_a?(Net::HTTPSuccess)
+        puts " ready."
+        return
+      end
     rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Net::OpenTimeout, EOFError
-      print "."
-      sleep 1
+      # Solr not yet accepting connections
     end
+    print "."
+    sleep 1
   end
   raise "Solr did not become ready within #{timeout} seconds"
 end
