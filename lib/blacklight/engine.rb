@@ -38,13 +38,18 @@ module Blacklight
       end
     end
 
-    initializer "blacklight.assets.precompile" do
+    initializer "blacklight.assets.precompile" do |app|
       PRECOMPILE_ASSETS = %w(favicon.ico blacklight/blacklight.js blacklight/blacklight.js.map).freeze
 
       # When Rails has been generated in API mode, it does not have sprockets available
-      if Rails.application.config.respond_to?(:assets)
-        Rails.application.config.assets.precompile += PRECOMPILE_ASSETS
-      end
+      next unless app.config.respond_to?(:assets)
+
+      app.config.assets.paths << Engine.root.join("app/javascript")
+      app.config.assets.precompile += PRECOMPILE_ASSETS
+    end
+
+    initializer "blacklight.importmap", before: "importmap" do |app|
+      app.config.importmap.paths << Engine.root.join("config/importmap.rb") if app.config.respond_to?(:importmap)
     end
 
     bl_global_config = OpenStructWithHashAccess.new
