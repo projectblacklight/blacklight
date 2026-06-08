@@ -12,31 +12,12 @@ RuboCop::RakeTask.new(:rubocop)
 
 require 'solr_wrapper'
 require 'open3'
-require 'net/http'
 
 def system_with_error_handling(*args)
   Open3.popen3(*args) do |_stdin, stdout, stderr, thread|
     puts stdout.read
     raise "Unable to run #{args.inspect}: #{stderr.read}" unless thread.value.success?
   end
-end
-
-def wait_for_solr(port: 8983, timeout: 30)
-  print "Waiting for Solr to be ready"
-  timeout.times do
-    begin
-      response = Net::HTTP.get_response(URI("http://localhost:#{port}/solr/blacklight-core/admin/ping"))
-      if response.is_a?(Net::HTTPSuccess)
-        puts " ready."
-        return
-      end
-    rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Net::OpenTimeout, EOFError
-      # Solr not yet accepting connections
-    end
-    print "."
-    sleep 1
-  end
-  raise "Solr did not become ready within #{timeout} seconds"
 end
 
 def with_solr
@@ -48,7 +29,6 @@ def with_solr
     begin
       puts "Starting Solr"
       system_with_error_handling "docker compose up -d solr"
-      wait_for_solr
       yield
     ensure
       puts "Stopping Solr"
