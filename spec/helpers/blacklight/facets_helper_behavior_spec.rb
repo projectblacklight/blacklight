@@ -231,7 +231,7 @@ RSpec.describe Blacklight::FacetsHelperBehavior do
     context "when one of the facet items is rendered as nil" do
       # An app may override render_facet_item to filter out some undesired facet items by returning nil.
       before do
-        allow_any_instance_of # rubocop:disable RSpec/AnyInstance(Blacklight::FacetItemComponent).to receive(:overridden_helper_methods?).and_return(true)
+        allow_any_instance_of (Blacklight::FacetItemComponent).to receive(:overridden_helper_methods?).and_return(true) # rubocop:disable RSpec/AnyInstance
         allow(helper).to receive(:render_facet_item).and_return('<a class="facet-select">Book</a>'.html_safe, nil)
       end
 
