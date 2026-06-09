@@ -39,6 +39,15 @@
       "rails_version": "8.0.2"
     },
     {
+      "ruby": "3.4",
+      "rails_version": "8.1.3"
+    },
+    {
+      "ruby": "3.4",
+      "rails_version": "8.1.3",
+      "bootstrap_version": "~> 4.0"
+    },
+    {
       "ruby": "3.3",
       "rails_version": "7.1.5.1",
       "view_component_version": "~> 2.74",

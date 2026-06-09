@@ -9,13 +9,13 @@ module Blacklight
       self.field ||= label&.parameterize
       self.field ||= sort
 
-      self.sort ||= self.field
+      self.sort ||= field
 
       self
     end
 
     def validate!
-      raise ArgumentError.new, "Must supply a sort string" if self.sort.nil?
+      raise ArgumentError.new, "Must supply a sort string" if sort.nil?
     end
   end
 end

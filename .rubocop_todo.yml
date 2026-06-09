@@ -8,12 +8,12 @@
 
 # Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
-Capybara/CurrentPathExpectation:
+Capybara/RSpec/CurrentPathExpectation:
   Exclude:
     - 'spec/features/alternate_controller_spec.rb'
 
 # Offense count: 20
-Capybara/VisibilityMatcher:
+Capybara/RSpec/VisibilityMatcher:
   Exclude:
     - 'spec/features/facets_spec.rb'
     - 'spec/features/search_filters_spec.rb'
