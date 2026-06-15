@@ -6,7 +6,7 @@
 
   <div class="modal-body">
     <%= render '/shared/flash_msg' %>
-    <div class="row">
+    <div class="row mb-3">
       <label class="col-form-label col-sm-2" for="to">
         <%= t('blacklight.email.form.to') %>
       </label>
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-3">
       <label class="col-form-label col-sm-2" for="message">
         <%= t('blacklight.email.form.message') %>
       </label>
@@ -25,7 +25,7 @@
     </div>
 
     <% @documents&.each do |doc| %>
-      <%=hidden_field_tag "id[]", doc.id %>
+      <%= hidden_field_tag "id[]", doc.id %>
     <% end %>
     <%- if params[:sort] -%>
       <%= hidden_field_tag "sort", params[:sort] %>
