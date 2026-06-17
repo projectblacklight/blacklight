@@ -47,16 +47,8 @@ module Blacklight::Bookmarks
 
   def index
     @bookmarks = token_or_current_or_guest_user.bookmarks
-    @response = search_service.search_results
 
-    respond_to do |format|
-      format.html {}
-      format.rss  { render layout: false }
-      format.atom { render layout: false }
-
-      additional_response_formats(format)
-      document_export_formats(format)
-    end
+    super
   end
 
   def update
