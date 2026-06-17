@@ -49,7 +49,19 @@ module Blacklight::ElasticSearch
     # because those facet types are not supported by this adapter.
     def add_filters_to_request(request)
       search_state.filters.each do |filter|
-        next if unsupported_filter?(filter)
+        if unsupported_filter?(filter)
+          # Query facet filters represent an explicit user selection that cannot
+          # be translated to Elasticsearch. Apply a filter that matches nothing
+          # so the result is empty — more correct than silently returning all docs.
+          #
+          # Pivot facet filters are silently ignored: their `values` are
+          # PivotValue objects derived from constituent field selections (not
+          # direct user choices), so suppressing results would be incorrect.
+          if filter.config.query.present? && filter.values.any?(String)
+            request.append_filter_query(ids: { values: [] })
+          end
+          next
+        end
 
         field = filter_field_name(filter)
         values = Array(filter.values).compact_blank
