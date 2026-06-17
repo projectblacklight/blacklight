@@ -85,6 +85,14 @@ module Blacklight::ElasticSearch
                 end
 
         request.append_aggregation(field_name, terms: { field: facet_config.field, size: size, order: order })
+
+        # Elasticsearch's `missing` aggregation is the equivalent of Solr's
+        # `facet.missing`, returning a count for documents that have no value
+        # for the field. We add it as a sibling aggregation when the Solr-style
+        # `facet.missing` param or the per-field `missing:` option is enabled.
+        next unless facet_missing_enabled?(facet_config)
+
+        request.append_aggregation("#{field_name}_missing", missing: { field: facet_config.field })
       end
     end
 
@@ -237,6 +245,17 @@ module Blacklight::ElasticSearch
       return false unless config
 
       config.pivot.present? || config.query.present?
+    end
+
+    # Returns true when missing-value counts should be included in the
+    # aggregation for +facet_config+. Supports the Solr-style global
+    # `default_solr_params["facet.missing"]` flag as well as per-facet
+    # `missing: true` in the facet field configuration.
+    def facet_missing_enabled?(facet_config)
+      facet_config.missing ||
+        blacklight_config.default_solr_params["facet.missing"] == true ||
+        blacklight_config.default_solr_params["facet.missing"] == "true" ||
+        blacklight_config.default_solr_params[:'facet.missing'] == true
     end
 
     def facet_fields_to_include_in_request

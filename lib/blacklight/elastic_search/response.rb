@@ -177,6 +177,11 @@ module Blacklight::ElasticSearch
           end
         end
 
+        # Second pass: attach missing-value counts from sibling `_missing`
+        # aggregations (added by SearchBuilderBehavior when facet.missing is
+        # enabled). This mirrors Solr's `facet.missing` feature.
+        attach_missing_facet_items(result)
+
         result
       end
     end
@@ -185,6 +190,34 @@ module Blacklight::ElasticSearch
 
     def unique_key
       (blacklight_config&.document_model || ::SolrDocument).unique_key
+    end
+
+    # Locate `{field_name}_missing` aggregations produced by the
+    # Elasticsearch `missing` aggregation type and attach them as missing
+    # FacetItems on the corresponding FacetField.
+    def attach_missing_facet_items(result)
+      (self['aggregations'] || {}).each do |agg_name, data|
+        next unless agg_name.end_with?('_missing')
+        next unless data.is_a?(Hash)
+
+        count = data['doc_count'].to_i
+        next if count.zero?
+
+        field_name = agg_name.delete_suffix('_missing')
+        facet_field = result[field_name]
+        next if facet_field.nil? || facet_field.is_a?(Blacklight::Solr::Response::Facets::NullFacetField)
+
+        label = I18n.t(:"blacklight.search.fields.facet.missing.#{field_name}",
+                       default: :'blacklight.search.facets.missing')
+        missing_item = Blacklight::Solr::Response::Facets::FacetItem.new(
+          value: Blacklight::SearchState::FilterField::MISSING,
+          hits: count,
+          missing: true,
+          label: label
+        )
+        facet_field.items << missing_item
+        facet_field.missing = missing_item
+      end
     end
 
     # @return [HashWithIndifferentAccess] hash with a null-object default for missing facet fields
