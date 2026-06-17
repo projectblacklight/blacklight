@@ -11,7 +11,7 @@ module Blacklight::ElasticSearch
   #
   # Solr-only concepts (spelling suggestions, result grouping, and
   # more-like-this) are represented with null/empty implementations.
-  class Response < Blacklight::Solr::Response
+  class Response < Blacklight::Solr::Response # rubocop:disable Metrics/ClassLength
     # A stand-in for Blacklight::Solr::Response::Spelling, which Elasticsearch
     # does not provide an equivalent of.
     class NullSpelling
@@ -100,7 +100,7 @@ module Blacklight::ElasticSearch
     end
 
     # @return [Hash] options for the facet field, including limit, offset, sort, etc.
-    def facet_field_aggregation_options(field_name)
+    def facet_field_aggregation_options(field_name) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
       options = super
       return options unless blacklight_config
 
@@ -142,7 +142,7 @@ module Blacklight::ElasticSearch
     # Convert Elasticsearch aggregations into the hash of
     # Blacklight::Solr::Response::Facets::FacetField objects that Blacklight's
     # facet display expects.
-    def aggregations
+    def aggregations # rubocop:disable Metrics/CyclomaticComplexity
       @aggregations ||= begin
         result = default_aggregations
 
@@ -155,9 +155,17 @@ module Blacklight::ElasticSearch
 
           options = facet_field_aggregation_options(field_name)
 
-          if options[:offset] && options[:offset].positive?
+          if options[:offset]&.positive?
             items = items[options[:offset]..] || []
           end
+
+          # Override with the actual aggregation size from the request body.
+          # facet_field_aggregation_options reads Solr-style params that do not
+          # exist in an Elasticsearch request, so its limit is unreliable.
+          # The FacetFieldPresenter computes: display_count = limit - 1, so
+          # setting limit = requested_size gives the correct display count.
+          agg_size = request_params.dig('aggs', field_name, 'terms', 'size')
+          options[:limit] = agg_size if agg_size
 
           facet_field = Blacklight::Solr::Response::Facets::FacetField.new(field_name, items, options.merge(response: self))
           result[field_name] = facet_field

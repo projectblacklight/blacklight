@@ -7,7 +7,9 @@ RSpec.describe "Facets" do
     expect(page).to have_css ".facet-select", text: "Tibetan"
   end
 
-  it "paginates through a facet's values" do
+  # Elasticsearch terms aggregations do not support offset-based pagination,
+  # so navigating to page 2+ of facet values is a Solr-only feature.
+  it "paginates through a facet's values", :solr_only do
     visit facet_catalog_path("subject_ssim")
     expect(page).to have_css '.facet-values li:first', text: "Japanese drama"
     expect(page).to have_link "A-Z Sort"

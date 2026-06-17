@@ -65,7 +65,9 @@ module Blacklight::ElasticSearch
     end
 
     # Build terms aggregations for each configured facet field. Pivot and query
-    # facets are not supported by this adapter and are skipped.
+    # facets are not supported by this adapter and are skipped. When the facet
+    # modal is open (`facet` is set), the selected field's aggregation is
+    # handled by `add_facet_paging_to_request` instead.
     def add_facetting_to_request(request)
       facet_fields_to_include_in_request.each do |field_name, facet_config|
         next if facet.present? && facet == field_name
