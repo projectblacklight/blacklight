@@ -219,21 +219,40 @@ module Blacklight::ElasticSearch
       blacklight_config&.elasticsearch_index_settings || default_index_settings
     end
 
-    def default_index_settings
+    def default_index_settings # rubocop:disable Metrics/MethodLength
       {
         mappings: {
+          # `all_text` is the ES equivalent of Solr's `all_text_timv` copyField:
+          # a single English-analyzed field that aggregates content from all text
+          # and keyword facet/sort fields so that stemmed full-text search works
+          # (e.g. "history" matches docs whose subject_ssim contains "Japan History").
+          properties: {
+            all_text: { type: 'text', analyzer: 'english' }
+          },
           dynamic_templates: [
-            # Blacklight text fields (e.g. title_tsim, author_tsim) -> analyzed text
+            # Blacklight text fields (*_tsim, *_tesim, etc.) -> analyzed text with
+            # English stemming, also copied to the aggregate all_text field.
             {
               text_fields: {
                 match_pattern: 'regex',
                 match: '.*_t[a-z]*$',
-                mapping: { type: 'text' }
+                mapping: { type: 'text', analyzer: 'english', copy_to: 'all_text' }
               }
             },
-            # All other string fields (e.g. format, *_ssim, *_si, id) -> keyword,
-            # so they support filtering, sorting, and aggregations. Long values
-            # (e.g. stored MARC) are kept in _source but not indexed as terms.
+            # Facet and sort string fields (*_ssim, *_si) -> keyword for exact-match
+            # filtering/sorting/aggregations, also copied into all_text so their
+            # values are reachable by full-text search (mirrors Solr's copyField
+            # from *_ssim and *_si into all_text_timv).
+            {
+              keyword_copy_fields: {
+                match_pattern: 'regex',
+                match: '.*_(ssim|si)$',
+                mapping: { type: 'keyword', ignore_above: 8192, copy_to: 'all_text' }
+              }
+            },
+            # All remaining string fields (e.g. marc_ss, format, id) -> keyword.
+            # These are NOT copied to all_text to avoid polluting search results
+            # with raw MARC XML or other non-bibliographic content.
             {
               string_fields: {
                 match_mapping_type: 'string',

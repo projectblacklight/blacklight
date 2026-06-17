@@ -34,9 +34,9 @@ RSpec.describe Blacklight::ElasticSearch::SearchBuilderBehavior, :api do
     context 'with a query' do
       let(:user_params) { { q: 'history' } }
 
-      it 'adds a simple_query_string clause' do
+      it 'adds a simple_query_string clause targeting the all_text field' do
         expect(body.dig(:query, :bool, :must)).to include(
-          simple_query_string: { query: 'history', default_operator: 'and' }
+          simple_query_string: { query: 'history', fields: ['all_text'], default_operator: 'and' }
         )
       end
     end

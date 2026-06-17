@@ -8,7 +8,7 @@ module Blacklight::ElasticSearch
   # Features that Elasticsearch does not provide in the same way Solr does
   # (spellcheck, result grouping, pivot/query facets, and the Solr JSON Query
   # DSL advanced search) are intentionally omitted from the processor chain.
-  module SearchBuilderBehavior
+  module SearchBuilderBehavior # rubocop:disable Metrics/ModuleLength
     extend ActiveSupport::Concern
 
     included do
@@ -37,15 +37,20 @@ module Blacklight::ElasticSearch
         if fields.present?
           { multi_match: { query: query, fields: fields, type: 'best_fields', operator: 'and' } }
         else
-          { simple_query_string: { query: query, default_operator: 'and' } }
+          # `all_text` is the aggregate field (equivalent to Solr's all_text_timv)
+          # that covers all text and ssim/si fields with English stemming.
+          { simple_query_string: { query: query, fields: ['all_text'], default_operator: 'and' } }
         end
       )
     end
 
     # Map the applied facet filters (Blacklight's `f` parameter) to
-    # Elasticsearch term filters.
+    # Elasticsearch term filters. Pivot and query facet filters are skipped
+    # because those facet types are not supported by this adapter.
     def add_filters_to_request(request)
       search_state.filters.each do |filter|
+        next if unsupported_filter?(filter)
+
         field = filter_field_name(filter)
         values = Array(filter.values).compact_blank
 
@@ -220,6 +225,16 @@ module Blacklight::ElasticSearch
 
     def filter_field_name(filter)
       filter.config&.field || filter.key
+    end
+
+    # Returns true for filter types that have no Elasticsearch equivalent and
+    # should be silently dropped (pivot facets produce PivotValue objects that
+    # cannot be serialised into a terms query; query facets use Solr fq syntax).
+    def unsupported_filter?(filter)
+      config = filter.config
+      return false unless config
+
+      config.pivot.present? || config.query.present?
     end
 
     def facet_fields_to_include_in_request
