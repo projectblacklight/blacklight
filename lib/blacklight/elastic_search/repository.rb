@@ -221,22 +221,47 @@ module Blacklight::ElasticSearch
 
     def default_index_settings # rubocop:disable Metrics/MethodLength
       {
+        settings: {
+          analysis: {
+            filter: {
+              blacklight_english_stop: { type: 'stop', stopwords: '_english_' },
+              blacklight_english_stemmer: { type: 'stemmer', language: 'english' },
+              blacklight_english_possessive: { type: 'stemmer', language: 'possessive_english' }
+            },
+            analyzer: {
+              # Extends the built-in `english` analyzer with an asciifolding step so
+              # that diacritic variants (e.g. inmül → inmul) match their base forms,
+              # consistent with Solr's ASCIIFoldingFilterFactory configuration.
+              blacklight_english: {
+                tokenizer: 'standard',
+                filter: %w[
+                  blacklight_english_possessive
+                  lowercase
+                  asciifolding
+                  blacklight_english_stop
+                  blacklight_english_stemmer
+                ]
+              }
+            }
+          }
+        },
         mappings: {
           # `all_text` is the ES equivalent of Solr's `all_text_timv` copyField:
           # a single English-analyzed field that aggregates content from all text
           # and keyword facet/sort fields so that stemmed full-text search works
           # (e.g. "history" matches docs whose subject_ssim contains "Japan History").
           properties: {
-            all_text: { type: 'text', analyzer: 'english' }
+            all_text: { type: 'text', analyzer: 'blacklight_english' }
           },
           dynamic_templates: [
             # Blacklight text fields (*_tsim, *_tesim, etc.) -> analyzed text with
-            # English stemming, also copied to the aggregate all_text field.
+            # English stemming + diacritic folding, also copied to the aggregate
+            # all_text field.
             {
               text_fields: {
                 match_pattern: 'regex',
                 match: '.*_t[a-z]*$',
-                mapping: { type: 'text', analyzer: 'english', copy_to: 'all_text' }
+                mapping: { type: 'text', analyzer: 'blacklight_english', copy_to: 'all_text' }
               }
             },
             # Facet and sort string fields (*_ssim, *_si) -> keyword for exact-match

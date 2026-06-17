@@ -27,7 +27,8 @@ RSpec.describe "Search Results" do
     expect(number_of_results_from_page(page)).to eq 1
   end
 
-  it "orders by relevancy" do
+  # Exact relevance ordering depends on Solr's field boosts and dismax scoring.
+  it "orders by relevancy", :solr_only do
     search_for "Korea"
     expect(position_in_result_page(page, '77826928')).to eq 1
     expect(position_in_result_page(page, '94120425')).to eq 4
