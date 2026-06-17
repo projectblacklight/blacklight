@@ -110,7 +110,7 @@ module Blacklight
       field ||= blacklight_config.view_config(:opensearch).title_field
 
       query = search_builder.with(search_state).merge(solr_opensearch_params(field)).merge(extra_controller_params)
-      response = repository.search(query)
+      response = repository.search(params: query)
 
       [search_state.query_param, response.documents.flat_map { |doc| doc[field] }.uniq]
     end
@@ -166,7 +166,7 @@ module Blacklight
                         repository.find_many(query)
                       else
                         Blacklight.deprecation.warn("Repository#find_many is not implemented. Falling back to Repository#search.")
-                        repository.search(query)
+                        repository.search(params: query)
                       end
 
       solr_response.documents
