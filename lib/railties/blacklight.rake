@@ -23,9 +23,20 @@ namespace :blacklight do
       file = ENV.fetch('FILE') { (app_file && File.exist?(app_file) && app_file) } ||
              File.join(Blacklight.root, 'spec', 'fixtures', 'sample_solr_documents.yml')
       docs = YAML.safe_load(File.open(file))
-      conn = Blacklight.default_index.connection
-      conn.add docs
-      conn.commit
+      repository = Blacklight.default_index
+
+      # Repositories that index through their connection (e.g. Solr via RSolr)
+      # use conn.add/conn.commit. Other adapters (e.g. Elasticsearch) implement
+      # add/commit (and an optional create_index!) on the repository itself.
+      if repository.respond_to?(:add) && repository.respond_to?(:commit)
+        repository.create_index! if repository.respond_to?(:create_index!)
+        repository.add(docs)
+        repository.commit
+      else
+        conn = repository.connection
+        conn.add docs
+        conn.commit
+      end
     end
   end
 

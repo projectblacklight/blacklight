@@ -64,7 +64,7 @@ RSpec.describe CatalogController, :api do
         expect(assigns(:response).docs).to be_empty
       end
 
-      it "returns results (possibly 0) when the user asks for a valid value to a custom facet query", :integration do
+      it "returns results (possibly 0) when the user asks for a valid value to a custom facet query", :integration, :solr_only do
         get :index, params: { f: { example_query_facet_field: ['years_25'] } } # valid custom facet value with some results
         expect(assigns(:response).docs).not_to be_empty
       end
@@ -74,7 +74,7 @@ RSpec.describe CatalogController, :api do
         expect(assigns(:response).docs).to be_empty
       end
 
-      it "has a spelling suggestion for an appropriately poor query", :integration do
+      it "has a spelling suggestion for an appropriately poor query", :integration, :solr_only do
         get :index, params: { q: 'boo' }
         expect(assigns(:response).spelling.words).not_to be_nil
       end
@@ -153,7 +153,8 @@ RSpec.describe CatalogController, :api do
         expect(docs.first['links']['self']).to eq solr_document_url(id: docs.first['id'])
       end
 
-      it "gets the facets" do
+      # 9 facets includes the Solr-only pivot and query facets.
+      it "gets the facets", :solr_only do
         expect(facets).to have(9).facets
 
         format = facets.find { |x| x['id'] == 'format' }
@@ -169,7 +170,8 @@ RSpec.describe CatalogController, :api do
         expect(search_fields.first['links']['self']).to eq search_catalog_url(format: :json, search_field: 'all_fields')
       end
 
-      describe "facets" do
+      # Query facets are a Solr-only feature.
+      describe "facets", :solr_only do
         let(:query_facet) { facets.find { |x| x['id'] == 'example_query_facet_field' } }
         let(:query_facet_items) { query_facet['attributes']['items'].pluck('attributes') }
 
@@ -282,7 +284,8 @@ RSpec.describe CatalogController, :api do
         allow(controller.blacklight_config.raw_endpoint).to receive(:enabled).and_return(true)
       end
 
-      it "gets the raw solr document" do
+      # The exact stored-field list is specific to the Solr schema.
+      it "gets the raw solr document", :solr_only do
         get :raw, params: { id: doc_id, format: 'json' }
         expect(response).to be_successful
         json = response.parsed_body

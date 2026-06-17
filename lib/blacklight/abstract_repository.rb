@@ -54,6 +54,19 @@ module Blacklight
       raise NotImplementedError
     end
 
+    # Repository-specific request parameters for fetching documents with a
+    # minimal field set and without faceting. Used by
+    # Blacklight::SearchService when paging to the previous/next document.
+    #
+    # The default is the Solr-style parameters (preserved for Solr and any
+    # custom adapters); other adapters (e.g. Elasticsearch) override this.
+    #
+    # @param [String] unique_key the document model's unique key field
+    # @return [Hash]
+    def default_document_pagination_params(unique_key)
+      { fl: unique_key, facet: false }
+    end
+
     ##
     # Is the repository in a working state?
     def ping

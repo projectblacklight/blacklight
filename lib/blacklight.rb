@@ -36,11 +36,43 @@ module Blacklight
     case connection_config&.fetch(:adapter) || 'solr'
     when 'solr'
       Blacklight::Solr::Repository
+    when 'elasticsearch', 'elastic_search', 'opensearch'
+      Blacklight::ElasticSearch::Repository
     when /::/
       connection_config[:adapter].constantize
     else
       Blacklight.const_get("#{connection_config.fetch(:adapter)}/Repository".classify)
     end
+  end
+
+  ##
+  # The response model class appropriate for the configured adapter.
+  # @return [Class]
+  def self.default_response_model
+    repository_class.try(:response_model) || Blacklight::Solr::Response
+  end
+
+  ##
+  # The facet paginator class appropriate for the configured adapter.
+  # @return [Class]
+  def self.default_facet_paginator_class
+    repository_class.try(:facet_paginator_class) || Blacklight::Solr::FacetPaginator
+  end
+
+  ##
+  # The SearchBuilder behavior module appropriate for the configured adapter.
+  # Intended to be included into an application's SearchBuilder.
+  # @return [Module]
+  def self.search_builder_behavior
+    repository_class.try(:search_builder_behavior) || Blacklight::Solr::SearchBuilderBehavior
+  end
+
+  ##
+  # The document mixin appropriate for the configured adapter.
+  # Intended to be included into an application's document model.
+  # @return [Module]
+  def self.document_mixin
+    repository_class.try(:document_mixin) || Blacklight::Solr::Document
   end
 
   ##

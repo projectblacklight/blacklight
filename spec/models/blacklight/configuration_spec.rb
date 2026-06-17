@@ -8,7 +8,7 @@ RSpec.describe Blacklight::Configuration, :api do
   describe "#repository" do
     context 'when the class is configured in blacklight.yml' do
       it "uses the default repository class" do
-        expect(config.repository).to be_a(Blacklight::Solr::Repository)
+        expect(config.repository).to be_a(Blacklight.repository_class)
       end
     end
 
@@ -635,8 +635,8 @@ RSpec.describe Blacklight::Configuration, :api do
   end
 
   describe "#facet_paginator_class" do
-    it "defaults to Blacklight::Solr::FacetPaginator" do
-      expect(config.facet_paginator_class).to eq Blacklight::Solr::FacetPaginator
+    it "defaults to the configured adapter's facet paginator" do
+      expect(config.facet_paginator_class).to eq Blacklight.default_facet_paginator_class
     end
   end
 

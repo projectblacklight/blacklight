@@ -2,6 +2,26 @@
 
 module Blacklight::Solr
   class Repository < Blacklight::AbstractRepository
+    # The Blacklight response model that understands Solr responses.
+    def self.response_model
+      Blacklight::Solr::Response
+    end
+
+    # The facet paginator used for Solr facet values.
+    def self.facet_paginator_class
+      Blacklight::Solr::FacetPaginator
+    end
+
+    # The SearchBuilder behavior mixed in to the application's SearchBuilder.
+    def self.search_builder_behavior
+      Blacklight::Solr::SearchBuilderBehavior
+    end
+
+    # The document mixin included in the application's document model.
+    def self.document_mixin
+      Blacklight::Solr::Document
+    end
+
     ##
     # Find a single solr document result (by id) using the document configuration
     # @param [String] id document's unique key value

@@ -16,9 +16,19 @@ module Blacklight
      2. Creates config/blacklight.yml with a default configuration
     EOS
 
-    # Copy all files in templates/config directory to host config
+    # Copy the connection configuration to the host's config directory. The
+    # adapter is resolved at generation time from the BLACKLIGHT_ADAPTER
+    # environment variable (defaulting to Solr), so the generated
+    # config/blacklight.yml is static and the choice does not need to be
+    # re-supplied on every boot.
     def create_configuration_files
-      copy_file "config/blacklight.yml", "config/blacklight.yml"
+      source = if ENV['BLACKLIGHT_ADAPTER'].to_s =~ /elastic|opensearch/
+                 "config/blacklight.elasticsearch.yml"
+               else
+                 "config/blacklight.yml"
+               end
+
+      copy_file source, "config/blacklight.yml"
       gsub_file 'config/blacklight.yml', '__VERSION__', Blacklight::VERSION
     end
 

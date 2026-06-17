@@ -1,0 +1,13 @@
+load_defaults: __VERSION__
+# Blacklight is configured to use Elasticsearch/OpenSearch. Note that some
+# Solr-specific features (spellcheck, result grouping, pivot/query facets,
+# more-like-this, and the JSON Query DSL advanced search) are not available
+# when using this adapter.
+development: &development
+  adapter: elasticsearch
+  url: <%= ENV['ELASTICSEARCH_URL'] || "http://127.0.0.1:9200" %>
+  index: <%= ENV['ELASTICSEARCH_INDEX'] || "blacklight-core" %>
+test:
+  <<: *development
+production:
+  <<: *development

@@ -53,6 +53,26 @@ RSpec.describe Blacklight do
       end
     end
 
+    context 'for an elasticsearch index' do
+      before do
+        allow(described_class).to receive(:connection_config).and_return(adapter: 'elasticsearch')
+      end
+
+      it 'resolves to the Elasticsearch repository implementation' do
+        expect(described_class.repository_class).to eq Blacklight::ElasticSearch::Repository
+      end
+    end
+
+    context 'for an opensearch index' do
+      before do
+        allow(described_class).to receive(:connection_config).and_return(adapter: 'opensearch')
+      end
+
+      it 'resolves to the Elasticsearch repository implementation' do
+        expect(described_class.repository_class).to eq Blacklight::ElasticSearch::Repository
+      end
+    end
+
     context 'for an explicitly provided class' do
       before do
         stub_const("CustomSearch::Repository", double)
@@ -61,6 +81,30 @@ RSpec.describe Blacklight do
 
       it 'resolves to the custom implementation' do
         expect(described_class.repository_class).to eq CustomSearch::Repository
+      end
+    end
+  end
+
+  describe 'adapter-aware defaults' do
+    context 'for a solr index' do
+      before { allow(described_class).to receive(:connection_config).and_return(adapter: 'solr') }
+
+      it 'returns the Solr companion classes' do
+        expect(described_class.default_response_model).to eq Blacklight::Solr::Response
+        expect(described_class.default_facet_paginator_class).to eq Blacklight::Solr::FacetPaginator
+        expect(described_class.search_builder_behavior).to eq Blacklight::Solr::SearchBuilderBehavior
+        expect(described_class.document_mixin).to eq Blacklight::Solr::Document
+      end
+    end
+
+    context 'for an elasticsearch index' do
+      before { allow(described_class).to receive(:connection_config).and_return(adapter: 'elasticsearch') }
+
+      it 'returns the Elasticsearch companion classes' do
+        expect(described_class.default_response_model).to eq Blacklight::ElasticSearch::Response
+        expect(described_class.default_facet_paginator_class).to eq Blacklight::ElasticSearch::FacetPaginator
+        expect(described_class.search_builder_behavior).to eq Blacklight::ElasticSearch::SearchBuilderBehavior
+        expect(described_class.document_mixin).to eq Blacklight::ElasticSearch::Document
       end
     end
   end

@@ -106,7 +106,7 @@ module Blacklight
       # @!attribute response_model
       # model that maps index responses to the blacklight response model
       # @return [Class]
-      property :response_model, default: Blacklight::Solr::Response
+      property :response_model, default: Blacklight.default_response_model
       # @!attribute document_model
       # the model to use for each response document
       # @return [Class]
@@ -118,7 +118,30 @@ module Blacklight
       # @!attribute facet_paginator_class
       # Class for paginating long lists of facet fields
       # @return [Class]
-      property :facet_paginator_class, default: Blacklight::Solr::FacetPaginator
+      property :facet_paginator_class, default: Blacklight.default_facet_paginator_class
+
+      # @!attribute elasticsearch_index
+      # @since v9.0.0
+      # @return [String, nil] the Elasticsearch index (or alias) to search against.
+      #   Only used by the Elasticsearch adapter; may also be set via the `index`
+      #   key in blacklight.yml.
+      property :elasticsearch_index, default: nil
+      # @!attribute elasticsearch_query_fields
+      # @since v9.0.0
+      # @return [Array<String>, nil] the fields a full-text query should target.
+      #   When nil, a simple_query_string across all fields is used.
+      property :elasticsearch_query_fields, default: nil
+      # @!attribute elasticsearch_source_fields
+      # @since v9.0.0
+      # @return [Array<String>, nil] restrict the Elasticsearch `_source` fields
+      #   returned for each document. When nil, the full source is returned.
+      property :elasticsearch_source_fields, default: nil
+      # @!attribute elasticsearch_index_settings
+      # @since v9.0.0
+      # @return [Hash, nil] the body (settings + mappings) used when the
+      #   Elasticsearch adapter creates the index. When nil, a default mapping
+      #   based on Blacklight's Solr field-naming conventions is used.
+      property :elasticsearch_index_settings, default: nil
       # @!attribute connection_config
       # repository connection configuration
       # @since v5.13.0

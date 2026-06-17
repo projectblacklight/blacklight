@@ -29,7 +29,12 @@ module Blacklight
     end
 
     def solr_document_config
-      insert_into_file 'app/models/solr_document.rb', after: "include Blacklight::Solr::Document" do
+      # Match whichever document mixin the generated SolrDocument uses: the
+      # adapter-specific include (`Blacklight.document_mixin`) or the legacy
+      # explicit `Blacklight::Solr::Document` include.
+      sentinel = /include Blacklight(\.document_mixin|::Solr::Document)\n/
+
+      insert_into_file 'app/models/solr_document.rb', after: sentinel do
         <<-EOF
 
             field_semantics.merge!(

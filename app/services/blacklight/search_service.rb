@@ -146,13 +146,21 @@ module Blacklight
     # @param [Array] ids
     # @param [HashWithIndifferentAccess] extra_controller_params
     def fetch_many(ids, extra_controller_params)
-      extra_controller_params ||= {}
+      extra_controller_params = (extra_controller_params || {}).dup
+
+      # `rows` is Blacklight's pagination vocabulary (callers such as the bookmarks
+      # controller pass it to fetch all the requested documents rather than the
+      # default page size). Route it through the builder so each adapter translates
+      # it appropriately (Solr `rows`, Elasticsearch `size`) instead of leaking raw
+      # into the request body.
+      rows = extra_controller_params.delete(:rows) || extra_controller_params.delete('rows')
 
       query = search_builder
               .with(search_state)
               .where(blacklight_config.document_model.unique_key => ids)
               .merge(blacklight_config.fetch_many_document_params)
               .merge(extra_controller_params)
+      query.rows(rows) if rows
 
       # find_many was introduced in Blacklight 8.4. Before that, we used the
       # regular search method (possibly with a find-many specific `qt` parameter).

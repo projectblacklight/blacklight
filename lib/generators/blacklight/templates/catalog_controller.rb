@@ -227,6 +227,9 @@ class <%= controller_name.classify %>Controller < ApplicationController
         qf: '${title_qf}',
         pf: '${title_pf}'
       }
+      # elastic_query_fields scopes the query when using the Elasticsearch
+      # adapter (it is ignored by the Solr adapter).
+      field.elastic_query_fields = %w[title_tsim title_addl_tsim]
     end
 
     config.add_search_field('author') do |field|
@@ -235,6 +238,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
         qf: '${author_qf}',
         pf: '${author_pf}'
       }
+      field.elastic_query_fields = %w[author_tsim author_addl_tsim]
     end
 
     # Specifying a :qt only to show it's possible, and so our internal automated
@@ -247,6 +251,7 @@ class <%= controller_name.classify %>Controller < ApplicationController
         qf: '${subject_qf}',
         pf: '${subject_pf}'
       }
+      field.elastic_query_fields = %w[subject_tsim]
     end
 
     # Set up a default advanced search configuration by using the current

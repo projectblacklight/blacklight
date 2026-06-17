@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe "Did You Mean" do
+# Spellcheck / "did you mean" is a Solr-only feature.
+RSpec.describe "Did You Mean", :solr_only do
   before { visit root_path }
 
   describe "searching all fields" do
