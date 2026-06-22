@@ -217,6 +217,11 @@ en:
       success: SMS Sent
       text:
         url: "Link: %{url}"
+    theme:
+      auto: Auto
+      dark: Dark
+      light: Light
+      toggle: Toggle theme
     tools:
       citation: Cite
       clear: Clear

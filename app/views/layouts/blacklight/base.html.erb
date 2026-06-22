@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title><%= render_page_title %></title>
-    <script>
-      document.querySelector('html').classList.remove('no-js');
-    </script>
     <%= opensearch_description_tag application_name, opensearch_catalog_url(format: 'xml') %>
     <%= favicon_link_tag %>
     <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload"  %>
@@ -41,5 +38,23 @@
 
     <%= render partial: 'shared/footer' %>
     <%= render partial: 'shared/modal' %>
+
+    <script>
+      (() => {
+        const theme = localStorage.getItem('theme') || 'auto';
+
+        // If dark mode support is not enabled (no switcher), do not set the theme
+        const darkSupport = document.querySelector('#bl-theme-switcher')
+        
+        if (darkSupport) {
+          if (theme === 'auto') {
+            document.documentElement.setAttribute('data-bs-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          } else {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+          }
+          document.querySelector('html').classList.remove('no-js');
+        }
+      })();
+    </script>
   </body>
 <% end %>

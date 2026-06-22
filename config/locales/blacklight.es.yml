@@ -198,6 +198,11 @@ es:
       success: SMS enviado
       text:
         url: "Link: %{url}"
+    theme:
+      auto: Automático
+      dark: Oscuro
+      light: Claro
+      toggle: Cambiar tema
     tools:
       citation: Cité
       clear: Borrar

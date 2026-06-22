@@ -196,6 +196,11 @@ nl:
       success: SMS Verzonden
       text:
         url: "Link: %{url}"
+    theme:
+      auto: Automatisch
+      dark: Donker
+      light: Licht
+      toggle: Thema wisselen
     tools:
       citation: Citeer
       clear: Leeg maken

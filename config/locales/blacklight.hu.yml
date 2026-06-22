@@ -196,6 +196,11 @@ hu:
       success: SMS elküldve
       text:
         url: "Link: %{url}"
+    theme:
+      auto: Automatikus
+      dark: Sötét
+      light: Világos
+      toggle: Téma váltása
     tools:
       citation: Hivatkozás
       clear: Eltávolítás

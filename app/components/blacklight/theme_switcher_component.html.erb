@@ -1,0 +1,31 @@
+<li class="nav-item dropdown">
+  <button class="btn btn-link nav-link dropdown-toggle d-flex px-0 px-md-2 py-2 align-items-center" id="bl-theme-switcher" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Toggle theme (auto)">
+    <%= render Blacklight::Icons::SunComponent.new(classes: %w[bl-theme-icon d-none], aria_hidden: true, data: { bl_theme_icon: 'light' }) %>
+    <%= render Blacklight::Icons::MoonStarsComponent.new(classes: %w[bl-theme-icon d-none], aria_hidden: true, data: { bl_theme_icon: 'dark' }) %>
+    <%= render Blacklight::Icons::CircleHalfComponent.new(classes: %w[bl-theme-icon d-none], aria_hidden: true, data: { bl_theme_icon: 'auto' }) %>
+    <span class="d-md-none ms-2" id="bl-theme-text"><%= t('blacklight.theme.toggle') %></span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bl-theme-text">
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+        <%= render Blacklight::Icons::SunComponent.new(classes: %w[me-2 opacity-50], aria_hidden: true) %>
+        <%= t('blacklight.theme.light') %>
+        <%= render Blacklight::Icons::CheckmarkComponent.new(classes: %w[ms-auto d-none bl-theme-check], aria_hidden: true) %>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+        <%= render Blacklight::Icons::MoonStarsComponent.new(classes: %w[me-2 opacity-50], aria_hidden: true) %>
+        <%= t('blacklight.theme.dark') %>
+        <%= render Blacklight::Icons::CheckmarkComponent.new(classes: %w[ms-auto d-none bl-theme-check], aria_hidden: true) %>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+        <%= render Blacklight::Icons::CircleHalfComponent.new(classes: %w[me-2 opacity-50], aria_hidden: true) %>
+        <%= t('blacklight.theme.auto') %>
+        <%= render Blacklight::Icons::CheckmarkComponent.new(classes: %w[ms-auto d-none bl-theme-check], aria_hidden: true) %>
+      </button>
+    </li>
+  </ul>
+</li>

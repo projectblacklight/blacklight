@@ -212,6 +212,11 @@ ar:
       success: تم الإرسال كرسالة نصية قصيرة
       text:
         url: "الرابط: %{url}"
+    theme:
+      auto: تلقائي
+      dark: داكن
+      light: فاتح
+      toggle: تبديل المظهر
     tools:
       citation: استشهاد مرجعي
       clear: مسح
