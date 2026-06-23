@@ -460,8 +460,6 @@ Style/SuperWithArgsParentheses: # new in 1.58
   Enabled: true
 Style/YAMLFileRead: # new in 1.53
   Enabled: true
-Capybara/ClickLinkOrButtonStyle: # new in 2.19
-  Enabled: true
 Capybara/AssertStyle: # new in 2.17
   Enabled: true
 Capybara/RSpec/MatchStyle:
