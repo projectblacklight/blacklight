@@ -1,10 +1,34 @@
 # frozen_string_literal: true
 
 RSpec.describe "Blacklight::User", :api do
-  subject { User.create! email: 'xyz@example.com', password: 'xyz12345' }
+  subject { create_user email: 'xyz@example.com', password: 'xyz12345' }
 
   def mock_bookmark document_id
     Bookmark.new document_id: document_id, document_type: SolrDocument.to_s
+  end
+
+  describe ".blacklight_email_column" do
+    it "returns the email column the model actually has" do
+      expected = User.column_names.include?("email_address") ? :email_address : :email
+      expect(User.blacklight_email_column).to eq expected
+    end
+  end
+
+  describe ".create_guest_user!" do
+    it "creates a persisted user with a generated, unique identifier" do
+      guest = User.create_guest_user!
+
+      expect(guest).to be_persisted
+      expect(guest.public_send(User.blacklight_email_column)).to match(/^guest_.*@example\.com$/)
+    end
+
+    it "generates a distinct identifier each time" do
+      one = User.create_guest_user!
+      two = User.create_guest_user!
+
+      expect(one.public_send(User.blacklight_email_column))
+        .not_to eq(two.public_send(User.blacklight_email_column))
+    end
   end
 
   describe "#bookmarks_for_documents" do
@@ -47,12 +71,15 @@ RSpec.describe "Blacklight::User", :api do
   end
 
   describe '#to_s' do
-    it 'is the email by default' do
-      expect(subject.to_s).to eq subject.email
+    it 'is the configured display key by default' do
+      display_key = User.column_names.include?("email_address") ? :email_address : :email
+
+      expect(subject.to_s).to eq subject.public_send(display_key)
     end
 
-    context 'when no email method is provided' do
-      let(:old_method) { subject.class.instance_method(:email) }
+    context 'when no configured display key method is provided' do
+      let(:display_key) { User.column_names.include?("email_address") ? :email_address : :email }
+      let(:old_method) { subject.class.instance_method(display_key) }
 
       before do
         subject.class.send(:undef_method, old_method.name)

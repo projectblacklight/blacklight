@@ -13,6 +13,8 @@ module Blacklight::Catalog
   # The following code is executed when someone includes blacklight::catalog in their
   # own controller.
   included do
+    allow_unauthenticated_access raise: false if respond_to?(:allow_unauthenticated_access)
+
     if respond_to? :helper_method
       helper_method :sms_mappings, :has_search_parameters?
     end

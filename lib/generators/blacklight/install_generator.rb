@@ -10,6 +10,7 @@ module Blacklight
     argument     :search_builder_name, type: :string, default: "search_builder"
 
     class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
+    class_option :authentication, type: :boolean, default: false, desc: "Use Rails' built-in authentication generator."
     class_option :marc, type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo."
     class_option :'bootstrap-version', type: :string, default: nil, desc: "Set the generated app's bootstrap version"
     class_option :'skip-assets', type: :boolean, default: false, desc: "Skip generating javascript and css assets into the application"
@@ -62,9 +63,10 @@ module Blacklight
 
     def generate_blacklight_user
       generator_args = [model_name]
-      if options[:devise]
-        generator_args << "--devise #{options[:devise]}"
-      end
+      raise Thor::Error, "Choose either --devise or --authentication, not both." if options[:devise] && options[:authentication]
+
+      generator_args << "--devise" if options[:devise]
+      generator_args << "--authentication" if options[:authentication]
 
       generate 'blacklight:user', generator_args.join(" ")
     end

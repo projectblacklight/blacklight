@@ -15,7 +15,7 @@ class TestAppGenerator < Rails::Generators::Base
     Bundler.with_unbundled_env do
       run "bundle install"
     end
-    options = '--devise'
+    options = Rails.gem_version >= Gem::Version.new('8.0.0') ? '--authentication' : '--devise'
     if ENV['BLACKLIGHT_API_TEST'].present?
       options += ' --skip-assets'
     end

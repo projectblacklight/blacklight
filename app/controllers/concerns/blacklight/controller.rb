@@ -5,6 +5,8 @@
 module Blacklight::Controller
   extend ActiveSupport::Concern
 
+  include Blacklight::GuestUser
+
   included do
     include ActiveSupport::Callbacks
 
@@ -17,6 +19,7 @@ module Blacklight::Controller
 
     if respond_to? :helper_method
       helper_method :current_user_session, :current_user, :current_or_guest_user
+      helper_method :blacklight_account_path, :blacklight_login_path, :blacklight_login_url, :blacklight_logout_link_options, :blacklight_logout_path
 
       # extra head content
       helper_method :has_user_authentication_provider?
@@ -85,10 +88,10 @@ module Blacklight::Controller
 
   # Here's a stub implementation we'll add if it isn't provided for us
   def current_or_guest_user
-    if defined? super
-      super
+    if defined?(super) && (user = super)
+      user
     elsif has_user_authentication_provider?
-      current_user
+      current_user || guest_user
     end
   end
   alias blacklight_current_or_guest_user current_or_guest_user
@@ -97,13 +100,13 @@ module Blacklight::Controller
   #
   #
   def has_user_authentication_provider?
-    respond_to? :current_user
+    respond_to?(:current_user) || blacklight_login_path.present? || blacklight_logout_path.present?
   end
 
   ##
   # When a user logs in, transfer any saved searches or bookmarks to the current_user
   def transfer_guest_to_user
-    return unless respond_to?(:current_user) && respond_to?(:guest_user) && current_user && guest_user
+    return unless respond_to?(:current_user) && current_user && guest_user
 
     current_user_searches = current_user.searches.pluck(:query_params)
     current_user_bookmarks = current_user.bookmarks.pluck(:document_id)
@@ -133,10 +136,51 @@ module Blacklight::Controller
 
     redirect_to(root_url) && return unless has_user_authentication_provider?
 
-    redirect_to new_user_session_url(referer: request.fullpath)
+    store_location_for_rails_authentication
+    redirect_to(root_url) && return unless blacklight_login_url
+
+    redirect_to blacklight_login_url(referer: request.fullpath)
   end
 
   def determine_layout
     'blacklight'
+  end
+
+  def blacklight_login_path(options = {})
+    if respond_to?(:new_user_session_path)
+      new_user_session_path(options)
+    elsif respond_to?(:new_session_path)
+      new_session_path(options)
+    end
+  end
+
+  def blacklight_login_url(options = {})
+    if respond_to?(:new_user_session_url)
+      new_user_session_url(options)
+    elsif respond_to?(:new_session_url)
+      new_session_url(options)
+    end
+  end
+
+  def blacklight_logout_path
+    if respond_to?(:destroy_user_session_path)
+      destroy_user_session_path
+    elsif respond_to?(:session_path)
+      session_path
+    end
+  end
+
+  def blacklight_logout_link_options
+    return {} unless respond_to?(:session_path)
+
+    { data: { turbo_method: :delete } }
+  end
+
+  def blacklight_account_path
+    edit_user_registration_path if respond_to?(:edit_user_registration_path)
+  end
+
+  def store_location_for_rails_authentication
+    session[:return_to_after_authenticating] = request.url if respond_to?(:new_session_url)
   end
 end

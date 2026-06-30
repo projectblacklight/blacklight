@@ -4,19 +4,24 @@
   <% end %>
 
   <% if has_user_authentication_provider? %>
-    <% if current_user %>
+    <% user = current_user if respond_to?(:current_user) %>
+    <% if user %>
+    <% if blacklight_logout_path %>
     <li class="nav-item">
-      <%= link_to t('blacklight.header_links.logout'), destroy_user_session_path, class: 'nav-link' %>
+      <%= link_to t('blacklight.header_links.logout'), blacklight_logout_path, { class: 'nav-link' }.merge(blacklight_logout_link_options) %>
     </li>
-    <% unless current_user.to_s.blank? -%>
+    <% end %>
+    <% if blacklight_account_path && user.to_s.present? -%>
     <li class="nav-item">
-      <%= link_to current_user, edit_user_registration_path, class: 'nav-link' %>
+      <%= link_to user, blacklight_account_path, class: 'nav-link' %>
     </li>
     <% end %>
     <% else %>
+    <% if blacklight_login_path %>
     <li class="nav-item">
-      <%= link_to t('blacklight.header_links.login'), new_user_session_path, class: 'nav-link' %>
+      <%= link_to t('blacklight.header_links.login'), blacklight_login_path, class: 'nav-link' %>
     </li>
+    <% end %>
     <% end %>
   <% end %>
 </ul>

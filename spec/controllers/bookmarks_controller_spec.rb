@@ -12,6 +12,12 @@ RSpec.describe BookmarksController do
   end
 
   describe "update" do
+    let(:user) { create_user }
+
+    before do
+      allow(controller).to receive(:current_or_guest_user).and_return(user)
+    end
+
     it "has a 200 status code when creating a new one" do
       put :update, xhr: true, params: { id: '2007020969', format: :js }
       expect(response).to be_successful
@@ -31,8 +37,13 @@ RSpec.describe BookmarksController do
   end
 
   describe "create" do
+    let(:user) { create_user }
+
+    before do
+      allow(controller).to receive(:current_or_guest_user).and_return(user)
+    end
+
     it "can create bookmarks via params bookmarks attribute" do
-      @controller.send(:current_or_guest_user).save
       put :create, xhr: true, params: {
         id: "notused",
         bookmarks: [
@@ -50,9 +61,11 @@ RSpec.describe BookmarksController do
   end
 
   describe "delete" do
+    let(:user) { create_user }
+
     before do
-      @controller.send(:current_or_guest_user).save
-      @controller.send(:current_or_guest_user).bookmarks.create! document_id: '2007020969', document_type: "SolrDocument"
+      allow(controller).to receive(:current_or_guest_user).and_return(user)
+      user.bookmarks.create! document_id: '2007020969', document_type: "SolrDocument"
     end
 
     it "has a 200 status code when delete is success" do
@@ -90,12 +103,12 @@ RSpec.describe BookmarksController do
   end
 
   describe 'token based users' do
-    let(:user) { User.find_or_create_by(email: 'user1@example.com') { |u| u.password = 'password' } }
+    let(:user) { create_user email: 'user1@example.com', password: 'password' }
     let(:current_time) { nil }
     let(:token) { controller.send(:encrypt_user_id, user.id, current_time) }
 
     before do
-      allow(controller).to receive(:fetch).and_return([])
+      allow(controller).to receive_messages(fetch: [], retrieve_search_results: instance_double(Blacklight::Solr::Response))
     end
 
     it 'finds the user from the encrypted token' do
