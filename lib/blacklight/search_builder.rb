@@ -33,6 +33,14 @@ module Blacklight
       @reverse_merged_params = {}
     end
 
+    def self.initialize_supports_blacklight_config_parameter?
+      return @initialize_supports_blacklight_config_parameter if defined?(@initialize_supports_blacklight_config_parameter)
+
+      @initialize_supports_blacklight_config_parameter = instance_method(:initialize).parameters.any? { |_type, name| name == :blacklight_config }
+
+      Blacklight.deprecation.warn "#{self} initializer should accept a blacklight_config keyword argument in its initializer. This will be required in Blacklight 10."
+    end
+
     def search_state
       @search_state ||= begin
         search_state_class = @scope.try(:search_state_class) || Blacklight::SearchState

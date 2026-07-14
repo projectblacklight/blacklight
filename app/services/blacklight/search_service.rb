@@ -7,10 +7,10 @@ module Blacklight
     # @params [Blacklight::SearchState] search_state
     # @params [Class] search_builder_class a class that inherits from Blacklight::SearchBuilder
     # @params [Hash] context any data the search builder needs to access. For example, the current user.
-    def initialize(config:, search_state:, search_builder_class: config.search_builder_class, **context)
+    def initialize(config:, search_state: nil, search_builder_class: config.search_builder_class, **context)
       @blacklight_config = config
       @search_state = search_state
-      @user_params = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(@search_state.params,
+      @user_params = ActiveSupport::Deprecation::DeprecatedObjectProxy.new(@search_state&.params || {},
                                                                            'Use @search_state.params instead of @user_params',
                                                                            Blacklight.deprecation)
       @search_builder_class = search_builder_class
@@ -29,13 +29,13 @@ module Blacklight
     #                         SearchBuilder to be used. Block should return SearchBuilder to be used.
     #                         This is used in blacklight_range_limit
     # @return [Blacklight::Solr::Response] the solr response object
-    def search_results
-      builder = search_builder.with(search_state)
-      builder.page = search_state.page
-      builder.rows = search_state.per_page
+    def search_results(params: nil)
+      unless params
+        builder = search_builder.with(search_state).page(search_state&.page).rows(search_state&.per_page)
+        builder = yield(builder) if block_given?
+      end
 
-      builder = yield(builder) if block_given?
-      response = repository.search(params: builder)
+      response = repository.search(params: params || builder)
 
       if response.grouped? && grouped_key_for_results
         response.group(grouped_key_for_results)
@@ -60,12 +60,14 @@ module Blacklight
 
     ##
     # Get the solr response when retrieving only a single facet field
+    # @deprecated
     # @return [Blacklight::Solr::Response] the solr response
     def facet_field_response(facet_field, extra_controller_params = {})
       query = search_builder.with(search_state).facet(facet_field)
       repository.search(params: query.merge(extra_controller_params))
     end
 
+    # @deprecated
     def facet_suggest_response(facet_field, facet_suggestion_query, extra_controller_params = {})
       query = search_builder.with(search_state).facet(facet_field).facet_suggestion_query(facet_suggestion_query)
       repository.search(params: query.merge(extra_controller_params))
@@ -112,7 +114,7 @@ module Blacklight
       query = search_builder.with(search_state).merge(solr_opensearch_params(field)).merge(extra_controller_params)
       response = repository.search(params: query)
 
-      [search_state.query_param, response.documents.flat_map { |doc| doc[field] }.uniq]
+      [search_state&.query_param, response.documents.flat_map { |doc| doc[field] }.uniq]
     end
     Blacklight.deprecation.deprecate_methods Blacklight::SearchService, opensearch_response: "The opensearch_response method is deprecated without replacement."
 
