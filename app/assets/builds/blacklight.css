@@ -5,21 +5,18 @@
    which over-rides things in this file. Or of course you can choose
    not to use the Blacklight CSS file at all in your local app. */
 :root {
-  --bl-logo-image: url("blacklight/logo.png");
+  --bl-logo-image: url("blacklight/logo.svg");
   --bl-logo-width: 150px;
   --bl-logo-height: 50px;
-  --bs-secondary-color: rgba(
-    33,
-    37,
-    41,
-    0.75
-  ); /* for compatability with BS < 5.3  */
   --bl-main-padding-y: 0.5rem;
   --bl-constraint-remove-hover-bg: #bb2d3b;
   --bl-constraint-remove-hover-border-color: #bb2d3b;
-  --bl-field-name-color: var(--bs-secondary-color);
   /* emulate Bootstrap backdrop bg & opacity */
   --bl-modal-backdrop-bg: rgba(0, 0, 0, 0.5);
+}
+
+[data-bs-theme=dark] {
+  --bl-logo-image: url("blacklight/logo-dark.svg");
 }
 
 .page-link {
@@ -37,6 +34,23 @@ dialog.modal[open]::backdrop {
   background-color: var(--bl-modal-backdrop-bg);
 }
 
+/* Contrast fix for Bootstrap's btn-outline-secondary in dark mode */
+[data-bs-theme=dark] .btn-outline-secondary {
+  --bs-btn-color: #848D94;
+  --bs-btn-border-color: #848D94;
+}
+
+/* Contrast fix for Bootstrap's text success color in dark mode */
+[data-bs-theme=dark] .facets {
+  --bl-facet-active-item-color: #1D9F63;
+}
+
+/* Contrast fix for Bootstrap's accordion icon on success background in dark mode */
+[data-bs-theme=dark] .accordion-button::after {
+  --bs-accordion-btn-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round'><path d='m2 5 6 6 6-6'/></svg>");
+  --bs-accordion-btn-active-icon: var(--bs-accordion-btn-icon);
+}
+
 /* Generic layout stuff */
 main {
   padding-block: var(--bl-main-padding-y);
@@ -45,10 +59,6 @@ main {
 /*
   Header bar at top (Bootstrap nav-bar)
 */
-.navbar.bg-dark {
-  --bs-emphasis-color-rgb: 255, 255, 255;
-}
-
 .navbar-logo {
   /* The main logo image for the Blacklight instance */
   background: transparent var(--bl-logo-image) no-repeat top left;
@@ -245,7 +255,7 @@ main {
 
 .dl-invert dt {
   font-weight: normal;
-  color: var(--bl-field-name-color);
+  color: var(--bs-secondary-color);
 }
 @media (min-width: 768px) {
   .dl-invert dt {
@@ -306,7 +316,7 @@ main {
 }
 
 .facet-limit {
-  --bs-accordion-btn-bg: var(--bs-gray-100);
+  --bs-accordion-btn-bg: var(--bs-tertiary-bg);
   --bs-btn-active-bg: var(--bs-accordion-btn-bg);
   --bs-btn-hover-bg: var(--bs-accordion-btn-bg);
   --bs-accordion-active-bg: var(--bs-accordion-btn-bg);
@@ -421,10 +431,14 @@ main {
   height: var(--bl-facet-toggle-height);
 }
 .facet-toggle-handle .show .icon {
-  background: transparent var(--bl-facet-toggle-show-icon) center/var(--bl-facet-toggle-width) auto no-repeat;
+  background-color: currentColor;
+  mask: var(--bl-facet-toggle-show-icon) center/var(--bl-facet-toggle-width) auto no-repeat;
+  -webkit-mask: var(--bl-facet-toggle-show-icon) center/var(--bl-facet-toggle-width) auto no-repeat;
 }
 .facet-toggle-handle .hide .icon {
-  background: transparent var(--bl-facet-toggle-hide-icon) center/var(--bl-facet-toggle-width) auto no-repeat;
+  background-color: currentColor;
+  mask: var(--bl-facet-toggle-hide-icon) center/var(--bl-facet-toggle-width) auto no-repeat;
+  -webkit-mask: var(--bl-facet-toggle-hide-icon) center/var(--bl-facet-toggle-width) auto no-repeat;
 }
 
 /* Search History */

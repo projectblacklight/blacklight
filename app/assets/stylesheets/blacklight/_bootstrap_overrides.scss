@@ -19,3 +19,20 @@ dialog.modal[open] {
     background-color: var(--bl-modal-backdrop-bg);
   }
 }
+
+/* Contrast fix for Bootstrap's btn-outline-secondary in dark mode */
+[data-bs-theme="dark"] .btn-outline-secondary {
+  --bs-btn-color: #848D94;
+  --bs-btn-border-color: #848D94;
+}
+
+/* Contrast fix for Bootstrap's text success color in dark mode */
+[data-bs-theme="dark"] .facets {
+  --bl-facet-active-item-color: #1D9F63;
+}
+
+/* Contrast fix for Bootstrap's accordion icon on success background in dark mode */
+[data-bs-theme="dark"] .accordion-button::after {
+  --bs-accordion-btn-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round'><path d='m2 5 6 6 6-6'/></svg>");
+  --bs-accordion-btn-active-icon: var(--bs-accordion-btn-icon);
+}

@@ -47,6 +47,12 @@ module Blacklight
       property :header_component, default: Blacklight::HeaderComponent
       property :full_width_layout, default: false
 
+      # @!attribute dark_mode_support
+      # @since v9.1.0
+      # @return [Boolean] Whether to enable the light/dark mode them switcher.
+      # @note Requires Bootstrap v5.3+; see: https://getbootstrap.com/docs/5.3/customize/color-modes/#dark-mode
+      property :dark_mode_support, default: true
+
       bootstrap_version = ENV['BOOTSTRAP_VERSION'].presence || "5"
       property :bootstrap_version, default: /(\d)(?:\.\d){0,2}/.match(bootstrap_version)[1].to_i
 

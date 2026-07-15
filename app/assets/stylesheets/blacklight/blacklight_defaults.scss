@@ -1,21 +1,17 @@
 :root {
-  --bl-logo-image: url("blacklight/logo.png");
+  --bl-logo-image: url("blacklight/logo.svg");
   --bl-logo-width: 150px;
   --bl-logo-height: 50px;
-  --bs-secondary-color: rgba(
-    33,
-    37,
-    41,
-    0.75
-  ); /* for compatability with BS < 5.3  */
 
   --bl-main-padding-y: 0.5rem;
 
   --bl-constraint-remove-hover-bg: #bb2d3b;
   --bl-constraint-remove-hover-border-color: #bb2d3b;
 
-  --bl-field-name-color: var(--bs-secondary-color);
-
   /* emulate Bootstrap backdrop bg & opacity */
   --bl-modal-backdrop-bg: rgba(0, 0, 0, 0.5);
+}
+
+[data-bs-theme="dark"] {
+  --bl-logo-image: url("blacklight/logo-dark.svg");
 }

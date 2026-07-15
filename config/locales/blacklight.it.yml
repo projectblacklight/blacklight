@@ -199,6 +199,11 @@ it:
       success: SMS inviato
       text:
         url: "Link: %{url}"
+    theme:
+      auto: Automatico
+      dark: Scuro
+      light: Chiaro
+      toggle: Cambia tema
     tools:
       citation: Cita
       clear: Cancella

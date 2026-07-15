@@ -63,7 +63,7 @@
 }
 
 .facet-limit {
-  --bs-accordion-btn-bg: var(--bs-gray-100);
+  --bs-accordion-btn-bg: var(--bs-tertiary-bg);
   --bs-btn-active-bg: var(--bs-accordion-btn-bg);
   --bs-btn-hover-bg: var(--bs-accordion-btn-bg);
   --bs-accordion-active-bg: var(--bs-accordion-btn-bg);
@@ -206,12 +206,14 @@
   }
 
   .show .icon {
-    background: transparent escape-svg(var(--bl-facet-toggle-show-icon))
-      center / var(--bl-facet-toggle-width) auto no-repeat;
+    background-color: currentColor;
+    mask: var(--bl-facet-toggle-show-icon) center / var(--bl-facet-toggle-width) auto no-repeat;
+    -webkit-mask: var(--bl-facet-toggle-show-icon) center / var(--bl-facet-toggle-width) auto no-repeat;
   }
 
   .hide .icon {
-    background: transparent escape-svg(var(--bl-facet-toggle-hide-icon))
-      center / var(--bl-facet-toggle-width) auto no-repeat;
+    background-color: currentColor;
+    mask: var(--bl-facet-toggle-hide-icon) center / var(--bl-facet-toggle-width) auto no-repeat;
+    -webkit-mask: var(--bl-facet-toggle-hide-icon) center / var(--bl-facet-toggle-width) auto no-repeat;
   }
 }
