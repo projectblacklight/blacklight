@@ -112,7 +112,7 @@ RSpec.describe CatalogHelper do
     context "with an ActiveRecord collection" do
       subject { helper.page_entries_info(Bookmark.page(1).per(25)) }
 
-      let(:user) { User.create! email: 'xyz@example.com', password: 'xyz12345' }
+      let(:user) { create_user email: 'xyz@example.com', password: 'xyz12345' }
 
       before { 50.times { Bookmark.create!(user: user) } }
 

@@ -7,7 +7,7 @@ RSpec.describe Bookmark do
     b
   end
 
-  let(:user) { User.create! email: 'xyz@example.com', password: 'xyz12345' }
+  let(:user) { create_user email: 'xyz@example.com', password: 'xyz12345' }
 
   it "is valid" do
     expect(subject).to be_valid

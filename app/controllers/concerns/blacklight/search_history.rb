@@ -7,6 +7,8 @@ module Blacklight
     include Blacklight::SearchContext
 
     included do
+      allow_unauthenticated_access raise: false if respond_to?(:allow_unauthenticated_access)
+
       copy_blacklight_config_from(CatalogController)
     end
 

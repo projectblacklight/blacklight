@@ -2,7 +2,7 @@
 
 RSpec.describe Search do
   let(:search) { described_class.new(user: user) }
-  let(:user) { User.create! email: 'xyz@example.com', password: 'xyz12345' }
+  let(:user) { create_user email: 'xyz@example.com', password: 'xyz12345' }
   let(:hash_params) { { q: "query", f: { facet: "filter" } } }
   let(:query_params) { hash_params }
 

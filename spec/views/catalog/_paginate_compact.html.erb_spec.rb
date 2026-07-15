@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe "catalog/_paginate_compact.html.erb" do
-  let(:user) { User.new { |u| u.save(validate: false) } }
+  let(:user) { create_user }
   let(:blacklight_config) { Blacklight::Configuration.new }
 
   before do
