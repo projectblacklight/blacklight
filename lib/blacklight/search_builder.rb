@@ -162,8 +162,12 @@ module Blacklight
       end
     end
 
+    # An abstract method intended to be overriden with the repository specific SearchBuilderBehavior.
+    #
+    # @return [Hash]
     def default_document_pagination_params
-      { fl: blacklight_config.document_model.unique_key }
+      Blacklight.logger.warn("#{self.class}#default_document_pagination_params is expected to be overridden, but was not.")
+      {}
     end
 
     def for_previous_and_next_documents(index, window = 1)
