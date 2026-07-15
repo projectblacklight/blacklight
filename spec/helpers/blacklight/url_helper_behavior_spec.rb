@@ -35,17 +35,17 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     it "builds a link tag to catalog using session[:search] for query params" do
       allow(helper).to receive(:current_search_session).and_return double(query_params: query_params)
       tag = helper.link_back_to_catalog
-      expect(tag).to match(/q=query/)
-      expect(tag).to match(/f=facets/)
-      expect(tag).not_to match(/page=/)
-      expect(tag).not_to match(/per_page=/)
+      expect(tag).to include('q=query')
+      expect(tag).to include('f=facets')
+      expect(tag).not_to include('page=')
+      expect(tag).not_to include('per_page=')
     end
 
     it "builds a link tag to bookmarks using session[:search] for query params" do
       allow(helper).to receive(:current_search_session).and_return double(query_params: bookmarks_query_params)
       tag = helper.link_back_to_catalog
-      expect(tag).to match(/Back to Bookmarks/)
-      expect(tag).to match %r{/bookmarks}
+      expect(tag).to include('Back to Bookmarks')
+      expect(tag).to include('/bookmarks')
     end
 
     context "with a search context" do
@@ -53,16 +53,16 @@ RSpec.describe Blacklight::UrlHelperBehavior do
         allow(helper).to receive_messages(current_search_session: double(query_params: query_params))
         allow(helper).to receive_messages(search_session: { 'per_page' => 15, 'counter' => 31 })
         tag = helper.link_back_to_catalog
-        expect(tag).to match(/page=3/)
-        expect(tag).to match(/per_page=15/)
+        expect(tag).to include('page=3')
+        expect(tag).to include('per_page=15')
       end
 
       it "omits per_page if the value is the same as the default" do
         allow(helper).to receive_messages(current_search_session: double(query_params: query_params))
         allow(helper).to receive_messages(search_session: { 'per_page' => 10, 'counter' => 31 })
         tag = helper.link_back_to_catalog
-        expect(tag).to match(/page=4/)
-        expect(tag).not_to match(/per_page=/)
+        expect(tag).to include('page=4')
+        expect(tag).not_to include('per_page=')
       end
     end
 
@@ -92,8 +92,8 @@ RSpec.describe Blacklight::UrlHelperBehavior do
         expect(my_engine).to receive(:url_for)
           .with({ q: "query", f: "facets", controller: "catalog" })
           .and_return('link-url')
-        expect(tag).to match(/Back to Search/)
-        expect(tag).to match(/link-url/)
+        expect(tag).to include('Back to Search')
+        expect(tag).to include('link-url')
       end
     end
   end
@@ -130,11 +130,11 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       end
 
       it "passes on the title attribute to the link_to_with_data method" do
-        expect(helper.link_to_document(document, "Some crazy long label...", title: "Some crazy longer label")).to match(/title="Some crazy longer label"/)
+        expect(helper.link_to_document(document, "Some crazy long label...", title: "Some crazy longer label")).to include('title="Some crazy longer label"')
       end
 
       it "doesn't add an erroneous title attribute if one isn't provided" do
-        expect(helper.link_to_document(document, "Some crazy long label...")).not_to match(/title=/)
+        expect(helper.link_to_document(document, "Some crazy long label...")).not_to include('title=')
       end
 
       context "with an integer id" do
