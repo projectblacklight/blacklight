@@ -17,10 +17,10 @@ RSpec.describe "catalog/_sort_and_per_page" do
     stub_template "catalog/_per_page_widget.html.erb" => "per_page_widget"
     stub_template "catalog/_view_type_group.html.erb" => "view_type_group"
     render
-    expect(rendered).to match(/paginate_compact/)
-    expect(rendered).to match(/sort_widget/)
-    expect(rendered).to match(/per_page_widget/)
-    expect(rendered).to match(/view_type_group/)
+    expect(rendered).to include('paginate_compact')
+    expect(rendered).to include('sort_widget')
+    expect(rendered).to include('per_page_widget')
+    expect(rendered).to include('view_type_group')
   end
 
   it "does not render the pagination controls with bad limit values" do
@@ -30,6 +30,6 @@ RSpec.describe "catalog/_sort_and_per_page" do
     stub_template "catalog/_per_page_widget.html.erb" => "per_page_widget"
     stub_template "catalog/_view_type_group.html.erb" => "view_type_group"
     render
-    expect(rendered).not_to match(/paginate_compact/)
+    expect(rendered).not_to include('paginate_compact')
   end
 end
