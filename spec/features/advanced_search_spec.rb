@@ -53,7 +53,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
         expect(page).to have_css('.blacklight-language_ssim')
 
         within('.blacklight-language_ssim') do
-          expect(page).to have_content 'Language'
+          expect(page).to have_text 'Language'
         end
       end
     end
@@ -61,8 +61,8 @@ RSpec.describe "Blacklight Advanced Search Form" do
     it 'scopes searches to fields' do
       fill_in 'Title', with: 'Medicine'
       click_on 'advanced-search-submit'
-      expect(page).to have_content 'Remove constraint Title: Medicine'
-      expect(page).to have_content 'Strong Medicine speaks'
+      expect(page).to have_text 'Remove constraint Title: Medicine'
+      expect(page).to have_text 'Strong Medicine speaks'
       expect(page).to have_css('article.document', count: 1)
     end
 
@@ -71,16 +71,16 @@ RSpec.describe "Blacklight Advanced Search Form" do
       click_on 'Language'
       check 'Urdu 3'
       click_on 'advanced-search-submit'
-      expect(page).to have_content 'Pākistānī ʻaurat dorāhe par'
-      expect(page).to have_no_content 'Ajikto kŭrŏk chŏrŏk sasimnikka : and 아직도　그럭　저럭　사십니까'
+      expect(page).to have_text 'Pākistānī ʻaurat dorāhe par'
+      expect(page).to have_no_text 'Ajikto kŭrŏk chŏrŏk sasimnikka : and 아직도　그럭　저럭　사십니까'
       expect(page).to have_css('article.document', count: 1)
     end
 
     it 'handles boolean queries' do
       fill_in 'All Fields', with: 'history NOT strong'
       click_on 'advanced-search-submit'
-      expect(page).to have_content('Ci an zhou bian')
-      expect(page).to have_no_content('Strong Medicine speaks')
+      expect(page).to have_text('Ci an zhou bian')
+      expect(page).to have_no_text('Strong Medicine speaks')
       expect(page).to have_css('article.document', count: 10)
     end
 
@@ -88,7 +88,7 @@ RSpec.describe "Blacklight Advanced Search Form" do
       fill_in 'All Fields', with: 'history'
       fill_in 'Author', with: 'hearth'
       click_on 'advanced-search-submit'
-      expect(page).to have_content('Strong Medicine speaks')
+      expect(page).to have_text('Strong Medicine speaks')
       expect(page).to have_css('article.document', count: 1)
     end
 
@@ -97,8 +97,8 @@ RSpec.describe "Blacklight Advanced Search Form" do
       fill_in 'All Fields', with: 'history'
       fill_in 'Subject', with: 'women'
       click_on 'advanced-search-submit'
-      expect(page).to have_content('Ci an zhou bian')
-      expect(page).to have_content('Pākistānī ʻaurat dorāhe par')
+      expect(page).to have_text('Ci an zhou bian')
+      expect(page).to have_text('Pākistānī ʻaurat dorāhe par')
       expect(page).to have_css('article.document', count: 10)
     end
   end

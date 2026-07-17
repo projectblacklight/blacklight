@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-capybara
   - rubocop-rspec
   - rubocop-rspec_rails
@@ -75,7 +75,7 @@ Naming/MethodParameterName:
     - of
     - by
 
-Naming/PredicateName:
+Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_
 
@@ -247,6 +247,8 @@ RSpec/DescribeClass:
     - "spec/requests/**/*"
     - "spec/routing/**/*"
     - "spec/views/**/*"
+RSpec/VerifiedDoubles:
+  Enabled: false
 RSpec/ExcessiveDocstringSpacing: # new in 2.5
   Enabled: true
 RSpec/IdenticalEqualityAssertion: # new in 2.4
@@ -457,11 +459,9 @@ Style/SuperWithArgsParentheses: # new in 1.58
   Enabled: true
 Style/YAMLFileRead: # new in 1.53
   Enabled: true
-Capybara/ClickLinkOrButtonStyle: # new in 2.19
+Capybara/RSpec/MatchStyle: # new in 2.17
   Enabled: true
-Capybara/MatchStyle: # new in 2.17
-  Enabled: true
-Capybara/NegationMatcher: # new in 2.14
+Capybara/RSpec/NegationMatcher: # new in 2.14
   Enabled: true
   Exclude:
     - "spec/models/**/*"
@@ -471,10 +471,12 @@ Capybara/SpecificActions: # new in 2.14
   Enabled: true
 Capybara/SpecificFinders: # new in 2.13
   Enabled: true
-Capybara/SpecificMatcher: # new in 2.12
+Capybara/RSpec/SpecificMatcher: # new in 2.12
   Enabled: true
 Capybara/RSpec/HaveSelector: # new in 2.19
   Enabled: true
+Capybara/RSpec/NegationMatcherAfterVisit:
+  Enabled: false
 Capybara/RSpec/PredicateMatcher: # new in 2.19
   Enabled: true
 FactoryBot/AssociationStyle: # new in 2.23

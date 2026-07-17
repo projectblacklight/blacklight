@@ -17,20 +17,20 @@ module Blacklight
 
     def normalize! _blacklight_config = nil
       self.field ||= key
-      self.key ||= self.field
+      self.key ||= field
 
       self.label ||= default_label
 
       self.if = true if self.if.nil?
       self.unless = false if self.unless.nil?
 
-      self.field &&= self.field.to_s
+      self.field &&= field.to_s
 
       self
     end
 
     def validate!
-      raise ArgumentError, "Must supply a field name" if self.field.nil?
+      raise ArgumentError, "Must supply a field name" if field.nil?
     end
 
     def display_label(context = nil, **options)
@@ -44,10 +44,10 @@ module Blacklight
     end
 
     def default_label
-      if self.key.respond_to?(:titleize)
-        self.key.titleize
+      if key.respond_to?(:titleize)
+        key.titleize
       else
-        self.key.to_s.titleize
+        key.to_s.titleize
       end
     end
 

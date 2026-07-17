@@ -23,7 +23,7 @@ RSpec.describe "Facet missing" do
       end
 
       within "#sortAndPerPage" do
-        expect(page).to have_content "1 - 10 of 13"
+        expect(page).to have_text "1 - 10 of 13"
       end
 
       expect(page).to have_css(".constraint-value", text: "Region")
@@ -44,7 +44,7 @@ RSpec.describe "Facet missing" do
       end
 
       expect(page).to have_no_link "remove"
-      expect(page).to have_content("Welcome!")
+      expect(page).to have_text("Welcome!")
     end
   end
 
@@ -61,7 +61,7 @@ RSpec.describe "Facet missing" do
       end
 
       expect(page).to have_no_link "remove"
-      expect(page).to have_content("Welcome!")
+      expect(page).to have_text("Welcome!")
     end
   end
 end
