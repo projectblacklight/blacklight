@@ -23,7 +23,7 @@
 
   <dataDir>${solr.data.dir:}</dataDir>
 
-  <requestHandler name="search" class="solr.SearchHandler" default="true">
+  <requestHandler name="/select" class="solr.SearchHandler" default="true">
     <!-- default values for query parameters can be specified, these
          will be overridden by parameters in the request
       -->
@@ -257,7 +257,7 @@
 
   <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
 
-  <requestDispatcher handleSelect="true" >
+  <requestDispatcher>
     <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048" />
   </requestDispatcher>
 
