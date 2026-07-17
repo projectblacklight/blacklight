@@ -88,6 +88,7 @@ it:
         all: Ogni
         clear: Cancella
         count: "%{number}"
+        faceted_search: "%{field_label} ricerca"
         group:
           close: Nascondi sfaccettature
           open: Mostra sfaccettature
