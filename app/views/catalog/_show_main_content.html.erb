@@ -8,7 +8,7 @@
 
 <% document_component = presenter.view_config.document_component -%>
 <%= render document_component.new(id: 'document', document: presenter, component: :div, show: true, partials: presenter.view_config.partials) do |component| %>
-  <% component.with_title(as: 'h1', classes: '', link_to_document: false, actions: false) %>
+  <% component.with_title(as: 'h1', classes: '', link_to_document: false) %>
   <% component.with_footer do %>
     <% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
       <!-- COinS, for Zotero among others. -->
