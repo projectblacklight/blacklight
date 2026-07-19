@@ -125,6 +125,11 @@ module Blacklight
       # @return [Class]
       property :connection_config, default: Blacklight.connection_config
 
+      # @!attribute configuration_presenter_class
+      # @since v9.1.0
+      # @return [Class]
+      property :configuration_presenter_class, default: Blacklight::ContextualConfigurationPresenter
+
       ##
       # == Blacklight view configuration
 
@@ -436,9 +441,11 @@ module Blacklight
     end
 
     # @return [String]
+    # @deprecated
     def default_title_field
       document_model.unique_key || 'id'
     end
+    Blacklight.deprecation.deprecate_methods(Blacklight::Configuration, default_title_field: 'Deprecated without replacement')
 
     # @param [String] field Solr facet name
     # @return [Blacklight::Configuration::FacetField] Blacklight facet configuration for the solr field

@@ -51,9 +51,8 @@ module Blacklight
     end
 
     def search_fields
-      @search_fields ||= blacklight_config.search_fields.values
-                                          .select { |field_def| helpers.should_render_field?(field_def) }
-                                          .collect { |field_def| [helpers.label_for_search_field(field_def.key), field_def.key] }
+      @search_fields ||= blacklight_config_presenter.search_fields.values
+                                                    .collect { |field_def| [helpers.label_for_search_field(field_def.key), field_def.key] }
     end
 
     def advanced_search_enabled?
@@ -70,6 +69,10 @@ module Blacklight
 
     def blacklight_config
       helpers.blacklight_config
+    end
+
+    def blacklight_config_presenter
+      helpers.blacklight_config_presenter
     end
 
     def scoped_t(key, **args)
