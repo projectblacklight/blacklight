@@ -49,17 +49,20 @@
     },
     {
       "ruby": "3.4",
-      "rails_version": "8.1.3"
+      "rails_version": "8.1.3",
+      "additional_engine_cart_rails_options": "--css=bootstrap"
     },
     {
       "ruby": "3.4",
       "rails_version": "8.1.3",
       "bootstrap_version": "~> 4.0",
+      "additional_engine_cart_rails_options": "--css=bootstrap",
       "additional_name": "| Bootstrap 4"
     },
     {
       "ruby": "3.3",
-      "rails_version": "8.0.5"
+      "rails_version": "8.0.5",
+      "additional_name": "| Importmap + Sprockets"
     },
     {
       "ruby": "3.3",
