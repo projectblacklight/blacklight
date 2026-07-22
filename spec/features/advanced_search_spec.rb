@@ -127,8 +127,8 @@ RSpec.describe "Blacklight Advanced Search Form" do
     it "does not have multiple parameters for a search field" do
       fill_in 'Title', with: 'bread'
       click_on 'advanced-search-submit'
-      expect(page.current_url).to match(/bread/)
-      expect(page.current_url).not_to match(/medicine/)
+      expect(page.current_url).to include('bread')
+      expect(page.current_url).not_to include('medicine')
     end
 
     it "clears the prepopulated fields when the Start Over button is pressed" do

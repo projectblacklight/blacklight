@@ -79,7 +79,7 @@ module Blacklight
     # Facebook's crawler turns array query parameters into a hash with numeric keys. Once we know
     # the expected parameter structure, we can unmangle those parameters to match our expected values.
     def deep_unmangle_params!(params, permitted_params)
-      permitted_params.select { |p| p.is_a?(Hash) }.each do |permission|
+      permitted_params.grep(Hash).each do |permission|
         permission.each do |key, permitted_value|
           next unless params[key].is_a?(ActionController::Parameters)
 

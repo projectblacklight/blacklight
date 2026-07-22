@@ -53,19 +53,19 @@ module Blacklight
       self.class.new @table.deep_dup
     end
 
-    def deep_transform_values(&method)
-      self.class.new @table.deep_transform_values(&method)
+    def deep_transform_values(&)
+      self.class.new @table.deep_transform_values(&)
     end
 
-    def try(method_name = nil, *args, &block)
+    def try(method_name = nil, *, &)
       if method_name.nil? && block_given?
         if b.arity.zero?
-          instance_eval(&block)
+          instance_eval(&)
         else
           yield self
         end
       elsif respond_to?(method_name)
-        public_send(method_name, *args, &b)
+        public_send(method_name, *, &b)
       end
     end
   end

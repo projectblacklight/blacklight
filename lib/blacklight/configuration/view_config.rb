@@ -26,7 +26,7 @@ class Blacklight::Configuration
     #   @return [Class] component class used to render the search bar
     # @!attribute search_header_component
     #   @return [Class] component class used to render the header above the documents
-    def display_label(**options)
+    def display_label(**)
       I18n.t(
         :"blacklight.search.view_title.#{key}",
         default: [
@@ -35,7 +35,7 @@ class Blacklight::Configuration
           title,
           key.to_s.humanize
         ],
-        **options
+        **
       )
     end
 

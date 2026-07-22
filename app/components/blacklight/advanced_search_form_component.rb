@@ -11,8 +11,8 @@ module Blacklight
       component.new(facet_field: presenter, **kwargs)
     end)
 
-    def initialize(response:, **options)
-      super(**options)
+    def initialize(response:, **)
+      super(**)
       @response = response
     end
 
