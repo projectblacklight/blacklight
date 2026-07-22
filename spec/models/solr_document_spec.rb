@@ -37,7 +37,11 @@ RSpec.describe SolrDocument, :api do
                           title_tesim: ['Good Omens'])
     end
 
-    it { is_expected.to end_with "_source: {\"id\"=>\"123\", \"title_tesim\"=>[\"Good Omens\"]}>" }
+    if RUBY_VERSION > '3.4'
+      it { is_expected.to end_with "_source: {\"id\" => \"123\", \"title_tesim\" => [\"Good Omens\"]}>" }
+    else
+      it { is_expected.to end_with "_source: {\"id\"=>\"123\", \"title_tesim\"=>[\"Good Omens\"]}>" }
+    end
   end
 
   describe '.attribute' do
