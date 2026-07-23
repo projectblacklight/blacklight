@@ -4,8 +4,8 @@ module Blacklight
   class MetadataFieldPlainTextLayoutComponent < Blacklight::MetadataFieldLayoutComponent
     with_collection_parameter :field
 
-    def initialize(field:, **kwargs)
-      super(field: field, **kwargs, value_tag: nil)
+    def initialize(field:, **)
+      super(field: field, **, value_tag: nil)
     end
 
     # rubocop:disable Rails/OutputSafety

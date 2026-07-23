@@ -133,7 +133,7 @@ RSpec.describe Blacklight::FacetFieldListComponent, type: :component do
     let(:params) { { f_inclusive: { field: %w[a b c] } } }
 
     it 'displays the constraint above the list' do
-      expect(rendered).to have_content 'Any of:'
+      expect(rendered).to have_text 'Any of:'
       expect(rendered).to have_css '.inclusive_or .facet-label', text: 'a'
       expect(rendered).to have_link '[remove]', href: 'http://test.host/catalog?f_inclusive%5Bfield%5D%5B%5D=b&f_inclusive%5Bfield%5D%5B%5D=c'
       expect(rendered).to have_css '.inclusive_or .facet-label', text: 'b'

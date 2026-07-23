@@ -24,16 +24,16 @@ module Blacklight
       #
       # @param [#if,#unless] config an object that responds to if/unless
       # @return [Boolean]
-      def evaluate_if_unless_configuration(config, *args)
+      def evaluate_if_unless_configuration(config, *)
         return config if config == true || config == false
 
         if_value = !config.respond_to?(:if) ||
                    config.if.nil? ||
-                   evaluate_configuration_conditional(config.if, config, *args)
+                   evaluate_configuration_conditional(config.if, config, *)
 
         unless_value = !config.respond_to?(:unless) ||
                        config.unless.nil? ||
-                       !evaluate_configuration_conditional(config.unless, config, *args)
+                       !evaluate_configuration_conditional(config.unless, config, *)
 
         if_value && unless_value
       end

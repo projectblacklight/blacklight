@@ -64,8 +64,10 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
     case value
     when Hash
       value.each { |k, v| value[k] = force_to_utf8(v) }
+      value
     when Array
       value.each { |v| force_to_utf8(v) }
+      value
     when String
       if value.encoding == Encoding::UTF_8
         value
@@ -73,7 +75,8 @@ class Blacklight::Solr::Response < ActiveSupport::HashWithIndifferentAccess
         Blacklight.logger&.warn "Found a non utf-8 value in Blacklight::Solr::Response. \"#{value}\" Encoding is #{value.encoding}"
         value.dup.force_encoding('UTF-8')
       end
+    else
+      value
     end
-    value
   end
 end

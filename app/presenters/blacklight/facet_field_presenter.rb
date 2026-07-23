@@ -50,8 +50,8 @@ module Blacklight
     end
 
     # Appease rubocop rules by implementing #each_value
-    def each_value(&block)
-      values.each(&block)
+    def each_value(&)
+      values.each(&)
     end
 
     def paginator

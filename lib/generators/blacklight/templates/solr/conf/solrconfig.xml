@@ -4,11 +4,9 @@
      from this file.  Please refer to http://wiki.apache.org/solr/SolrConfigXml,
      as well as the default solrconfig file included with Solr -->
 
-  <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
+  <luceneMatchVersion>9.0.0</luceneMatchVersion>
 
-  <luceneMatchVersion>6.1.0</luceneMatchVersion>
-
-  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/>
+  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}" />
 
   <updateHandler class="solr.DirectUpdateHandler2">
     <updateLog>
@@ -16,17 +14,11 @@
     </updateLog>
   </updateHandler>
 
-  <!-- solr lib dirs, which are needed for Solr 8 compatibility but ignored in solr 9.8 and above -->
   <lib dir="${solr.install.dir:../../../..}/modules/analysis-extras/lib" />
-  <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lib" />
-  <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lucene-libs" />
 
   <dataDir>${solr.data.dir:}</dataDir>
 
-  <requestHandler name="search" class="solr.SearchHandler" default="true">
-    <!-- default values for query parameters can be specified, these
-         will be overridden by parameters in the request
-      -->
+  <requestHandler name="/select" class="solr.SearchHandler">
      <lst name="defaults">
        <str name="defType">edismax</str>
        <str name="echoParams">explicit</str>
@@ -47,7 +39,6 @@
           full_title_tsim
           short_title_tsim
           alternative_title_tsim
-          active_fedora_model_ssi
           title_tsim
           author_tsim
           subject_tsim
@@ -84,7 +75,6 @@
        <str name="facet">true</str>
        <str name="facet.mincount">1</str>
        <str name="facet.limit">10</str>
-       <str name="facet.field">active_fedora_model_ssi</str>
        <str name="facet.field">subject_ssim</str>
 
        <str name="spellcheck">true</str>
@@ -116,7 +106,6 @@
           full_title_tsim
           short_title_tsim
           alternative_title_tsim
-          active_fedora_model_ssi
           title_tsim
           author_tsim
           subject_tsim
@@ -153,7 +142,6 @@
        <str name="facet">true</str>
        <str name="facet.mincount">1</str>
        <str name="facet.limit">10</str>
-       <str name="facet.field">active_fedora_model_ssi</str>
        <str name="facet.field">subject_ssim</str>
 
        <str name="spellcheck">true</str>
@@ -169,7 +157,7 @@
     </arr>
   </requestHandler>
 
-  <requestHandler name="permissions" class="solr.SearchHandler" >
+  <requestHandler name="permissions" class="solr.SearchHandler">
     <lst name="defaults">
       <str name="facet">off</str>
       <str name="echoParams">all</str>
@@ -257,8 +245,8 @@
 
   <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
 
-  <requestDispatcher handleSelect="true" >
-    <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048" />
+  <requestDispatcher>
+    <requestParsers multipartUploadLimitInKB="2048" />
   </requestDispatcher>
 
   <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
