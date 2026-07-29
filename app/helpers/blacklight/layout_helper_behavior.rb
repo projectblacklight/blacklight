@@ -106,5 +106,12 @@ module Blacklight
     def extra_body_classes
       @extra_body_classes ||= ["blacklight-#{controller.controller_name}", "blacklight-#{[controller.controller_name, controller.action_name].join('-')}"]
     end
+
+    ##
+    # True if dark mode support is enabled in the configuration.
+    # @see Blacklight::Configuration#dark_mode_support
+    def dark_mode_support?
+      blacklight_config.dark_mode_support
+    end
   end
 end

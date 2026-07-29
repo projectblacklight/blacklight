@@ -76,6 +76,11 @@ ca:
       forget: "oblida-ho"
       save: "desa-ho"
 
+    theme:
+      auto: Automàtic
+      dark: Fosc
+      light: Clar
+      toggle: Canvia el tema
     tools:
       title: "Eines"
       citation: "Citació"

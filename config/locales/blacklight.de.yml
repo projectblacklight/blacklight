@@ -199,6 +199,11 @@ de:
       success: SMS verschickt
       text:
         url: "Link: %{url}"
+    theme:
+      auto: Automatisch
+      dark: Dunkel
+      light: Hell
+      toggle: Design umschalten
     tools:
       citation: Zitieren
       clear: Löschen

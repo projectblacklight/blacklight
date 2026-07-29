@@ -196,6 +196,11 @@ sq:
       success: SMS-i u dëgua
       text:
         url: "Link: %{url}"
+    theme:
+      auto: Automatik
+      dark: E errët
+      light: E çelët
+      toggle: Ndrysho temën
     tools:
       citation: Citati
       clear: Fshij

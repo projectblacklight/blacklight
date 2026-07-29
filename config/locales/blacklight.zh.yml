@@ -196,6 +196,11 @@ zh:
       success: 已发送短信
       text:
         url: "链接: %{url}"
+    theme:
+      auto: 自动
+      dark: 深色
+      light: 浅色
+      toggle: 切换主题
     tools:
       citation: 引用
       clear: 清除

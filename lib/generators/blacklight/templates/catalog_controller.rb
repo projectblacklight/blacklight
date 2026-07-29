@@ -15,6 +15,9 @@ class <%= controller_name.classify %>Controller < ApplicationController
     ## Specify the style of markup to be generated
     # config.bootstrap_version = 5
     #
+    ## Show or hide the light/dark mode theme switcher component
+    # config.dark_mode_support = true
+    #
     ## Class for sending and receiving requests from a search index
     # config.repository_class = Blacklight::Solr::Repository
     #

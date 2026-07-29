@@ -197,6 +197,11 @@ pt-BR:
       success: SMS Enviado
       text:
         url: "Link: %{url}"
+    theme:
+      auto: Automático
+      dark: Escuro
+      light: Claro
+      toggle: Alternar tema
     tools:
       citation: Citar
       clear: Limpar
