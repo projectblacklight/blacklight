@@ -44,12 +44,6 @@
       "api": "true",
       "additional_engine_cart_rails_options": "--api --skip-yarn",
       "additional_name": "| API"
-    },
-    {
-      "ruby": "3.4",
-      "rails_version": "7.2.3",
-      "additional_engine_cart_rails_options": "-a propshaft --css=bootstrap --js=esbuild",
-      "additional_name": "| Rails 7.2 + Propshaft, esbuild"
     }
   ]
 }
