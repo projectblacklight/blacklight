@@ -88,7 +88,7 @@ module Blacklight
       def cast(input)
         value = super
 
-        return value unless value.is_a?(String)
+        return value unless value.is_a?(::String)
 
         JSON.parse(value)
       end
