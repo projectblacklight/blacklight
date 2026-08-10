@@ -54,6 +54,7 @@ RSpec.describe SolrDocument, :api do
         attribute :first_author, :select, 'author_tesim', by: :min
         attribute :date, :date, field: 'date_dtsi'
         attribute :time, :time, field: 'date_dtsi'
+        attribute :details, :json, 'details_ssi'
         attribute :whatever, :string, default: ->(*) { 'default_value' }
       end
     end
@@ -61,6 +62,7 @@ RSpec.describe SolrDocument, :api do
       doc_class.new(id: '123',
                     title_tesim: ['Good Omens'],
                     author_tesim: ['Neil Gaiman', 'Terry Pratchett'],
+                    details_ssi: '{"pages":288}',
                     date_dtsi: '1990-01-01T17:23:13Z')
     end
 
@@ -72,6 +74,8 @@ RSpec.describe SolrDocument, :api do
       expect(document.date.to_s).to eq '1990-01-01'
       expect(document.time).to be_a Time
       expect(document.time.to_s).to eq '1990-01-01 17:23:13 UTC'
+      expect(document.details).to be_a Hash
+      expect(document.details).to eq({ 'pages' => 288 })
       expect(document.whatever).to eq 'default_value'
     end
 
