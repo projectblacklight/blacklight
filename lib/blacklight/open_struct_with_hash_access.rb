@@ -65,7 +65,7 @@ module Blacklight
           yield self
         end
       elsif respond_to?(method_name)
-        public_send(method_name, *, &b)
+        public_send(method_name, *, &)
       end
     end
   end

@@ -164,5 +164,12 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
     it "works (and doesn't throw a stack error...)" do
       expect(subject.try(:a)).to eq 1
     end
+
+    it "passes a block to the method indicated" do
+      acc = []
+      test_block = proc { |n, v| acc << [n, v] }
+      expect(subject.try(:each_pair, &test_block)).to be subject
+      expect(acc).to eq [[:a, 1]]
+    end
   end
 end
