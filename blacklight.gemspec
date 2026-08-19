@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rsolr", ">= 1.0.6", "< 3"  # Library for interacting with rSolr.
   s.add_development_dependency "rspec-rails", ">= 6.1", "< 8"
   s.add_development_dependency "rspec-collection_matchers", ">= 1.0"
-  s.add_development_dependency 'axe-core-rspec'
+  s.add_development_dependency 'axe-core-rspec', '~> 4.12.0'
   s.add_development_dependency "capybara", '~> 3'
   s.add_development_dependency 'selenium-webdriver'
   s.add_development_dependency 'engine_cart', '~> 2.1'
