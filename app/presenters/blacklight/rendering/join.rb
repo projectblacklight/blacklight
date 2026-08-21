@@ -16,8 +16,8 @@ module Blacklight
 
       private
 
-      def html_escape(*args)
-        ERB::Util.html_escape(*args)
+      def html_escape(*)
+        ERB::Util.html_escape(*)
       end
     end
   end

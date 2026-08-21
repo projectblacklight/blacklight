@@ -95,8 +95,8 @@ module Blacklight
     end
 
     class Selector < Array
-      def initialize(by: nil, block: nil, **kwargs)
-        super(**kwargs)
+      def initialize(by: nil, block: nil, **)
+        super(**)
         @by = by
         @block = block
       end

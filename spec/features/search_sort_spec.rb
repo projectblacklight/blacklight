@@ -6,17 +6,17 @@ RSpec.describe "Search Sort" do
     within "#facet-language_ssim" do
       click_on 'English'
     end
-    expect(page).to have_content 'Sort by relevance'
+    expect(page).to have_text 'Sort by relevance'
     click_on 'title'
-    expect(page).to have_content 'Sort by title'
+    expect(page).to have_text 'Sort by title'
   end
 
   it "sorts on search" do
     visit root_path
     fill_in "q", with: 'bod'
     click_on 'search'
-    expect(page).to have_content 'Sort by relevance'
+    expect(page).to have_text 'Sort by relevance'
     click_on 'title'
-    expect(page).to have_content 'Sort by title'
+    expect(page).to have_text 'Sort by title'
   end
 end

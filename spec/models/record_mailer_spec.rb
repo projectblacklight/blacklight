@@ -41,7 +41,7 @@ RSpec.describe RecordMailer do
     end
 
     it "puts the title of the item in the subject" do
-      expect(email.subject).to match /The horn/
+      expect(email.subject).to include('The horn')
     end
 
     it "has the correct from address (w/o the port number)" do
@@ -49,8 +49,8 @@ RSpec.describe RecordMailer do
     end
 
     it "prints out the correct body" do
-      expect(email.body).to match /Title: The horn/
-      expect(email.body).to match /Author: Janetzky, Kurt/
+      expect(email.body).to include('Title: The horn')
+      expect(email.body).to include('Author: Janetzky, Kurt')
       expect(email.body).to match /projectblacklight.org/
     end
 
@@ -104,8 +104,8 @@ RSpec.describe RecordMailer do
     end
 
     it "prints out the correct body" do
-      expect(@sms.body).to match /Title: The horn/
-      expect(@sms.body).to match /Author: Janetzky, Kurt/
+      expect(@sms.body).to include('Title: The horn')
+      expect(@sms.body).to include('Author: Janetzky, Kurt')
       expect(@sms.body).to match /projectblacklight.org:3000/
     end
 

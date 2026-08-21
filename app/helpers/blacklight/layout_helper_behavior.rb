@@ -55,8 +55,8 @@ module Blacklight
     #
     # @param [Hash] options
     # @return [String]
-    def render_nav_actions(options = {}, &block)
-      render_filtered_partials(blacklight_config.navbar.partials, options, &block)
+    def render_nav_actions(options = {}, &)
+      render_filtered_partials(blacklight_config.navbar.partials, options, &)
     end
 
     ##

@@ -75,11 +75,12 @@ module Blacklight
 
     # @return [Sprockets::Asset,Propshaft::Asset]
     def file
-      return Rails.application.assets.load_path.find(path) if defined? Propshaft
+      assets = Rails.application.assets
+      return assets.load_path.find(path) if assets.respond_to?(:load_path)
 
       # Rails.application.assets is `nil` in production mode (where compile assets is enabled).
       # This workaround is based off of this comment: https://github.com/fphilipe/premailer-rails/issues/145#issuecomment-225992564
-      (Rails.application.assets || ::Sprockets::Railtie.build_environment(Rails.application)).find_asset(path)
+      (assets || ::Sprockets::Railtie.build_environment(Rails.application)).find_asset(path)
     end
 
     def classes

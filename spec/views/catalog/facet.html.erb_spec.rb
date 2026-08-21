@@ -32,7 +32,7 @@ RSpec.describe 'catalog/facet.html.erb' do
 
   it "renders facet pagination" do
     render
-    expect(rendered).to have_content 'pagination'
+    expect(rendered).to have_text 'pagination'
   end
 
   it "renders the facet limit" do

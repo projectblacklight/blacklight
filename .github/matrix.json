@@ -3,8 +3,8 @@
     "3.3"
   ],
   "rails_version": [
-    "7.1.5.1",
-    "7.2.2.1"
+    "7.1.6",
+    "7.2.3.1"
   ],
   "bootstrap_version": [
     null
@@ -23,68 +23,85 @@
   ],
   "include": [
     {
-      "ruby": "3.3",
-      "rails_version": "8.0.1",
+      "ruby": "3.4",
+      "rails_version": "8.0.5",
       "additional_engine_cart_rails_options": "--css=bootstrap"
     },
     {
-      "ruby": "3.3",
-      "rails_version": "8.0.1",
+      "ruby": "3.4",
+      "rails_version": "8.0.5",
       "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
       "additional_name": "| esbuild"
     },
     {
-      "ruby": "3.3",
-      "rails_version": "8.0.1",
+      "ruby": "3.4",
+      "rails_version": "8.0.5",
       "view_component_version": "~> 4.0",
       "additional_engine_cart_rails_options": "--css=bootstrap",
       "additional_name": "| ViewComponent 4"
     },
     {
-      "ruby": "3.3",
-      "rails_version": "8.0.1",
+      "ruby": "3.4",
+      "rails_version": "8.0.5",
       "view_component_version": "~> 4.0",
       "additional_engine_cart_rails_options": "--css=bootstrap --js=esbuild",
       "additional_name": "| esbuild, ViewComponent 4"
     },
     {
-      "ruby": "3.2",
-      "rails_version": "7.1.5.1",
-      "solr_version": "8.11.2",
-      "additional_name": "Solr 8.11.2"
+      "ruby": "3.4",
+      "rails_version": "8.1.3",
+      "additional_engine_cart_rails_options": "--css=bootstrap"
     },
     {
-      "ruby": "3.1",
-      "rails_version": "7.1.5.1"
-    },
-    {
-      "ruby": "3.1",
-      "rails_version": "7.1.5.1",
-      "view_component_version": "~> 2.74",
-      "additional_name": "| ViewComponent 2"
-    },
-    {
-      "ruby": "3.1",
-      "rails_version": "7.1.5.1",
-      "additional_name": "| Propshaft",
-      "additional_engine_cart_rails_options": "-a propshaft --css=bootstrap"
-    },
-    {
-      "ruby": "3.1",
-      "rails_version": "7.1.5.1",
+      "ruby": "3.4",
+      "rails_version": "8.1.3",
       "bootstrap_version": "~> 4.0",
+      "additional_engine_cart_rails_options": "--css=bootstrap",
       "additional_name": "| Bootstrap 4"
     },
     {
       "ruby": "3.3",
-      "rails_version": "7.1.5.1",
+      "rails_version": "8.0.5",
+      "additional_name": "| Importmap + Sprockets"
+    },
+    {
+      "ruby": "3.3",
+      "rails_version": "7.1.6",
+      "solr_version": "9",
+      "additional_name": "| Solr 9"
+    },
+    {
+      "ruby": "3.2",
+      "rails_version": "7.1.6"
+    },
+    {
+      "ruby": "3.2",
+      "rails_version": "7.1.6",
+      "view_component_version": "~> 2.74",
+      "additional_name": "| ViewComponent 2"
+    },
+    {
+      "ruby": "3.2",
+      "rails_version": "7.1.6",
+      "additional_name": "| Propshaft",
+      "additional_engine_cart_rails_options": "-a propshaft --css=bootstrap"
+    },
+    {
+      "ruby": "3.2",
+      "rails_version": "7.1.6",
+      "bootstrap_version": "~> 4.0",
+      "additional_name": "| Bootstrap 4"
+    },
+    {
+      "ruby": "3.4",
+      "rails_version": "7.1.6",
       "api": "true",
       "additional_engine_cart_rails_options": "--api --skip-yarn",
       "additional_name": "| API"
     },
     {
-      "ruby": "3.3",
-      "rails_version": "7.2.2.1",
+      "ruby": "3.4",
+      "rails_version": "7.2.3.1",
       "additional_engine_cart_rails_options": "-a propshaft --css=bootstrap --js=esbuild",
       "additional_name": "| Propshaft, esbuild"
     }

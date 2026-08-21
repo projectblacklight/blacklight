@@ -2,6 +2,7 @@
 
 RSpec.describe Blacklight::ThumbnailPresenter do
   include Capybara::RSpecMatchers
+
   let(:view_context) { double "View context" }
   let(:config) { Blacklight::Configuration.new.view_config(:index) }
   let(:presenter) { described_class.new(document, view_context, config) }

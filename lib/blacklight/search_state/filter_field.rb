@@ -120,8 +120,8 @@ module Blacklight
       delegate :any?, to: :values
 
       # Appease rubocop rules by implementing #each_value
-      def each_value(except: [], &block)
-        values(except: except).each(&block)
+      def each_value(except: [], &)
+        values(except: except).each(&)
       end
 
       # @param [String,#value] item a filter to remove from the url

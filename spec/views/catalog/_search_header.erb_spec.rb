@@ -8,7 +8,7 @@ RSpec.describe "/catalog/_search_header.html.erb" do
     stub_template "_sort_and_per_page.html.erb" => "sort_and_per_page"
     allow(view).to receive(:blacklight_config).and_return(CatalogController.blacklight_config)
     render
-    expect(rendered).to match /did_you_mean/
-    expect(rendered).to match /sort_and_per_page/
+    expect(rendered).to include('did_you_mean')
+    expect(rendered).to include('sort_and_per_page')
   end
 end

@@ -2,6 +2,7 @@
 
 RSpec.describe Blacklight::Rendering::Pipeline do
   include Capybara::RSpecMatchers
+
   let(:document) { instance_double(SolrDocument) }
   let(:context) { double }
   let(:options) { {} }

@@ -35,8 +35,8 @@ RSpec.describe "catalog/show.html.erb" do
     stub_template "catalog/_b_default.html.erb" => "b_partial"
     stub_template "catalog/_c_default.html.erb" => "c_partial"
     render
-    expect(rendered).to match /a_partial/
-    expect(rendered).to match /b_partial/
-    expect(rendered).to match /c_partial/
+    expect(rendered).to include('a_partial')
+    expect(rendered).to include('b_partial')
+    expect(rendered).to include('c_partial')
   end
 end

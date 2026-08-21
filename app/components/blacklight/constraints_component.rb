@@ -6,14 +6,14 @@ module Blacklight
     renders_many :facet_constraints_area
     renders_many :additional_constraints
 
-    def self.for_search_history(**kwargs)
+    def self.for_search_history(**)
       new(tag: :span,
           render_headers: false,
           id: nil,
           query_constraint_component: Blacklight::SearchHistoryConstraintLayoutComponent,
           facet_constraint_component_options: { layout: Blacklight::SearchHistoryConstraintLayoutComponent },
           start_over_component: nil,
-          **kwargs)
+          **)
     end
 
     # rubocop:disable Metrics/ParameterLists

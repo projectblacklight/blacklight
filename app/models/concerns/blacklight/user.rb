@@ -2,6 +2,7 @@
 
 module Blacklight::User
   extend ActiveSupport::Concern
+
   # SEE ALSO:  The lib/blacklight/generator/user_generator.rb class for where this
   # is generated into the hosting application.
   included do

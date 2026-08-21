@@ -229,7 +229,7 @@ module Blacklight::Solr::Response::Facets
 
     blacklight_config.facet_fields.select { |_k, v| v.query }.each_with_object({}) do |(field_name, facet_field), hash|
       salient_facet_queries = facet_field.query.map { |_k, x| x[:fq] }
-      items = facet_queries.select { |k, _v| salient_facet_queries.include?(k) }.reject { |_value, hits| hits.zero? }.map do |value, hits|
+      items = facet_queries.slice(*salient_facet_queries).reject { |_value, hits| hits.zero? }.map do |value, hits|
         salient_fields = facet_field.query.select { |_key, val| val[:fq] == value }
         key = ((salient_fields.keys if salient_fields.respond_to? :keys) || salient_fields.first).first
         Blacklight::Solr::Response::Facets::FacetItem.new(value: key, hits: hits, label: facet_field.query[key][:label])
@@ -250,7 +250,7 @@ module Blacklight::Solr::Response::Facets
 
     salient_facet_queries = facet_field.query.map { |_k, x| x[:fq] }
 
-    relevant_facet_data = self['facets'].select { |k, _v| salient_facet_queries.include?(k) }.reject { |_key, data| data['count'].zero? }
+    relevant_facet_data = self['facets'].slice(*salient_facet_queries).reject { |_key, data| data['count'].zero? }
 
     relevant_facet_data.map do |key, data|
       salient_fields = facet_field.query.select { |_key, val| val[:fq] == key }

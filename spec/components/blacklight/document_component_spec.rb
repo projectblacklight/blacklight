@@ -48,11 +48,11 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     component.with_actions { 'Actions' }
     render_inline component
 
-    expect(rendered).to have_content 'Title'
-    expect(rendered).to have_content 'Embed'
-    expect(rendered).to have_content 'Metadata'
-    expect(rendered).to have_content 'Thumbnail'
-    expect(rendered).to have_content 'Actions'
+    expect(rendered).to have_text 'Title'
+    expect(rendered).to have_text 'Embed'
+    expect(rendered).to have_text 'Metadata'
+    expect(rendered).to have_text 'Thumbnail'
+    expect(rendered).to have_text 'Actions'
   end
 
   it 'has schema.org properties' do
@@ -68,7 +68,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       component.with_body { 'Body content' }
       render_inline component
 
-      expect(rendered).to have_content 'Body content'
+      expect(rendered).to have_text 'Body content'
       expect(rendered).to have_no_css 'header'
       expect(rendered).to have_no_css 'dl'
     end
@@ -160,7 +160,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       end)
 
       blacklight_config.show.embed_component = StubComponent
-      expect(rendered).to have_content 'embed'
+      expect(rendered).to have_text 'embed'
     end
 
     context 'show view with custom translation' do
@@ -226,7 +226,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
 
   it 'renders partials' do
     component.with_partial { 'Partials' }
-    expect(rendered).to have_content 'Partials'
+    expect(rendered).to have_text 'Partials'
   end
 
   it 'has no partials by default' do
@@ -245,7 +245,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
 
     it 'shows the prefix' do
-      expect(rendered).to have_content "Prefix!"
+      expect(rendered).to have_text "Prefix!"
     end
   end
 end

@@ -172,6 +172,12 @@ RSpec.describe BlacklightHelper do
     end
 
     it "ignores missing templates" do
+      # In ViewComponent 3.25.0+, collection components rendered from a plain
+      # ActionView template fall back to controller.view_context for helpers
+      # instead of the stubbed helper. Workaround not needed on 2.x or 4.x.
+      if ViewComponent::VERSION::MAJOR == 3
+        allow(controller).to receive(:view_context).and_return(helper)
+      end
       blacklight_config.view.view_type(partials: %w[index_header a b])
 
       response = helper.render_document_index_with_view :view_type, [obj1, obj1]

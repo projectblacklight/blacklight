@@ -2,6 +2,7 @@
 
 RSpec.describe Blacklight::IndexPresenter, :api do
   include Capybara::RSpecMatchers
+
   subject { presenter }
 
   let(:request_context) { double(document_index_view_type: 'list') }

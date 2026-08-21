@@ -81,7 +81,7 @@ module Blacklight
       #
       #     add_blacklight_field :index_field, [{ :field => 'format', :label => 'Format' }, IndexField.new(:field => 'date', :label => 'Date')]
       #
-      def add_blacklight_field config_key, *args, &block
+      def add_blacklight_field(config_key, *args, &)
         field_config = case args.first
                        when String
                          field_config_from_key_and_hash(config_key, *args)
@@ -89,7 +89,7 @@ module Blacklight
                          args[0] = args[0].to_s
                          field_config_from_key_and_hash(config_key, *args)
                        when Array
-                         field_config_from_array(config_key, *args, &block)
+                         field_config_from_array(config_key, *args, &)
                          return # we've iterated over the array above.
                        else
                          field_config_from_field_or_hash(config_key, *args)
@@ -101,7 +101,7 @@ module Blacklight
 
         # look up any dynamic fields
         if field_config.match
-          handle_matching_fields(config_key, field_config, &block)
+          handle_matching_fields(config_key, field_config, &)
           return
         end
 

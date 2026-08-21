@@ -51,9 +51,9 @@ class Blacklight::Solr::Response::GroupResponse
     )
   end
 
-  def method_missing meth, *args, &block
+  def method_missing(meth, *args, &)
     if response.respond_to? meth
-      response.send(meth, *args, &block)
+      response.send(meth, *args, &)
     else
       super
     end
