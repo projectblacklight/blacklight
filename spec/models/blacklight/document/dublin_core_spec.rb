@@ -25,8 +25,8 @@ RSpec.describe "Blacklight::Document::DublinCore" do
   it "includes 'dc:'-prefixed semantic fields" do
     data = { 'id' => '123456', 'title_tsim' => ['654321'] }
     document = @mock_class.new(data)
-    expect(document.export_as_oai_dc_xml).to match  'xmlns:dc="http://purl.org/dc/elements/1.1/"'
-    expect(document.export_as_oai_dc_xml).to match  '<dc:title>654321</dc:title>'
+    expect(document.export_as_oai_dc_xml).to match 'xmlns:dc="http://purl.org/dc/elements/1.1/"'
+    expect(document.export_as_oai_dc_xml).to match '<dc:title>654321</dc:title>'
   end
 
   it "works with multi-value fields" do

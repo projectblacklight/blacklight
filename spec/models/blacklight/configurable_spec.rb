@@ -22,7 +22,7 @@ RSpec.describe "Blacklight::Configurable", :api do
     end
 
     it "inherited version should be a deep copy, not original" do
-      expect(TestCaseInheritence::Child.blacklight_config).not_to  be(TestCaseInheritence::Parent.blacklight_config)
+      expect(TestCaseInheritence::Child.blacklight_config).not_to be(TestCaseInheritence::Parent.blacklight_config)
 
       TestCaseInheritence::Child.blacklight_config.list << "child_only"
 
