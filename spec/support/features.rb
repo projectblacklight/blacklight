@@ -4,8 +4,10 @@
 
 require File.expand_path('features/search_helpers.rb', __dir__)
 require File.expand_path('features/session_helpers.rb', __dir__)
+require File.expand_path('features/turbo_helpers.rb', __dir__)
 
 RSpec.configure do |config|
   config.include Features::SearchHelpers, type: :feature
   config.include Features::SessionHelpers, type: :feature
+  config.include Features::TurboHelpers, type: :feature
 end
