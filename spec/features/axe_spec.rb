@@ -18,6 +18,7 @@ RSpec.describe 'Accessibility testing', :js, api: false do
         visit root_path
         fill_in "q", with: 'history'
         click_on 'search'
+        wait_for_turbo
 
         expect(page).to be_axe_clean
 
@@ -25,6 +26,7 @@ RSpec.describe 'Accessibility testing', :js, api: false do
           click_on 'Language'
           click_on "Tibetan"
         end
+        wait_for_turbo
 
         expect(page).to be_axe_clean
       end
