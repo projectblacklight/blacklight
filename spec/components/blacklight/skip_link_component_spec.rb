@@ -24,7 +24,7 @@ RSpec.describe Blacklight::SkipLinkComponent, type: :component do
   context 'with one search field' do
     let(:blacklight_config) do
       Blacklight::Configuration.new.configure do |config|
-        config.search_fields =  { "all_fields" => "" }
+        config.search_fields = { "all_fields" => "" }
       end
     end
 
@@ -37,7 +37,7 @@ RSpec.describe Blacklight::SkipLinkComponent, type: :component do
   context 'with two search field' do
     let(:blacklight_config) do
       Blacklight::Configuration.new.configure do |config|
-        config.search_fields =  { "all_fields" => "", "title_field" => "" }
+        config.search_fields = { "all_fields" => "", "title_field" => "" }
       end
     end
 
