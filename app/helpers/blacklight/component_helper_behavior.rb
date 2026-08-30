@@ -11,7 +11,7 @@ module Blacklight
     # @param [Class] component (Blacklight::Document::ActionsComponent)
     # @return [String]
     def render_index_doc_actions(document, wrapping_class: "index-document-functions", component: Blacklight::Document::ActionsComponent)
-      actions = filter_partials(blacklight_config.view_config(document_index_view_type).document_actions, { document: document }).map { |_k, v| v }
+      actions = filter_partials(blacklight_config_presenter.view_config.document_actions, { document: document }).map { |_k, v| v }
 
       render(component.new(document: document, actions: actions, classes: wrapping_class))
     end
@@ -24,7 +24,7 @@ module Blacklight
     # @param [Class] component (Blacklight::Document::ActionsComponent)
     # @return [String]
     def render_results_collection_tools(wrapping_class: "search-widgets", component: Blacklight::Document::ActionsComponent)
-      actions = filter_partials(blacklight_config.view_config(document_index_view_type).collection_actions, {}).map { |_k, v| v }
+      actions = filter_partials(blacklight_config_presenter.view_config.collection_actions, {}).map { |_k, v| v }
 
       render(component.new(actions: actions, classes: wrapping_class))
     end

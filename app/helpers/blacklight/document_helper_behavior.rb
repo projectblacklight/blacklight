@@ -60,7 +60,7 @@ module Blacklight::DocumentHelperBehavior
     when 'show', 'citation'
       blacklight_config.view_config(:show, action_name: action_name).document_presenter_class
     else
-      blacklight_config.view_config(document_index_view_type, action_name: action_name).document_presenter_class
+      blacklight_config_presenter.view_config.document_presenter_class
     end
   end
 end

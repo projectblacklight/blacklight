@@ -2,7 +2,7 @@
   <meta name="blacklight-search-storage" content="<%= blacklight_config.track_search_session.storage %>">
 <% end %>
 <% content_for(:sidebar) do %>
-  <% conf = blacklight_config.view_config(document_index_view_type) %>
+  <% conf = blacklight_config_presenter.view_config %>
   <%= render conf.sidebar_component.new(blacklight_config: blacklight_config,
                                         response: @response,
                                         view_config: conf) %>
