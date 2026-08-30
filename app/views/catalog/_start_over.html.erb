@@ -1,1 +1,2 @@
-<%= render Blacklight::StartOverButtonComponent.new %>
+<% Blacklight.deprecation.warn('The partial _start_over.html.erb will be removed in Blacklight 9.0.') unless local_assigns[:silence_deprecation] %>
+<%= render (start_over_component || Blacklight::StartOverButtonComponent).new %>
