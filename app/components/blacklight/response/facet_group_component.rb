@@ -31,8 +31,7 @@ module Blacklight
       end
 
       def render?
-        # debugger
-        body.present?
+        body.to_s.present?
       end
     end
   end
