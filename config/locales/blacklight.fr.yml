@@ -88,6 +88,7 @@ fr:
         all: Tout
         clear: Effacer
         count: "%{number}"
+        faceted_search: Recherche %{field_label}
         group:
           close: Masquer les facettes
           open: Afficher les facettes
