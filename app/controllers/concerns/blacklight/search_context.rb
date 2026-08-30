@@ -7,7 +7,7 @@ module Blacklight::SearchContext
   # own controller.
   included do
     if respond_to? :helper_method
-      helper_method :current_search_session, :search_session
+      helper_method :current_search_session, :search_session, :page_links_document_path
     end
   end
 
@@ -31,23 +31,17 @@ module Blacklight::SearchContext
   # GET previous and next document json for the document specified by
   # the counter param in current search
   def page_links
-    counter_param = params.delete(:counter)
-    @page_link_data = {}
-    if counter_param
-      index = counter_param.to_i - 1
-      response, documents = search_service.previous_and_next_documents_for_search index, search_state.reset_search
-      if documents.detect(&:present?)
-        @page_link_data[:prev] = page_links_document_path(documents.first, index)
-        @page_link_data[:next] = page_links_document_path(documents.last, index + 2)
-      end
-      if response&.total&.positive?
-        @page_link_data[:counterRaw] = counter_param
-        @page_link_data[:counterDelimited] = helpers.number_with_delimiter(counter_param.to_i)
-        @page_link_data[:totalRaw] = response.total
-        @page_link_data[:totalDelimited] = helpers.number_with_delimiter(response.total)
-      end
+    counter = if Rails::VERSION::MAJOR >= 8
+                params.expect(:counter).to_i
+              else
+                params[:counter].to_i
+              end
+
+    @search_context = load_search_context(counter, search_state.reset_search)
+
+    respond_to do |format|
+      format.json
     end
-    render json: @page_link_data
   end
 
   private
@@ -142,11 +136,9 @@ module Blacklight::SearchContext
     return { counter: params[:counter] } if setup_next_and_previous_on_client?
     return nil unless setup_next_and_previous_on_server?
 
-    index = search_session['counter'].to_i - 1
-    response, documents = search_service.previous_and_next_documents_for_search index, search_state.reset(current_search_session.query_params)
-
-    search_session['total'] = response.total
-    { prev: documents.first, next: documents.last }
+    load_search_context(search_session['counter'].to_i, search_state.reset(current_search_session.query_params)).tap do |search_context_presenter|
+      search_session['total'] = search_context_presenter.total
+    end
   rescue Blacklight::Exceptions::InvalidRequest => e
     logger&.warn "Unable to setup next and previous documents: #{e}"
     nil
@@ -165,5 +157,12 @@ module Blacklight::SearchContext
     return search_state.url_for_document(document, counter: counter) if blacklight_config.view_config(:show).route
 
     solr_document_path(document, counter: counter)
+  end
+
+  def load_search_context(counter, context_search_state)
+    index = counter - 1
+    response, _documents = search_service.previous_and_next_documents_for_search index, context_search_state
+
+    Blacklight::SearchContextPresenter.new(response, counter: counter, view_context: view_context)
   end
 end
