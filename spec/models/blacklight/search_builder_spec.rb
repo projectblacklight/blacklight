@@ -135,6 +135,34 @@ RSpec.describe Blacklight::SearchBuilder, :api do
     end
   end
 
+  describe "#for_previous_and_next_documents" do
+    subject(:builder) { SearchBuilder.new processor_chain, scope }
+
+    it "merges default document pagination params when not configured" do
+      allow(subject).to receive(:default_document_pagination_params).and_return(fl: 'id', facet: false)
+      subject.for_previous_and_next_documents(5)
+      expect(subject.to_hash).to include fl: 'id', facet: false
+    end
+
+    it "merges configured document pagination params" do
+      blacklight_config.document_pagination_params = { fl: 'id,title' }
+      subject.for_previous_and_next_documents(5)
+      expect(subject.to_hash).to include fl: 'id,title'
+    end
+
+    it "sets start and rows for previous/next documents" do
+      subject.for_previous_and_next_documents(5, 2)
+      expect(subject.start).to eq 3 # 5 - 2
+      expect(subject.rows).to eq 5  # 2 * 2 + 1
+    end
+
+    it "handles index 0" do
+      subject.for_previous_and_next_documents(0, 2)
+      expect(subject.start).to eq 0
+      expect(subject.rows).to eq 4 # 2 * 2
+    end
+  end
+
   describe "#page" do
     it "is the current user parameter page number" do
       expect(subject.with(page: 2).page).to eq 2
