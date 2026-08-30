@@ -129,6 +129,14 @@ RSpec.describe Blacklight::SearchService, :api do
         expect(solr_response.docs).to have(0).results
       end
     end
+
+    describe 'when passing in the params' do
+      it 'returns the results' do
+        solr_response = service.search_results(params: { q: '', rows: 5 })
+
+        expect(solr_response.docs).to have(5).results
+      end
+    end
   end # Search Results
 
   # SPECS FOR SEARCH RESULTS FOR FACETS
