@@ -91,8 +91,7 @@ de:
         group:
           close: Facetten ausblenden
           open: Facetten zeigen
-        missing:
-          - fehlt
+        missing: "[fehlt]"
         more_html: mehr <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Schließen
