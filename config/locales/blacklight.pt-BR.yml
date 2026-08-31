@@ -89,8 +89,7 @@ pt-BR:
         group:
           close: Ocultar facetas
           open: Mostrar facetas
-        missing:
-          - Ausência
+        missing: "[Ausência]"
         more_html: mais <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Fechar

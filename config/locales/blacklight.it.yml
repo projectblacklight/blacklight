@@ -91,8 +91,7 @@ it:
         group:
           close: Nascondi sfaccettature
           open: Mostra sfaccettature
-        missing:
-          - Mancante
+        missing: "[Mancante]"
         more_html: altri <span class="visually-hidden">%{field_name}</span> »
         pivot:
           hide: Chiudi
