@@ -93,4 +93,18 @@ RSpec.describe "Search Pagination" do
       expect(page).to have_text "1 - 20 of "
     end
   end
+
+  it 'falls back to the default in the case of negative rows param' do
+    visit '/catalog?search_field=all_fields&q=&rows=-20'
+    within("#sortAndPerPage") do
+      expect(page).to have_text "1 - 10 of "
+    end
+  end
+
+  it 'falls back to the default in the case of negative per_page param' do
+    visit '/catalog?search_field=all_fields&q=&per_page=-20'
+    within("#sortAndPerPage") do
+      expect(page).to have_text "1 - 10 of "
+    end
+  end
 end

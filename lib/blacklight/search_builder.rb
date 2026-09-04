@@ -230,7 +230,8 @@ module Blacklight
       return if value.nil?
 
       params_will_change!
-      @rows = [value, blacklight_config.max_per_page].map(&:to_i).min
+      new_rows = value.to_i.then { |parsed| parsed.positive? ? parsed : blacklight_config.default_per_page }
+      @rows = [new_rows, blacklight_config.max_per_page.to_i].min
     end
 
     # @param [#to_i] value
