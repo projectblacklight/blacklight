@@ -35,8 +35,10 @@ module Blacklight::Solr
     # @param [Hash] request_params
     # @return [Blacklight::Suggest::Response]
     def suggestions(request_params)
-      suggest_results = connection.send_and_receive(suggest_handler_path, params: request_params)
-      Blacklight::Suggest::Response.new suggest_results, request_params, suggest_handler_path, suggester_name
+      instrument_solr_request(suggest_handler_path, request_params) do
+        suggest_results = connection.send_and_receive(suggest_handler_path, params: request_params)
+        Blacklight::Suggest::Response.new suggest_results, request_params, suggest_handler_path, suggester_name
+      end
     end
 
     ##
@@ -66,13 +68,10 @@ module Blacklight::Solr
     #   @param [Hash] parameters for RSolr::Client#send_and_receive
     # @return [Blacklight::Solr::Response] the solr response object
     def send_and_receive(path, solr_params = {})
-      benchmark("Solr fetch", level: :debug) do
-        res = connection.send_and_receive(path, build_solr_request(solr_params))
-        solr_response = blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
-
-        Blacklight.logger&.debug("Solr query: #{blacklight_config.http_method} #{path} #{solr_params.to_hash.inspect}")
-        Blacklight.logger&.debug("Solr response: #{solr_response.inspect}") if defined?(::BLACKLIGHT_VERBOSE_LOGGING) && ::BLACKLIGHT_VERBOSE_LOGGING
-        solr_response
+      request = build_solr_request(solr_params)
+      instrument_solr_request(path, solr_params, method: request[:method]) do
+        res = connection.send_and_receive(path, request)
+        blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
       end
     rescue *defined_rsolr_timeout_exceptions => e
       raise Blacklight::Exceptions::RepositoryTimeout, "Timeout connecting to Solr instance using #{connection.inspect}: #{e.inspect}"
@@ -102,6 +101,12 @@ module Blacklight::Solr
     end
 
     private
+
+    def instrument_solr_request(path, params, method: :get)
+      ActiveSupport::Notifications.instrument("solr_request.blacklight", path: path, params: params, method: method) do |payload|
+        payload[:response] = yield
+      end
+    end
 
     ##
     # @return [String]
