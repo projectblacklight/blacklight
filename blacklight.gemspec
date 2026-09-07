@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", '>= 7.2', '< 9'
   s.add_dependency "globalid"
   s.add_dependency "jbuilder", '~> 2.7'
+  s.add_dependency "json", '< 3.0' # 3.0 dropped the quirks_mode kwarg ActiveSupport::JSON still passes on Rails < 8.1 - remove once this gemspec requires rails >= 8.1
   s.add_dependency "kaminari", ">= 0.15" # the pagination (page 1,2,3, etc..) of our search results
   s.add_dependency "i18n", '>= 1.7.0' # added named parameters
   s.add_dependency "ostruct", '>= 0.3.2'
