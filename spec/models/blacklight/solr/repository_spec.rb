@@ -143,6 +143,31 @@ RSpec.describe Blacklight::Solr::Repository, :api do
       allow(repository.connection).to receive(:send_and_receive).and_raise(rsolr_timeout)
       expect { subject.search(params: {}) }.to raise_exception(Blacklight::Exceptions::RepositoryTimeout, /Timeout connecting to Solr instance/)
     end
+
+    it "instruments the request with ActiveSupport::Notifications" do
+      allow(subject.connection).to receive(:send_and_receive).and_return(mock_response)
+
+      payload = nil
+      callback = ->(event) { payload = event.payload }
+      ActiveSupport::Notifications.subscribed(callback, "solr_request.blacklight") do
+        subject.search(params: {})
+      end
+
+      expect(payload).to include(path: 'select', method: :get)
+    end
+
+    it "instruments a json query dsl request as post, regardless of http_method configuration" do
+      blacklight_config.http_method = :get
+      allow(subject.connection).to receive(:send_and_receive).and_return(mock_response)
+
+      payload = nil
+      callback = ->(event) { payload = event.payload }
+      ActiveSupport::Notifications.subscribed(callback, "solr_request.blacklight") do
+        subject.search(params: { json: { query: 'foo' } })
+      end
+
+      expect(payload).to include(method: :post)
+    end
   end
 
   describe "#build_solr_request" do
@@ -230,5 +255,49 @@ RSpec.describe Blacklight::Solr::Repository, :api do
     subject { repository.ping }
 
     it { is_expected.to be true }
+
+    it "instruments the request with ActiveSupport::Notifications" do
+      payload = nil
+      callback = ->(event) { payload = event.payload }
+      ActiveSupport::Notifications.subscribed(callback, "solr_request.blacklight") do
+        repository.ping
+      end
+
+      expect(payload).to include(path: 'admin/ping', method: :get)
+    end
+  end
+
+  describe "debug logging" do
+    let(:io) { StringIO.new }
+    let(:test_logger) { Logger.new(io, level: Logger::DEBUG) }
+
+    before do
+      allow(Blacklight).to receive(:logger).and_return(test_logger)
+      allow(subject.connection).to receive(:send_and_receive).and_return(mock_response)
+    end
+
+    it "logs the solr query at debug, never at info" do
+      subject.search(params: { q: 'test' })
+
+      expect(io.string).to include("test")
+      expect(io.string).not_to include("INFO")
+    end
+
+    it "does not log the full response by default" do
+      subject.search(params: { q: 'test' })
+
+      expect(io.string).not_to include("Solr response")
+    end
+
+    context "when BLACKLIGHT_VERBOSE_LOGGING is set" do
+      before { stub_const('BLACKLIGHT_VERBOSE_LOGGING', true) }
+
+      it "logs the full response at debug, never at info" do
+        subject.search(params: { q: 'test' })
+
+        expect(io.string).to include("Solr response")
+        expect(io.string).not_to include("INFO")
+      end
+    end
   end
 end
