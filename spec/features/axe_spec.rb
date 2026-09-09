@@ -11,6 +11,8 @@ RSpec.describe 'Accessibility testing', :js, api: false do
 
       it 'validates the home page' do
         visit root_path
+        wait_for_turbo
+
         expect(page).to be_axe_clean
       end
 
@@ -33,11 +35,15 @@ RSpec.describe 'Accessibility testing', :js, api: false do
 
       it 'validates the advanced search form' do
         visit advanced_search_catalog_path
+        wait_for_turbo
+
         expect(page).to be_axe_clean
       end
 
       it 'validates the single results page' do
         visit solr_document_path('2007020969')
+        wait_for_turbo
+
         expect(page).to be_axe_clean
       end
     end

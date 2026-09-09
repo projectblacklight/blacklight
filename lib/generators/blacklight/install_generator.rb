@@ -41,6 +41,11 @@ module Blacklight
       generate "blacklight:assets", generated_options unless options[:'skip-assets']
     end
 
+    def pin_json_version
+      # json 3.0's JSON.parse rejects ActiveSupport::JSON.decode's positional options hash; unfixed as of Rails 8.1.3.
+      gem 'json', '< 3.0'
+    end
+
     def bundle_install
       inside destination_root do
         Bundler.with_unbundled_env do

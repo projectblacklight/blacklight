@@ -7,6 +7,7 @@ module Features
     # clicks return before the visit completes, so wait for the busy state to clear
     # before making assertions that don't wait on their own (e.g. be_axe_clean).
     def wait_for_turbo
+      page.has_css?('html[aria-busy]', visible: :all, wait: 0.5)
       expect(page).to have_no_css('html[aria-busy]', visible: :all)
     end
   end
