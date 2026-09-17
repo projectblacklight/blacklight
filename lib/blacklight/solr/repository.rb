@@ -51,7 +51,7 @@ module Blacklight::Solr
     ##
     # @return [boolean] true if the repository is reachable
     def ping
-      response = connection.send_and_receive 'admin/ping', {}
+      response = instrument_solr_request('admin/ping', {}) { connection.send_and_receive('admin/ping', {}) }
       Blacklight.logger&.info("Ping [#{connection.uri}] returned: '#{response['status']}'")
       response['status'] == "OK"
     end
