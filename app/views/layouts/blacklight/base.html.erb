@@ -10,7 +10,13 @@
     <% if dark_mode_support? %>
     <script>
       (() => {
-        const theme = localStorage.getItem('theme') || 'auto';
+        let storedTheme = null;
+        try {
+          // localStorage may be unavailable, e.g. in embedded webviews with
+          // storage disabled or when the browser blocks storage access.
+          storedTheme = localStorage.getItem('theme');
+        } catch {}
+        const theme = storedTheme || 'auto';
         if (theme === 'auto') {
           document.documentElement.setAttribute('data-bs-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         } else {
