@@ -9,9 +9,11 @@ module Blacklight
     attr_writer :connection
 
     # (Note: ActiveSupport::Benchmarkable requires a logger method)
+    # No longer used in core Blacklight, keeping for downstream consumers
     # @return [Logger]
     attr_writer :logger
 
+    # No longer used in core Blacklight, keeping for downstream consumers
     include ActiveSupport::Benchmarkable
 
     ##

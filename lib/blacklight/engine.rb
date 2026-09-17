@@ -29,6 +29,15 @@ module Blacklight
       Blacklight::Configuration.initialize_default_configuration
     end
 
+    initializer "blacklight.runtime_registry" do
+      ActiveSupport::Notifications.monotonic_subscribe("solr_request.blacklight", Blacklight::RuntimeRegistry)
+      Blacklight::LogSubscriber.attach_to :blacklight
+
+      # ActionController::LogSubscriber#process_action calls ActionController::Base.log_process_action,
+      # so this has to live on ActionController::Base itself - a subclass's override is never consulted.
+      ActiveSupport.on_load(:action_controller) { include Blacklight::ControllerRuntime }
+    end
+
     # This makes our rake tasks visible.
     rake_tasks do
       Dir.chdir(File.expand_path(File.join(File.dirname(__FILE__), '..'))) do
