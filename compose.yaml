@@ -5,9 +5,8 @@ services:
       dockerfile: .docker/app/Dockerfile
       args:
         - ALPINE_RUBY_VERSION
-    # mounting . is causing seg-fault on macosx
-    #volumes:
-    #- .:/app
+    volumes:
+    - .:/app
     depends_on:
       - solr
     ports:
