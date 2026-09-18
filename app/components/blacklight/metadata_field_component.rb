@@ -23,13 +23,13 @@ module Blacklight
     end
 
     def render?
-      @field.render_field?
+      @field.render_field? && render_field_values.present?
     end
 
     # Override this method in a subclass to change the way this value is rendered
     # @return [Array]
     def render_field_values
-      @field.render
+      @render_field_values ||= @field.render
     end
 
     ##
