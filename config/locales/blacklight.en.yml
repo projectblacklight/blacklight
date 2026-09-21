@@ -124,6 +124,7 @@ en:
           label: "Filter %{field_label}"
           placeholder: Filter...
         title: Limit your search
+        faceted_search: "%{field_label} search"
       filters:
         label: "%{label}:"
         remove:
