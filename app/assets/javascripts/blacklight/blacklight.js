@@ -47,8 +47,14 @@ Blacklight.onLoad(function () {
   elem.classList.remove('no-js');
   elem.classList.add('js');
 });
-Blacklight.csrfToken = () => document.querySelector('meta[name=csrf-token]')?.content;
-Blacklight.csrfParam = () => document.querySelector('meta[name=csrf-param]')?.content;
+Blacklight.csrfToken = () => {
+  var _document$querySelect;
+  return (_document$querySelect = document.querySelector('meta[name=csrf-token]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.content;
+};
+Blacklight.csrfParam = () => {
+  var _document$querySelect2;
+  return (_document$querySelect2 = document.querySelector('meta[name=csrf-param]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.content;
+};
 window.Blacklight = Blacklight;
 /*global Bloodhound */
 
@@ -475,8 +481,7 @@ Blacklight.handleSearchContextMethod = function (event) {
   let form = document.createElement('form');
   form.method = 'post';
   form.action = href;
-  let formContent = `<input name="_method" value="post" type="hidden" />
-    <input name="redirect" value="${link.getAttribute('href')}" type="hidden" />`;
+  let formContent = "<input name=\"_method\" value=\"post\" type=\"hidden\" />\n    <input name=\"redirect\" value=\"".concat(link.getAttribute('href'), "\" type=\"hidden\" />");
 
   // check for meta keys.. if set, we should open in a new tab
   if (event.metaKey || event.ctrlKey) {
@@ -484,7 +489,7 @@ Blacklight.handleSearchContextMethod = function (event) {
     target = '_blank';
   }
   if (csrfParam !== undefined && csrfToken !== undefined) {
-    formContent += `<input name="${csrfParam}" value="${csrfToken}" type="hidden" />`;
+    formContent += "<input name=\"".concat(csrfParam, "\" value=\"").concat(csrfToken, "\" type=\"hidden\" />");
   }
 
   // Must trigger submit by click on a button, else "submit" event handler won't work!
