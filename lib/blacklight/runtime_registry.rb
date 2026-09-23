@@ -18,7 +18,8 @@ module Blacklight
 
     class << self
       def stats
-        ActiveSupport::IsolatedExecutionState[:blacklight_solr_runtime] ||= Stats.new
+        # Thread.current, not ActiveSupport::IsolatedExecutionState, since Blacklight supports Rails < 7.0.
+        Thread.current[:blacklight_solr_runtime] ||= Stats.new
       end
 
       # @see ActiveSupport::Notifications.monotonic_subscribe
