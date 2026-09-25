@@ -29,13 +29,16 @@ module Blacklight
     #                         SearchBuilder to be used. Block should return SearchBuilder to be used.
     #                         This is used in blacklight_range_limit
     # @return [Blacklight::Solr::Response] the solr response object
-    def search_results
-      builder = search_builder.with(search_state)
-      builder.page = search_state.page
-      builder.rows = search_state.per_page
+    def search_results(params: nil)
+      unless params
+        builder = search_builder.with(search_state)
+        builder.page = search_state.page
+        builder.rows = search_state.per_page
 
-      builder = yield(builder) if block_given?
-      response = repository.search(params: builder)
+        builder = yield(builder) if block_given?
+      end
+
+      response = repository.search(params: params || builder)
 
       if response.grouped? && grouped_key_for_results
         response.group(grouped_key_for_results)
