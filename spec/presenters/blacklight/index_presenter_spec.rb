@@ -5,7 +5,7 @@ RSpec.describe Blacklight::IndexPresenter, :api do
 
   subject { presenter }
 
-  let(:request_context) { double(document_index_view_type: 'list') }
+  let(:request_context) { double(blacklight_configuration_context:, document_index_view_type: 'list', params:) }
   let(:config) { Blacklight::Configuration.new }
 
   let(:presenter) { described_class.new(document, request_context, config) }
@@ -13,6 +13,7 @@ RSpec.describe Blacklight::IndexPresenter, :api do
   let(:params) { parameter_class.new }
   let(:controller) { double }
   let(:search_state) { Blacklight::SearchState.new(params, config, controller) }
+  let(:blacklight_configuration_context) { Blacklight::Configuration::Context.new(controller) }
 
   let(:document) do
     SolrDocument.new(id: 1,

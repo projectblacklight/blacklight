@@ -217,8 +217,8 @@ RSpec.describe CatalogHelper do
     end
 
     it "supports view-specific field configuration" do
-      allow(helper).to receive(:document_index_view_type).and_return(:some_view_type)
       blacklight_config.view.some_view_type(display_type_field: :other_type)
+      params[:view] = :some_view_type
       doc = { other_type: "document" }.with_indifferent_access
       expect(helper.render_document_class(doc)).to eq "blacklight-document"
     end
@@ -305,19 +305,35 @@ RSpec.describe CatalogHelper do
   end
 
   describe "#document_index_view_type" do
+    before do
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+    end
+
+    let :blacklight_config do
+      Blacklight::Configuration.new.tap do |config|
+        config.view.clear
+      end
+    end
+
     it "defaults to the default view" do
-      allow(helper).to receive_messages(document_index_views: { a: 1, b: 2 }, default_document_index_view_type: :xyz)
-      expect(helper.document_index_view_type).to eq :xyz
+      blacklight_config.view.default
+      blacklight_config.view.a
+      blacklight_config.view.b
+      expect(helper.document_index_view_type).to eq :default
     end
 
     it "uses the query parameter" do
-      allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2)
+      blacklight_config.view.default
+      blacklight_config.view.a
+      blacklight_config.view.b
       expect(helper.document_index_view_type(view: :a)).to eq :a
     end
 
     it "uses the default view if the requested view is not available" do
-      allow(helper).to receive_messages(default_document_index_view_type: :xyz, document_index_views: { a: 1, b: 2 })
-      expect(helper.document_index_view_type(view: :c)).to eq :xyz
+      blacklight_config.view.default
+      blacklight_config.view.a
+      blacklight_config.view.b
+      expect(helper.document_index_view_type(view: :c)).to eq :default
     end
 
     context "when they have a preferred view" do
@@ -327,19 +343,24 @@ RSpec.describe CatalogHelper do
 
       context "and no view is specified" do
         it "uses the saved preference" do
-          allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
+          blacklight_config.view.a
+          blacklight_config.view.b
+          blacklight_config.view.c
           expect(helper.document_index_view_type).to eq :b
         end
 
         it "uses the default view if the preference is not available" do
-          allow(helper).to receive(:document_index_views).and_return(a: 1)
+          blacklight_config.view.a
           expect(helper.document_index_view_type).to eq :a
         end
       end
 
       context "and a view is specified" do
         it "uses the query parameter" do
-          allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
+          blacklight_config.view.a
+          blacklight_config.view.b
+          blacklight_config.view.c
+
           expect(helper.document_index_view_type(view: :c)).to eq :c
         end
       end
