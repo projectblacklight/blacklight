@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rexml/document'
-
 RSpec.describe "catalog/index" do
   let(:document_list) do
     10.times.map do |i|
@@ -26,8 +24,8 @@ RSpec.describe "catalog/index" do
     params['content_format'] = 'some_format'
   end
 
-  # We need to use rexml to test certain things that have_tag wont' test
-  let(:response_xml) { REXML::Document.new(rendered) }
+  # Parse the feed with Nokogiri to test namespaced elements that have_css won't test
+  let(:response_xml) { Nokogiri::XML(rendered) }
 
   it "has contextual information" do
     render template: 'catalog/index', formats: [:atom]
@@ -44,21 +42,20 @@ RSpec.describe "catalog/index" do
   it "gets paging data correctly from response" do
     render template: 'catalog/index', formats: [:atom]
 
-    # Can't use have_tag for namespaced elements, sorry.
-    expect(response_xml.elements["/feed/opensearch:totalResults"].text).to eq "30"
-    expect(response_xml.elements["/feed/opensearch:startIndex"].text).to eq "10"
-    expect(response_xml.elements["/feed/opensearch:itemsPerPage"].text).to eq "10"
+    expect(response_xml.at_xpath("/xmlns:feed/opensearch:totalResults").text).to eq "30"
+    expect(response_xml.at_xpath("/xmlns:feed/opensearch:startIndex").text).to eq "10"
+    expect(response_xml.at_xpath("/xmlns:feed/opensearch:itemsPerPage").text).to eq "10"
   end
 
   it "includes an opensearch Query role=request" do
     render template: 'catalog/index', formats: [:atom]
 
-    expect(response_xml.elements.to_a("/feed/opensearch:itemsPerPage")).to have(1).item
-    query_el = response_xml.elements["/feed/opensearch:Query"]
+    expect(response_xml.xpath("/xmlns:feed/opensearch:itemsPerPage")).to have(1).item
+    query_el = response_xml.at_xpath("/xmlns:feed/opensearch:Query")
     expect(query_el).not_to be_nil
-    expect(query_el.attributes["role"]).to eq "request"
-    expect(query_el.attributes["searchTerms"]).to eq ""
-    expect(query_el.attributes["startPage"]).to eq "2"
+    expect(query_el["role"]).to eq "request"
+    expect(query_el["searchTerms"]).to eq ""
+    expect(query_el["startPage"]).to eq "2"
   end
 
   it "has ten entries" do
@@ -116,27 +113,27 @@ RSpec.describe "catalog/index" do
     end
 
     describe "with an author" do
-      let(:entry) { response_xml.elements.to_a("/feed/entry")[0] }
+      let(:entry) { response_xml.xpath("/xmlns:feed/xmlns:entry")[0] }
 
       it "has author tag" do
         render template: 'catalog/index', formats: [:atom]
-        expect(entry.elements["author/name"].text).to eq 'xyz'
+        expect(entry.at_xpath("xmlns:author/xmlns:name").text).to eq 'xyz'
       end
     end
 
     describe "without an author" do
-      let(:entry) { response_xml.elements.to_a("/feed/entry")[1] }
+      let(:entry) { response_xml.xpath("/xmlns:feed/xmlns:entry")[1] }
 
       it "does not have an author tag" do
         render template: 'catalog/index', formats: [:atom]
-        expect(entry.elements["author/name"]).to be_nil
+        expect(entry.at_xpath("xmlns:author/xmlns:name")).to be_nil
       end
     end
   end
 
   describe "when content_format is specified" do
     describe "for an entry with content available" do
-      let(:entry) { response_xml.elements.to_a("/feed/entry")[1].to_s }
+      let(:entry) { response_xml.xpath("/xmlns:feed/xmlns:entry")[1].to_s }
 
       it "includes a link rel tag" do
         render template: 'catalog/index', formats: [:atom]
@@ -150,7 +147,7 @@ RSpec.describe "catalog/index" do
     end
 
     describe "for an entry with NO content available" do
-      let(:entry) { response_xml.elements.to_a("/feed/entry")[5].to_s }
+      let(:entry) { response_xml.xpath("/xmlns:feed/xmlns:entry")[5].to_s }
 
       it "does not have content embedded" do
         render template: 'catalog/index', formats: [:atom]
