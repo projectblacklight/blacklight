@@ -1,0 +1,256 @@
+---
+ja:
+  blacklight:
+    advanced_search:
+      any_of: "いずれか:"
+      form:
+        limit_criteria_heading_html: "<strong>かつ</strong>、次の条件に当てはまるもの"
+        query_criteria_heading_html: 以下の項目の%{select_menu}に一致
+        search_btn_html: 検索
+        search_context: 現在の検索条件
+        sort_label: 並び順
+        start_over_html: 条件をクリア
+        title: 詳細検索
+      more_options: 詳細検索
+      op:
+        label: 検索演算子
+        must: すべて
+        should: いずれか
+      or_html: " または "
+      page_title: 詳細検索 - %{application_name}
+    and: かつ
+    application_name: Blacklight
+    back_to_bookmarks: ブックマークに戻る
+    back_to_search: 検索結果に戻る
+    bookmarks:
+      add:
+        button: ブックマーク
+        failure: 申し訳ありません。ブックマークを保存できませんでした。
+        success:
+          one: ブックマークに追加しました。
+          other: ブックマークに追加しました。
+      clear:
+        action_confirm: ブックマークをすべて削除しますか？
+        action_title: ブックマークをすべて削除
+        failure: 申し訳ありません。ブックマークを削除できませんでした。
+        success: ブックマークをすべて削除しました。
+      delete: 削除
+      list_title: ブックマーク一覧
+      need_login: ブックマークを表示・管理するにはログインしてください。
+      no_bookmarks: ブックマークはありません
+      page_title: ブックマーク - %{application_name}
+      remove:
+        action_confirm: このブックマークを削除しますか？
+        button: ブックマークを削除
+        failure: 申し訳ありません。ブックマークを削除できませんでした。
+        success: ブックマークを削除しました。
+      title: ブックマーク
+    citation:
+      apa: APA
+      chicago: Chicago
+      mla: MLA
+    did_you_mean: "もしかして: %{options}"
+    email:
+      errors:
+        to:
+          blank: 送信するには宛先を入力してください
+          invalid: 有効なメールアドレスを入力してください
+      form:
+        message: "メッセージ:"
+        submit: 送信
+        title: メールで送信
+        to: "メールアドレス:"
+      success: メールを送信しました
+      text:
+        default_title: （タイトルなし）
+        message: "メッセージ: %{message}"
+        subject:
+          one: "資料レコード: %{title}"
+          other: 資料レコード
+        url: "URL: %{url}"
+    entry_name:
+      default:
+        one: 資料
+        other: 資料
+      grouped:
+        default:
+          one: グループ
+          other: グループ
+    header_links:
+      bookmarks: ブックマーク
+      login: ログイン
+      logout: ログアウト
+      search_history: 検索履歴
+    main:
+      aria:
+        main_container: メインコンテンツ
+    modal:
+      close: 閉じる
+    or: または
+    search:
+      atom_feed: 検索結果の Atom フィード
+      bookmarks:
+        absent: ブックマーク
+        inprogress: 保存中…
+        present: ブックマーク済み
+      documents:
+        aria:
+          limit_search: 検索結果の絞り込み
+          search_results: 検索結果
+        counter: "%{counter}. "
+      entry_pagination_info:
+        one: "<strong>1 件中 1 件目</strong>"
+        other: "<strong>%{total}</strong> 件中 <strong>%{current}</strong> 件目"
+      errors:
+        invalid_solr_id: 申し訳ありません。指定された資料は存在しません。
+      facets:
+        all: すべて
+        clear: 絞り込みを解除
+        count: "%{number}"
+        group:
+          close: 絞り込み項目を隠す
+          open: 絞り込み項目を表示
+        missing: "[値なし]"
+        more_html: <span class="visually-hidden">%{field_name}を</span>さらに表示 »
+        pivot:
+          hide: 隠す
+          show: 表示
+        selected:
+          remove: "[解除]"
+        sort:
+          count: 件数順
+          index: 名前順
+        suggest:
+          label: "%{field_label}を絞り込む"
+          placeholder: 絞り込み…
+        title: 絞り込み
+      filters:
+        label: "%{label}:"
+        remove:
+          label_value: "絞り込み条件「%{label}: %{value}」を解除"
+          value: 絞り込み条件「%{value}」を解除
+        title: "選択中の条件:"
+      form:
+        search:
+          label: 検索語
+          placeholder: 検索…
+        search_field:
+          label: 検索対象
+          post_label: で検索
+          title: 検索対象の項目
+        submit: 検索
+      group:
+        more: さらに表示 »
+      header: 検索
+      index:
+        label: "%{label}:"
+      page_title:
+        constraint: "%{label}: %{value}"
+        many_constraint_values: "%{values} 件選択"
+        title: "%{constraints} - %{application_name} 検索結果"
+        joiner: " / "
+      pagination:
+        title: 検索結果のページ送り
+      pagination_info:
+        no_items_found: 該当する%{entry_name}はありません
+        pages:
+          one: "<strong>%{total_num}</strong> 件中 <strong>%{start_num}</strong> - <strong>%{end_num}</strong> 件"
+          other: "<strong>%{total_num}</strong> 件中 <strong>%{start_num}</strong> - <strong>%{end_num}</strong> 件"
+        single_item_found: "<strong>1</strong> 件の%{entry_name}が見つかりました"
+      per_page:
+        aria_label: 検索結果のページ送り
+        button_label: "%{count} 件ずつ表示"
+        button_label_html: '%{count}<span class="d-none d-sm-inline"> 件ずつ表示</span>'
+        label: '%{count}<span class="visually-hidden"> 件ずつ表示</span>'
+        submit: 更新
+        title: 1ページあたりの表示件数
+      rss_feed: 検索結果の RSS フィード
+      search_results: 検索結果
+      show:
+        label: "%{label}:"
+        title: "%{document_title} - %{application_name}"
+      sort:
+        label: "並び順: %{field}"
+        label_html: '並び順<span class="d-none d-sm-inline">: %{field}</span>'
+        submit: 並べ替え
+      start_over: 検索をやり直す
+      view:
+        list: リスト
+      view_title: "表示形式: "
+      zero_results:
+        modify_search: 検索条件を変えてみてください
+        search_everything: すべての項目で検索する
+        search_fields: "%{search_fields}で検索しました"
+        title: 検索条件に一致する資料はありませんでした
+        use_fewer_keywords: キーワードを減らして検索し、左側のリンクで絞り込んでみてください。
+    search_history:
+      clear:
+        action_confirm: 検索履歴をすべて削除しますか？
+        action_title: 検索履歴を削除
+        failure: 検索履歴を削除できませんでした。
+        success: 検索履歴を削除しました。
+      forget: 削除
+      no_history: 検索履歴はありません
+      page_title: 検索履歴 - %{application_name}
+      recent: 最近の検索
+      save: 保存
+      title: 検索履歴
+    skip_links:
+      first_result: 最初の検索結果へ移動
+      label: スキップリンク
+      main_content: 本文へ移動
+      search_field: 検索欄へ移動
+    sms:
+      errors:
+        carrier:
+          blank: 携帯電話会社を選択してください
+          invalid: 有効な携帯電話会社を選択してください
+        to:
+          blank: 送信するには宛先の電話番号を入力してください
+          invalid: 有効な10桁の電話番号を入力してください
+      form:
+        carrier: 携帯電話会社
+        carrier_prompt: 携帯電話会社を選択してください
+        submit: 送信
+        title: SMS で送信
+        to: "電話番号:"
+      success: SMS を送信しました
+      text:
+        url: "リンク: %{url}"
+    theme:
+      auto: 自動
+      dark: ダーク
+      light: ライト
+      toggle: テーマを切り替え
+    tools:
+      citation: 引用
+      clear: クリア
+      email: メール
+      sms: SMS で送信
+      title: ツール
+    top_navbar:
+      aria:
+        container_label: メインナビゲーション
+    welcome: ようこそ
+  views:
+    pagination:
+      aria:
+        container_label: ページ送りのリンク
+        current_page: 現在のページ（%{page} ページ）
+        go_to_first_page: 最初のページへ
+        go_to_last_page: 最後のページへ
+        go_to_next_page: 次のページへ
+        go_to_page: "%{page} ページへ"
+        go_to_previous_page: 前のページへ
+      first: "&laquo; 最初"
+      last: 最後 &raquo;
+      next: 次へ &raquo;
+      previous: "&laquo; 前へ"
+      truncate: "…"
+    pagination_compact:
+      next: 次へ &raquo;
+      previous: "&laquo; 前へ"
+  layouts:
+    catalog_result:
+      aria:
+        sidebar: ツール
