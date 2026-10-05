@@ -1,4 +1,4 @@
-<search>
+<%= content_tag :search, class: classes do %>
   <% facet_group_names.each do |groupname| %>
     <% fields = facet_fields_in_group(groupname) %>
     <%= render group_component_class.new(id: groupname) do |component| %>
@@ -7,4 +7,4 @@
       <% end %>
     <% end %>
   <% end %>
-</search>
+<% end %>
