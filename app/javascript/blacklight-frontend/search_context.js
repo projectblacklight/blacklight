@@ -23,8 +23,16 @@ SearchContext.handleSearchContextMethod = function(event) {
   form.action = href
 
 
-  let formContent = `<input name="_method" value="post" type="hidden" />
-    <input name="redirect" value="${link.getAttribute('href')}" type="hidden" />`
+  const appendHiddenInput = (name, value) => {
+    const input = document.createElement('input')
+    input.type = 'hidden'
+    input.name = name
+    input.value = value
+    form.appendChild(input)
+  }
+
+  appendHiddenInput('_method', 'post')
+  appendHiddenInput('redirect', link.getAttribute('href'))
 
   // check for meta keys.. if set, we should open in a new tab
   if(event.metaKey || event.ctrlKey) {
@@ -33,19 +41,20 @@ SearchContext.handleSearchContextMethod = function(event) {
   }
 
   if (csrfParam !== undefined && csrfToken !== undefined) {
-    formContent += `<input name="${csrfParam}" value="${csrfToken}" type="hidden" />`
+    appendHiddenInput(csrfParam, csrfToken)
   }
 
   // Must trigger submit by click on a button, else "submit" event handler won't work!
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit
-  formContent += '<input type="submit" />'
+  const submit = document.createElement('input')
+  submit.type = 'submit'
+  form.appendChild(submit)
 
   if (target) { form.setAttribute('target', target); }
 
   form.style.display = 'none'
-  form.innerHTML = formContent
   document.body.appendChild(form)
-  form.querySelector('[type="submit"]').click()
+  submit.click()
 
   event.preventDefault()
 };
