@@ -41,12 +41,10 @@
         <%= link_to "This result will still be within modal", some_link, data: { blacklight_modal: "preserve" } %>
       </div>
 
-
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bl-dismiss="modal">Close</button>
       </div>
     </div>
-
 
   One additional feature. If the content returned from the AJAX form submission
   can be a turbo-stream that defines some HTML fragementsand where on the page to put them:
@@ -57,11 +55,11 @@ const Modal = (() => {
   const modal = {}
 
   // a Bootstrap modal div that should be already on the page hidden
-  modal.modalSelector = '#blacklight-modal';
+  modal.modalSelector = '#blacklight-modal'
 
   // Trigger selectors identify forms or hyperlinks that should open
   // inside a modal dialog.
-  modal.triggerLinkSelector  = 'a[data-blacklight-modal~=trigger]';
+  modal.triggerLinkSelector  = 'a[data-blacklight-modal~=trigger]'
 
   // preserve selectors identify forms or hyperlinks that, if activated already
   // inside a modal dialog, should have destinations remain inside the modal -- but
@@ -70,16 +68,16 @@ const Modal = (() => {
   // No need to repeat selectors from trigger selectors, those will already
   // be preserved. MUST be manually prefixed with the modal selector,
   // so they only apply to things inside a modal.
-  modal.preserveLinkSelector = modal.modalSelector + ' a[data-blacklight-modal~=preserve]';
+  modal.preserveLinkSelector = modal.modalSelector + ' a[data-blacklight-modal~=preserve]'
 
-  modal.containerSelector    = '[data-blacklight-modal~=container]';
+  modal.containerSelector    = '[data-blacklight-modal~=container]'
 
   // Called on fatal failure of ajax load, function returns content
   // to show to user in modal.  Right now called only for network errors.
   modal.onFailure = function (error) {
-      console.error('Server error:', this.url, error);
+    console.error('Server error:', this.url, error)
 
-      const contents = `<div class="modal-header">
+    const contents = `<div class="modal-header">
         <div class="modal-title">There was a problem with your request.</div>
         <button type="button" class="blacklight-modal-close btn-close" data-bl-dismiss="modal" aria-label="Close">
         </button>
@@ -89,17 +87,17 @@ const Modal = (() => {
           <pre>${this.url}\n${error}</pre>
         </div>`
 
-      modal.target().querySelector('.modal-content').innerHTML = contents
+    modal.target().querySelector('.modal-content').innerHTML = contents
 
-      modal.show();
+    modal.show()
   }
 
   // Add the passed in contents to the modal and display it.
   // We have specific handling so that scripts returned from the ajax call are executed.
   // This enables adding a script like recaptcha to prevent bots from sending emails.
   modal.receiveAjax = function (contents) {
-    const domparser = new DOMParser();
-    const dom = domparser.parseFromString(contents, "text/html")
+    const domparser = new DOMParser()
+    const dom = domparser.parseFromString(contents, 'text/html')
     // If there is a containerSelector on the document, use its children.
     let elements = dom.querySelectorAll(`${modal.containerSelector} > *`)
     const frag = document.createDocumentFragment()
@@ -113,13 +111,13 @@ const Modal = (() => {
     modal.target().querySelector('.modal-content').replaceChildren(frag)
 
     // send custom event with the modal dialog div as the target
-    var e = new CustomEvent('loaded.blacklight.blacklight-modal', { bubbles: true, cancelable: true });
+    const e = new CustomEvent('loaded.blacklight.blacklight-modal', { bubbles: true, cancelable: true })
     modal.target().dispatchEvent(e)
 
     // if they did preventDefault, don't show the dialog
-    if (e.defaultPrevented) return;
-    modal.show();
-  };
+    if (e.defaultPrevented) return
+    modal.show()
+  }
 
   // DOMParser doesn't allow scripts to be executed.  This fixes that.
   modal.activateScripts = function (frag) {
@@ -132,18 +130,18 @@ const Modal = (() => {
   }
 
   modal.modalAjaxLinkClick = function(e) {
-    e.preventDefault();
+    e.preventDefault()
     const href = e.target.closest('a').getAttribute('href')
     fetch(href, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
       .then(response => {
-         if (!response.ok) {
-           throw new TypeError("Request failed");
-         }
-         return response.text();
-       })
+        if (!response.ok) {
+          throw new TypeError('Request failed')
+        }
+        return response.text()
+      })
       .then(data => modal.receiveAjax(data))
       .catch(error => modal.onFailure(error))
-  };
+  }
 
   modal.setupModal = function() {
     // Register several click handlers in ONE event handler for efficiency
@@ -160,57 +158,57 @@ const Modal = (() => {
 
     // Make sure user-agent dismissal of html 'dialog', etc `esc` key, triggers
     // our hide logic, including events and scroll restoration.
-    const modalDom = modal.target();
+    const modalDom = modal.target()
     if (modalDom) {
       modal.target().addEventListener('cancel', (e) => {
-        e.preventDefault(); // 'hide' will close the modal unless cancelled
+        e.preventDefault() // 'hide' will close the modal unless cancelled
 
-        modal.hide();
-      });
+        modal.hide()
+      })
     }
-  };
+  }
 
   modal.hide = function (el) {
-    const dom = modal.target();
+    const dom = modal.target()
 
     if (!dom.open) return
 
-    var e = new CustomEvent('hide.blacklight.blacklight-modal', { bubbles: true, cancelable: true });
+    const e = new CustomEvent('hide.blacklight.blacklight-modal', { bubbles: true, cancelable: true })
     dom.dispatchEvent(e)
 
     dom.close()
 
     // Turn body scrolling back to what it was
-    document.body.style["overflow"] = modal.originalBodyOverflow;
-    document.body.style["padding-right"] = modal.originalBodyPaddingRight;
-    modal.originalBodyOverflow = undefined;
-    modal.originalBodyPaddingRight = undefined;
+    document.body.style['overflow'] = modal.originalBodyOverflow
+    document.body.style['padding-right'] = modal.originalBodyPaddingRight
+    modal.originalBodyOverflow = undefined
+    modal.originalBodyPaddingRight = undefined
   }
 
   modal.show = function(el) {
-    const dom = modal.target();
+    const dom = modal.target()
 
     if (dom.open) return
 
-    var e = new CustomEvent('show.blacklight.blacklight-modal', { bubbles: true, cancelable: true });
+    const e = new CustomEvent('show.blacklight.blacklight-modal', { bubbles: true, cancelable: true })
     dom.dispatchEvent(e)
 
     dom.showModal()
 
     // Turn off body scrolling
-    modal.originalBodyOverflow = document.body.style['overflow'];
-    modal.originalBodyPaddingRight = document.body.style['padding-right'];
-    document.body.style["overflow"] = "hidden"
-    document.body.style["padding-right"] = "0px"
+    modal.originalBodyOverflow = document.body.style['overflow']
+    modal.originalBodyPaddingRight = document.body.style['padding-right']
+    document.body.style['overflow'] = 'hidden'
+    document.body.style['padding-right'] = '0px'
   }
 
   modal.target = function() {
-    return document.querySelector(modal.modalSelector);
+    return document.querySelector(modal.modalSelector)
   }
 
   modal.setupModal()
 
-  return modal;
+  return modal
 })()
 
 export default Modal

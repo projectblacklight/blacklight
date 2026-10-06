@@ -1,27 +1,28 @@
-const SearchContext = (e) => {
+const SearchContext = e => {
   const contextLink = e.target.closest('[data-context-href]')
   if (contextLink) {
     SearchContext.handleSearchContextMethod.call(contextLink, e)
   }
 }
 
-SearchContext.csrfToken = () => document.querySelector('meta[name=csrf-token]')?.content
-SearchContext.csrfParam = () => document.querySelector('meta[name=csrf-param]')?.content
+SearchContext.csrfToken = () =>
+  document.querySelector('meta[name=csrf-token]')?.content
+SearchContext.csrfParam = () =>
+  document.querySelector('meta[name=csrf-param]')?.content
 
 // this is the Rails.handleMethod with a couple adjustments, described inline:
 // first, we're attaching this directly to the event handler, so we can check for meta-keys
-SearchContext.handleSearchContextMethod = function(event) {
+SearchContext.handleSearchContextMethod = function (event) {
   const link = this
 
   // instead of using the normal href, we need to use the context href instead
-  let href = link.getAttribute('data-context-href')
+  const href = link.getAttribute('data-context-href')
   let target = link.getAttribute('target')
-  let csrfToken = SearchContext.csrfToken()
-  let csrfParam = SearchContext.csrfParam()
-  let form = document.createElement('form')
+  const csrfToken = SearchContext.csrfToken()
+  const csrfParam = SearchContext.csrfParam()
+  const form = document.createElement('form')
   form.method = 'post'
   form.action = href
-
 
   const appendHiddenInput = (name, value) => {
     const input = document.createElement('input')
@@ -35,9 +36,9 @@ SearchContext.handleSearchContextMethod = function(event) {
   appendHiddenInput('redirect', link.getAttribute('href'))
 
   // check for meta keys.. if set, we should open in a new tab
-  if(event.metaKey || event.ctrlKey) {
-    form.dataset.turbo = "false";
-    target = '_blank';
+  if (event.metaKey || event.ctrlKey) {
+    form.dataset.turbo = 'false'
+    target = '_blank'
   }
 
   if (csrfParam !== undefined && csrfToken !== undefined) {
@@ -50,14 +51,16 @@ SearchContext.handleSearchContextMethod = function(event) {
   submit.type = 'submit'
   form.appendChild(submit)
 
-  if (target) { form.setAttribute('target', target); }
+  if (target) {
+    form.setAttribute('target', target)
+  }
 
   form.style.display = 'none'
   document.body.appendChild(form)
   submit.click()
 
   event.preventDefault()
-};
+}
 
 document.addEventListener('click', SearchContext)
 
