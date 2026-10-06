@@ -6,19 +6,15 @@
        being set to "put" or "delete" -- that's the Rails method to pretend
        to be doing a certain HTTP verb. So same URL, PUT to add, DELETE
        to remove. This plugin assumes that.
-       Plus, the form this is applied to should provide a data-doc-id
-       attribute (HTML5-style doc-*) that contains the id/primary key
-       of the object in question -- used by plugin for a unique value for
-       DOM id's.
   Uses HTML for a checkbox compatible with Bootstrap.
-   new CheckboxSubmit(document.querySelector('form.something')).render()
+   new CheckboxSubmit(document.querySelector('form.something')).clicked()
 */
 export default class CheckboxSubmit {
   constructor(form) {
     this.form = form
   }
 
-  clicked(evt) {
+  clicked() {
     this.spanTarget.innerHTML = this.form.getAttribute('data-inprogress')
     this.labelTarget.setAttribute('disabled', 'disabled');
     this.checkboxTarget.setAttribute('disabled', 'disabled');
