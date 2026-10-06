@@ -7,9 +7,9 @@
 // debounced // does print to the screen
 // ```
 export default function debounce(func, timeout = 200) {
-    let timer;
-    return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => { func.apply(this, args); }, timeout);
-    };
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => { func.apply(this, args) }, timeout)
+  }
 }
