@@ -45,7 +45,7 @@ module Blacklight
 
       (@has_actions_slot && get_slot(:actions)) ||
         ([@document_component&.actions] if @document_component&.actions.present?) ||
-        [helpers.render_index_doc_actions(presenter.document, wrapping_class: 'index-document-functions col-sm-3 col-lg-2 mb-4 mb-sm-0')]
+        [helpers.render_index_doc_actions(presenter.document, wrapping_class: 'index-document-functions col-sm-3 sm:col-3 col-lg-2 lg:col-2 mb-4 mb-sm-0 sm:mb-0')]
     end
 
     def counter

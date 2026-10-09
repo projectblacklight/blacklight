@@ -6,7 +6,7 @@ module Blacklight
     class ViewTypeButtonComponent < Blacklight::Component
       with_collection_parameter :view
       # @param [Blacklight::Configuration::View] view
-      def initialize(view:, key: nil, selected: false, search_state: nil, classes: 'btn btn-outline-secondary btn-icon')
+      def initialize(view:, key: nil, selected: false, search_state: nil, classes: 'btn btn-outline-secondary btn-outline theme-secondary btn-icon')
         @view = view
         @key = key || view.key
         @selected = selected

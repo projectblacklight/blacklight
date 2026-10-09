@@ -31,17 +31,17 @@
   Here's an example of what might be returned, demonstrating most of the devices available:
 
     <div data-blacklight-modal="container">
-      <div class="modal-header">
+      <div class="modal-header dialog-header">
         <button type="button" class="btn-close" data-bl-dismiss="modal" aria-hidden="true">×</button>
-        <h3 class="modal-title">Request Placed</h3>
+        <h3 class="modal-title dialog-title">Request Placed</h3>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body dialog-body">
         <p>Some message</p>
         <%= link_to "This result will still be within modal", some_link, data: { blacklight_modal: "preserve" } %>
       </div>
 
-      <div class="modal-footer">
+      <div class="modal-footer dialog-footer">
         <button type="button" class="btn btn-secondary" data-bl-dismiss="modal">Close</button>
       </div>
     </div>
@@ -77,12 +77,12 @@ const Modal = (() => {
   modal.onFailure = function (error) {
     console.error('Server error:', this.url, error)
 
-    const contents = `<div class="modal-header">
-        <div class="modal-title">There was a problem with your request.</div>
+    const contents = `<div class="modal-header dialog-header">
+        <div class="modal-title dialog-title">There was a problem with your request.</div>
         <button type="button" class="blacklight-modal-close btn-close" data-bl-dismiss="modal" aria-label="Close">
         </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body dialog-body">
           <p>Expected a successful response from the server, but got an error</p>
           <pre>${this.url}\n${error}</pre>
         </div>`
