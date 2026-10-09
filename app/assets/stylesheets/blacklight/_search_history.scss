@@ -1,6 +1,6 @@
 /* Search History */
 .search-history {
-  --bl-history-filter-name-color: var(--bs-secondary-color);
+  --bl-history-filter-name-color: var(--bs-secondary-color, var(--bs-fg-2));
 
   .constraint {
     padding-inline-end: $spacer;

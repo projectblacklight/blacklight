@@ -26,9 +26,9 @@
   <% end %>
 
   <% if dark_mode_support? %>
-    <li class="nav-item py-2 py-md-1 col-12 col-md-auto">
-      <div class="vr d-none d-md-flex h-100 mx-md-2 text-white"></div>
-      <hr class="d-md-none my-2 text-white-50">
+    <li class="nav-item py-2 py-md-1 md:py-1 col-12 col-md-auto md:col-auto">
+      <div class="vr d-none d-md-flex md:d-flex h-100 mx-md-2 md:mx-2 text-white fg-white"></div>
+      <hr class="d-md-none md:d-none my-2 text-white-50 fg-white opacity-50">
     </li>
     <%= render Blacklight::ThemeSwitcherComponent.new %>
   <% end %>

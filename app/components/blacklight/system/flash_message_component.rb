@@ -18,11 +18,11 @@ module Blacklight
 
       def alert_class(type)
         case type.to_s
-        when 'success' then "alert-success"
-        when 'notice'  then "alert-info"
-        when 'alert'   then "alert-warning"
-        when 'error'   then "alert-danger"
-        else "alert-#{type}"
+        when 'success' then "alert-success theme-success"
+        when 'notice'  then "alert-info theme-info"
+        when 'alert'   then "alert-warning theme-warning"
+        when 'error'   then "alert-danger theme-danger"
+        else "alert-#{type} theme-#{type}"
         end
       end
     end

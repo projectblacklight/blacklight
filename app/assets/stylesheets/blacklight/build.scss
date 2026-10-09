@@ -1,4 +1,11 @@
-@import "bootstrap/scss/functions";
-@import "bootstrap/scss/mixins/breakpoints";
-@import "bootstrap/scss/variables";
+// Keep this stylesheet independent of Bootstrap's Sass internals, which changed in v6.
+$spacer: 1rem;
+$input-btn-padding-y: 0.375rem;
+$input-btn-padding-x: 0.75rem;
+
+@mixin media-breakpoint-down($breakpoint) {
+  @if $breakpoint == lg {
+    @media (max-width: 991.98px) { @content; }
+  }
+}
 @import "blacklight";

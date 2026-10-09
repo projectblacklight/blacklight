@@ -4,22 +4,22 @@
              class: "modal_form",
              method: :post do %>
 
-  <div class="modal-body">
+  <div class="modal-body dialog-body">
     <%= render '/shared/flash_msg' %>
     <div class="row mb-3">
-      <label class="col-form-label col-sm-2" for="to">
+      <label class="col-form-label col-sm-2 sm:col-2" for="to">
         <%= t('blacklight.email.form.to') %>
       </label>
-      <div class="col-sm-10">
+      <div class="col-sm-10 sm:col-10">
         <%= email_field_tag :to, params[:to], class: 'form-control', required: true %>
       </div>
     </div>
 
     <div class="row mb-3">
-      <label class="col-form-label col-sm-2" for="message">
+      <label class="col-form-label col-sm-2 sm:col-2" for="message">
         <%= t('blacklight.email.form.message') %>
       </label>
-      <div class="col-sm-10">
+      <div class="col-sm-10 sm:col-10">
         <%= text_area_tag :message, params[:message], class: 'form-control' %>
       </div>
     </div>
@@ -34,7 +34,7 @@
       <%= hidden_field_tag "per_page", params[:per_page] %>
     <%- end -%>
   </div>
-  <div class="modal-footer">
-  <button type="submit" class="btn btn-primary"> <%= t('blacklight.sms.form.submit') %></button>
+  <div class="modal-footer dialog-footer">
+  <button type="submit" class="btn btn-primary btn-solid theme-primary"> <%= t('blacklight.sms.form.submit') %></button>
   </div>
 <% end %>
