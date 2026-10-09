@@ -11,7 +11,10 @@ module Blacklight
     class_option :devise, type: :boolean, default: false, aliases: "-d", desc: "Use Devise as authentication logic."
     class_option :marc, type: :boolean, default: false, aliases: "-m", desc: "Generate MARC-based demo."
     class_option :'bootstrap-version', type: :string, default: nil, desc: "Set the generated app's bootstrap version"
-    class_option :'skip-assets', type: :boolean, default: false, desc: "Skip generating javascript and css assets into the application"
+    # skip-assets should only happen by default if there's no Sprockets and
+    # Jsbundling is defined instead. Should only effect the generator, but this
+    # is the setup blacklight_range_limit relies on.
+    class_option :'skip-assets', type: :boolean, default: !defined?(Sprockets) && !defined?(Jsbundling).nil?, desc: "Skip generating javascript and css assets into the application"
     class_option :'skip-solr', type: :boolean, default: false, desc: "Skip generating solr configurations."
 
     desc <<-EOS
