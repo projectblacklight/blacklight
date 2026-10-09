@@ -1,9 +1,9 @@
 .dl-invert {
   dt {
     font-weight: normal;
-    color: var(--bs-secondary-color);
+    color: var(--bs-secondary-color, var(--bs-fg-2));
 
-    @media (min-width: breakpoint-min(md)) {
+    @media (min-width: 768px) {
       text-align: end;
     }
   }
