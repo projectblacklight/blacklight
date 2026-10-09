@@ -246,7 +246,7 @@ RSpec.describe CatalogController, :api do
 
     it "redirects to show action for doc id" do
       put :track, params: { id: doc_id, counter: 3 }
-      assert_redirected_to(solr_document_path(doc_id))
+      expect(response).to redirect_to(solr_document_path(doc_id))
     end
 
     it "HTTP status code for redirect should be 303" do
@@ -256,17 +256,17 @@ RSpec.describe CatalogController, :api do
 
     it "redirects to the path given in the redirect param" do
       put :track, params: { id: doc_id, counter: 3, redirect: '/xyz' }
-      assert_redirected_to("/xyz")
+      expect(response).to redirect_to("/xyz")
     end
 
     it "redirects to the path of the uri given in the redirect param" do
       put :track, params: { id: doc_id, counter: 3, redirect: 'http://localhost:3000/xyz' }
-      assert_redirected_to("/xyz")
+      expect(response).to redirect_to("/xyz")
     end
 
     it "keeps querystring on redirect" do
       put :track, params: { id: doc_id, counter: 3, redirect: 'http://localhost:3000/xyz?locale=pt-BR' }
-      assert_redirected_to("/xyz?locale=pt-BR")
+      expect(response).to redirect_to("/xyz?locale=pt-BR")
     end
   end
 
