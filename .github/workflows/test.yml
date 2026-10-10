@@ -33,7 +33,7 @@ jobs:
       RAILS_VERSION: ${{ matrix.rails_version }}
       SOLR_VERSION: ${{ matrix.solr_version || 'latest' }}
       VIEW_COMPONENT_VERSION: ${{ matrix.view_component_version }}
-      BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version }}
+      BOOTSTRAP_VERSION: ${{ matrix.bootstrap_version || '5.3.8' }}
       BLACKLIGHT_API_TEST: ${{ matrix.api }}
       ENGINE_CART_RAILS_OPTIONS: "--skip-git --skip-listen --skip-spring --skip-keeps --skip-kamal --skip-thruster --skip-solid --skip-coffee --skip-test ${{ matrix.additional_engine_cart_rails_options }}"
       BUNDLER_VERSION: ${{ matrix.bundler_version || '2.7.2' }}

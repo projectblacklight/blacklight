@@ -1,4 +1,5 @@
 import BookmarkToggle from 'blacklight-frontend/bookmark_toggle'
+import BootstrapCompatibility from 'blacklight-frontend/bootstrap_compatibility'
 import ButtonFocus from 'blacklight-frontend/button_focus'
 import ColorThemeSwitcher from 'blacklight-frontend/color_theme_switcher'
 import FacetSuggest from 'blacklight-frontend/facet_suggest'
@@ -8,6 +9,7 @@ import Core from 'blacklight-frontend/core'
 
 export default {
   BookmarkToggle,
+  BootstrapCompatibility,
   ButtonFocus,
   ColorThemeSwitcher,
   FacetSuggest,

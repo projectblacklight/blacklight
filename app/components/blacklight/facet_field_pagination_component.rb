@@ -2,7 +2,7 @@
 
 module Blacklight
   class FacetFieldPaginationComponent < Blacklight::Component
-    def initialize(facet_field:, button_classes: %w[btn btn-outline-secondary])
+    def initialize(facet_field:, button_classes: %w[btn btn-outline-secondary btn-outline theme-secondary])
       @facet_field = facet_field
       @button_classes = button_classes.join(' ')
     end
