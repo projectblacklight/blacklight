@@ -1,5 +1,5 @@
-<% # this partial is deprecated.  catalog/index now renders the component %>
-<% conf = blacklight_config.view_config(document_index_view_type) %>
+<%# this partial is deprecated.  catalog/index now renders the component %>
+<% conf = blacklight_config_presenter.view_config %>
 <%= render conf.sidebar_component.new(blacklight_config: blacklight_config,
                                       response: @response,
                                       view_config: conf) %>

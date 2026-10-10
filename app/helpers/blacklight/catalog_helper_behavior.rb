@@ -99,7 +99,7 @@ module Blacklight::CatalogHelperBehavior
   #
   # @return [Blacklight::Configuration::SortField]
   def current_sort_field
-    (blacklight_config.sort_fields.values.find { |f| f.sort == @response.sort } if @response && @response.sort.present?) || blacklight_config.sort_fields[params[:sort]] || default_sort_field
+    (blacklight_config.sort_fields.values.find { |f| f.sort == @response.sort } if @response && @response.sort.present?) || blacklight_config_presenter.current_sort_field
   end
 
   ##
@@ -191,13 +191,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [Hash] query_params the query parameters to check
   # @return [Symbol] (e.g. :index, :gallery)
   def document_index_view_type query_params = params || {}
-    view_param = query_params[:view]
-    view_param ||= session[:preferred_view] if respond_to?(:session)
-    if view_param && document_index_views.key?(view_param.to_sym)
-      view_param.to_sym
-    else
-      default_document_index_view_type
-    end
+    blacklight_config_presenter.current_index_view(query_params)
   end
 
   private

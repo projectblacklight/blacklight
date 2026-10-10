@@ -1,6 +1,6 @@
 <%= render Blacklight::System::ModalComponent.new do |component| %>
   <% component.with_title { facet_field_label(@facet.key) } %>
-  <% view_config = blacklight_config.view_config(document_index_view_type) %>
+  <% view_config = blacklight_config_presenter.view_config %>
 
   <%= render view_config.facet_filters_component.new(presenter: @presenter) %>
 
