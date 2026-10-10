@@ -20,8 +20,8 @@ export default class CheckboxSubmit {
 
   clicked(evt) {
     this.spanTarget.innerHTML = this.form.getAttribute('data-inprogress')
-    this.labelTarget.setAttribute('disabled', 'disabled');
-    this.checkboxTarget.setAttribute('disabled', 'disabled');
+    this.labelTarget.setAttribute('disabled', 'disabled')
+    this.checkboxTarget.setAttribute('disabled', 'disabled')
     fetch(this.formTarget.getAttribute('action'), {
       body: new FormData(this.formTarget),
       method: this.formTarget.getAttribute('method').toUpperCase(),
@@ -31,7 +31,7 @@ export default class CheckboxSubmit {
         'X-CSRF-Token': document.querySelector('meta[name=csrf-token]')?.content
       }
     }).then((response) => {
-      if (response.ok) return response.json();
+      if (response.ok) return response.json()
       return Promise.reject('response was not ok')
     }).then((json) => {
       this.labelTarget.removeAttribute('disabled')
@@ -41,10 +41,10 @@ export default class CheckboxSubmit {
       this.checkboxTarget.focus()
       this.updateStateFor(!this.checked)
       this.bookmarksCounter().forEach(counter => {
-        counter.innerHTML = json.bookmarks.count;
-      });
+        counter.innerHTML = json.bookmarks.count
+      })
 
-      var e = new CustomEvent('bookmark.blacklight', { detail: { checked: this.checked }, bubbles: true });
+      const e = new CustomEvent('bookmark.blacklight', { detail: { checked: this.checked }, bubbles: true })
       this.formTarget.dispatchEvent(e)
     }).catch((error) => {
       this.handleError(error)
@@ -76,7 +76,7 @@ export default class CheckboxSubmit {
   }
 
   handleError() {
-    alert("Unable to save the bookmark at this time.")
+    alert('Unable to save the bookmark at this time.')
   }
 
   updateStateFor(state) {
