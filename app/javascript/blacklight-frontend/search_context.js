@@ -13,14 +13,18 @@ SearchContext.csrfParam = () => document.querySelector('meta[name=csrf-param]')?
 SearchContext.handleSearchContextMethod = function(event) {
   const link = this
 
-  // instead of using the normal href, we need to use the context href instead
-  let href = link.getAttribute('data-context-href')
+  // instead of using the normal href, we need to use the context href instead.
+  // Only post to same-origin URLs, which also rules out javascript: URLs;
+  // otherwise fall through to the link's default behavior.
+  const contextUrl = new URL(link.getAttribute('data-context-href'), window.location.href)
+  if (contextUrl.origin !== window.location.origin) return
+
   let target = link.getAttribute('target')
   let csrfToken = SearchContext.csrfToken()
   let csrfParam = SearchContext.csrfParam()
   let form = document.createElement('form')
   form.method = 'post'
-  form.action = href
+  form.action = contextUrl.href
 
 
   const appendHiddenInput = (name, value) => {
