@@ -4,7 +4,7 @@ const BookmarkToggle = (e) => {
   const elementType = e.target.getAttribute('data-checkboxsubmit-target');
   if (elementType == 'checkbox' || elementType == 'label') {
     const form = e.target.closest('form');
-    if (form) new CheckboxSubmit(form).clicked(e);
+    if (form) new CheckboxSubmit(form).clicked();
     if (e.code == 'Space') e.preventDefault();
   }
 };

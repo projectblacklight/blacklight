@@ -1,7 +1,6 @@
 import includePaths from 'rollup-plugin-includepaths';
 
 
-const BUNDLE = process.env.BUNDLE === 'true'
 const ESM = process.env.ESM === 'true'
 
 const fileDest = `blacklight${ESM ? '.esm' : ''}`
