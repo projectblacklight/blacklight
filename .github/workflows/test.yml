@@ -6,6 +6,9 @@ on:
         type: string
         default: ""
         description: The branch or reference to run the workflow against
+permissions:
+  contents: read
+
 jobs:
   set_matrix:
     runs-on: ubuntu-latest

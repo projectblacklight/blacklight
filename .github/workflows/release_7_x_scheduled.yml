@@ -9,6 +9,9 @@ on:
     # Weekly at 9:35 on Friday
     # Somewhat weird timing so that it isn't delayed too much
     - cron: '35 9 * * 5'
+permissions:
+  contents: read
+
 jobs:
   lint:
     uses: projectblacklight/blacklight/.github/workflows/lint.yml@release-7.x
