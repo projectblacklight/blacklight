@@ -36,7 +36,7 @@ module Blacklight
       end
 
       def pagination_container_classes
-        has_header_tools? ? 'col-12 col-md-6 ms-auto' : ''
+        has_header_tools? ? 'col-12 col-md-6 md:col-6 ms-auto' : ''
       end
 
       def header_container_classes
@@ -66,11 +66,11 @@ module Blacklight
       end
 
       def classes
-        'd-inline-flex header-tools align-items-center col-12 col-md-6 ms-auto justify-content-md-end'
+        'd-inline-flex header-tools align-items-center col-12 col-md-6 md:col-6 ms-auto justify-content-md-end md:justify-content-end'
       end
 
       def link_classes
-        'btn btn-outline-primary ms-2'
+        'btn btn-outline-primary btn-outline theme-primary ms-2'
       end
 
       def render_header_tools
