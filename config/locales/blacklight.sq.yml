@@ -86,6 +86,7 @@ sq:
         all: Gjithë
         clear: Fshij filterin
         count: "%{number}"
+        faceted_search: "%{field_label} kërkim"
         group:
           close: Fshih aspektet
           open: Trego aspektet

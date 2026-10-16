@@ -86,6 +86,7 @@ pt-BR:
         all: Todo
         clear: Limpar
         count: "%{number}"
+        faceted_search: Pesquisa %{field_label}
         group:
           close: Ocultar facetas
           open: Mostrar facetas
