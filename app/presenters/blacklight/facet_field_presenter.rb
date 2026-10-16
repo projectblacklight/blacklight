@@ -91,6 +91,10 @@ module Blacklight
     # available), and used in display (with @response available) to create
     # a facet paginator with the right limit.
     def facet_limit
+      if in_modal? && !facet_field.limit
+        return facet_field.fetch(:more_limit, blacklight_config.default_more_limit)
+      end
+
       return unless facet_field.limit
 
       if @display_facet
