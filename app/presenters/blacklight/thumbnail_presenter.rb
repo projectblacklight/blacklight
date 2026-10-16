@@ -55,7 +55,25 @@ module Blacklight
                 view_context.image_tag image_url, image_options if image_url.present?
               end
 
-      value || default_thumbnail_value(image_options)
+      thumbnail_with_fallback(value, image_options)
+    end
+
+    # Stack the document's thumbnail over the default thumbnail, so the default
+    # shows through as a fallback while the thumbnail loads.
+    # @param [String] value the document's rendered thumbnail
+    # @param [Hash] image_options to pass to the fallback image tag
+    def thumbnail_with_fallback(value, image_options)
+      # If no thumbnail or no fallback, just render the other one directly
+      return default_thumbnail_value(image_options) if value.blank?
+
+      # The fallback shouldn't duplicate the ID of the real thumbnail
+      fallback = default_thumbnail_value(image_options.except(:id))
+      return value if fallback.blank?
+
+      # If we have both, stack them with the fallback underneath
+      view_context.tag.div(class: 'thumbnail-stack') do
+        view_context.safe_join([view_context.tag.div(fallback, class: 'thumbnail-fallback', aria: { hidden: true }), value])
+      end
     end
 
     def default_thumbnail_value(image_options)
