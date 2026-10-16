@@ -192,6 +192,22 @@ main {
   padding-left: 3rem;
 }
 
+.thumbnail-stack {
+  display: inline-grid;
+}
+.thumbnail-stack > * {
+  grid-area: 1/1;
+}
+.thumbnail-stack .thumbnail-fallback {
+  place-self: center;
+}
+.thumbnail-stack > img {
+  place-self: stretch;
+  min-width: 100%;
+  max-width: 0;
+  object-fit: cover;
+}
+
 .page-links {
   display: inline-block;
   border: 1px solid transparent;

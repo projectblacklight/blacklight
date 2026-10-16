@@ -14,6 +14,8 @@ class Blacklight::Configuration
     #   @return [Class] component class used to render the document metadata
     # @!attribute document_thumbnail_component
     #   @return [Class] component class used to render a document thumbnail
+    # @!attribute default_thumbnail
+    #   @return [String, Symbol, Proc] image asset, helper method, or lambda rendering a default thumbnail
     # @!attribute document_embed_component
     #   @return [Class] component class used to render a document embed
     # @!attribute title_field
