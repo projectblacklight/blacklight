@@ -169,6 +169,56 @@ RSpec.describe Blacklight::ThumbnailPresenter do
       end
     end
 
+    context "when a thumbnail and a default_thumbnail are both configured" do
+      subject { presenter.thumbnail_tag(image_options, suppress_link: true) }
+
+      let(:view_context) { ActionView::Base.empty }
+      let(:image_options) { { alt: '' } }
+      let(:document) { SolrDocument.new(xyz: 'http://example.com/some.jpg') }
+      let(:config) do
+        Blacklight::OpenStructWithHashAccess.new(thumbnail_field: :xyz, default_thumbnail: 'http://example.com/default.png')
+      end
+
+      it "renders the default thumbnail and the thumbnail together, so the default can show until the thumbnail loads" do
+        expect(subject).to have_css '.thumbnail-stack .thumbnail-fallback img[src="http://example.com/default.png"]'
+        expect(subject).to have_css '.thumbnail-stack > img[src="http://example.com/some.jpg"]'
+      end
+
+      it "puts the thumbnail last, so it paints over the default thumbnail" do
+        expect(subject).to have_css '.thumbnail-stack > .thumbnail-fallback:first-child + img:last-child'
+      end
+
+      it "leaves the default thumbnail out of the accessibility tree" do
+        expect(subject).to have_css '.thumbnail-fallback[aria-hidden="true"]'
+      end
+
+      context "with an id in the image options" do
+        let(:image_options) { { alt: '', id: 'thumb' } }
+
+        it "keeps the id on the thumbnail alone" do
+          expect(subject).to have_css 'img#thumb[src="http://example.com/some.jpg"]'
+          expect(subject).to have_css '[id="thumb"]', count: 1
+        end
+      end
+
+      context "and the document has no thumbnail" do
+        let(:document) { SolrDocument.new }
+
+        it "renders the default thumbnail alone" do
+          expect(subject).to have_css 'img[src="http://example.com/default.png"]'
+          expect(subject).to have_no_css '.thumbnail-stack'
+        end
+
+        context "with an id in the image options" do
+          let(:image_options) { { alt: '', id: 'thumb' } }
+
+          it "keeps the id on the default thumbnail" do
+            expect(subject).to have_css 'img#thumb[src="http://example.com/default.png"]'
+          end
+        end
+      end
+    end
+
     context "when no thumbnail is configured" do
       it { is_expected.to be_nil }
     end
