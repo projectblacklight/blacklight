@@ -20,3 +20,22 @@
     }
   }
 }
+
+// A document's thumbnail stacked over the default thumbnail; the real
+// thumbnail is stretched to cover the default if/when it loads
+.thumbnail-stack {
+  display: inline-grid;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+
+  .thumbnail-fallback {
+    place-self: center;
+  }
+  
+  > img {
+    place-self: stretch;
+    object-fit: cover;
+  }
+}
