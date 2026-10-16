@@ -13,7 +13,7 @@ module Blacklight
     end
 
     def field_label
-      field_config.display_label('search')
+      field_config&.display_label('search')
     end
 
     ##
