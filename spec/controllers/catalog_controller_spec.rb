@@ -347,8 +347,10 @@ RSpec.describe CatalogController, :api do
         context 'and no exception is raised' do
           before do
             expect(search_service).to receive(:previous_and_next_documents_for_search)
-              .and_return([double(total: 5), [double("a"), mock_document, double("b")]])
+              .and_return([double(total: 5, documents: documents), documents])
           end
+
+          let(:documents) { [double("a"), mock_document, double("b")] }
 
           it "sets previous document" do
             get :show, params: { id: doc_id }
@@ -788,17 +790,20 @@ RSpec.describe CatalogController, :api do
   end
 
   describe "page_links" do
+    render_views
+
     it "has prev/next docs and result set data for non-empty result sets", :integration do
-      get :page_links, params: { f: { "format" => 'Book' }, counter: 2 }
-      expect(assigns(:page_link_data)).not_to be_empty
-      expect(assigns(:page_link_data).fetch(:prev, nil)).to end_with('counter=1')
-      expect(assigns(:page_link_data).fetch(:next, nil)).to end_with('counter=3')
-      expect(assigns(:page_link_data).fetch(:totalRaw, nil)).to be 30
+      get :page_links, params: { f: { "format" => 'Book' }, counter: 2, format: 'json' }
+
+      expect(response.parsed_body).not_to be_empty
+      expect(response.parsed_body.fetch(:prev, nil)).to end_with('counter=1')
+      expect(response.parsed_body.fetch(:next, nil)).to end_with('counter=3')
+      expect(response.parsed_body.fetch(:totalRaw, nil)).to be 30
     end
 
     it "is empty for empty result sets", :integration do
-      get :page_links, params: { f: { "format" => ['empty-result-set'] }, counter: 1 }
-      expect(assigns(:page_link_data)).to be_empty
+      get :page_links, params: { f: { "format" => ['empty-result-set'] }, counter: 1, format: 'json' }
+      expect(response.parsed_body).to be_empty
     end
   end
 end
