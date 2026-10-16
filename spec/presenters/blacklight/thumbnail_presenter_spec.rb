@@ -201,7 +201,7 @@ RSpec.describe Blacklight::ThumbnailPresenter, type: :presenter do
         end
       end
 
-      context "and the document has no thumbnail" do
+      context "when the document has no thumbnail" do
         let(:document) { SolrDocument.new }
 
         it "renders the default thumbnail alone" do
