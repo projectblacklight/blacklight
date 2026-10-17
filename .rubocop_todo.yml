@@ -270,11 +270,6 @@ RSpec/SubjectStub:
     - "spec/presenters/blacklight/document_presenter_spec.rb"
     - "spec/services/blacklight/search_service_spec.rb"
 
-# Offense count: 81
-# Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
-RSpec/VerifiedDoubles:
-  Enabled: false
-
 # Offense count: 4
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle, AllowToTime.

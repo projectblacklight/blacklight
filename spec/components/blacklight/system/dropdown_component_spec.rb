@@ -4,8 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Blacklight::System::DropdownComponent, type: :component do
   it 'includes a link for each choice' do
-    search_state = double(Blacklight::SearchState)
-    allow(search_state).to receive(:params_for_search).and_return('http://example.com')
+    search_state = instance_double(Blacklight::SearchState, params_for_search: "http://example.com")
     rendered = render_inline(described_class.new(
                                param: :per_page,
                                choices: [

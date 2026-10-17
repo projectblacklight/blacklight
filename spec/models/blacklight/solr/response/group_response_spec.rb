@@ -11,7 +11,7 @@ RSpec.describe Blacklight::Solr::Response::GroupResponse, :api do
     Blacklight::SearchBuilder.new(view_context).tap { |b| b.rows = 3 }
   end
   let(:view_context) do
-    double("View context", blacklight_config: CatalogController.blacklight_config.deep_copy)
+    instance_double(CatalogController, blacklight_config: CatalogController.blacklight_config.deep_copy)
   end
 
   let(:group) do

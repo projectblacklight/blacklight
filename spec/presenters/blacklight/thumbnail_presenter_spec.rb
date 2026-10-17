@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::ThumbnailPresenter do
+RSpec.describe Blacklight::ThumbnailPresenter, type: :presenter do
   include Capybara::RSpecMatchers
 
-  let(:view_context) { double "View context" }
+  let(:view_context) { controller.view_context }
   let(:config) { Blacklight::Configuration.new.view_config(:index) }
   let(:presenter) { described_class.new(document, view_context, config) }
   let(:document) { SolrDocument.new }

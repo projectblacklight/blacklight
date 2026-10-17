@@ -94,7 +94,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
   end
 
   describe "#should_render_field?" do
-    let(:field_config) { double('field config', if: true, unless: false) }
+    let(:field_config) { Blacklight::Configuration::Field.new(if: true, unless: false) }
 
     it "is true" do
       expect(helper.should_render_field?(field_config)).to be true
@@ -112,14 +112,14 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
   end
 
   context 'labels' do
-    let(:field_config) { { 'my-key' => double('field', display_label: 'My Field') } }
+    let(:field_config) { { 'my-key' => instance_double(Blacklight::Configuration::Field, display_label: 'My Field') } }
 
     before do
       allow(helper).to receive_messages(blacklight_config: config)
     end
 
     describe '#label_for_search_field' do
-      let(:config) { double('Blacklight configuration', search_fields: field_config) }
+      let(:config) { Blacklight::Configuration.new(search_fields: field_config) }
 
       it 'handles a found key' do
         expect(helper.label_for_search_field('my-key')).to eq 'My Field'
@@ -135,7 +135,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
 
     describe '#sort_field_label' do
-      let(:config) { double('Blacklight configuration', sort_fields: field_config) }
+      let(:config) { Blacklight::Configuration.new(sort_fields: field_config) }
 
       it 'handles a found key' do
         expect(helper.sort_field_label('my-key')).to eq 'My Field'

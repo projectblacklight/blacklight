@@ -5,7 +5,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
     Blacklight::SearchBuilder.new(view_context)
   end
   let(:view_context) do
-    double("View context", blacklight_config: CatalogController.blacklight_config.deep_copy)
+    instance_double(CatalogController, blacklight_config: CatalogController.blacklight_config.deep_copy)
   end
 
   describe Blacklight::Solr::Response::Facets::FacetField do
