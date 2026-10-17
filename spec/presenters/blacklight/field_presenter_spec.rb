@@ -203,7 +203,7 @@ RSpec.describe Blacklight::FieldPresenter, :api, type: :presenter do
       it { is_expected.to eq ['Static step'] }
     end
 
-    context 'for a field with the helper_method option' do
+    context 'with a field with the helper_method option' do
       let(:field_name) { 'field_with_helper' }
       let(:field_config) { config.add_facet_field 'field_with_helper', helper_method: 'render_field_with_helper' }
       let(:document) do

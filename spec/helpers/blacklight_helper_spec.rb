@@ -24,13 +24,13 @@ RSpec.describe BlacklightHelper do
         I18n.locale = :en
       end
 
-      context "and no translation exists for that language" do
+      context "when no translation exists for that language" do
         it "defaults to 'Blacklight'" do
           expect(application_name).to eq "Blacklight"
         end
       end
 
-      context "and a translation exists for that language" do
+      context "when a translation exists for that language" do
         around do |example|
           I18n.backend.store_translations(:de, 'blacklight' => { 'application_name' => 'Schwarzlicht' })
           example.run

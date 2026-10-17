@@ -12,7 +12,7 @@ RSpec.describe Blacklight::FacetPaginator, :api do
   let(:six_facet_values) { [book, musical_score, serial, musical_recording, microform, thesis] }
   let(:limit) { 6 }
 
-  context 'on the first page of two pages' do
+  context 'when on the first page of two pages' do
     subject(:paginator) { described_class.new(seven_facet_values, limit: limit) }
 
     it { is_expected.to be_first_page }
@@ -41,7 +41,7 @@ RSpec.describe Blacklight::FacetPaginator, :api do
     end
   end
 
-  context 'on the last page of two pages' do
+  context 'when on the last page of two pages' do
     subject(:paginator) { described_class.new([blank], offset: 6, limit: limit) }
 
     it { is_expected.not_to be_first_page }
@@ -70,7 +70,7 @@ RSpec.describe Blacklight::FacetPaginator, :api do
     end
   end
 
-  context 'on the second page of three pages' do
+  context 'when on the second page of three pages' do
     subject(:paginator) { described_class.new(seven_facet_values, offset: 6, limit: limit) }
 
     it { is_expected.not_to be_first_page }
@@ -99,7 +99,7 @@ RSpec.describe Blacklight::FacetPaginator, :api do
     end
   end
 
-  context 'on the first page of one page' do
+  context 'when on the first page of one page' do
     subject { described_class.new(six_facet_values, offset: 0, limit: limit) }
 
     it { is_expected.to be_first_page }
@@ -136,7 +136,7 @@ RSpec.describe Blacklight::FacetPaginator, :api do
     end
   end
 
-  context "for a nil :limit" do
+  context "with a nil :limit" do
     let(:paginator) { described_class.new(seven_facet_values, offset: 0, limit: nil) }
 
     describe "#items" do

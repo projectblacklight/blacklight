@@ -111,7 +111,7 @@ RSpec.describe Blacklight::ConfigurationHelperBehavior do
     end
   end
 
-  context 'labels' do
+  describe 'labels' do
     let(:field_config) { { 'my-key' => instance_double(Blacklight::Configuration::Field, display_label: 'My Field') } }
 
     before do

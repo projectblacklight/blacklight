@@ -128,7 +128,7 @@ RSpec.describe "Did You Mean" do
     expect(page).to have_text("Did you mean")
   end
 
-  context 'spellcheck collations are enabled' do
+  context 'when spellcheck collations are enabled' do
     before do
       CatalogController.blacklight_config[:default_solr_params]["spellcheck.collate"] = true
     end

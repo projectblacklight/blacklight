@@ -17,7 +17,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
   end
 
-  context "Hashy methods" do
+  describe "Hashy methods" do
     it 'creates a doc with hashy methods' do
       doc = SolrDocument.new('id' => 'SP2514N', 'inStock' => true, 'manu' => 'Samsung Electronics Co. Ltd.', 'name' => 'Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133', 'popularity' => 6, 'price' => 92.0, 'sku' => 'SP2514N', 'timestamp' => '2009-03-20T14:42:49.795Z', 'cat' => ['electronics', 'hard drive'], 'spell' => ['Samsung SpinPoint P120 SP2514N - hard drive - 250 GB - ATA-133'], 'features' => ['7200RPM, 8MB cache, IDE Ultra ATA-133', 'NoiseGuard, SilentSeek technology, Fluid Dynamic Bearing (FDB) motor'])
 
@@ -33,7 +33,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
   end
 
-  context "Unique Key" do
+  describe "Unique Key" do
     before do
       MockDocument.unique_key = 'my_unique_key'
     end
@@ -69,7 +69,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
   end
 
-  context "Extendability" do
+  describe "Extendability" do
     before do
       # Clear extensions
       MockDocument.registered_extensions = []
@@ -149,7 +149,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
   end
 
-  context "Will export as" do
+  describe "Will export as" do
     class MockDocument
       include Blacklight::Solr::Document
 
@@ -171,7 +171,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
       expect(doc.export_formats).to have_key(:html)
     end
 
-    context "format not registered with Mime::Type" do
+    context "when format is not registered with Mime::Type" do
       before(:all) do
         @doc = MockDocument.new
         @doc.will_export_as(:mock2, "application/mock2")
@@ -197,7 +197,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
   end
 
-  context "to_semantic_fields" do
+  describe "to_semantic_fields" do
     class MockDocument
       include Blacklight::Solr::Document
     end
@@ -235,7 +235,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
   end
 
-  context "highlighting" do
+  describe "highlighting" do
     before(:all) do
       @document = MockDocument.new({ 'id' => 'doc1', 'title_field' => 'doc1 title' }, 'highlighting' => { 'doc1' => { 'title_tsimext' => ['doc <em>1</em>'] }, 'doc2' => { 'title_tsimext' => ['doc 2'] } })
     end

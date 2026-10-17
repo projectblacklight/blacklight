@@ -32,7 +32,7 @@ RSpec.describe Blacklight::Rendering::Pipeline do
         .with(values, field_config, document, context, described_class.operations, options)
     end
 
-    context 'outside of an HTML context' do
+    context 'when outside of an HTML context' do
       context 'when options determines format' do
         let(:options) { { format: 'text' } }
 
@@ -74,7 +74,7 @@ RSpec.describe Blacklight::Rendering::Pipeline do
         expect(rendered).to eq ["<a href=/catalog?f[format][]=book>book</a>", "<a href=/catalog?f[format][]=manuscript>manuscript</a>"]
       end
 
-      context 'outside html context' do
+      context 'when outside html context' do
         let(:values) { %w[book manuscript] }
         let(:field_config) { Blacklight::Configuration::Field.new(field: 'format', link_to_facet: true) }
         let(:search_state) { Blacklight::SearchState.new({ format: 'json' }, CatalogController.blacklight_config, CatalogController.new) }
@@ -145,7 +145,7 @@ RSpec.describe Blacklight::Rendering::Pipeline do
         end
       end
 
-      context 'outside the html context' do
+      context 'when outside the html context' do
         let(:values) { %w[a b <c] }
         let(:field_config) { Blacklight::Configuration::Field.new(join: true) }
         let(:options) { { format: 'json' } }

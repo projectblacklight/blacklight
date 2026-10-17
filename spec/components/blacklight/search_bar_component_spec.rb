@@ -105,7 +105,7 @@ RSpec.describe Blacklight::SearchBarComponent, type: :component do
     end
   end
 
-  context 'advanced search link' do
+  describe 'advanced search link' do
     subject(:render) { render_inline(instance) }
 
     context 'when enabled (default)' do

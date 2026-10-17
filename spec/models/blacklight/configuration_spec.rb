@@ -821,7 +821,7 @@ RSpec.describe Blacklight::Configuration, :api do
       expect(config.advanced_search.form_solr_parameters['f.subject_ssim.facet.limit']).to eq(-1)
     end
 
-    context "preserving existing advanced search config if present" do
+    context "with an existing advanced search config" do
       before do
         config.advanced_search.form_solr_parameters = {
           'facet.sort' => 'index',
