@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight do
-  context 'root' do
+  describe 'root' do
     let(:blroot) { File.expand_path(File.join(__FILE__, '..', '..', '..')) }
 
     it 'returns the full path to the BL plugin' do
@@ -10,7 +10,7 @@ RSpec.describe Blacklight do
   end
 
   describe '.default_index' do
-    context 'for a solr index' do
+    context 'with a solr index' do
       before do
         allow(described_class).to receive(:connection_config).and_return(adapter: 'solr')
       end
@@ -32,7 +32,7 @@ RSpec.describe Blacklight do
       end
     end
 
-    context 'for a solr index' do
+    context 'with a solr index' do
       before do
         allow(described_class).to receive(:connection_config).and_return(adapter: 'solr')
       end
@@ -42,7 +42,7 @@ RSpec.describe Blacklight do
       end
     end
 
-    context 'for an elastic_search index' do
+    context 'with an elastic_search index' do
       before do
         stub_const("Blacklight::ElasticSearch::Repository", double)
         allow(described_class).to receive(:connection_config).and_return(adapter: 'elastic_search')
@@ -53,7 +53,7 @@ RSpec.describe Blacklight do
       end
     end
 
-    context 'for an explicitly provided class' do
+    context 'with an explicitly provided class' do
       before do
         stub_const("CustomSearch::Repository", double)
         allow(described_class).to receive(:connection_config).and_return(adapter: 'CustomSearch::Repository')

@@ -325,7 +325,7 @@ RSpec.describe CatalogHelper do
         session[:preferred_view] = :b
       end
 
-      context "and no view is specified" do
+      context "when no view is specified" do
         it "uses the saved preference" do
           allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
           expect(helper.document_index_view_type).to eq :b
@@ -337,7 +337,7 @@ RSpec.describe CatalogHelper do
         end
       end
 
-      context "and a view is specified" do
+      context "when a view is specified" do
         it "uses the query parameter" do
           allow(helper).to receive(:document_index_views).and_return(a: 1, b: 2, c: 3)
           expect(helper.document_index_view_type(view: :c)).to eq :c

@@ -132,12 +132,6 @@ RSpec/BeforeAfterAll:
     - "spec/models/blacklight/document/dublin_core_spec.rb"
     - "spec/models/blacklight/solr/document_spec.rb"
 
-# Offense count: 111
-# Configuration parameters: Prefixes, AllowedPatterns.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Enabled: false
-
 # Offense count: 144
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:

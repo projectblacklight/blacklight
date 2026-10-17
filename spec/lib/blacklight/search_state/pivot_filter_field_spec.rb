@@ -89,7 +89,7 @@ RSpec.describe Blacklight::SearchState::PivotFilterField do
       pending 'decide how inclusive facets should work with pivots'
     end
 
-    context "With facet.missing field" do
+    context "with facet.missing field" do
       pending 'decide how facet.missing should work with pivots'
     end
   end

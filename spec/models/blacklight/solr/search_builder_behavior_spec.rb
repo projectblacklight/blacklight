@@ -150,7 +150,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
       end
     end
 
-    context "facet parameters" do
+    describe "facet parameters" do
       let(:blacklight_config) do
         Blacklight::Configuration.new.tap do |config|
           config.add_facet_field key: 'param_key', field: 'solr_field', limit: 50, ex: 'other'
@@ -582,7 +582,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
       expect(solr_parameters[:fq]).to be_a Array
     end
 
-    context "facet not defined in config" do
+    context "when facet is not defined in config" do
       let(:single_facet) { { unknown_facet_field: "foo" } }
       let(:user_params) { { f: single_facet } }
 
@@ -758,7 +758,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
       end
     end
 
-    context 'for a field with a configured more_limit' do
+    context 'with a field with a configured more_limit' do
       let(:facet_field) { 'format_more_limited' }
 
       it 'uses the more_limit configuration' do
@@ -766,7 +766,7 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
       end
     end
 
-    context 'for a field with a param key different from the field name' do
+    context 'with a field with a param key different from the field name' do
       let(:user_params) { { page_key => 2, 'facet.sort': 'index', 'facet.prefix': 'x' } }
       let(:facet_field) { 'param_key' }
 

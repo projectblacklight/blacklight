@@ -60,7 +60,7 @@ RSpec.describe RecordMailer do
       expect(@https_email.body).to match %r{https://projectblacklight.org/}
     end
 
-    context "email title_field is configured and multi valued" do
+    context "when email title_field is configured and multi valued" do
       let(:document) { SolrDocument.new(id: "123456", foo: ["Fizz Fizz", "Fuzz Fuzz"], format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt") }
 
       before do
@@ -72,7 +72,7 @@ RSpec.describe RecordMailer do
       end
     end
 
-    context "email title_field is configured and single valued" do
+    context "when email title_field is configured and single valued" do
       let(:document) { SolrDocument.new(id: "123456", foo: "Fizz Fizz", format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt") }
 
       before do

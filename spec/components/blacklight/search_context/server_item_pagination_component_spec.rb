@@ -47,7 +47,7 @@ RSpec.describe Blacklight::SearchContext::ServerItemPaginationComponent, type: :
       expect(render.css('.search-context.page-links').to_html).not_to be_blank
     end
 
-    context "session and document are out of sync" do
+    context "when session and document are out of sync" do
       let(:current_document) { SolrDocument.new(id: current_document_id + 1) }
 
       it "does not render content" do
