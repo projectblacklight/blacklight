@@ -1,5 +1,4 @@
-import includePaths from 'rollup-plugin-includepaths';
-
+import includePaths from 'rollup-plugin-includepaths'
 
 const BUNDLE = process.env.BUNDLE === 'true'
 const ESM = process.env.ESM === 'true'
@@ -12,8 +11,8 @@ let includePathOptions = {
   include: {},
   paths: ['app/javascript'],
   external: [],
-  extensions: ['.js']
-};
+  extensions: ['.js'],
+}
 
 const rollupConfig = {
   input: 'app/javascript/blacklight-frontend/index.js',
@@ -22,10 +21,10 @@ const rollupConfig = {
     format: ESM ? 'es' : 'umd',
     globals,
     generatedCode: { preset: 'es2015' },
-    name: ESM ? undefined : 'Blacklight'
+    name: ESM ? undefined : 'Blacklight',
   },
   external,
-  plugins: [includePaths(includePathOptions)]
+  plugins: [includePaths(includePathOptions)],
 }
 
 export default rollupConfig
