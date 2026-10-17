@@ -14,7 +14,9 @@
   "type": "module",
   "scripts": {
     "build": "sass ./app/assets/stylesheets/blacklight/build.scss:./app/assets/builds/blacklight.css --no-source-map --load-path=node_modules --quiet-deps",
-    "prepare": "rollup --config rollup.config.js --sourcemap && ESM=true rollup --config rollup.config.js --sourcemap"
+    "prepare": "rollup --config rollup.config.js --sourcemap && ESM=true rollup --config rollup.config.js --sourcemap",
+    "format": "prettier --write \"app/javascript/**/*.js\" \"app/assets/config/**/*.js\" rollup.config.js",
+    "format:check": "prettier --check \"app/javascript/**/*.js\" \"app/assets/config/**/*.js\" rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -31,10 +33,11 @@
   },
   "homepage": "https://github.com/projectblacklight/blacklight#readme",
   "devDependencies": {
+    "bootstrap": "^5.3.8",
+    "prettier": "3.9.10",
     "rollup": "^4.24.0",
     "rollup-plugin-includepaths": "^0.2.4",
-    "sass": "^1.80.3",
-    "bootstrap": "^5.3.8"
+    "sass": "^1.80.3"
   },
   "browserslist": [
     "defaults",

@@ -20,39 +20,49 @@ export default class CheckboxSubmit {
 
   clicked(evt) {
     this.spanTarget.innerHTML = this.form.getAttribute('data-inprogress')
-    this.labelTarget.setAttribute('disabled', 'disabled');
-    this.checkboxTarget.setAttribute('disabled', 'disabled');
+    this.labelTarget.setAttribute('disabled', 'disabled')
+    this.checkboxTarget.setAttribute('disabled', 'disabled')
     fetch(this.formTarget.getAttribute('action'), {
       body: new FormData(this.formTarget),
       method: this.formTarget.getAttribute('method').toUpperCase(),
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-Token': document.querySelector('meta[name=csrf-token]')?.content
-      }
-    }).then((response) => {
-      if (response.ok) return response.json();
-      return Promise.reject('response was not ok')
-    }).then((json) => {
-      this.labelTarget.removeAttribute('disabled')
-      this.checkboxTarget.removeAttribute('disabled')
-      // For accessibility return keyboard focus
-      // back to the checkbox after form submission
-      this.checkboxTarget.focus()
-      this.updateStateFor(!this.checked)
-      this.bookmarksCounter().forEach(counter => {
-        counter.innerHTML = json.bookmarks.count;
-      });
-
-      var e = new CustomEvent('bookmark.blacklight', { detail: { checked: this.checked }, bubbles: true });
-      this.formTarget.dispatchEvent(e)
-    }).catch((error) => {
-      this.handleError(error)
+        'X-CSRF-Token': document.querySelector('meta[name=csrf-token]')
+          ?.content,
+      },
     })
+      .then((response) => {
+        if (response.ok) return response.json()
+        return Promise.reject('response was not ok')
+      })
+      .then((json) => {
+        this.labelTarget.removeAttribute('disabled')
+        this.checkboxTarget.removeAttribute('disabled')
+        // For accessibility return keyboard focus
+        // back to the checkbox after form submission
+        this.checkboxTarget.focus()
+        this.updateStateFor(!this.checked)
+        this.bookmarksCounter().forEach((counter) => {
+          counter.innerHTML = json.bookmarks.count
+        })
+
+        var e = new CustomEvent('bookmark.blacklight', {
+          detail: { checked: this.checked },
+          bubbles: true,
+        })
+        this.formTarget.dispatchEvent(e)
+      })
+      .catch((error) => {
+        this.handleError(error)
+      })
   }
 
   get checked() {
-    return (this.form.querySelectorAll('input[name=_method][value=delete]').length != 0)
+    return (
+      this.form.querySelectorAll('input[name=_method][value=delete]').length !=
+      0
+    )
   }
 
   get formTarget() {
@@ -76,12 +86,15 @@ export default class CheckboxSubmit {
   }
 
   handleError() {
-    alert("Unable to save the bookmark at this time.")
+    alert('Unable to save the bookmark at this time.')
   }
 
   updateStateFor(state) {
-    if (state) { this.checkboxTarget.setAttribute('checked', state) }
-    else { this.checkboxTarget.removeAttribute('checked') }
+    if (state) {
+      this.checkboxTarget.setAttribute('checked', state)
+    } else {
+      this.checkboxTarget.removeAttribute('checked')
+    }
 
     if (state) {
       this.labelTarget.classList.add('checked')
