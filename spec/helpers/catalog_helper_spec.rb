@@ -124,7 +124,7 @@ RSpec.describe CatalogHelper do
     context "when an alternate scope is passed in" do
       subject(:tag) { helper.rss_feed_link_tag(route_set: my_engine) }
 
-      let(:my_engine) { double("Engine") }
+      let(:my_engine) { instance_double(ActionDispatch::Routing::RoutesProxy) }
       let(:query_params) { { controller: 'catalog', action: 'index' } }
       let(:config) { Blacklight::Configuration.new }
       let(:search_state) { Blacklight::SearchState.new(query_params, config, controller) }
@@ -146,7 +146,7 @@ RSpec.describe CatalogHelper do
     context "when an alternate scope is passed in" do
       subject(:tag) { helper.atom_feed_link_tag(route_set: my_engine) }
 
-      let(:my_engine) { double("Engine") }
+      let(:my_engine) { instance_double(ActionDispatch::Routing::RoutesProxy) }
       let(:query_params) { { controller: 'catalog', action: 'index' } }
       let(:config) { Blacklight::Configuration.new }
       let(:search_state) { Blacklight::SearchState.new(query_params, config, controller) }

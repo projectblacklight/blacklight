@@ -347,7 +347,7 @@ RSpec.describe CatalogController, :api do
         context 'and no exception is raised' do
           before do
             expect(search_service).to receive(:previous_and_next_documents_for_search)
-              .and_return([double(total: 5), [double("a"), mock_document, double("b")]])
+              .and_return([double(total: 5), [SolrDocument.new(id: "a"), mock_document, SolrDocument.new(id: "b")]])
           end
 
           it "sets previous document" do

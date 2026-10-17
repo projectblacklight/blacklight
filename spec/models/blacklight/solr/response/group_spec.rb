@@ -12,7 +12,7 @@ RSpec.describe Blacklight::Solr::Response::Group, :api do
   end
 
   let(:view_context) do
-    double("View context", blacklight_config: CatalogController.blacklight_config.deep_copy)
+    instance_double(CatalogController, blacklight_config: CatalogController.blacklight_config.deep_copy)
   end
 
   let(:response) do

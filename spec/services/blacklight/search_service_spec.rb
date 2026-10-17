@@ -35,7 +35,7 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     context 'when the search_builder_class is passed in' do
-      let(:klass) { double("Search builder") }
+      let(:klass) { Class.new(SearchBuilder) }
       let(:context) { { search_builder_class: klass } }
 
       it 'uses the passed value' do
