@@ -31,7 +31,7 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
       expect(presenter).not_to be_collapsed
     end
 
-    context "it is in the params" do
+    context "when it is in the params" do
       before do
         search_state.params[:f] = { key: [1] }
       end
@@ -68,7 +68,7 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
   end
 
   describe '#in_modal?' do
-    context 'for action #facet, which is a modal-like action' do
+    context 'with action #facet, which is a modal-like action' do
       before do
         controller.params[:action] = 'facet'
       end
@@ -78,7 +78,7 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
       end
     end
 
-    context 'for action #facet_suggest, which is a modal-like action' do
+    context 'with action #facet_suggest, which is a modal-like action' do
       before do
         controller.params[:action] = 'facet_suggest'
       end
@@ -189,7 +189,7 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
       end
     end
 
-    context 'for facet fields with a key that is different from the field name' do
+    context 'with facet fields with a key that is different from the field name' do
       before do
         allow(controller).to receive(:blacklight_config).and_return(blacklight_config)
       end

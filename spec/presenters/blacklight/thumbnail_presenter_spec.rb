@@ -24,13 +24,13 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         Blacklight::OpenStructWithHashAccess.new(thumbnail_field: :xyz)
       end
 
-      context "and the field exists in the document" do
+      context "when the field exists in the document" do
         let(:document) { SolrDocument.new('xyz' => 'image.png') }
 
         it { is_expected.to be true }
       end
 
-      context "and the field is missing from the document" do
+      context "when the field is missing from the document" do
         it { is_expected.to be false }
       end
     end
@@ -40,7 +40,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         Blacklight::OpenStructWithHashAccess.new(thumbnail_field: [:rst, :uvw, :xyz])
       end
 
-      context "and the field exists in the document" do
+      context "when the field exists in the document" do
         let(:document) { SolrDocument.new('xyz' => 'image.png') }
 
         it { is_expected.to be true }
@@ -52,7 +52,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         Blacklight::OpenStructWithHashAccess.new(default_thumbnail: 'image.png')
       end
 
-      context "and the field exists in the document" do
+      context "when the field exists in the document" do
         it { is_expected.to be true }
       end
     end
@@ -70,7 +70,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         Blacklight::OpenStructWithHashAccess.new(thumbnail_method: :xyz)
       end
 
-      context "and the method returns a value" do
+      context "when the method returns a value" do
         before do
           allow(view_context).to receive_messages(xyz: "some-thumbnail")
         end
@@ -82,7 +82,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
           expect(view_context).to have_received(:xyz)
         end
 
-        context "and url options have :suppress_link" do
+        context "when url options have :suppress_link" do
           subject { presenter.thumbnail_tag({}, suppress_link: true) }
 
           it "does not link to the document" do
@@ -91,7 +91,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         end
       end
 
-      context "and no value is returned from the thumbnail method" do
+      context "when no value is returned from the thumbnail method" do
         before do
           allow(view_context).to receive_messages(xyz: nil)
         end
@@ -123,7 +123,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         Blacklight::OpenStructWithHashAccess.new(thumbnail_field: [:rst, :uvw, :xyz])
       end
 
-      context "and the field exists in the document" do
+      context "when the field exists in the document" do
         let(:document) { SolrDocument.new(xyz: 'http://example.com/some.jpg') }
 
         it "creates an image tag from the given field" do
@@ -136,7 +136,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
     end
 
     context "when default_thumbnail is configured" do
-      context "and is a string" do
+      context "when it is a string" do
         let(:config) do
           Blacklight::OpenStructWithHashAccess.new(default_thumbnail: 'image.png')
         end
@@ -147,7 +147,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         end
       end
 
-      context "and is a symbol" do
+      context "when it is a symbol" do
         let(:config) do
           Blacklight::OpenStructWithHashAccess.new(default_thumbnail: :get_a_default_thumbnail)
         end
@@ -158,7 +158,7 @@ RSpec.describe Blacklight::ThumbnailPresenter do
         end
       end
 
-      context "and is a proc" do
+      context "when it is a proc" do
         let(:config) do
           Blacklight::OpenStructWithHashAccess.new(default_thumbnail: ->(_, _) { '<img src="image.jpg">' })
         end

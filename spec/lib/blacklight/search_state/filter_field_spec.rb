@@ -158,7 +158,7 @@ RSpec.describe Blacklight::SearchState::FilterField do
       end
     end
 
-    context "With facet.missing field" do
+    context "with facet.missing field" do
       let(:params) do
         { f: { '-some_field': ["[* TO *]"] } }
       end

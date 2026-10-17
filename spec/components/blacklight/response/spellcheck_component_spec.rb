@@ -33,7 +33,7 @@ RSpec.describe Blacklight::Response::SpellcheckComponent, type: :component do
       expect(render.to_html).to include(word_suggestion)
     end
 
-    context 'and explicit spellcheck options' do
+    context 'with explicit spellcheck options' do
       let(:explicit_option) { 'explicit option' }
       let(:spellcheck_options) { [explicit_option] }
 
@@ -43,7 +43,7 @@ RSpec.describe Blacklight::Response::SpellcheckComponent, type: :component do
       end
     end
 
-    context 'and collations are present' do
+    context 'when collations are present' do
       let(:word_suggestion) { 'donotuse' }
       let(:collated_suggestion) { 'yoshida Hajime' }
       let(:response) { instance_double(Blacklight::Solr::Response, total: 4, spelling: double(words: [word_suggestion], collation: collated_suggestion)) }

@@ -62,7 +62,7 @@ RSpec.describe Blacklight::Icon do
       expect(subject.options[:'aria-hidden']).to be true
     end
 
-    context 'no options provided' do
+    context 'without options' do
       subject { described_class.new(:view) }
 
       it 'applies default class with no options' do
@@ -84,7 +84,7 @@ RSpec.describe Blacklight::Icon do
   describe 'file_source' do
     subject(:file_source) { instance.file_source }
 
-    context 'file is not available' do
+    context 'when the file is not available' do
       subject { described_class.new(:yolo) }
 
       let(:asset) { nil }
@@ -94,7 +94,7 @@ RSpec.describe Blacklight::Icon do
       end
     end
 
-    context 'file is available' do
+    context 'when the file is available' do
       it 'returns the filesource' do
         expect(file_source).to include '<svg'
       end

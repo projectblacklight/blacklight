@@ -24,7 +24,7 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
       it { is_expected.to eq 'one_two_three' }
     end
 
-    context "an array" do
+    context "with an array" do
       let(:value) { %w[one two three] }
 
       it { is_expected.to eq 'one_two_three' }

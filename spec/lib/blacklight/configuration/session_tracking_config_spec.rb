@@ -7,7 +7,7 @@ RSpec.describe Blacklight::Configuration::SessionTrackingConfig do
     expect(config.storage).to eq 'server'
   end
 
-  context "@storage is set to 'server'" do
+  context "when @storage is set to 'server'" do
     before do
       config.storage = 'server'
     end
@@ -22,7 +22,7 @@ RSpec.describe Blacklight::Configuration::SessionTrackingConfig do
     end
   end
 
-  context "@storage is set to false" do
+  context "when @storage is set to false" do
     before do
       config.storage = false
     end

@@ -67,7 +67,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
   end
 
-  context 'index view' do
+  context 'with the index view' do
     before do
       vc_test_controller.action_name = "index"
     end
@@ -129,7 +129,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
   end
 
-  context 'show view' do
+  context 'with the show view' do
     let(:attr) { { title_component: :h1, show: true } }
 
     before do
@@ -171,7 +171,7 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       end
     end
 
-    context 'show view with custom translation' do
+    context 'with the show view and a custom translation' do
       let!(:original_translations) { I18n.backend.send(:translations).deep_dup }
 
       before do

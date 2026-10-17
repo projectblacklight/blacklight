@@ -55,7 +55,7 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
       expect(page).to have_css('.constraint-value > .filter-name', text: 'Some Facet').and(have_css('.constraint-value > .filter-value', text: 'some value'))
     end
 
-    context 'that is not configured' do
+    context 'when a facet is not configured' do
       let(:query_params) { { f: { some_facet: ['some value'], missing: ['another value'] } } }
 
       it 'renders only the configured constraints' do

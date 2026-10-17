@@ -310,7 +310,7 @@ RSpec.describe Blacklight::SearchService, :api do
 
   # SPECS FOR SPELLING SUGGESTIONS VIA SEARCH
   describe "Searches should return spelling suggestions", :integration do
-    context "for just-poor-enough-query term" do
+    context "with a just-poor-enough-query term" do
       let(:user_params) { { q: 'boo' } }
 
       it 'has (multiple) spelling suggestions' do
@@ -320,7 +320,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    context "for another just-poor-enough-query term" do
+    context "with another just-poor-enough-query term" do
       let(:user_params) { { q: 'politica' } }
 
       it 'has multiple spelling suggestions' do
@@ -335,7 +335,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    context "for title search" do
+    context "with a title search" do
       let(:user_params) { { q: 'yehudiyam', 'spellcheck.dictionary': "title" } }
 
       it 'has spelling suggestions' do
@@ -344,7 +344,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    context "for author search" do
+    context "with an author search" do
       let(:user_params) { { q: 'shirma', 'spellcheck.dictionary': "author" } }
 
       it 'has spelling suggestions' do
@@ -353,7 +353,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    context "for subject search" do
+    context "with a subject search" do
       let(:user_params) { { q: 'wome', 'spellcheck.dictionary': "subject" } }
 
       it 'has spelling suggestions' do

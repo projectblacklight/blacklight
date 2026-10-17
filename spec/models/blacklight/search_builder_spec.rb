@@ -209,13 +209,13 @@ RSpec.describe Blacklight::SearchBuilder, :api do
 
       let(:builder_with_param) { builder.with(sort: 'x') }
 
-      context "that is invalid" do
+      context "when the sort is invalid" do
         it "removes them" do
           expect(sort).to be_nil
         end
       end
 
-      context "that is valid" do
+      context "when the sort is valid" do
         before do
           blacklight_config.add_sort_field 'x', sort: 'x asc'
         end
