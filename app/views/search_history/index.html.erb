@@ -1,6 +1,6 @@
 <% @page_title = t('blacklight.search_history.page_title', :application_name => application_name) %>
 
-<div id="content" class="col-md-12">
+<div id="content" class="col-md-12 md:col-12">
 <h1 class='page-heading'><%= t('blacklight.search_history.title') %></h1>
 <% if @searches.blank? %>
   <h2 class='section-heading'><%= t('blacklight.search_history.no_history') %></h2>
@@ -11,7 +11,7 @@
                 turbo_confirm: t('blacklight.search_history.clear.action_confirm'),
                 turbo_method: :delete
               },
-              class: 'btn btn-danger float-md-right float-md-end' %>
+              class: 'btn btn-danger btn-solid theme-danger float-md-right md:float-right float-md-end md:float-end' %>
   <h2 class='section-heading'><%= t('blacklight.search_history.recent') %></h2>
   <table class="table table-striped search-history">
     <% @searches.each_with_index do |search,index| %>

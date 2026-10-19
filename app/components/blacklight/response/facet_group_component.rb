@@ -8,7 +8,7 @@ module Blacklight
 
       # @param [String] id a unique identifier for the group
       # @param [String] title the title of the facet group section
-      def initialize(id:, title: nil, body_classes: 'facets-collapse d-lg-block collapse accordion',
+      def initialize(id:, title: nil, body_classes: 'facets-collapse d-lg-block lg:d-block collapse accordion',
                      header_classes: 'facets-heading h4',
                      container_classes: 'facets sidenav facets-toggleable-md')
         @groupname = id

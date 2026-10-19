@@ -3,14 +3,14 @@
 module Blacklight
   module Assets
     class ImportmapGenerator < Rails::Generators::Base
-      class_option :'bootstrap-version', type: :string, default: ENV.fetch('BOOTSTRAP_VERSION', '~> 5.3'), desc: "Set the generated app's bootstrap version"
+      class_option :'bootstrap-version', type: :string, default: ENV.fetch('BOOTSTRAP_VERSION', '5.3.8'), desc: "Set the generated app's bootstrap version"
 
       def import_javascript_assets
         append_to_file 'config/importmap.rb' do
           <<~CONTENT
             pin "@github/auto-complete-element", to: "https://cdn.jsdelivr.net/npm/@github/auto-complete-element@3.8.0/+esm"
             pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
-            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.3.5'}/dist/js/bootstrap.js"
+            pin "bootstrap", to: "#{bootstrap_javascript_url}"
           CONTENT
         end
 
@@ -49,11 +49,27 @@ module Blacklight
         else
           append_to_file 'app/assets/stylesheets/application.css' do
             <<~CONTENT
-              @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css);
+              @import url(https://cdn.jsdelivr.net/npm/bootstrap@#{bootstrap_version}/dist/css/bootstrap.min.css);
               @import url("blacklight.css");
             CONTENT
           end
         end
+      end
+
+      private
+
+      def bootstrap_version
+        options[:'bootstrap-version']
+      end
+
+      def bootstrap_6?
+        bootstrap_version.start_with?('6.')
+      end
+
+      def bootstrap_javascript_url
+        return "https://cdn.jsdelivr.net/npm/bootstrap@#{bootstrap_version}/dist/js/bootstrap.bundle.min.js" if bootstrap_6?
+
+        "https://ga.jspm.io/npm:bootstrap@#{bootstrap_version}/dist/js/bootstrap.js"
       end
     end
   end
