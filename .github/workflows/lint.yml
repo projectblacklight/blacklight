@@ -26,3 +26,17 @@ jobs:
         run: bundle install
       - name: Run linter
         run: bundle exec rake rubocop
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+      - name: Check JavaScript formatting
+        run: npm run format:check

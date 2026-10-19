@@ -1,0 +1,5 @@
+app/assets/javascripts/blacklight/
+app/assets/builds/
+coverage/
+pkg/
+.internal_test_app/

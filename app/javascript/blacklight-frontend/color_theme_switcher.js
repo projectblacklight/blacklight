@@ -9,19 +9,26 @@ const ColorThemeSwitcher = (() => {
   'use strict'
 
   const getStoredTheme = () => localStorage.getItem('theme')
-  const setStoredTheme = theme => localStorage.setItem('theme', theme)
+  const setStoredTheme = (theme) => localStorage.setItem('theme', theme)
 
   const getPreferredTheme = () => {
     const storedTheme = getStoredTheme()
     if (storedTheme) {
       return storedTheme
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
   }
 
-  const setTheme = theme => {
+  const setTheme = (theme) => {
     if (theme === 'auto') {
-      document.documentElement.setAttribute('data-bs-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      document.documentElement.setAttribute(
+        'data-bs-theme',
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light',
+      )
     } else {
       document.documentElement.setAttribute('data-bs-theme', theme)
     }
@@ -32,7 +39,7 @@ const ColorThemeSwitcher = (() => {
     if (!themeSwitcher) return
 
     // Reset all dropdown items
-    document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+    document.querySelectorAll('[data-bs-theme-value]').forEach((element) => {
       element.classList.remove('active')
       element.setAttribute('aria-pressed', 'false')
       const check = element.querySelector('.bl-theme-check')
@@ -40,7 +47,9 @@ const ColorThemeSwitcher = (() => {
     })
 
     // Activate the selected item
-    const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+    const btnToActive = document.querySelector(
+      `[data-bs-theme-value="${theme}"]`,
+    )
     if (btnToActive) {
       btnToActive.classList.add('active')
       btnToActive.setAttribute('aria-pressed', 'true')
@@ -49,8 +58,12 @@ const ColorThemeSwitcher = (() => {
     }
 
     // Swap the toggle button icon
-    themeSwitcher.querySelectorAll('.bl-theme-icon').forEach(icon => icon.classList.add('d-none'))
-    const activeIcon = themeSwitcher.querySelector(`.bl-theme-icon[data-bl-theme-icon="${theme}"]`)
+    themeSwitcher
+      .querySelectorAll('.bl-theme-icon')
+      .forEach((icon) => icon.classList.add('d-none'))
+    const activeIcon = themeSwitcher.querySelector(
+      `.bl-theme-icon[data-bl-theme-icon="${theme}"]`,
+    )
     if (activeIcon) activeIcon.classList.remove('d-none')
 
     themeSwitcher.setAttribute('aria-label', `Toggle theme (${theme})`)
@@ -60,14 +73,16 @@ const ColorThemeSwitcher = (() => {
     }
   }
 
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    const storedTheme = getStoredTheme()
-    if (storedTheme !== 'light' && storedTheme !== 'dark') {
-      setTheme(getPreferredTheme())
-    }
-  })
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', () => {
+      const storedTheme = getStoredTheme()
+      if (storedTheme !== 'light' && storedTheme !== 'dark') {
+        setTheme(getPreferredTheme())
+      }
+    })
 
-  document.addEventListener('click', e => {
+  document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-bs-theme-value]')
     if (!btn) return
 

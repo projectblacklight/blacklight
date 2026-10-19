@@ -14,5 +14,5 @@ export default {
   Modal,
   SearchContext,
   Core,
-  onLoad: Core.onLoad
+  onLoad: Core.onLoad,
 }
