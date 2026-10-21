@@ -82,7 +82,7 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     context "when an alternate scope is passed in" do
       subject(:tag) { helper.link_back_to_catalog(route_set: my_engine) }
 
-      let(:my_engine) { double("Engine") }
+      let(:my_engine) { instance_double(ActionDispatch::Routing::RoutesProxy) }
 
       before do
         allow(helper).to receive(:current_search_session).and_return double(query_params: query_params)

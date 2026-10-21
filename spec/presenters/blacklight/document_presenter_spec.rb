@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::DocumentPresenter do
+RSpec.describe Blacklight::DocumentPresenter, type: :presenter do
   subject(:presenter) { described_class.new(doc, request_context) }
 
   let(:doc) { SolrDocument.new('asdf' => 'asdf') }
   let(:blacklight_config) { Blacklight::Configuration.new }
-  let(:request_context) { double('View context', should_render_field?: true, blacklight_config: blacklight_config) }
-  let(:controller) { double }
+  let(:request_context) { controller.view_context }
   let(:params) { {} }
   let(:search_state) { Blacklight::SearchState.new(params, blacklight_config, controller) }
 
   before do
-    allow(request_context).to receive_messages(search_state: search_state, action_name: :show)
+    allow(request_context).to receive_messages(should_render_field?: true, blacklight_config: blacklight_config, search_state: search_state, action_name: :show)
   end
 
   describe '#fields_to_render' do

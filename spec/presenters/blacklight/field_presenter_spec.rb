@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-RSpec.describe Blacklight::FieldPresenter, :api do
+RSpec.describe Blacklight::FieldPresenter, :api, type: :presenter do
   subject(:presenter) { described_class.new(request_context, document, field_config, options) }
 
-  let(:request_context) { double('View context', params: { x: '1' }, search_state: search_state, should_render_field?: true, blacklight_config: config) }
+  let(:request_context) { controller.view_context }
   let(:document) do
     SolrDocument.new(id: 1,
                      'join_true' => %w[a b c],
@@ -15,7 +15,6 @@ RSpec.describe Blacklight::FieldPresenter, :api do
   end
   let(:options) { {} }
   let(:params) { {} }
-  let(:controller) { double }
   let(:search_state) { Blacklight::SearchState.new(params, config, controller) }
 
   let(:field_config) { config.index_fields[field_name] }
@@ -48,6 +47,10 @@ RSpec.describe Blacklight::FieldPresenter, :api do
       config.add_facet_field :link_to_facet_true
       config.add_facet_field :some_field
     end
+  end
+
+  before do
+    allow(request_context).to receive_messages(params: { x: '1' }, search_state: search_state, should_render_field?: true, blacklight_config: config)
   end
 
   describe '#render' do
@@ -310,14 +313,13 @@ RSpec.describe Blacklight::FieldPresenter, :api do
   describe '#render_field?' do
     subject { presenter.render_field? }
 
-    let(:field_config) { double('field config', if: true, unless: false, except_operations: nil) }
+    let(:field_config) { Blacklight::Configuration::DisplayField.new(if: true, unless: false) }
 
     it { is_expected.to be true }
 
     context 'when the view context says not to render the field' do
-      let(:request_context) { double('View context', should_render_field?: false, blacklight_config: config) }
-
       before do
+        allow(request_context).to receive_messages(should_render_field?: false)
         allow(field_config).to receive_messages(if: false)
       end
 
