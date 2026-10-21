@@ -116,7 +116,7 @@ RSpec.describe BookmarksController do
       expect(controller.send(:token_user).id).to eq user.id
     end
 
-    context 'created over an hour ago' do
+    context 'when created over an hour ago' do
       let(:current_time) { 2.hours.ago }
 
       it 'is expired' do

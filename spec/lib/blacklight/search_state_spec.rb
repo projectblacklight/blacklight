@@ -52,7 +52,7 @@ RSpec.describe Blacklight::SearchState do
       end
     end
 
-    context 'deleting item from to_h' do
+    context 'when deleting item from to_h' do
       let(:additional_search_fields) { [:q_1] }
       let(:params) { { q: 'foo', q_1: 'bar' } }
 
@@ -65,7 +65,7 @@ RSpec.describe Blacklight::SearchState do
       end
     end
 
-    context 'deleting deep item from to_h' do
+    context 'when deleting deep item from to_h' do
       let(:additional_search_fields) { [{ foo: {} }] }
       let(:params) { { foo: { bar: [] } } }
 
@@ -135,7 +135,7 @@ RSpec.describe Blacklight::SearchState do
     end
 
     context "when params has page" do
-      context "and per_page changed" do
+      context "when per_page changed" do
         let(:params) { parameter_class.new per_page: 20, page: 5 }
 
         it "adjusts the current page" do
@@ -144,7 +144,7 @@ RSpec.describe Blacklight::SearchState do
         end
       end
 
-      context "and per_page didn't change" do
+      context "when per_page didn't change" do
         let(:params) { parameter_class.new per_page: 20, page: 5 }
 
         it "doesn't change the current page" do
@@ -153,7 +153,7 @@ RSpec.describe Blacklight::SearchState do
         end
       end
 
-      context "and the sort changes" do
+      context "when the sort changes" do
         let(:params) { parameter_class.new sort: 'field_a', page: 5 }
 
         it "adjusts the current page" do
@@ -162,7 +162,7 @@ RSpec.describe Blacklight::SearchState do
         end
       end
 
-      context "and the sort didn't change" do
+      context "when the sort didn't change" do
         let(:params) { parameter_class.new sort: 'field_a', page: 5 }
 
         it "doesn't change the current page" do
@@ -271,7 +271,7 @@ RSpec.describe Blacklight::SearchState do
       end
     end
 
-    context 'it defaults to the configured value' do
+    context 'without params' do
       let(:params) { {} }
 
       it 'maps from rows' do
@@ -374,7 +374,7 @@ RSpec.describe Blacklight::SearchState do
       expect(search_state.url_for_document(doc)).to eq(controller: 'catalog', action: :show, id: doc)
     end
 
-    context "within bookmarks" do
+    context "when within bookmarks" do
       let(:controller_class) { BookmarksController.new }
 
       it "uses polymorphic routing" do
@@ -382,7 +382,7 @@ RSpec.describe Blacklight::SearchState do
       end
     end
 
-    context "within an alternative catalog controller" do
+    context "when within an alternative catalog controller" do
       let(:controller_class) { AlternateController.new }
 
       before do
@@ -404,14 +404,14 @@ RSpec.describe Blacklight::SearchState do
   end
 
   describe '#filters' do
-    context 'pivot facet config but no facet params' do
+    context 'with pivot facet config but no facet params' do
       it 'maps no filters' do
         blacklight_config.add_facet_field 'some_key', pivot: %w[pivot_field_1 pivot_field_2]
         expect(search_state.filters).to eq([])
       end
     end
 
-    context 'pivot facet config and some pivot facet params' do
+    context 'with pivot facet config and some pivot facet params' do
       let(:params) { { 'f' => { 'pivot_field_1' => 'foo' } } }
 
       it 'maps the pivot matching param pivot_field' do
@@ -421,7 +421,7 @@ RSpec.describe Blacklight::SearchState do
       end
     end
 
-    context 'regular facet config with params' do
+    context 'with regular facet config with params' do
       let(:params) { { 'f' => { 'some_key' => 'foo' } } }
 
       it 'maps the field matching param facet_field' do

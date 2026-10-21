@@ -35,7 +35,7 @@ RSpec.describe "Routing" do
       expect(get: solr_document_path(SolrDocument.new(id: 'asdf'))).to route_to(controller: 'catalog', action: 'show', id: 'asdf')
     end
 
-    context "should escape solr document ids" do
+    describe "escaping solr document ids" do
       it "pass-throughs url-valid ids" do
         expect(get: solr_document_path(SolrDocument.new(id: 'qwerty'))).to route_to(controller: 'catalog', action: 'show', id: 'qwerty')
       end

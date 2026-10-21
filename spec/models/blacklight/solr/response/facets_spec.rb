@@ -202,13 +202,13 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
       response.merge_facet(**facet)
     end
 
-    context "facet does not already exist" do
+    context "when facet does not already exist" do
       it "adds the facet and appends the new field name and value" do
         expect(response.facet_fields["foo"]).to eq(["bar", 1])
       end
     end
 
-    context "facet exists but field does not exist" do
+    context "when facet exists but field does not exist" do
       let(:facet) { { name: "cat", value: "bar", hits: 1 } }
 
       it "appends the new field name and value" do
@@ -216,7 +216,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
       end
     end
 
-    context "facet exists and field exists" do
+    context "when facet exists and field exists" do
       let(:facet) { { name: "cat", value: "memory", hits: 4 } }
 
       it "appends the new field name and value and aggregations uses new value" do
@@ -231,7 +231,7 @@ RSpec.describe Blacklight::Solr::Response::Facets, :api do
     end
   end
 
-  context "facet.missing" do
+  describe "facet.missing" do
     subject { Blacklight::Solr::Response.new(response, search_builder) }
 
     let(:response) do

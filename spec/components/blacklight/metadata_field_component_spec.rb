@@ -19,7 +19,7 @@ RSpec.describe Blacklight::MetadataFieldComponent, type: :component do
     Blacklight::FieldPresenter.new(view_context, document, field_config)
   end
 
-  context "from index view" do
+  context "with the index view" do
     before do
       render_inline(described_class.new(field: field))
     end
@@ -48,7 +48,7 @@ RSpec.describe Blacklight::MetadataFieldComponent, type: :component do
     end
   end
 
-  context 'from a show view' do
+  context 'with a show view' do
     before do
       allow(field).to receive(:label).with('show').and_return('custom label')
 

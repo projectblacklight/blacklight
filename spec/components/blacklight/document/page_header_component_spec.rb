@@ -34,7 +34,7 @@ RSpec.describe Blacklight::Document::PageHeaderComponent, type: :component do
   end
   # rubocop:enable RSpec/SubjectStub
 
-  context "all variables are empty" do
+  context "when all variables are empty" do
     let(:search_context) { nil }
     let(:current_search_session) { {} }
 
@@ -48,7 +48,7 @@ RSpec.describe Blacklight::Document::PageHeaderComponent, type: :component do
       end
     end
 
-    context 'has header tools' do
+    context 'with header tools' do
       before do
         blacklight_config.show.show_header_tools_component = show_header_tools_component
         render_inline component
@@ -61,7 +61,7 @@ RSpec.describe Blacklight::Document::PageHeaderComponent, type: :component do
     end
   end
 
-  context "has pagination" do
+  context "with pagination" do
     let(:search_context) { { next: next_doc, prev: prev_doc } }
     let(:prev_doc) { SolrDocument.new(id: '777') }
     let(:next_doc) { SolrDocument.new(id: '888') }
@@ -80,7 +80,7 @@ RSpec.describe Blacklight::Document::PageHeaderComponent, type: :component do
       end
     end
 
-    context 'has header tools' do
+    context 'with header tools' do
       before do
         blacklight_config.show.show_header_tools_component = show_header_tools_component
         render_inline component

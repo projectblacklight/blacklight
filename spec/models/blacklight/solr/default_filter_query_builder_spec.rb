@@ -40,7 +40,7 @@ RSpec.describe Blacklight::Solr::DefaultFilterQueryBuilder do
       expect(subject.send(:facet_value_to_fq_string, "facet_name", "1.11")).to eq '{!term f=facet_name}1.11'
     end
 
-    context 'date handling' do
+    describe 'date handling' do
       before { allow(blacklight_config.facet_fields).to receive(:[]).with('facet_name').and_return(double(date: true, query: nil, tag: nil, field: 'facet_name')) }
 
       it "passes date-type fields through" do

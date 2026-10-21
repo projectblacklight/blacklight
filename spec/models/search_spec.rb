@@ -15,19 +15,19 @@ RSpec.describe Search do
       end
     end
 
-    context "are an indifferent hash" do
+    context "when they are an indifferent hash" do
       include_context "persisting query_params" do
         let(:query_params) { hash_params.with_indifferent_access }
       end
     end
 
-    context "are a string-keyed hash" do
+    context "when they are a string-keyed hash" do
       include_context "persisting query_params" do
         let(:query_params) { hash_params.with_indifferent_access.to_hash }
       end
     end
 
-    context "include symbol keys" do
+    context "when they include symbol keys" do
       include_context "persisting query_params" do
         let(:query_params) { hash_params }
       end

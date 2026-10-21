@@ -4,7 +4,7 @@ RSpec.describe Blacklight::NestedOpenStructWithHashAccess do
   subject { described_class.new(Blacklight::OpenStructWithHashAccess) }
 
   describe '#key' do
-    context 'for an object provided by the initializer' do
+    context 'with an object provided by the initializer' do
       subject { described_class.new(Blacklight::OpenStructWithHashAccess, a: { b: 1 }) }
 
       it 'copies the key to the initialized value' do
@@ -12,7 +12,7 @@ RSpec.describe Blacklight::NestedOpenStructWithHashAccess do
       end
     end
 
-    context 'for an object provided through assignment' do
+    context 'with an object provided through assignment' do
       it 'copies the key to the initialized value' do
         subject.a!
 

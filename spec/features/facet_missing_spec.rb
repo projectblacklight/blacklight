@@ -9,7 +9,7 @@ RSpec.describe "Facet missing" do
     CatalogController.blacklight_config[:default_solr_params].delete("facet.missing")
   end
 
-  context "selecting missing field in facets" do
+  context "when selecting missing field in facets" do
     it "adds facet missing query and constraints" do
       visit root_path
 
@@ -31,7 +31,7 @@ RSpec.describe "Facet missing" do
     end
   end
 
-  context "unselecting the facet missing facet" do
+  context "when unselecting the facet missing facet" do
     it "unselects the missing field facet" do
       visit root_path
 
@@ -48,7 +48,7 @@ RSpec.describe "Facet missing" do
     end
   end
 
-  context "unselecting the facet missing constraint" do
+  context "when unselecting the facet missing constraint" do
     it "unselects the missing field facet" do
       visit root_path
 

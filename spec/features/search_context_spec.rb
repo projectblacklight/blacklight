@@ -42,7 +42,7 @@ RSpec.describe "Search Results context" do
     expect(page).to have_no_text "« Previous | 10 of 30 | Next »"
   end
 
-  context "navigating between search results using context pagination" do
+  context "when navigating between search results using context pagination" do
     it "updates the back to search link with the current search pagination context", :js do
       search_for ''
       expect(page).to have_text "1 - 10"
