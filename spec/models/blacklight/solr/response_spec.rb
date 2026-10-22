@@ -5,14 +5,19 @@ require 'rspec-benchmark'
 RSpec.describe Blacklight::Solr::Response, :api do
   subject(:r) do
     described_class.new(raw_response,
-                        request_params,
+                        search_builder,
                         blacklight_config: config)
   end
 
   let(:raw_response) { eval(mock_query_response) }
 
   let(:config) { Blacklight::Configuration.new }
-  let(:request_params) { raw_response['params'] }
+  let(:search_builder) do
+    Blacklight::SearchBuilder.new(view_context).tap { |b| b.rows = 11 }
+  end
+  let(:view_context) do
+    double("View context", blacklight_config: config)
+  end
 
   it 'creates a valid response' do
     expect(r).to respond_to(:header)
@@ -147,42 +152,13 @@ RSpec.describe Blacklight::Solr::Response, :api do
     end
   end
 
-  context 'with json params' do
-    let(:raw_response) do
-      eval(mock_response_with_spellcheck).tap do |resp|
-        resp['responseHeader']['params']['test'] = 'from query'
-        resp['responseHeader']['params'].delete('rows')
-        resp['responseHeader']['params']['json'] = { limit: 5, params: { test: 'from json params' } }.to_json
-      end
-    end
-
-    it 'extracts json params' do
-      expect(r.params['test']).to eq 'from query'
-      expect(r.rows).to eq 5
-    end
-  end
-
   it 'provides the solr-returned params and "rows" should be 11' do
     expect(r.params[:rows].to_s).to eq '11'
     expect(r.params[:sort]).to eq 'title_si asc, pub_date_si desc'
   end
 
-  context 'when responseHeader["params"] does not exist' do
-    before do
-      raw_response.delete 'responseHeader'
-    end
-
-    let(:request_params) { { rows: 999, sort: 'score desc, pub_date_si desc, title_si asc' } }
-
-    it 'provides the ruby request params' do
-      expect(r.params[:rows].to_s).to eq '999'
-      expect(r.params[:sort]).to eq 'score desc, pub_date_si desc, title_si asc'
-    end
-  end
-
   context 'with regular spellcheck results' do
     let(:raw_response) { eval(mock_response_with_spellcheck) }
-    let(:request_params) { {} }
 
     it 'provides spelling suggestions' do
       expect(r.spelling.words).to include("dell")
@@ -192,7 +168,6 @@ RSpec.describe Blacklight::Solr::Response, :api do
 
   context 'with extended spellcheck results' do
     let(:raw_response) { eval(mock_response_with_spellcheck_extended) }
-    let(:request_params) { {} }
 
     it 'provides spelling suggestions' do
       expect(r.spelling.words).to include("dell")
@@ -202,7 +177,6 @@ RSpec.describe Blacklight::Solr::Response, :api do
 
   context 'when extended results and suggestion frequency is the same as original query frequency' do
     let(:raw_response) { eval(mock_response_with_spellcheck_same_frequency) }
-    let(:request_params) { {} }
 
     it 'provides no spelling suggestions' do
       expect(r.spelling.words).to eq []
@@ -211,7 +185,6 @@ RSpec.describe Blacklight::Solr::Response, :api do
 
   context "with pre solr 5 spellcheck collation syntax" do
     let(:raw_response) { eval(mock_response_with_spellcheck_collation) }
-    let(:request_params) { {} }
 
     it 'provides spelling suggestions for a regular spellcheck results with a collation' do
       expect(r.spelling.words).to include("dell")
@@ -225,7 +198,6 @@ RSpec.describe Blacklight::Solr::Response, :api do
 
   context "with solr 5 spellcheck collation syntax" do
     let(:raw_response) { eval(mock_response_with_spellcheck_collation_solr5) }
-    let(:request_params) { {} }
 
     it 'provides spelling suggestions for a regular spellcheck results with a collation' do
       expect(r.spelling.words).to include("dell")
@@ -239,7 +211,6 @@ RSpec.describe Blacklight::Solr::Response, :api do
 
   context 'with solr 6.5 spellcheck collation syntax' do
     let(:raw_response) { eval(mock_response_with_spellcheck_collation_solr65) }
-    let(:request_params) { {} }
 
     it 'provides spelling suggestions for a regular spellcheck results with a collation' do
       expect(r.spelling.words).to include("dell")
@@ -249,7 +220,6 @@ RSpec.describe Blacklight::Solr::Response, :api do
 
   context 'with moreLikeThis suggstions' do
     let(:raw_response) { eval(mock_response_with_more_like_this) }
-    let(:request_params) { {} }
 
     it "provides MoreLikeThis suggestions" do
       expect(r.more_like(double(id: '79930185'))).to have(2).items
@@ -258,7 +228,6 @@ RSpec.describe Blacklight::Solr::Response, :api do
 
   context 'with no results' do
     let(:raw_response) { {} }
-    let(:request_params) { {} }
 
     it "is empty when the response has no results" do
       expect(r).to be_empty

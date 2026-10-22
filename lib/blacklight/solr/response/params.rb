@@ -15,17 +15,7 @@ module Blacklight::Solr::Response::Params
     header['params'] || request_params
   end
 
-  def start
-    search_builder&.start || single_valued_param(:start).to_i
-  end
-
-  def rows
-    search_builder&.rows || single_valued_param(:rows).to_i
-  end
-
-  def sort
-    search_builder&.sort || single_valued_param(:sort)
-  end
+  delegate :start, :rows, :sort, to: :search_builder
 
   def facet_field_aggregation_options(facet_field_name)
     defaults = {
