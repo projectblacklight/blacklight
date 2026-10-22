@@ -127,6 +127,27 @@ module Blacklight
       end
     end
 
+    def header_components
+      view_config.document_header_components
+    end
+
+    def section_components
+      return to_enum(:section_components) unless block_given?
+
+      view_config.document_section_components&.each do |component_or_key|
+        case component_or_key
+        when Symbol, String
+          yield public_send(component_or_key)
+        when Class
+          yield render component_or_key.new(presenter: @presenter, counter: @counter, document_counter: @document_counter)
+        end
+      end
+    end
+
+    def footer_components
+      view_config.document_footer_components
+    end
+
     private
 
     delegate :view_config, to: :@presenter
