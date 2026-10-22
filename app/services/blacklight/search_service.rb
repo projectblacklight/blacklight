@@ -20,6 +20,8 @@ module Blacklight
     # The blacklight_config + controller are accessed by the search_builder
     attr_reader :blacklight_config, :context
 
+    attr_writer :search_state
+
     def search_builder
       search_builder_class.new(self, blacklight_config: blacklight_config)
     end
