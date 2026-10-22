@@ -54,26 +54,67 @@ class Blacklight::Configuration
       end
     end
 
-    # Provide backwards compatibility with the configuration keys without the document_ prefix
-    def title_component(*) = document_title_component(*)
-    def metadata_component(*) = document_metadata_component(*)
-    def thumbnail_component(*) = document_thumbnail_component(*)
-    def embed_component(*) = document_embed_component(*)
+    def component_for(*keys)
+      result = dig(:components, *Array(keys).flatten)
 
-    def title_component=(value)
-      self.document_title_component = value
+      if result.is_a?(Symbol)
+        component_for(*result)
+      elsif result.is_a?(Array)
+        result.map do |item|
+          if item.is_a?(Symbol)
+            component_for(item)
+          else
+            item
+          end
+        end
+      else
+        result
+      end
     end
 
-    def metadata_component=(value)
-      self.document_metadata_component = value
+    BACKWARDS_COMPATIBLE_COMPONENT_KEY_MAPPING = {
+      document_component: [:document, :root],
+      document_embed_component: [:document, :embed],
+      document_metadata_component: [:document, :metadata],
+      document_thumbnail_component: [:document, :thumbnail],
+      document_title_component: [:document, :title],
+      embed_component: [:document, :embed],
+      metadata_component: [:document, :metadata],
+      humbnail_component: [:document, :thumbnail],
+      title_component: [:document, :title],
+      search_bar_component: [:search_results, :search_bar],
+      facet_group_component: [:facets, :group],
+      facet_filters_component: [:facets, :filters],
+      facet_pagination_component: [:facets, :pagination],
+      constraints_component: [:search_results, :constraints],
+      search_header_component: [:search_results, :search_header],
+      sidebar_component: [:search_results, :facets],
+      dropdown_component: [:system, :dropdown]
+    }.freeze
+
+    BACKWARDS_COMPATIBLE_COMPONENT_KEY_MAPPING.each do |old_key, new_keys|
+      define_method old_key do
+        component_for(*new_keys)
+      end
+
+      define_method "#{old_key}=" do |value|
+        self[:components] ||= {}
+
+        parent_node = new_keys.slice(...-1).inject(self[:components]) do |memo, key|
+          memo[key] ||= {}
+          memo[key]
+        end
+
+        parent_node[new_keys.last] = value
+      end
     end
 
-    def thumbnail_component=(value)
-      self.document_thumbnail_component = value
-    end
-
-    def embed_component=(value)
-      self.document_embed_component = value
+    def set_ostruct_member_value!(name, value)
+      if BACKWARDS_COMPATIBLE_COMPONENT_KEY_MAPPING.key?(name)
+        send("#{name}=", value)
+      else
+        super
+      end
     end
 
     class Show < ViewConfig
