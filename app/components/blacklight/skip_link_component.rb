@@ -11,7 +11,7 @@ module Blacklight
     end
 
     def search_id
-      return '#search_field' if helpers.blacklight_config.search_fields.values.many? { |field_def| helpers.should_render_field?(field_def) }
+      return '#search_field' if helpers.blacklight_config_presenter.search_fields.many?
 
       '#q'
     end
