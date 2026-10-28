@@ -117,6 +117,19 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
       expect(page).to have_css 'a[href="/catalog/x"] img[src="http://example.com/image.jpg"]'
     end
 
+    context 'with a default thumbnail' do
+      before do
+        blacklight_config.index.default_thumbnail = 'http://example.com/default.png'
+      end
+
+      it 'renders the default thumbnail beneath the thumbnail, inside the link' do
+        render_inline component
+
+        expect(page).to have_css 'a[href="/catalog/x"] .thumbnail-stack .thumbnail-fallback img[src="http://example.com/default.png"]'
+        expect(page).to have_css 'a[href="/catalog/x"] .thumbnail-stack > img[src="http://example.com/image.jpg"]'
+      end
+    end
+
     context 'with default metadata component' do
       it 'renders metadata' do
         render_inline component
