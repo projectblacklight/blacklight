@@ -60,6 +60,20 @@ RSpec.describe Blacklight::DocumentPresenter, type: :presenter do
     end
   end
 
+  describe '#open_graph' do
+    it 'returns an open graph presenter for this document presenter' do
+      expect(presenter.open_graph).to be_a(Blacklight::OpenGraphPresenter)
+      expect(presenter.open_graph.presenter).to be presenter
+    end
+
+    it 'uses the configured open graph presenter' do
+      custom_presenter_class = Class.new(Blacklight::OpenGraphPresenter)
+      blacklight_config.index.open_graph_presenter = custom_presenter_class
+
+      expect(presenter.open_graph).to be_a custom_presenter_class
+    end
+  end
+
   describe '#inspect' do
     subject(:inspect) { presenter.inspect }
 

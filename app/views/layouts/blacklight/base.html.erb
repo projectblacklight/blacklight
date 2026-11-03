@@ -32,6 +32,7 @@
     <% end %>
 
     <%= csrf_meta_tags %>
+    <%= render_open_graph_tags %>
     <%= content_for(:head) %>
   </head>
   <body class="<%= render_body_class %>">
