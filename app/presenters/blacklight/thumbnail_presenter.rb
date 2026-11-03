@@ -18,6 +18,11 @@ module Blacklight
       thumbnail_value(image_options)
     end
 
+    # Only works for thumbnail_field, not thumbnail_method
+    def url
+      thumbnail_value_from_document if thumbnail_field
+    end
+
     ##
     # Does the document have a thumbnail to render?
     #

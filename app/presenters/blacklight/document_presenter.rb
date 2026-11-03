@@ -5,8 +5,9 @@ module Blacklight
   class DocumentPresenter
     attr_reader :document, :configuration, :view_context
 
-    class_attribute :thumbnail_presenter
+    class_attribute :thumbnail_presenter, :open_graph_presenter
     self.thumbnail_presenter = ThumbnailPresenter
+    self.open_graph_presenter = OpenGraphPresenter
 
     # @param [SolrDocument] document
     # @param [ActionView::Base] view_context scope for linking and generating urls
@@ -102,8 +103,16 @@ module Blacklight
       view_config.thumbnail_presenter || thumbnail_presenter
     end
 
+    def open_graph_presenter_class
+      view_config.open_graph_presenter || open_graph_presenter
+    end
+
     def thumbnail
       @thumbnail ||= thumbnail_presenter_class.new(document, view_context, view_config)
+    end
+
+    def open_graph
+      @open_graph ||= open_graph_presenter_class.new(self)
     end
 
     ##

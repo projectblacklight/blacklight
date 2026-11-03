@@ -123,6 +123,7 @@
   title_tsim: Naqdī barā-yi tamām-i fuṣūl
   subject_era_ssim:
   - 1997-
+  thumbnail_path_ss: https://picsum.photos/seed/00313831/100/100
   id: 00313831
   isbn_ssim:
   - '9645625963'
@@ -612,6 +613,7 @@
   - Gautama Buddha
   - Yaśodharā (Wife of Gautama Buddha)
   title_si: yaśodharā-mahākāvyam
+  thumbnail_path_ss: https://picsum.photos/seed/78908283/640/480
   id: '78908283'
   author_si: Parikshit Sharma Ogeti 1930 Yaśodharāmahākāvyam
   title_addl_tsim:
@@ -1091,6 +1093,7 @@
   subject_addl_ssim:
   - Customs and practices
   title_tsim: Sefer Mishnah berurah
+  thumbnail_path_ss: https://picsum.photos/seed/92828023/60/180
   id: '92828023'
   subject_ssim:
   - Karo, Joseph ben Ephraim, 1488-1575
@@ -1683,6 +1686,7 @@
   - Bon-brgya (China)
   title_si: bon-brgyaʼi lo rgyus lugs gñis gsal baʼi me loṅ źes bya ba bźugs
     so
+  thumbnail_path_ss: https://picsum.photos/seed/2004310986/200/80
   id: '2004310986'
   author_si: Bstanʼdzinmkhasgrub 1967 Bonbrgyaʼi lo rgyus lugs gñis gsal baʼi me
     loṅ źes bya ba bźugs so
@@ -2310,6 +2314,7 @@
   title_si: bod kyi naṅ chos ṅo sprod sñiṅ bsdus :goṅ sa skyabs mgon chen po
     mchog nas deṅ dus bod rigs na gźon rnams la naṅ chos ṅo sprod bstsal ba bźugs
     so
+  thumbnail_path_ss: https://picsum.photos/seed/2008308201/120/90
   id: '2008308201'
   author_si: Bstanʼdzinrgyamtsho Dalai Lama XIV 1935 Bod kyi naṅ chos ṅo sprod
     sñiṅ bsdus goṅ sa skyabs mgon chen po mchog nas deṅ dus Bod rigs na gźon
@@ -2463,6 +2468,7 @@
   - Tibetan language
   - Teaching
   title_si: śes yon
+  thumbnail_path_ss: https://picsum.photos/seed/2008308478/80/120
   id: '2008308478'
   author_si: "\U0010FFFF Śes yon"
   title_addl_tsim:

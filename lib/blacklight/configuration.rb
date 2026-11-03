@@ -48,6 +48,7 @@ module Blacklight
       property :skip_link_component, default: Blacklight::SkipLinkComponent
       property :skip_link_item_component, default: Blacklight::SkipLinkItemComponent
       property :header_component, default: Blacklight::HeaderComponent
+      property :open_graph_component, default: Blacklight::OpenGraphMetadataComponent
       property :full_width_layout, default: false
 
       # @!attribute dark_mode_support
