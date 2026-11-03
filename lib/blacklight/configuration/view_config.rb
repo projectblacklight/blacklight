@@ -6,6 +6,20 @@ class Blacklight::Configuration
     #   @return [String] partial to render around the documents
     # @!attribute document_presenter_class
     #   @return [Class] document presenter class used by helpers and views
+    # @!attribute thumbnail_presenter
+    #   @return [Class] thumbnail presenter class used by the document presenter; defaults to Blacklight::ThumbnailPresenter
+    # @!attribute open_graph_presenter
+    #   @return [Class] presenter class used to derive Open Graph <meta> properties for a document;
+    #     defaults to Blacklight::OpenGraphPresenter
+    # @!attribute thumbnail_field
+    #   @return [String, Symbol, Blacklight::Configuration::Field, Array] solr field(s) containing a thumbnail url;
+    #     the first field with a value is used. Only this source provides a url for og:image.
+    # @!attribute thumbnail_method
+    #   @return [Symbol] helper method that renders a thumbnail; called with the document and image options.
+    #     Takes precedence over thumbnail_field when rendering a thumbnail.
+    # @!attribute default_thumbnail
+    #   @return [String, Symbol, Proc] thumbnail to render when the document has none: an image asset path,
+    #     a helper method name, or a proc; methods and procs are called with the document and image options
     # @!attribute document_component
     #   @return [Class] component class used to render a document; defaults to Blacklight::DocumentComponent
     # @!attribute document_title_component

@@ -37,6 +37,7 @@
     <% end %>
 
     <%= csrf_meta_tags %>
+    <%= content_for?(:open_graph) ? yield(:open_graph) : render(blacklight_config.open_graph_component.new) %>
     <%= content_for(:head) %>
   </head>
   <body class="<%= render_body_class %>">
