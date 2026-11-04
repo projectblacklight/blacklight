@@ -22,6 +22,36 @@ RSpec.describe 'Dark mode', :js do
     expect(page).to have_css('html[data-bs-theme="light"]')
   end
 
+  context 'when localStorage is unavailable' do
+    before do
+      # Simulate browsers where touching localStorage throws (e.g. Firefox's NS_ERROR_FAILURE
+      # with corrupt profile storage, or a SecurityError when site data is blocked)
+      page.driver.browser.execute_cdp(
+        'Page.addScriptToEvaluateOnNewDocument',
+        source: <<~JS
+          Object.defineProperty(window, 'localStorage', {
+            configurable: true,
+            get() { throw new DOMException('Storage unavailable', 'SecurityError') }
+          })
+        JS
+      )
+    end
+
+    it 'still initializes the theme and allows switching themes' do
+      visit root_path
+
+      expect(page).to have_css('html[data-bs-theme]')
+      expect(page).to have_no_css('html.no-js')
+      # showActiveTheme ran on load, so the preferred (OS-derived) theme is marked active
+      expect(page).to have_css('[data-bs-theme-value][aria-pressed="true"]', visible: :all)
+
+      find_by_id('bl-theme-switcher').click
+      find('[data-bs-theme-value="dark"]').click
+
+      expect(page).to have_css('html[data-bs-theme="dark"]')
+    end
+  end
+
   context 'when dark mode support is disabled in the configuration' do
     before do
       allow(Blacklight::Configuration).to receive(:new).and_wrap_original do |m, *args|
