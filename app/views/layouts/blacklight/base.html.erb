@@ -10,7 +10,12 @@
     <% if dark_mode_support? %>
     <script>
       (() => {
-        const theme = localStorage.getItem('theme') || 'auto';
+        let theme = 'auto';
+        try {
+          theme = localStorage.getItem('theme') || 'auto';
+        } catch {
+          // localStorage may be unavailable (e.g. disabled or corrupt browser storage)
+        }
         if (theme === 'auto') {
           document.documentElement.setAttribute('data-bs-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         } else {

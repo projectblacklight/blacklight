@@ -8,8 +8,24 @@ import Core from 'blacklight-frontend/core'
 const ColorThemeSwitcher = (() => {
   'use strict'
 
-  const getStoredTheme = () => localStorage.getItem('theme')
-  const setStoredTheme = (theme) => localStorage.setItem('theme', theme)
+  // Accessing localStorage can throw (e.g. NS_ERROR_FAILURE in Firefox when the
+  // profile's storage is corrupt, or SecurityError when storage is disabled),
+  // so treat any failure as "no stored theme" rather than breaking page load.
+  const getStoredTheme = () => {
+    try {
+      return localStorage.getItem('theme')
+    } catch {
+      return null
+    }
+  }
+
+  const setStoredTheme = (theme) => {
+    try {
+      localStorage.setItem('theme', theme)
+    } catch {
+      // Storage is unavailable; the theme still applies for this page view.
+    }
+  }
 
   const getPreferredTheme = () => {
     const storedTheme = getStoredTheme()
