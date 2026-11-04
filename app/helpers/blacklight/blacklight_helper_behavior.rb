@@ -5,6 +5,7 @@ module Blacklight::BlacklightHelperBehavior
   include Blacklight::UrlHelperBehavior
   include Blacklight::LayoutHelperBehavior
   include Blacklight::IconHelperBehavior
+  include Blacklight::MetaHelperBehavior
 
   ##
   # Get the name of this application from an i18n string

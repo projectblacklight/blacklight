@@ -62,6 +62,72 @@ RSpec.describe Blacklight::ThumbnailPresenter, type: :presenter do
     end
   end
 
+  describe "#url" do
+    subject { presenter.url }
+
+    context "when thumbnail_field is configured" do
+      let(:config) do
+        Blacklight::OpenStructWithHashAccess.new(thumbnail_field: :xyz)
+      end
+
+      context "when the field exists in the document" do
+        let(:document) { SolrDocument.new('xyz' => 'http://example.com/some.jpg') }
+
+        it { is_expected.to eq 'http://example.com/some.jpg' }
+      end
+
+      context "when the field is missing from the document" do
+        it { is_expected.to be_nil }
+      end
+    end
+
+    context "when thumbnail_field is configured as an array of fields" do
+      let(:config) do
+        Blacklight::OpenStructWithHashAccess.new(thumbnail_field: [:rst, :uvw, :xyz])
+      end
+      let(:document) { SolrDocument.new('xyz' => 'http://example.com/some.jpg') }
+
+      it { is_expected.to eq 'http://example.com/some.jpg' }
+    end
+
+    context "when thumbnail_field is configured with an accessor" do
+      let(:config) do
+        Blacklight::OpenStructWithHashAccess.new(thumbnail_field: Blacklight::Configuration::Field.new(field: :computed_thumbnail, accessor: true))
+      end
+
+      before do
+        document.define_singleton_method(:computed_thumbnail) { 'http://example.com/computed.jpg' }
+      end
+
+      it { is_expected.to eq 'http://example.com/computed.jpg' }
+    end
+
+    context "when both thumbnail_method and thumbnail_field are configured" do
+      let(:config) do
+        Blacklight::OpenStructWithHashAccess.new(thumbnail_method: :xyz, thumbnail_field: :xyz)
+      end
+      let(:document) { SolrDocument.new('xyz' => 'http://example.com/some.jpg') }
+
+      it { is_expected.to eq 'http://example.com/some.jpg' }
+    end
+
+    context "when only thumbnail_method is configured" do
+      let(:config) do
+        Blacklight::OpenStructWithHashAccess.new(thumbnail_method: :xyz)
+      end
+
+      it { is_expected.to be_nil }
+    end
+
+    context "when only default_thumbnail is configured" do
+      let(:config) do
+        Blacklight::OpenStructWithHashAccess.new(default_thumbnail: 'image.png')
+      end
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe "#thumbnail_tag" do
     subject { presenter.thumbnail_tag }
 
