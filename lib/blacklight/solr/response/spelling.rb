@@ -23,64 +23,68 @@ module Blacklight::Solr::Response::Spelling
     # combination of words may not have results.
     # Thanks to Naomi Dushay!
     def words
-      @words ||= begin
-        word_suggestions = []
-        spellcheck = response[:spellcheck]
-        if spellcheck && spellcheck[:suggestions]
-          suggestions = spellcheck[:suggestions]
-          unless suggestions.nil?
-            if suggestions.is_a?(Array)
-              # Before solr 6.5 suggestions is an array with the following format:
-              #    (query term)
-              #    (hash of term info and term suggestion)
-              #    ...
-              #    (query term)
-              #    (hash of term info and term suggestion)
-              #    'correctlySpelled'
-              #    true/false
-              #    collation
-              #    (suggestion for collation)
-              # We turn it into a hash here so that it is the same format as in solr 6.5 and later
-              suggestions = Hash[*suggestions].except('correctlySpelled', 'collation')
-            end
-
-            suggestions.each_value do |term_info|
-              # term_info is a hash:
-              #   numFound =>
-              #   startOffset =>
-              #   endOffset =>
-              #   origFreq =>
-              #   suggestion =>  [{ frequency =>, word => }] # for extended results
-              #   suggestion => ['word'] # for non-extended results
-              orig_freq = term_info['origFreq']
-              word_suggestions << if term_info['suggestion'].first.is_a?(Hash)
-                                    term_info['suggestion'].map do |suggestion|
-                                      suggestion['word'] if suggestion['freq'] > orig_freq
-                                    end
-                                  else
-                                    # only extended suggestions have frequency so we just return all suggestions
-                                    term_info['suggestion']
-                                  end
-            end
+      @words ||= term_suggestions.map do |term_info|
+        # term_info is a hash:
+        #   numFound =>
+        #   startOffset =>
+        #   endOffset =>
+        #   origFreq =>
+        #   suggestion =>  [{ frequency =>, word => }] # for extended results
+        #   suggestion => ['word'] # for non-extended results
+        orig_freq = term_info['origFreq']
+        if term_info['suggestion'].first.is_a?(Hash)
+          term_info['suggestion'].map do |suggestion|
+            suggestion['word'] if suggestion['freq'] > orig_freq
           end
+        else
+          # only extended suggestions have frequency so we just return all suggestions
+          term_info['suggestion']
         end
-        word_suggestions.flatten.compact.uniq
-      end
+      end.flatten.compact.uniq
     end
 
     def collation
-      # FIXME: DRY up with words
-      spellcheck = response[:spellcheck]
-      return unless spellcheck && spellcheck[:suggestions]
-
-      suggestions = spellcheck[:suggestions]
+      return unless suggestions
 
       if suggestions.is_a?(Array) && suggestions.index("collation")
         # solr < 5 response
         suggestions[suggestions.index("collation") + 1]
       elsif spellcheck.key?("collations")
         # solr 5+ response
-        spellcheck['collations'].last if spellcheck.key?("collations")
+        spellcheck['collations'].last
+      end
+    end
+
+    private
+
+    def spellcheck
+      response[:spellcheck]
+    end
+
+    # @return [Array, Hash, nil] the raw suggestions from the spellcheck component
+    def suggestions
+      spellcheck[:suggestions] if spellcheck
+    end
+
+    # @return [Array<Hash>] the term info for each suggested query term
+    def term_suggestions
+      return [] unless suggestions
+
+      if suggestions.is_a?(Array)
+        # Before solr 6.5 suggestions is an array with the following format:
+        #    (query term)
+        #    (hash of term info and term suggestion)
+        #    ...
+        #    (query term)
+        #    (hash of term info and term suggestion)
+        #    'correctlySpelled'
+        #    true/false
+        #    collation
+        #    (suggestion for collation)
+        # We turn it into a hash here so that it is the same format as in solr 6.5 and later
+        Hash[*suggestions].except('correctlySpelled', 'collation').values
+      else
+        suggestions.values
       end
     end
   end
