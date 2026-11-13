@@ -704,6 +704,18 @@ RSpec.describe CatalogController, :api do
       expect(session).to eq(s)
     end
 
+    it "ignores a search id that is not in the user's search history" do
+      s = Search.create(query_params: { q: "x" })
+      allow(controller).to receive_messages(params: parameter_class.new(search_id: s.id))
+      expect(controller.send(:current_search_session)).to be_nil
+    end
+
+    it "ignores a stored search session id that is not in the user's search history" do
+      s = Search.create(query_params: { q: "x" })
+      session[:search] = { 'id' => s.id }
+      expect(controller.send(:current_search_session)).to be_nil
+    end
+
     it "uses an existing search session if the search is in the uri" do
       s = Search.create(query_params: { q: "x" })
       session[:search] ||= {}
