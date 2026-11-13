@@ -810,6 +810,28 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
         expect(solr_parameters[:"f.#{facet_field}.facet.prefix"]).to eq 'A'
       end
     end
+
+    context 'with a json facet' do
+      let(:facet_field) { 'json_facet' }
+      let(:user_params) { { page_key => 2, sort_key => 'index', prefix_key => 'A' } }
+
+      let(:blacklight_config) do
+        Blacklight::Configuration.new do |config|
+          config.add_facet_fields_to_solr_request!
+          config.add_facet_field 'json_facet', field: 'solr_field', json: true
+        end
+      end
+
+      it 'requests the facet page using the JSON Facet API' do
+        expect(solr_parameters.dig(:json, :facet, 'json_facet')).to eq(
+          'type' => 'terms', 'field' => 'solr_field', 'limit' => 21, 'offset' => 20, 'sort' => 'index', 'prefix' => 'A'
+        )
+      end
+
+      it 'does not add facet.field parameters' do
+        expect(solr_parameters).not_to have_key :'facet.field'
+      end
+    end
   end
 
   describe "#add_facet_suggestion_parameters" do
