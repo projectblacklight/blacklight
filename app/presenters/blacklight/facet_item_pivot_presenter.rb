@@ -44,13 +44,5 @@ module Blacklight
         label_value.compact.join(" » ")
       end
     end
-
-    def value
-      if facet_item.respond_to? :value
-        facet_item.value
-      else
-        facet_item
-      end
-    end
   end
 end
