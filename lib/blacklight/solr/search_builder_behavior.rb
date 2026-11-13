@@ -276,7 +276,7 @@ module Blacklight::Solr
       offset = (page - 1) * limit
 
       if facet_config.json
-        add_solr_facet_json_params(solr_parameters, facet, facet_config, limit: limit + 1, offset: offset, sort: sort, prefix: prefix)
+        add_solr_facet_json_params(solr_params, facet, facet_config, limit: limit + 1, offset: offset, sort: sort, prefix: prefix)
         return
       end
 
