@@ -65,10 +65,10 @@ RSpec.describe Search do
     it "destroy searches with no user_id that are older than X days" do
       described_class.destroy_all
       days_old = 7
-      described_class.create!(created_at: Date.today)
-      described_class.create!(created_at: Date.today - (days_old + 1).days)
-      described_class.create!(user: user, created_at: Date.today)
-      described_class.create!(user: user, created_at: Date.today - (days_old + 1).days)
+      described_class.create!(created_at: Time.zone.today)
+      described_class.create!(created_at: Time.zone.today - (days_old + 1).days)
+      described_class.create!(user: user, created_at: Time.zone.today)
+      described_class.create!(user: user, created_at: Time.zone.today - (days_old + 1).days)
 
       expect do
         described_class.delete_old_searches(days_old)

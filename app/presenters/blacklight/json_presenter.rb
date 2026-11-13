@@ -33,9 +33,7 @@ module Blacklight
     def pagination_info
       h = {}
 
-      [:current_page, :next_page, :prev_page, :total_pages,
-       :limit_value, :offset_value, :total_count,
-       :first_page?, :last_page?].each do |k|
+      [:current_page, :next_page, :prev_page, :total_pages, :limit_value, :offset_value, :total_count, :first_page?, :last_page?].each do |k|
         h[k] = @response.send(k)
       end
 

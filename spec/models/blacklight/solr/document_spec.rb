@@ -82,7 +82,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     it "lets you register an extension with a nil condition proc" do
-      MockDocument.use_extension(MockExtension) { |_doc| true }
+      MockDocument.use_extension(MockExtension)
       expect(MockDocument.registered_extensions.find { |a| a[:module_obj] == MockExtension }).not_to be_nil
     end
 

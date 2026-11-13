@@ -15,9 +15,7 @@ module Blacklight::Catalog
   included do
     allow_unauthenticated_access raise: false if respond_to?(:allow_unauthenticated_access)
 
-    if respond_to? :helper_method
-      helper_method :sms_mappings, :has_search_parameters?
-    end
+    helper_method :sms_mappings, :has_search_parameters? if respond_to? :helper_method
 
     record_search_parameters
   end

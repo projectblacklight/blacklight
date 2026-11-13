@@ -37,6 +37,7 @@ Metrics/BlockLength:
   Exclude:
     - "app/views/catalog/index.json.jbuilder"
     - "app/views/catalog/_document.atom.builder"
+    - "app/views/catalog/index.atom.builder"
     - "lib/railties/blacklight.rake"
     - "tasks/blacklight.rake"
     - "spec/**/*"

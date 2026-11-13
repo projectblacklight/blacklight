@@ -175,7 +175,7 @@ module Blacklight
         merge(document_pagination_params)
       end
 
-      if index > 0
+      if index.positive?
         self.start = [index - window, 0].max
         self.rows = (2 * window) + 1
       else
@@ -204,7 +204,7 @@ module Blacklight
       end
       @start ||= (page - 1) * (rows || 10)
       val = @start || 0
-      val = 0 if @start < 0
+      val = 0 if @start.negative?
       val
     end
     alias padding start

@@ -29,9 +29,7 @@ module Blacklight
   # the class Blacklight::(name of the adapter)::Repository, e.g.
   #   elastic_search => Blacklight::ElasticSearch::Repository
   def self.repository_class
-    if connection_config && !connection_config.key?(:adapter)
-      raise "The value for :adapter was not found in the blacklight.yml config"
-    end
+    raise "The value for :adapter was not found in the blacklight.yml config" if connection_config && !connection_config.key?(:adapter)
 
     case connection_config&.fetch(:adapter) || 'solr'
     when 'solr'
@@ -69,9 +67,7 @@ module Blacklight
     require 'yaml'
 
     return @blacklight_yml if @blacklight_yml
-    unless blacklight_yml?
-      raise "You are missing a configuration file: #{blacklight_config_file}. Have you run \"rails generate blacklight:install\"?"
-    end
+    raise "You are missing a configuration file: #{blacklight_config_file}. Have you run \"rails generate blacklight:install\"?" unless blacklight_yml?
 
     begin
       blacklight_erb = ERB.new(File.read(blacklight_config_file)).result(binding)
@@ -89,9 +85,7 @@ module Blacklight
       raise("#{blacklight_config_file} was found, but could not be parsed.\n#{e.inspect}")
     end
 
-    if @blacklight_yml.nil? || !@blacklight_yml.is_a?(Hash)
-      raise("#{blacklight_config_file} was found, but was blank or malformed.\n")
-    end
+    raise("#{blacklight_config_file} was found, but was blank or malformed.\n") if @blacklight_yml.nil? || !@blacklight_yml.is_a?(Hash)
 
     @blacklight_yml
   end

@@ -16,9 +16,7 @@ class TestAppGenerator < Rails::Generators::Base
       run "bundle install"
     end
     options = Rails.gem_version >= Gem::Version.new('8.0.0') ? '--authentication' : '--devise'
-    if ENV['BLACKLIGHT_API_TEST'].present?
-      options += ' --skip-assets'
-    end
+    options += ' --skip-assets' if ENV['BLACKLIGHT_API_TEST'].present?
 
     generate :'blacklight:install', options
   end
