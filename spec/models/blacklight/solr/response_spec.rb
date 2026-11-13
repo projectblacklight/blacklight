@@ -245,6 +245,23 @@ RSpec.describe Blacklight::Solr::Response, :api do
       expect(r.spelling.words).to include("dell")
       expect(r.spelling.words).to include("ultrasharp")
     end
+
+    it 'provides spelling suggestion collation' do
+      expect(r.spelling.collation).to eq 'dell ultrasharp'
+    end
+  end
+
+  context 'without a spellcheck response' do
+    let(:raw_response) { { 'response' => { 'numFound' => 0, 'start' => 0, 'docs' => [] } } }
+    let(:request_params) { {} }
+
+    it 'provides no spelling suggestions' do
+      expect(r.spelling.words).to eq []
+    end
+
+    it 'provides no collation' do
+      expect(r.spelling.collation).to be_nil
+    end
   end
 
   context 'with moreLikeThis suggstions' do
