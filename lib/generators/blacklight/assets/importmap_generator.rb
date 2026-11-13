@@ -10,7 +10,7 @@ module Blacklight
           <<~CONTENT
             pin "@github/auto-complete-element", to: "https://cdn.jsdelivr.net/npm/@github/auto-complete-element@3.8.0/+esm"
             pin "@popperjs/core", to: "https://ga.jspm.io/npm:@popperjs/core@2.11.6/dist/umd/popper.min.js"
-            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.3.5'}/dist/js/bootstrap.js"
+            pin "bootstrap", to: "https://ga.jspm.io/npm:bootstrap@#{(defined?(Bootstrap) && Bootstrap::VERSION) || '5.3.9'}/dist/js/bootstrap.js"
           CONTENT
         end
 
@@ -49,7 +49,7 @@ module Blacklight
         else
           append_to_file 'app/assets/stylesheets/application.css' do
             <<~CONTENT
-              @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css);
+              @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css);
               @import url("blacklight.css");
             CONTENT
           end
