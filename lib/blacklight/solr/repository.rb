@@ -63,28 +63,6 @@ module Blacklight::Solr
     alias ping ping?
     Blacklight.deprecation.deprecate_methods(Repository, ping: 'use Repository#ping? instead')
 
-    ##
-    # Execute a solr query at the given path with the parameters
-    # TODO: Make this private after we have a way to abstract admin/luke and ping
-    # @see [RSolr::Client#send_and_receive]
-    # @param [String] path solr path (defaults to blacklight_config.solr_path)
-    # @param [Hash, Blacklight::SearchBuilder] solr_params parameters for RSolr::Client#send_and_receive
-    # @return [Blacklight::Solr::Response] the solr response object
-    def send_and_receive(path, solr_params = {})
-      request = build_solr_request(solr_params)
-      instrument_solr_request(path, solr_params, method: request[:method]) do
-        res = connection.send_and_receive(path, request)
-        blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
-      end
-    rescue *defined_rsolr_timeout_exceptions => e
-      raise Blacklight::Exceptions::RepositoryTimeout, "Timeout connecting to Solr instance using #{connection.inspect}: #{e.inspect}"
-    rescue Errno::ECONNREFUSED => e
-      # intended for and likely to be a RSolr::Error:ConnectionRefused, specifically.
-      raise Blacklight::Exceptions::ECONNREFUSED, "Unable to connect to Solr instance using #{connection.inspect}: #{e.inspect}"
-    rescue RSolr::Error::Http => e
-      raise Blacklight::Exceptions::InvalidRequest, e.message
-    end
-
     # @return [Hash]
     # @!visibility private
     def build_solr_request(solr_params)
@@ -104,6 +82,27 @@ module Blacklight::Solr
     end
 
     private
+
+    ##
+    # Execute a solr query at the given path with the parameters
+    # @see [RSolr::Client#send_and_receive]
+    # @param [String] path solr path (defaults to blacklight_config.solr_path)
+    # @param [Hash, Blacklight::SearchBuilder] solr_params parameters for RSolr::Client#send_and_receive
+    # @return [Blacklight::Solr::Response] the solr response object
+    def send_and_receive(path, solr_params = {})
+      request = build_solr_request(solr_params)
+      instrument_solr_request(path, solr_params, method: request[:method]) do
+        res = connection.send_and_receive(path, request)
+        blacklight_config.response_model.new(res, solr_params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
+      end
+    rescue *defined_rsolr_timeout_exceptions => e
+      raise Blacklight::Exceptions::RepositoryTimeout, "Timeout connecting to Solr instance using #{connection.inspect}: #{e.inspect}"
+    rescue Errno::ECONNREFUSED => e
+      # intended for and likely to be a RSolr::Error:ConnectionRefused, specifically.
+      raise Blacklight::Exceptions::ECONNREFUSED, "Unable to connect to Solr instance using #{connection.inspect}: #{e.inspect}"
+    rescue RSolr::Error::Http => e
+      raise Blacklight::Exceptions::InvalidRequest, e.message
+    end
 
     def instrument_solr_request(path, params, method: :get)
       ActiveSupport::Notifications.instrument("solr_request.blacklight", path: path, params: params, method: method) do |payload|
