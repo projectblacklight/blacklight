@@ -143,6 +143,9 @@ Style/RedundantRegexpEscape:
 Style/SlicingWithRange:
   Enabled: true
 
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
 Rails/ContentTag:
   Enabled: false
 
