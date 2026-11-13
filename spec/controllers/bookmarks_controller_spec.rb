@@ -26,11 +26,7 @@ RSpec.describe BookmarksController do
     end
 
     it "has a 500 status code when create is not success" do
-      allow(@controller).to receive_message_chain(:current_or_guest_user, :existing_bookmark_for).and_return(false)
-      allow(@controller).to receive_message_chain(:current_or_guest_user, :persisted?).and_return(true)
-      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :where, :exists?).and_return(false)
-      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :create!).and_raise(ActiveRecord::RecordInvalid)
-      allow(@controller).to receive_message_chain(:current_or_guest_user, :errors, :full_messages).and_return([1])
+      allow(user.bookmarks).to receive(:create!).and_raise(ActiveRecord::RecordInvalid)
       put :update, xhr: true, params: { id: 'iamabooboo', format: :js }
       expect(response).to have_http_status :internal_server_error
     end
@@ -92,9 +88,7 @@ RSpec.describe BookmarksController do
     end
 
     it "has a 500 status code when delete is not success" do
-      bm = instance_double(Bookmark)
-      allow(@controller).to receive_message_chain(:current_or_guest_user, :existing_bookmark_for).and_return(bm)
-      allow(@controller).to receive_message_chain(:current_or_guest_user, :bookmarks, :find_by).and_return(instance_double(Bookmark, delete: nil, destroyed?: false))
+      allow(user.bookmarks).to receive(:find_by).and_return(instance_double(Bookmark, delete: nil, destroyed?: false))
 
       delete :destroy, xhr: true, params: { id: 'pleasekillme', format: :js }
 

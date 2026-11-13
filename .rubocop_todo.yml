@@ -137,11 +137,6 @@ RSpec/BeforeAfterAll:
 RSpec/ExampleLength:
   Max: 33
 
-# Offense count: 8
-RSpec/ExpectInHook:
-  Exclude:
-    - "spec/controllers/catalog_controller_spec.rb"
-
 # Offense count: 107
 # Configuration parameters: AssignmentOnly.
 RSpec/InstanceVariable:
@@ -175,27 +170,6 @@ RSpec/LeakyConstantDeclaration:
     - "spec/models/blacklight/solr/document_spec.rb"
     - "spec/presenters/blacklight/show_presenter_spec.rb"
 
-# Offense count: 9
-RSpec/MessageChain:
-  Exclude:
-    - "spec/controllers/bookmarks_controller_spec.rb"
-    - "spec/presenters/blacklight/field_presenter_spec.rb"
-    - "spec/views/shared/_user_util_links.html.erb_spec.rb"
-
-# Offense count: 27
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: have_received, receive
-RSpec/MessageSpies:
-  Exclude:
-    - "spec/controllers/catalog_controller_spec.rb"
-    - "spec/helpers/blacklight/configuration_helper_behavior_spec.rb"
-    - "spec/helpers/blacklight/url_helper_behavior_spec.rb"
-    - "spec/helpers/blacklight_helper_spec.rb"
-    - "spec/helpers/catalog_helper_spec.rb"
-    - "spec/models/blacklight/search_builder_spec.rb"
-    - "spec/models/blacklight/suggest_search_spec.rb"
-    - "spec/presenters/blacklight/field_presenter_spec.rb"
-
 # Offense count: 408
 RSpec/MultipleExpectations:
   Max: 16
@@ -222,31 +196,10 @@ RSpec/RepeatedDescription:
     - "spec/features/search_results_spec.rb"
     - "spec/helpers/catalog_helper_spec.rb"
 
-# Offense count: 19
-RSpec/StubbedMock:
-  Exclude:
-    - "spec/controllers/catalog_controller_spec.rb"
-    - "spec/helpers/blacklight/configuration_helper_behavior_spec.rb"
-    - "spec/helpers/blacklight/url_helper_behavior_spec.rb"
-    - "spec/helpers/blacklight_helper_spec.rb"
-    - "spec/helpers/catalog_helper_spec.rb"
-    - "spec/models/blacklight/suggest_search_spec.rb"
-    - "spec/presenters/blacklight/field_presenter_spec.rb"
-
 # Offense count: 1
 RSpec/SubjectDeclaration:
   Exclude:
     - "spec/models/blacklight/document/cache_key_spec.rb"
-
-# Offense count: 15
-RSpec/SubjectStub:
-  Exclude:
-    - "spec/controllers/catalog_controller_spec.rb"
-    - "spec/lib/blacklight/search_state_spec.rb"
-    - "spec/models/blacklight/document/cache_key_spec.rb"
-    - "spec/models/blacklight/search_builder_spec.rb"
-    - "spec/presenters/blacklight/document_presenter_spec.rb"
-    - "spec/services/blacklight/search_service_spec.rb"
 
 # Offense count: 17
 Rails/HelperInstanceVariable:

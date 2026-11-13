@@ -130,7 +130,6 @@ RSpec.describe CatalogController, :api do
       render_views
       before do
         get :index, params: { format: 'json' }
-        expect(response).to be_successful
       end
 
       let(:json) { response.parsed_body }
@@ -138,6 +137,10 @@ RSpec.describe CatalogController, :api do
       let(:docs)   { json['data'] }
       let(:facets) { json['included'].select { |x| x['type'] == 'facet' } }
       let(:search_fields) { json['included'].select { |x| x['type'] == 'search_field' } }
+
+      it "is successful" do
+        expect(response).to be_successful
+      end
 
       it "gets the pages" do
         expect(pages["total_count"]).to eq 30
@@ -213,12 +216,13 @@ RSpec.describe CatalogController, :api do
       end
 
       it "with a symbol, it should call a controller method" do
-        expect(subject).to receive(:render_some_yaml) do
-          subject.head :ok, layout: false
+        allow(controller).to receive(:render_some_yaml) do
+          controller.head :ok, layout: false
         end
         blacklight_config.index.respond_to.yaml = :render_some_yaml
         get :index, params: { format: 'yaml' }
         expect(response.body).to be_blank
+        expect(controller).to have_received(:render_some_yaml)
       end
     end
   end # describe index action
@@ -335,7 +339,7 @@ RSpec.describe CatalogController, :api do
 
       before do
         allow(mock_document).to receive_messages(export_formats: {})
-        expect(search_service).to receive(:fetch).and_return(mock_document)
+        allow(search_service).to receive(:fetch).and_return(mock_document)
         allow(controller).to receive_messages(search_service: search_service, current_search_session: current_search)
       end
 
@@ -346,7 +350,7 @@ RSpec.describe CatalogController, :api do
 
         context 'when no exception is raised' do
           before do
-            expect(search_service).to receive(:previous_and_next_documents_for_search)
+            allow(search_service).to receive(:previous_and_next_documents_for_search)
               .and_return([double(total: 5), [SolrDocument.new(id: "a"), mock_document, SolrDocument.new(id: "b")]])
           end
 
@@ -363,9 +367,8 @@ RSpec.describe CatalogController, :api do
 
         context 'when an exception is raised' do
           before do
-            expect(search_service).to receive(:previous_and_next_documents_for_search) {
-              raise Blacklight::Exceptions::InvalidRequest, "Error"
-            }
+            allow(search_service).to receive(:previous_and_next_documents_for_search)
+              .and_raise(Blacklight::Exceptions::InvalidRequest, "Error")
           end
 
           it "does not break" do
@@ -395,16 +398,17 @@ RSpec.describe CatalogController, :api do
 
     it "renders show.html.erb" do
       allow(controller).to receive(:search_service).and_return(search_service)
-      expect(search_service).to receive(:fetch).and_return(mock_document)
+      allow(search_service).to receive(:fetch).and_return(mock_document)
 
       get :show, params: { id: doc_id }
       expect(response).to render_template(:show)
+      expect(search_service).to have_received(:fetch)
     end
 
     describe '@document' do
       before do
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:fetch).and_return(mock_document)
+        allow(search_service).to receive(:fetch).and_return(mock_document)
 
         get :show, params: { id: doc_id }
       end
@@ -430,7 +434,7 @@ RSpec.describe CatalogController, :api do
         Mime::Type.register "application/mock", :mock
         SolrDocument.use_extension(FakeExtension)
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:fetch).and_return(SolrDocument.new(id: 'my_fake_doc'))
+        allow(search_service).to receive(:fetch).and_return(SolrDocument.new(id: 'my_fake_doc'))
       end
 
       after do
@@ -455,7 +459,7 @@ RSpec.describe CatalogController, :api do
       render_views
       before do
         allow(controller).to receive(:search_service).and_return(search_service)
-        expect(search_service).to receive(:search_results)
+        allow(search_service).to receive(:search_results)
           .and_return(instance_double(Blacklight::Solr::Response, documents: [SolrDocument.new(id: 'my_fake_doc'),
                                                                               SolrDocument.new(id: 'my_other_doc')]))
       end
@@ -475,7 +479,7 @@ RSpec.describe CatalogController, :api do
       allow(mock_document).to receive(:to_model).and_return(SolrDocument.new(id: 'my_fake_doc'))
 
       allow(controller).to receive(:search_service).and_return(search_service)
-      expect(search_service).to receive(:fetch).and_return([mock_document])
+      allow(search_service).to receive(:fetch).and_return([mock_document])
       request.env["HTTP_REFERER"] = "/catalog/#{doc_id}"
     end
 
@@ -763,18 +767,18 @@ RSpec.describe CatalogController, :api do
     describe "when posting to the action" do
       context 'with valid params' do
         it "calls the supplied method on post" do
-          expect(controller).to receive(:validate_like_params).and_return(true)
-          expect(controller).to receive(:perform_like)
+          allow(controller).to receive_messages(validate_like_params: true, perform_like: nil)
           post :like
+          expect(controller).to have_received(:perform_like)
         end
       end
 
       context "with failure on invalid params" do
         it "does not call the supplied method" do
-          expect(controller).to receive(:validate_like_params).and_return(false)
-          expect(controller).not_to receive(:perform_like)
+          allow(controller).to receive_messages(validate_like_params: false, perform_like: nil)
           skip 'Clarify expectations on validator failure: 400? 500? Set a specific error key/msg? Render the same template anyway?'
           post :like
+          expect(controller).not_to have_received(:perform_like)
         end
       end
     end
