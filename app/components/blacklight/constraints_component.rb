@@ -113,7 +113,8 @@ module Blacklight
 
       @search_state.clause_params.each do |key, clause|
         field_config = helpers.blacklight_config.search_fields[clause[:field]]
-        yield Blacklight::ClausePresenter.new(key, clause, field_config, helpers)
+        # The search builder ignores clauses for unconfigured fields, so don't show them as constraints
+        yield Blacklight::ClausePresenter.new(key, clause, field_config, helpers) if field_config
       end
     end
 

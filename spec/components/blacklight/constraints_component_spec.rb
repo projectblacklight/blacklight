@@ -65,6 +65,28 @@ RSpec.describe Blacklight::ConstraintsComponent, type: :component do
     end
   end
 
+  context 'with a search clause' do
+    let(:blacklight_config) do
+      Blacklight::Configuration.new.configure do |config|
+        config.add_search_field 'title'
+      end
+    end
+    let(:query_params) { { clause: { '0' => { field: 'title', query: 'dogs' } } } }
+
+    it 'renders the clause' do
+      expect(page).to have_css('.constraint-value > .filter-name', text: 'Title').and(have_css('.constraint-value > .filter-value', text: 'dogs'))
+    end
+
+    context 'when the search field is not configured' do
+      let(:query_params) { { clause: { '0' => { field: 'title', query: 'dogs' }, '1' => { field: 'not_a_real_field', query: 'cats' } } } }
+
+      it 'renders only the clauses for configured search fields' do
+        expect(page).to have_css('.constraint-value > .filter-value', text: 'dogs')
+        expect(page).to have_no_css('.constraint-value > .filter-value', text: 'cats')
+      end
+    end
+  end
+
   describe '.for_search_history' do
     subject(:component) { described_class.for_search_history(**params) }
 
