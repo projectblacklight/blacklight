@@ -72,7 +72,8 @@ module Blacklight::SearchContext
       find_or_initialize_search_session_from_params JSON.parse(params[:search_context])
     elsif params[:search_id].present?
       begin
-        # TODO: check the search id signature.
+        # The search id does not need to be signed: searches_from_history only finds
+        # searches already recorded in this session, so a guessed id is ignored.
         searches_from_history.find(params[:search_id])
       rescue ActiveRecord::RecordNotFound
         nil
