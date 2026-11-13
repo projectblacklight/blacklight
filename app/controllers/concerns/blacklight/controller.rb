@@ -23,14 +23,13 @@ module Blacklight::Controller
 
       # extra head content
       helper_method :has_user_authentication_provider?
-      helper_method :blacklight_config, :blacklight_configuration_context # move to Catalog
+      helper_method :blacklight_config, :blacklight_configuration_context
       helper_method :search_action_url, :search_action_path
       helper_method :search_state
     end
 
     # Which class to use for the search state. You can subclass SearchState if you
     # want to override any of the methods (e.g. SearchState#url_for_document)
-    # TODO: move to Searchable
     class_attribute :search_state_class, default: Blacklight::SearchState
   end
 
@@ -45,7 +44,6 @@ module Blacklight::Controller
 
   ##
   # Context in which to evaluate blacklight configuration conditionals
-  # TODO: move to catalog?
   def blacklight_configuration_context
     @blacklight_configuration_context ||= Blacklight::Configuration::Context.new(self)
   end

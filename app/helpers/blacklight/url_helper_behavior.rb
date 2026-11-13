@@ -6,7 +6,6 @@ module Blacklight::UrlHelperBehavior
   # Uses the catalog_path route to create a link to the show page for an item.
   # catalog_path accepts a hash. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.
-  # TODO: move this to the IndexPresenter
   # @param doc [SolrDocument] the document
   # @param field_or_opts [Hash, String] either a string to render as the link text or options
   # @param opts [Hash] the options to create the link with
