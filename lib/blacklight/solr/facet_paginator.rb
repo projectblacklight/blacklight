@@ -24,7 +24,7 @@ module Blacklight::Solr
       @sort = arguments[:sort].keys.first.to_s if arguments[:sort].is_a? Hash
 
       # count is solr's default
-      @sort ||= if @limit.to_i > 0
+      @sort ||= if @limit.to_i.positive?
                   'count'
                 else
                   'index'

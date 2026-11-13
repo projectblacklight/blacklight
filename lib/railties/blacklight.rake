@@ -20,7 +20,7 @@ namespace :blacklight do
       require 'yaml'
 
       app_file = Rails.root && "#{Rails.root}spec/fixtures/sample_solr_documents.yml"
-      file = ENV.fetch('FILE') { (app_file && File.exist?(app_file) && app_file) } ||
+      file = ENV.fetch('FILE') { app_file && File.exist?(app_file) && app_file } ||
              File.join(Blacklight.root, 'spec', 'fixtures', 'sample_solr_documents.yml')
       docs = YAML.safe_load(File.open(file))
       conn = Blacklight.default_index.connection
@@ -107,15 +107,13 @@ namespace :blacklight do
           errors += 1
         end
 
-        if verbose
-          puts "\tstatus: #{response.header['status']}"
-        end
+        puts "\tstatus: #{response.header['status']}" if verbose
       rescue StandardError => e
         errors += 1
         puts e
       end
 
-      exit 1 if errors > 0
+      exit 1 if errors.positive?
     end
   end
 end

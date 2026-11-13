@@ -94,7 +94,7 @@ module Blacklight
       document_list = response.documents
 
       # only get the previous doc if there is one
-      prev_doc = document_list.first if index > 0
+      prev_doc = document_list.first if index.positive?
       next_doc = document_list.last if (index + 1) < response.total
       [response, [prev_doc, next_doc]]
     end

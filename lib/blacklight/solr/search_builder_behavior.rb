@@ -148,9 +148,7 @@ module Blacklight::Solr
     # as :f, to solr as appropriate :fq query.
     def add_facet_fq_to_solr(solr_parameters)
       # convert a String value into an Array
-      if solr_parameters[:fq].is_a? String
-        solr_parameters[:fq] = [solr_parameters[:fq]]
-      end
+      solr_parameters[:fq] = [solr_parameters[:fq]] if solr_parameters[:fq].is_a? String
 
       search_state.filters.each do |filter|
         filter_query_builder_class_or_proc = filter.config.filter_query_builder || DefaultFilterQueryBuilder
@@ -205,9 +203,7 @@ module Blacklight::Solr
           solr_parameters.append_facet_fields with_ex_local_param(facet.ex, facet.field)
         end
 
-        if facet.sort
-          solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort
-        end
+        solr_parameters[:"f.#{facet.field}.facet.sort"] = facet.sort if facet.sort
 
         facet.solr_params&.each do |k, v|
           solr_parameters[:"f.#{facet.field}.#{k}"] = v
@@ -330,7 +326,7 @@ module Blacklight::Solr
 
       return if limit.nil?
 
-      if limit > 0
+      if limit.positive?
         limit + 1
       else
         limit

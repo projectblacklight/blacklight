@@ -222,22 +222,6 @@ RSpec/RepeatedDescription:
     - "spec/features/search_results_spec.rb"
     - "spec/helpers/catalog_helper_spec.rb"
 
-# Offense count: 2
-RSpec/RepeatedExample:
-  Exclude:
-    - "spec/models/blacklight/solr/document_spec.rb"
-
-# Offense count: 2
-RSpec/RepeatedExampleGroupDescription:
-  Exclude:
-    - "spec/services/blacklight/search_service_spec.rb"
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/ScatteredLet:
-  Exclude:
-    - "spec/views/catalog/index.atom.builder_spec.rb"
-
 # Offense count: 19
 RSpec/StubbedMock:
   Exclude:
@@ -263,14 +247,6 @@ RSpec/SubjectStub:
     - "spec/models/blacklight/search_builder_spec.rb"
     - "spec/presenters/blacklight/document_presenter_spec.rb"
     - "spec/services/blacklight/search_service_spec.rb"
-
-# Offense count: 4
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle, AllowToTime.
-# SupportedStyles: strict, flexible
-Rails/Date:
-  Exclude:
-    - "spec/models/search_spec.rb"
 
 # Offense count: 17
 Rails/HelperInstanceVariable:
@@ -334,39 +310,6 @@ Style/GuardClause:
     - "app/helpers/blacklight/catalog_helper_behavior.rb"
     - "lib/blacklight/solr/search_builder_behavior.rb"
 
-# Offense count: 32
-# This cop supports safe autocorrection (--autocorrect).
-Style/IfUnlessModifier:
-  Enabled: false
-
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-Style/MultilineIfModifier:
-  Exclude:
-    - "app/views/catalog/index.atom.builder"
-    - "lib/blacklight/solr/response/facets.rb"
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowMethodComparison, ComparisonsThreshold.
-Style/MultipleComparison:
-  Exclude:
-    - "lib/blacklight/configuration/context.rb"
-
-# Offense count: 8
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle, AllowedMethods, AllowedPatterns.
-# SupportedStyles: predicate, comparison
-Style/NumericPredicate:
-  Exclude:
-    - "app/helpers/blacklight/catalog_helper_behavior.rb"
-    - "app/services/blacklight/search_service.rb"
-    - "lib/blacklight/search_builder.rb"
-    - "lib/blacklight/solr/facet_paginator.rb"
-    - "lib/blacklight/solr/response/facets.rb"
-    - "lib/blacklight/solr/search_builder_behavior.rb"
-    - "lib/railties/blacklight.rake"
-
 # Offense count: 14
 Style/OpenStructUse:
   Exclude:
@@ -377,24 +320,3 @@ Style/OpenStructUse:
     - "spec/lib/blacklight/search_state/filter_field_spec.rb"
     - "spec/models/blacklight/configuration_spec.rb"
     - "spec/models/blacklight/solr/response_spec.rb"
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowSafeAssignment, AllowInMultilineConditions.
-Style/ParenthesesAroundCondition:
-  Exclude:
-    - "app/views/catalog/_document.atom.builder"
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: PreferredDelimiters.
-Style/PercentLiteralDelimiters:
-  Exclude:
-    - "lib/blacklight/engine.rb"
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantParentheses:
-  Exclude:
-    - "app/views/catalog/_document.atom.builder"
-    - "lib/railties/blacklight.rake"

@@ -14,6 +14,8 @@ RSpec.describe "catalog/index" do
   let(:blacklight_config) { CatalogController.blacklight_config.deep_copy }
   let(:search_builder) { Blacklight::SearchBuilder.new(view) }
   let(:response) { Blacklight::Solr::Response.new({ response: { numFound: 30 } }, search_builder) }
+  # Parse the feed with Nokogiri to test namespaced elements that have_css won't test
+  let(:response_xml) { Nokogiri::XML(rendered) }
 
   before do
     allow(view).to receive_messages(action_name: 'index', blacklight_config: blacklight_config)
@@ -23,9 +25,6 @@ RSpec.describe "catalog/index" do
     allow(response).to receive(:documents).and_return(document_list)
     params['content_format'] = 'some_format'
   end
-
-  # Parse the feed with Nokogiri to test namespaced elements that have_css won't test
-  let(:response_xml) { Nokogiri::XML(rendered) }
 
   it "has contextual information" do
     render template: 'catalog/index', formats: [:atom]

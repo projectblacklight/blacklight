@@ -231,7 +231,7 @@ RSpec.describe Blacklight::SearchService, :api do
       end
     end
 
-    context "with page and num_results requested" do
+    context "with a page beyond the last result" do
       let(:page) { 5000 }
       let(:rows) { 5000 }
       let(:user_params) { { q: all_docs_query, page: page, rows: rows } }
