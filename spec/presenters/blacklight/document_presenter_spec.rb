@@ -16,11 +16,11 @@ RSpec.describe Blacklight::DocumentPresenter, type: :presenter do
   describe '#fields_to_render' do
     subject { presenter.fields_to_render.to_a }
 
-    let(:field_config) { Blacklight::Configuration::DisplayField.new(field: 'asdf') }
+    let(:field_config) { blacklight_config.show_fields['title'] }
 
     context 'when all of the fields have values' do
       before do
-        allow(presenter).to receive_messages(fields: { 'title' => field_config })
+        blacklight_config.add_show_field 'title', field: 'asdf'
       end
 
       it { is_expected.to include(['title', field_config, an_instance_of(Blacklight::FieldPresenter)]) }

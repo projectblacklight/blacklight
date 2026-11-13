@@ -134,10 +134,11 @@ RSpec.describe CatalogHelper do
       end
 
       it "calls url_for on the engine scope" do
-        expect(my_engine).to receive(:url_for).and_return('/rss-path')
+        allow(my_engine).to receive(:url_for).and_return('/rss-path')
         expect(tag).to include('title="RSS for results"')
         expect(tag).to include('rel="alternate"')
         expect(tag).to include('type="application/rss+xml"')
+        expect(my_engine).to have_received(:url_for)
       end
     end
   end
@@ -156,10 +157,11 @@ RSpec.describe CatalogHelper do
       end
 
       it "calls url_for on the engine scope" do
-        expect(my_engine).to receive(:url_for).and_return('/atom-path')
+        allow(my_engine).to receive(:url_for).and_return('/atom-path')
         expect(tag).to include('title="Atom for results"')
         expect(tag).to include('rel="alternate"')
         expect(tag).to include('type="application/atom+xml"')
+        expect(my_engine).to have_received(:url_for)
       end
     end
   end

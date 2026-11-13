@@ -77,13 +77,15 @@ RSpec.describe BlacklightHelper do
     end
 
     it "generates <link rel=alternate> tags" do
-      expect(presenter).to receive(:link_rel_alternates).and_return(result)
+      allow(presenter).to receive(:link_rel_alternates).and_return(result)
       expect(helper.render_link_rel_alternates(document)).to eq result
+      expect(presenter).to have_received(:link_rel_alternates)
     end
 
     it "sends parameters" do
-      expect(presenter).to receive(:link_rel_alternates).with({ unique: true }).and_return(result)
+      allow(presenter).to receive(:link_rel_alternates).and_return(result)
       expect(helper.render_link_rel_alternates(document, unique: true)).to eq result
+      expect(presenter).to have_received(:link_rel_alternates).with({ unique: true })
     end
   end
 
