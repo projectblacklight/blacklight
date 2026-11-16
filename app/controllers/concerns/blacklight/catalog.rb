@@ -26,8 +26,8 @@ module Blacklight::Catalog
 
     respond_to do |format|
       format.html { store_preferred_view }
-      format.rss  { render layout: false }
-      format.atom { render layout: false }
+      format.rss  { render layout: false } if blacklight_config.view.key?(:rss)
+      format.atom { render layout: false } if blacklight_config.view.key?(:atom)
       format.json { @presenter = json_presenter(@response) }
       additional_response_formats(format)
       document_export_formats(format)

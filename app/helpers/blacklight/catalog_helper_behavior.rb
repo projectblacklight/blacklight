@@ -10,15 +10,19 @@ module Blacklight::CatalogHelperBehavior
 
   # @param [Hash] options
   # @option options :route_set the route scope to use when constructing the link
-  # @return [String]
+  # @return [String, nil] nil if the rss view has been removed from the configuration
   def rss_feed_link_tag(options = {})
+    return unless blacklight_config.view.key?(:rss)
+
     auto_discovery_link_tag(:rss, feed_link_url('rss', options), title: t('blacklight.search.rss_feed'))
   end
 
   # @param [Hash] options
   # @option options :route_set the route scope to use when constructing the link
-  # @return [String]
+  # @return [String, nil] nil if the atom view has been removed from the configuration
   def atom_feed_link_tag(options = {})
+    return unless blacklight_config.view.key?(:atom)
+
     auto_discovery_link_tag(:atom, feed_link_url('atom', options), title: t('blacklight.search.atom_feed'))
   end
 
