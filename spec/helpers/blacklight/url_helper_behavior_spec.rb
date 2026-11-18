@@ -89,11 +89,10 @@ RSpec.describe Blacklight::UrlHelperBehavior do
       end
 
       it "calls url_for on the engine scope" do
-        expect(my_engine).to receive(:url_for)
-          .with({ q: "query", f: "facets", controller: "catalog" })
-          .and_return('link-url')
+        allow(my_engine).to receive(:url_for).and_return('link-url')
         expect(tag).to include('Back to Search')
         expect(tag).to include('link-url')
+        expect(my_engine).to have_received(:url_for).with({ q: "query", f: "facets", controller: "catalog" })
       end
     end
   end
@@ -157,10 +156,11 @@ RSpec.describe Blacklight::UrlHelperBehavior do
     end
 
     it 'adds a controller-specific tracking attribute' do
-      expect(helper.main_app).to receive(:track_test_path).and_return('/asdf')
+      allow(helper.main_app).to receive(:track_test_path).and_return('/asdf')
       link = helper.link_to_document document, data: { x: 1 }
 
       expect(link).to have_css '[data-context-href="/asdf"]'
+      expect(helper.main_app).to have_received(:track_test_path)
     end
   end
 

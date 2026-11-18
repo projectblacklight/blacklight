@@ -15,7 +15,7 @@ RSpec.describe "shared/_user_util_links" do
     count = rand(99)
     allow(controller).to receive(:render_bookmarks_control?).and_return true
     allow(view).to receive_messages(blacklight_config: blacklight_config, has_user_authentication_provider?: false)
-    allow(view).to receive_message_chain(:current_or_guest_user, :bookmarks, :count).and_return(count)
+    allow(view).to receive(:current_or_guest_user).and_return(instance_double(User, bookmarks: double(count: count)))
     render "shared/user_util_links"
     expect(rendered).to have_css('#bookmarks_nav span.badge[data-role=bookmark-counter]', text: count.to_s)
   end

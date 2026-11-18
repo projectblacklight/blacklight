@@ -161,9 +161,10 @@ RSpec.describe Blacklight::FieldPresenter, :api, type: :presenter do
       let(:field_name) { 'explicit_accessor' }
 
       it 'calls the accessor with the field_name as the argument' do
-        expect(document).to receive(:solr_doc_accessor).with('explicit_accessor').and_return("123")
+        allow(document).to receive(:solr_doc_accessor).and_return("123")
 
         expect(subject).to eq ['123']
+        expect(document).to have_received(:solr_doc_accessor).with('explicit_accessor')
       end
     end
 
@@ -171,7 +172,7 @@ RSpec.describe Blacklight::FieldPresenter, :api, type: :presenter do
       let(:field_name) { 'explicit_array_accessor' }
 
       it 'calls the accessors on the return of the preceeding' do
-        allow(document).to receive_message_chain(:solr_doc_accessor, some_method: "123")
+        allow(document).to receive(:solr_doc_accessor).and_return(double(some_method: "123"))
 
         expect(subject).to eq ['123']
       end

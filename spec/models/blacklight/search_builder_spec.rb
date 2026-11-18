@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe Blacklight::SearchBuilder, :api do
-  subject(:builder) { described_class.new processor_chain, scope }
+  subject(:builder) { builder_class.new processor_chain, scope }
 
+  let(:builder_class) { described_class }
   let(:processor_chain) { [] }
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:scope) { double blacklight_config: blacklight_config, search_state_class: nil }
@@ -84,9 +85,11 @@ RSpec.describe Blacklight::SearchBuilder, :api do
   describe "#merge" do
     let(:processor_chain) { [:pass_through] }
 
-    before do
-      allow(subject).to receive(:pass_through) do |req_params|
-        req_params.replace subject.blacklight_params
+    let(:builder_class) do
+      Class.new(described_class) do
+        def pass_through(req_params)
+          req_params.replace blacklight_params
+        end
       end
     end
 
@@ -99,9 +102,11 @@ RSpec.describe Blacklight::SearchBuilder, :api do
   describe "#reverse_merge" do
     let(:processor_chain) { [:pass_through] }
 
-    before do
-      allow(subject).to receive(:pass_through) do |req_params|
-        req_params.replace subject.blacklight_params
+    let(:builder_class) do
+      Class.new(described_class) do
+        def pass_through(req_params)
+          req_params.replace blacklight_params
+        end
       end
     end
 
@@ -118,12 +123,15 @@ RSpec.describe Blacklight::SearchBuilder, :api do
 
   describe "#processed_parameters" do
     let(:processor_chain) { [:step_1] }
+    let(:builder_class) do
+      Class.new(described_class) do
+        def step_1(req_params)
+          req_params[:step_1] = 'builder'
+        end
+      end
+    end
 
     it "tries to run the processor method on the search builder" do
-      allow(subject).to receive(:step_1) do |req_params|
-        req_params[:step_1] = 'builder'
-      end
-
       subject.with(a: 1)
       expect(subject.processed_parameters).to include step_1: 'builder'
     end
@@ -285,19 +293,16 @@ RSpec.describe Blacklight::SearchBuilder, :api do
     end
 
     it "is marked as changed when pagination changes" do
-      expect(subject).to receive(:page=).with(1).and_call_original
       subject.page(1)
       expect(subject.send(:params_changed?)).to be true
     end
 
     it "is marked as changed when rows changes" do
-      expect(subject).to receive(:rows=).with(1).and_call_original
       subject.rows(1)
       expect(subject.send(:params_changed?)).to be true
     end
 
     it "is marked as changed when start offset changes" do
-      expect(subject).to receive(:start=).with(1).and_call_original
       subject.start(1)
       expect(subject.send(:params_changed?)).to be true
     end

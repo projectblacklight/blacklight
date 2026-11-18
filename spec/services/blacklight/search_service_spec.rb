@@ -79,7 +79,7 @@ RSpec.describe Blacklight::SearchService, :api do
       let(:user_params) { { q: all_docs_query } }
 
       before do
-        allow(subject).to receive_messages grouped_key_for_results: 'title_si'
+        blacklight_config.index.group = 'title_si'
         blacklight_config.default_solr_params[:group] = true
         blacklight_config.default_solr_params[:'group.field'] = %w[pub_date_si title_si]
       end
