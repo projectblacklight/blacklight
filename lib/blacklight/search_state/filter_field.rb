@@ -158,7 +158,6 @@ module Blacklight
 
       private
 
-      # TODO: this code is duplicated in Blacklight::FacetsHelperBehavior
       def as_url_parameter(item)
         if item.respond_to?(:missing) && item.missing
           Blacklight::SearchState::FilterField::MISSING
