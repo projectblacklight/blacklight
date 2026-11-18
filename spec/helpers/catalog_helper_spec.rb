@@ -130,7 +130,7 @@ RSpec.describe CatalogHelper do
       let(:search_state) { Blacklight::SearchState.new(query_params, config, controller) }
 
       before do
-        allow(helper).to receive(:search_state).and_return search_state
+        allow(helper).to receive_messages(search_state: search_state, blacklight_config: config)
       end
 
       it "calls url_for on the engine scope" do
@@ -139,6 +139,18 @@ RSpec.describe CatalogHelper do
         expect(tag).to include('rel="alternate"')
         expect(tag).to include('type="application/rss+xml"')
         expect(my_engine).to have_received(:url_for)
+      end
+    end
+
+    context "when the rss view has been removed from the configuration" do
+      let(:config) { Blacklight::Configuration.new.tap { |c| c.view.delete_field(:rss) } }
+
+      before do
+        allow(helper).to receive(:blacklight_config).and_return config
+      end
+
+      it "returns nil" do
+        expect(helper.rss_feed_link_tag).to be_nil
       end
     end
   end
@@ -153,7 +165,7 @@ RSpec.describe CatalogHelper do
       let(:search_state) { Blacklight::SearchState.new(query_params, config, controller) }
 
       before do
-        allow(helper).to receive(:search_state).and_return search_state
+        allow(helper).to receive_messages(search_state: search_state, blacklight_config: config)
       end
 
       it "calls url_for on the engine scope" do
@@ -162,6 +174,18 @@ RSpec.describe CatalogHelper do
         expect(tag).to include('rel="alternate"')
         expect(tag).to include('type="application/atom+xml"')
         expect(my_engine).to have_received(:url_for)
+      end
+    end
+
+    context "when the atom view has been removed from the configuration" do
+      let(:config) { Blacklight::Configuration.new.tap { |c| c.view.delete_field(:atom) } }
+
+      before do
+        allow(helper).to receive(:blacklight_config).and_return config
+      end
+
+      it "returns nil" do
+        expect(helper.atom_feed_link_tag).to be_nil
       end
     end
   end

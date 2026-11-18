@@ -126,6 +126,20 @@ RSpec.describe CatalogController, :api do
       end
     end
 
+    describe "with a feed format that has been removed from the view configuration" do
+      let(:config) { Blacklight::Configuration.new.tap { |c| c.view.clear } }
+
+      before do
+        allow(controller).to receive_messages(blacklight_config: config, retrieve_search_results: instance_double(Blacklight::Solr::Response, export_formats: []))
+      end
+
+      %w[rss atom].each do |feed_format|
+        it "does not serve #{feed_format}" do
+          expect { get :index, params: { format: feed_format } }.to raise_error(ActionController::UnknownFormat)
+        end
+      end
+    end
+
     describe "with format :json" do
       render_views
       before do
