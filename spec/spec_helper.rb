@@ -46,7 +46,7 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   # When we're testing the API, only run the api tests
-  config.filter_run api: true if ENV['BLACKLIGHT_API_TEST']
+  config.filter_run api: true if ENV['BLACKLIGHT_API_TEST'].present?
 
   if Rails.version.to_f >= 7.1
     config.fixture_paths = [Rails.root.join("spec/fixtures")]

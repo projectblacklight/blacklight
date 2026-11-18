@@ -1,6 +1,6 @@
 {
   "name": "blacklight-frontend",
-  "version": "7.43.1",
+  "version": "7.43.2",
   "description": "The frontend code and styles for Blacklight",
   "main": "app/assets/javascripts/blacklight",
   "scripts": {

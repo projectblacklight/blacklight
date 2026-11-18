@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'axe-core-rspec'
   s.add_development_dependency "capybara", '~> 3'
   s.add_development_dependency 'selenium-webdriver'
-  s.add_development_dependency 'engine_cart', '~> 2.1'
+  s.add_development_dependency 'engine_cart', '~> 2.7'
   s.add_development_dependency "equivalent-xml"
   s.add_development_dependency "rexml"
   s.add_development_dependency "simplecov"
