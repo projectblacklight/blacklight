@@ -36,7 +36,7 @@ module Blacklight
             CONTENT
           end
           empty_directory 'app/assets/images'
-        elsif defined?(Sprockets::VERSION) && Sprockets::VERSION >= '4'
+        elsif defined?(Sprockets::VERSION) && Sprockets::VERSION >= '4' && !using_importmap?
           append_to_file 'app/assets/config/manifest.js', "\n//= link application.js"
           empty_directory 'app/assets/images'
         end
@@ -85,6 +85,10 @@ module Blacklight
       end
 
       private
+
+      def using_importmap?
+        File.exist?(File.expand_path('config/importmap.rb', destination_root))
+      end
 
       def has_blacklight_assets?
         application_js.include?('blacklight/blacklight')
