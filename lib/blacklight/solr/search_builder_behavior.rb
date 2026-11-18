@@ -102,7 +102,15 @@ module Blacklight::Solr
 
     # Transform "clause" parameters into the Solr JSON Query DSL
     def add_adv_search_clauses(solr_parameters)
-      return if search_state.clause_params.blank? || search_state.clause_params.all? { |_k, v| v[:query].blank? }
+      return if search_state.clause_params.blank?
+
+      defaults = { must: [], must_not: [], should: [] }
+      default_op = search_state.query_boolean_operator&.to_sym || :must
+
+      # Clauses with a blank query or an unconfigured search field are ignored
+      clauses = search_state.clause_params.values.filter_map { |clause| adv_search_clause(clause, default_op) }
+                            .select { |op, _query| defaults.key?(op) }
+      return if clauses.empty?
 
       # We need to specify lucene as the top-level defType when using JSON Query DSL in Solr versions
       # between 7.2.0 & 9.4.0. After 9.4.0 this is no longer necessary, but also not harmful to include.
@@ -111,14 +119,9 @@ module Blacklight::Solr
       # Disable spellcheck, which doesn't work when using JSON Query DSL
       solr_parameters[:spellcheck] = 'false'
 
-      defaults = { must: [], must_not: [], should: [] }
-      default_op = search_state.query_boolean_operator&.to_sym || :must
       solr_parameters[:mm] = 1 if default_op == :should && search_state.clause_params.values.any? { |clause| }
 
-      search_state.clause_params.each_value do |clause|
-        op, query = adv_search_clause(clause, default_op)
-        next unless defaults.key?(op)
-
+      clauses.each do |op, query|
         solr_parameters.append_boolean_query(op, query)
       end
     end
