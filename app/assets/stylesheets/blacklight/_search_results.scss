@@ -20,3 +20,27 @@
     }
   }
 }
+
+// A document's thumbnail stacked over the default thumbnail; when the real
+// thumbnail loads it covers the default, at the default's width
+.thumbnail-stack {
+  display: inline-grid;
+
+  > * {
+    grid-area: 1 / 1;
+  }
+
+  .thumbnail-fallback {
+    place-self: center;
+  }
+
+  // max-width: 0 stops the image adding to the stack's width, so the default
+  // sets it, and min-width: 100% then fills that width. Without it, Firefox
+  // and Chrome size the stack differently.
+  > img {
+    place-self: stretch;
+    min-width: 100%;
+    max-width: 0;
+    object-fit: cover;
+  }
+}
