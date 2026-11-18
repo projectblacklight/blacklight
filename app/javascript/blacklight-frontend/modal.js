@@ -181,7 +181,7 @@ const Modal = (() => {
     }
   }
 
-  modal.hide = function (el) {
+  modal.hide = function () {
     const dom = modal.target()
 
     if (!dom.open) return
@@ -201,7 +201,7 @@ const Modal = (() => {
     modal.originalBodyPaddingRight = undefined
   }
 
-  modal.show = function (el) {
+  modal.show = function () {
     const dom = modal.target()
 
     if (dom.open) return
