@@ -196,12 +196,6 @@ Security/Eval:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-# Offense count: 2
-Style/DocumentDynamicEvalDefinition:
-  Exclude:
-    - "app/builders/blacklight/action_builder.rb"
-    - "lib/blacklight/configuration/fields.rb"
-
 # Offense count: 142
 # Configuration parameters: AllowedConstants.
 Style/Documentation:
