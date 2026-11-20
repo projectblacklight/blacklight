@@ -123,6 +123,7 @@ RSpec.describe "Bookmarks" do
 
     it 'adds and removes bookmarks', :js do
       visit solr_document_path('2007020969')
+      expect(page).to have_css('.blacklight-icons-bookmark')
       expect(page).to have_no_css('#bookmarks_nav')
       find('.blacklight-icons-bookmark').click
 

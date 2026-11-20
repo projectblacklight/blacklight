@@ -54,13 +54,13 @@ RSpec.describe "Facets" do
   it 'is able to expand facets when javascript is enabled', :js do
     visit root_path
 
-    expect(page).to have_css('#facet-format', visible: false)
+    expect(page).to have_css('#facet-format', visible: :all)
 
     click_on 'Format'
 
     sleep(1) # let facet animation finish and wait for it to potentially re-collapse
 
-    expect(page).to have_css('#facet-format', visible: true) # assert that it didn't re-collapse
+    expect(page).to have_css('#facet-format', visible: :visible) # assert that it didn't re-collapse
   end
 
   it 'is able to expand pivot facets when javascript is enabled', :js do
@@ -102,8 +102,8 @@ RSpec.describe "Facets" do
   describe 'Facet modal content' do
     it 'allows the user to filter a long list of facet values', :js do
       visit '/catalog/facet/subject_ssim'
-      expect(page).to have_no_link 'Old age' # This is on the second page of facet values
       expect(page).to have_css 'a.facet-select', count: 20
+      expect(page).to have_no_link 'Old age' # This is on the second page of facet values
 
       fill_in 'facet_suggest_subject_ssim', with: "ag"
 
@@ -191,6 +191,7 @@ RSpec.describe "Facets" do
 
       it 'does not offer the user a way to filter the list of facet values' do
         visit '/catalog/facet/subject_ssim'
+        expect(page).to have_css 'a.facet-select'
         expect(page).to have_no_field 'facet_suggest_subject_ssim'
       end
     end

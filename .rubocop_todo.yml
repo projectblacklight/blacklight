@@ -6,28 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-Capybara/RSpec/CurrentPathExpectation:
-  Exclude:
-    - "spec/features/alternate_controller_spec.rb"
-
-# Offense count: 6
-Capybara/RSpec/NegationMatcherAfterVisit:
-  Exclude:
-    - "spec/features/bookmarks_spec.rb"
-    - "spec/features/facets_spec.rb"
-    - "spec/features/modal_spec.rb"
-    - "spec/features/record_view_spec.rb"
-    - "spec/features/search_context_spec.rb"
-
-# Offense count: 13
-Capybara/RSpec/VisibilityMatcher:
-  Exclude:
-    - "spec/features/facets_spec.rb"
-    - "spec/features/search_filters_spec.rb"
-    - "spec/helpers/blacklight_helper_spec.rb"
-
 # Offense count: 1
 Lint/BinaryOperatorWithIdenticalOperands:
   Exclude:

@@ -21,6 +21,7 @@ RSpec.describe "Record View" do
 
   it "does not display blank titles" do
     visit solr_document_path('2008305903')
+    expect(page).to have_css '#document'
     expect(page).to have_no_text "More Information:"
   end
 
