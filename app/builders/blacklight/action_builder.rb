@@ -26,19 +26,19 @@ module Blacklight
       callback = opts.fetch(:callback, nil).inspect
       validator = opts.fetch(:validator, nil).inspect
       klass.class_eval <<EORUBY, __FILE__, __LINE__ + 1
-          def #{name}
+          def #{name} # def email
             @documents = action_documents
 
-            if request.post? && #{callback}
-              if #{validator}.blank? || send(#{validator})
+            if request.post? && #{callback} # if request.post? && :email_action
+              if #{validator}.blank? || send(#{validator}) # if :email_params_valid?.blank? || send(:email_params_valid?)
 
-                send(#{callback}, @documents)
+                send(#{callback}, @documents) # send(:email_action, @documents)
 
-                flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil)
+                flash[:success] ||= I18n.t("blacklight.#{name}.success", default: nil) # I18n.t("blacklight.email.success", default: nil)
 
                 respond_to do |format|
                   format.html do
-                    return render "#{name}_success", layout: false if request.xhr?
+                    return render "#{name}_success", layout: false if request.xhr? # return render "email_success", ...
                     redirect_to action_success_redirect_path
                   end
                 end

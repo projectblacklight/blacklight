@@ -18,8 +18,8 @@ module Blacklight
           @field_type_for_class[key] = binding.local_variable_get(:class) || base_class_name
 
           class_eval <<-END_EVAL, __FILE__, __LINE__ + 1
-            def add_#{key}(*args, &block)
-              add_blacklight_field("#{key}", *args, &block)
+            def add_#{key}(*args, &block)                    # def add_index_field(*args, &block)
+              add_blacklight_field("#{key}", *args, &block)  #   add_blacklight_field("index_field", *args, &block)
             end
           END_EVAL
         end
