@@ -1,5 +1,6 @@
 :root {
-  --bl-logo-image: url("blacklight/logo.svg");
+  --bl-logo-image-light: url("blacklight/logo.svg");
+  --bl-logo-image-dark: url("blacklight/logo-dark.svg");
   --bl-logo-width: 150px;
   --bl-logo-height: 50px;
 
@@ -12,6 +13,20 @@
   --bl-modal-backdrop-bg: rgba(0, 0, 0, 0.5);
 }
 
-[data-bs-theme="dark"] {
-  --bl-logo-image: url("blacklight/logo-dark.svg");
+/* Browsers that support light-dark() with images pick the logo from color-scheme */
+@supports (background-image: light-dark(linear-gradient(#fff, #fff), linear-gradient(#000, #000))) {
+  :root {
+    --bl-logo-image: light-dark(var(--bl-logo-image-light), var(--bl-logo-image-dark));
+  }
+}
+
+/* Fallback for browsers without light-dark() image support (e.g. Safari 26) */
+@supports not (background-image: light-dark(linear-gradient(#fff, #fff), linear-gradient(#000, #000))) {
+  :root {
+    --bl-logo-image: var(--bl-logo-image-light);
+  }
+
+  [data-bs-theme="dark"] {
+    --bl-logo-image: var(--bl-logo-image-dark);
+  }
 }
