@@ -23,12 +23,8 @@ RSpec.describe Blacklight::ShowPresenter, :api do
   end
 
   describe "link_rel_alternates" do
-    before do
-      class MockDocument
-        include Blacklight::Solr::Document
-      end
-
-      module MockExtension
+    let(:mock_extension) do
+      Module.new do
         def self.extended(document)
           document.will_export_as(:weird, "application/weird")
           document.will_export_as(:weirder, "application/weirder")
@@ -47,15 +43,18 @@ RSpec.describe Blacklight::ShowPresenter, :api do
           "weird_dup"
         end
       end
+    end
 
-      MockDocument.use_extension(MockExtension)
+    let(:document) { MockDocument.new(id: "MOCK_ID1") }
+
+    before do
+      stub_const('MockDocument', Class.new { include Blacklight::Solr::Document })
+      MockDocument.use_extension(mock_extension)
 
       allow(request_context).to receive(:polymorphic_url) do |_, opts|
         "url.#{opts[:format]}"
       end
     end
-
-    let(:document) { MockDocument.new(id: "MOCK_ID1") }
 
     context "with no arguments" do
       subject { presenter.link_rel_alternates }
