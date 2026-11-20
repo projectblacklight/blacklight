@@ -47,7 +47,7 @@ RSpec.describe "Search Results" do
     expect(page).to have_text "No results found for your search"
   end
 
-  it "provides search hints if there are no results" do
+  it "offers to search all fields if a fielded search has no results" do
     visit root_path
     fill_in "q", with: "inmul"
     select "Author", from: "search_field"
