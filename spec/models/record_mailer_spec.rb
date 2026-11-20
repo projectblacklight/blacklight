@@ -18,14 +18,15 @@ RSpec.describe RecordMailer do
     SolrDocument.new(id: "123456", format: ["book"], title_tsim: "The horn", language_ssim: "English", author_tsim: "Janetzky, Kurt")
   end
 
+  let(:documents) { [document] }
+
   before do
     allow(described_class).to receive(:default).and_return(from: 'no-reply@projectblacklight.org')
-    @documents = [document]
   end
 
   describe "email" do
     subject(:email) do
-      described_class.email_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
+      described_class.email_record(documents, details, host: 'projectblacklight.org', protocol: 'https')
     end
 
     let(:details) do
@@ -56,8 +57,8 @@ RSpec.describe RecordMailer do
 
     it "uses https URLs when protocol is set" do
       details = { to: 'test@test.com', message: "This is my message" }
-      @https_email = described_class.email_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
-      expect(@https_email.body).to match %r{https://projectblacklight.org/}
+      https_email = described_class.email_record(documents, details, host: 'projectblacklight.org', protocol: 'https')
+      expect(https_email.body).to match %r{https://projectblacklight.org/}
     end
 
     context "when email title_field is configured and multi valued" do
@@ -86,33 +87,33 @@ RSpec.describe RecordMailer do
   end
 
   describe "SMS" do
-    before do
+    subject(:sms) do
       details = { to: '5555555555@txt.att.net', config: config }
-      @sms = described_class.sms_record(@documents, details, host: 'projectblacklight.org:3000')
+      described_class.sms_record(documents, details, host: 'projectblacklight.org:3000')
     end
 
     it "creates the correct TO address for the SMS email" do
-      expect(@sms.to).to include '5555555555@txt.att.net'
+      expect(sms.to).to include '5555555555@txt.att.net'
     end
 
     it "does not have a subject" do
-      expect(@sms.subject).to be_blank
+      expect(sms.subject).to be_blank
     end
 
     it "has the correct from address (w/o the port number)" do
-      expect(@sms.from).to include "no-reply@projectblacklight.org"
+      expect(sms.from).to include "no-reply@projectblacklight.org"
     end
 
     it "prints out the correct body" do
-      expect(@sms.body).to include('Title: The horn')
-      expect(@sms.body).to include('Author: Janetzky, Kurt')
-      expect(@sms.body).to match(/projectblacklight.org:3000/)
+      expect(sms.body).to include('Title: The horn')
+      expect(sms.body).to include('Author: Janetzky, Kurt')
+      expect(sms.body).to match(/projectblacklight.org:3000/)
     end
 
     it "uses https URL when protocol is set" do
       details = { to: '5555555555@txt.att.net' }
-      @https_sms = described_class.sms_record(@documents, details, host: 'projectblacklight.org', protocol: 'https')
-      expect(@https_sms.body).to match %r{https://projectblacklight.org/}
+      https_sms = described_class.sms_record(documents, details, host: 'projectblacklight.org', protocol: 'https')
+      expect(https_sms.body).to match %r{https://projectblacklight.org/}
     end
   end
 end

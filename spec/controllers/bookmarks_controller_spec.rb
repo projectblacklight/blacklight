@@ -3,11 +3,11 @@
 RSpec.describe BookmarksController do
   describe '#blacklight_config' do
     it 'uses POST requests for querying solr' do
-      expect(@controller.blacklight_config.http_method).to eq :post
+      expect(controller.blacklight_config.http_method).to eq :post
     end
 
     it 'opts out of search session tracking' do
-      expect(@controller.blacklight_config.track_search_session.storage).to be false
+      expect(controller.blacklight_config.track_search_session.storage).to be false
     end
   end
 
@@ -73,7 +73,7 @@ RSpec.describe BookmarksController do
 
     it "can handle bookmark deletion via :bookmarks param" do
       stub_const('FooDocument', Class.new(SolrDocument))
-      @controller.send(:current_or_guest_user).bookmarks.create! document_id: '2007020970', document_type: "FooDocument"
+      controller.send(:current_or_guest_user).bookmarks.create! document_id: '2007020970', document_type: "FooDocument"
       delete :destroy, xhr: true, params: {
         id: 'notused',
         bookmarks: [

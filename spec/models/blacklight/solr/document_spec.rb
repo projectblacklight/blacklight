@@ -47,8 +47,8 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     it "uses a configuration-defined document unique key" do
-      @document = MockDocument.new id: 'asdf', my_unique_key: '1234'
-      expect(@document.id).to eq '1234'
+      document = MockDocument.new id: 'asdf', my_unique_key: '1234'
+      expect(document.id).to eq '1234'
     end
   end
 
@@ -68,8 +68,8 @@ RSpec.describe "Blacklight::Solr::Document", :api do
 
   describe "#to_param" do
     it "is a string" do
-      @document = MockDocument.new id: 1234
-      expect(@document.to_param).to eq '1234'
+      document = MockDocument.new id: 1234
+      expect(document.to_param).to eq '1234'
     end
   end
 
@@ -203,14 +203,8 @@ RSpec.describe "Blacklight::Solr::Document", :api do
   end
 
   describe "to_semantic_fields" do
-    before do
-      MockDocument.field_semantics.merge!(
-        title: %w[title_field other_title],
-        author: "author_field",
-        something: "something_field"
-      )
-
-      @doc1 = MockDocument.new(
+    let(:doc1) do
+      MockDocument.new(
         "title_field" => "doc1 title",
         "other_title" => "doc1 title other",
         "something_field" => %w[val1 val2],
@@ -218,22 +212,30 @@ RSpec.describe "Blacklight::Solr::Document", :api do
       )
     end
 
+    before do
+      MockDocument.field_semantics.merge!(
+        title: %w[title_field other_title],
+        author: "author_field",
+        something: "something_field"
+      )
+    end
+
     it "returns complete dictionary based on config'd fields" do
-      expect(@doc1.to_semantic_values)
+      expect(doc1.to_semantic_values)
         .to eq title: ["doc1 title", "doc1 title other"], something: %w[val1 val2]
     end
 
     it "returns empty array for a key without a value" do
-      expect(@doc1.to_semantic_values[:author]).to be_empty
-      expect(@doc1.to_semantic_values[:nonexistent_token]).to be_empty
+      expect(doc1.to_semantic_values[:author]).to be_empty
+      expect(doc1.to_semantic_values[:nonexistent_token]).to be_empty
     end
 
     it "returns an array even for a single-value field" do
-      expect(@doc1.to_semantic_values[:title]).to be_a(Array)
+      expect(doc1.to_semantic_values[:title]).to be_a(Array)
     end
 
     it "returns complete array for a multi-value field" do
-      expect(@doc1.to_semantic_values[:something]).to eq %w[val1 val2]
+      expect(doc1.to_semantic_values[:something]).to eq %w[val1 val2]
     end
   end
 

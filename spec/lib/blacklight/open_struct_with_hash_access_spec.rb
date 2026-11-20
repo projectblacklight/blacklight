@@ -29,19 +29,20 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
   end
 
   describe "internal hash table" do
-    before do
-      @h = described_class.new
-      @h[:a] = 1
-      @h[:b] = 2
+    let(:h) do
+      described_class.new.tap do |h|
+        h[:a] = 1
+        h[:b] = 2
+      end
     end
 
     it "exposes the internal hash table" do
-      expect(@h.to_h).to be_a(Hash)
-      expect(@h.to_h[:a]).to eq 1
+      expect(h.to_h).to be_a(Hash)
+      expect(h.to_h[:a]).to eq 1
     end
 
     it "exposes keys" do
-      expect(@h.keys).to include(:a, :b)
+      expect(h.keys).to include(:a, :b)
     end
   end
 
@@ -90,48 +91,51 @@ RSpec.describe Blacklight::OpenStructWithHashAccess do
   end
 
   describe "#merge" do
-    before do
-      @h = described_class.new
-      @h[:a] = 1
-      @h[:b] = 2
+    let(:h) do
+      described_class.new.tap do |h|
+        h[:a] = 1
+        h[:b] = 2
+      end
     end
 
     it "merges the object with a hash" do
-      expect(@h.merge(a: 'a')[:a]).to eq 'a'
+      expect(h.merge(a: 'a')[:a]).to eq 'a'
     end
 
     it "merges the object with another struct" do
-      expect(@h.merge(described_class.new(a: 'a'))[:a]).to eq 'a'
+      expect(h.merge(described_class.new(a: 'a'))[:a]).to eq 'a'
     end
   end
 
   describe "#merge!" do
-    before do
-      @h = described_class.new
-      @h[:a] = 1
-      @h[:b] = 2
+    let(:h) do
+      described_class.new.tap do |h|
+        h[:a] = 1
+        h[:b] = 2
+      end
     end
 
     it "merges the object with a hash" do
-      @h[:a] = 'a'
-      expect(@h[:a]).to eq 'a'
+      h[:a] = 'a'
+      expect(h[:a]).to eq 'a'
     end
 
     it "merges the object with another struct" do
-      @h.merge!(described_class.new(a: 'a'))
-      expect(@h[:a]).to eq 'a'
+      h.merge!(described_class.new(a: 'a'))
+      expect(h[:a]).to eq 'a'
     end
   end
 
   describe '#reverse_merge' do
-    before do
-      @h = described_class.new
-      @h[:a] = 1
-      @h[:b] = 2
+    let(:h) do
+      described_class.new.tap do |h|
+        h[:a] = 1
+        h[:b] = 2
+      end
     end
 
     it 'reverse merges the object with the hash, preserving the object class' do
-      expect(@h.reverse_merge(b: 3, c: 4)).to have_attributes a: 1, b: 2, c: 4
+      expect(h.reverse_merge(b: 3, c: 4)).to have_attributes a: 1, b: 2, c: 4
     end
   end
 
