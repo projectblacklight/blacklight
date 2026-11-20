@@ -239,7 +239,7 @@ RSpec.describe CatalogController, :api do
         expect(controller).to have_received(:render_some_yaml)
       end
     end
-  end # describe index action
+  end
 
   describe "track action" do
     it "persists the search session id value into session[:search]" do
@@ -460,8 +460,8 @@ RSpec.describe CatalogController, :api do
         expect(response).to be_successful
         expect(response.body).to include('mock_export')
       end
-    end # dynamic export formats
-  end # describe show action
+    end
+  end
 
   describe "opensearch" do
     it "returns an opensearch description" do
