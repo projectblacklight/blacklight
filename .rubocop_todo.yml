@@ -219,12 +219,6 @@ Style/CommentedKeyword:
     - "spec/controllers/catalog_controller_spec.rb"
     - "spec/services/blacklight/search_service_spec.rb"
 
-# Offense count: 2
-Style/DocumentDynamicEvalDefinition:
-  Exclude:
-    - "app/builders/blacklight/action_builder.rb"
-    - "lib/blacklight/configuration/fields.rb"
-
 # Offense count: 142
 # Configuration parameters: AllowedConstants.
 Style/Documentation:
