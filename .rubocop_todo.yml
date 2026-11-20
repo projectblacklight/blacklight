@@ -252,17 +252,6 @@ Style/DocumentDynamicEvalDefinition:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 6
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: MinBodyLength, AllowConsecutiveConditionals.
-Style/GuardClause:
-  Exclude:
-    - "app/controllers/concerns/blacklight/bookmarks.rb"
-    - "app/controllers/concerns/blacklight/catalog.rb"
-    - "app/controllers/concerns/blacklight/search_context.rb"
-    - "app/helpers/blacklight/catalog_helper_behavior.rb"
-    - "lib/blacklight/solr/search_builder_behavior.rb"
-
 # Offense count: 14
 Style/OpenStructUse:
   Exclude:

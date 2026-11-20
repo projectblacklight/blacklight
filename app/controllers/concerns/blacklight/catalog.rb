@@ -205,11 +205,9 @@ module Blacklight::Catalog
   def document_export_formats(format)
     format.any do
       format_name = params.fetch(:format, '').to_sym
-      if @response.export_formats.include? format_name
-        render_document_export_format format_name
-      else
-        raise ActionController::UnknownFormat
-      end
+      raise ActionController::UnknownFormat unless @response.export_formats.include? format_name
+
+      render_document_export_format format_name
     end
   end
 
