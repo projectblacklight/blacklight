@@ -43,11 +43,11 @@ module Blacklight::Solr
       ###
       # Merge in search field configured values, if present, over-writing general
       # defaults
-      if search_field
-        solr_parameters[:qt] = search_field.qt if search_field.qt
+      return unless search_field
 
-        solr_parameters.deep_merge!(search_field.solr_parameters) if search_field.solr_parameters
-      end
+      solr_parameters[:qt] = search_field.qt if search_field.qt
+
+      solr_parameters.deep_merge!(search_field.solr_parameters) if search_field.solr_parameters
     end
 
     ##
@@ -316,9 +316,9 @@ module Blacklight::Solr
       facet = blacklight_config.facet_fields[facet_field]
       return if facet.blank?
 
-      if facet.limit
-        facet.limit == true ? blacklight_config.default_facet_limit : facet.limit
-      end
+      return unless facet.limit
+
+      facet.limit == true ? blacklight_config.default_facet_limit : facet.limit
     end
 
     # Support facet paging and 'more'
