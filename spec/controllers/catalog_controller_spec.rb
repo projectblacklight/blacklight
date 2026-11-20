@@ -434,19 +434,21 @@ RSpec.describe CatalogController, :api do
 
     describe "with dynamic export formats" do
       render_views
-      module FakeExtension
-        def self.extended(document)
-          document.will_export_as(:mock, "application/mock")
-        end
+      let(:fake_extension) do
+        Module.new do
+          def self.extended(document)
+            document.will_export_as(:mock, "application/mock")
+          end
 
-        def export_as_mock
-          "mock_export"
+          def export_as_mock
+            "mock_export"
+          end
         end
       end
 
       before do
         Mime::Type.register "application/mock", :mock
-        SolrDocument.use_extension(FakeExtension)
+        SolrDocument.use_extension(fake_extension)
         allow(controller).to receive(:search_service).and_return(search_service)
         allow(search_service).to receive(:fetch).and_return(SolrDocument.new(id: 'my_fake_doc'))
       end

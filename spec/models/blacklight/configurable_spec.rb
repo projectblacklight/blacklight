@@ -2,32 +2,29 @@
 
 RSpec.describe "Blacklight::Configurable", :api do
   describe "inheritence" do
-    before(:all) do
-      module TestCaseInheritence
-        class Parent
-          include Blacklight::Configurable
+    let(:parent) do
+      Class.new do
+        include Blacklight::Configurable
 
-          blacklight_config.configure do |config|
-            config.list = [1, 2, 3]
-          end
-        end
-
-        class Child < Parent
+        blacklight_config.configure do |config|
+          config.list = [1, 2, 3]
         end
       end
     end
 
+    let(:child) { Class.new(parent) }
+
     it "inherits the configuration when subclassed" do
-      expect(TestCaseInheritence::Child.blacklight_config.list).to include(1, 2, 3)
+      expect(child.blacklight_config.list).to include(1, 2, 3)
     end
 
     it "inherited version should be a deep copy, not original" do
-      expect(TestCaseInheritence::Child.blacklight_config).not_to be(TestCaseInheritence::Parent.blacklight_config)
+      expect(child.blacklight_config).not_to be(parent.blacklight_config)
 
-      TestCaseInheritence::Child.blacklight_config.list << "child_only"
+      child.blacklight_config.list << "child_only"
 
-      expect(TestCaseInheritence::Child.blacklight_config.list).to include("child_only")
-      expect(TestCaseInheritence::Parent.blacklight_config.list).not_to include("child_only")
+      expect(child.blacklight_config.list).to include("child_only")
+      expect(parent.blacklight_config.list).not_to include("child_only")
     end
   end
 

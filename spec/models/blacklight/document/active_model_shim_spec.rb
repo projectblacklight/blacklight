@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Blacklight::Document::ActiveModelShim', :api do
-  class MockDocument
-    include Blacklight::Document
-    include Blacklight::Document::ActiveModelShim
-  end
-
-  class MockResponse
-    attr_reader :response, :params
-
-    def initialize(response, params)
-      @response = response
-      @params = params
-    end
-
-    def documents
-      response.collect { |doc| MockDocument.new(doc, self) }
-    end
-  end
-
   before do
+    stub_const('MockDocument', Class.new do
+      include Blacklight::Document
+      include Blacklight::Document::ActiveModelShim
+    end)
+
+    stub_const('MockResponse', Class.new do
+      attr_reader :response, :params
+
+      def initialize(response, params)
+        @response = response
+        @params = params
+      end
+
+      def documents
+        response.collect { |doc| MockDocument.new(doc, self) }
+      end
+    end)
+
     allow(MockDocument).to receive(:repository).and_return(double(find: MockResponse.new([{ id: 1 }], {})))
   end
 

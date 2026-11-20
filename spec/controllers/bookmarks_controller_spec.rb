@@ -72,7 +72,7 @@ RSpec.describe BookmarksController do
     end
 
     it "can handle bookmark deletion via :bookmarks param" do
-      class FooDocument < SolrDocument; end
+      stub_const('FooDocument', Class.new(SolrDocument))
       @controller.send(:current_or_guest_user).bookmarks.create! document_id: '2007020970', document_type: "FooDocument"
       delete :destroy, xhr: true, params: {
         id: 'notused',

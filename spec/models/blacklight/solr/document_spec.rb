@@ -1,20 +1,24 @@
 # frozen_string_literal: true
 
 RSpec.describe "Blacklight::Solr::Document", :api do
-  class MockDocument
-    include Blacklight::Solr::Document
-  end
-
-  module MockExtension
-    def my_extension_method
-      "my_extension_results"
+  let(:mock_extension) do
+    Module.new do
+      def my_extension_method
+        "my_extension_results"
+      end
     end
   end
 
-  module MockSecondExtension
-    def my_extension_method
-      "override"
+  let(:mock_second_extension) do
+    Module.new do
+      def my_extension_method
+        "override"
+      end
     end
+  end
+
+  before do
+    stub_const('MockDocument', Class.new { include Blacklight::Solr::Document })
   end
 
   describe "Hashy methods" do
@@ -76,18 +80,18 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     it "lets you register an extension" do
-      MockDocument.use_extension(MockExtension) { |_doc| true }
+      MockDocument.use_extension(mock_extension) { |_doc| true }
 
-      expect(MockDocument.registered_extensions.find { |a| a[:module_obj] == MockExtension }).not_to be_nil
+      expect(MockDocument.registered_extensions.find { |a| a[:module_obj] == mock_extension }).not_to be_nil
     end
 
     it "lets you register an extension with a nil condition proc" do
-      MockDocument.use_extension(MockExtension)
-      expect(MockDocument.registered_extensions.find { |a| a[:module_obj] == MockExtension }).not_to be_nil
+      MockDocument.use_extension(mock_extension)
+      expect(MockDocument.registered_extensions.find { |a| a[:module_obj] == mock_extension }).not_to be_nil
     end
 
     it "applies an extension whose condition is met" do
-      MockDocument.use_extension(MockExtension) { |_doc| true }
+      MockDocument.use_extension(mock_extension) { |_doc| true }
       doc = MockDocument.new
 
       expect(doc.methods.find { |name| name.to_s == "my_extension_method" }).not_to be_nil
@@ -95,7 +99,7 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     it "applies an extension based on a Solr field" do
-      MockDocument.use_extension(MockExtension) { |doc| doc.key?(:required_key) }
+      MockDocument.use_extension(mock_extension) { |doc| doc.key?(:required_key) }
 
       with_extension = MockDocument.new(required_key: "value")
       expect(with_extension.my_extension_method.to_s).to eq "my_extension_results"
@@ -105,14 +109,14 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     it "does not apply an extension whose condition is not met" do
-      MockDocument.use_extension(MockExtension) { |_doc| false }
+      MockDocument.use_extension(mock_extension) { |_doc| false }
       doc = MockDocument.new
 
       expect(doc.methods.find { |name| name.to_s == "my_extension_method" }).to be_nil
     end
 
     it "treats a nil condition as always applyable" do
-      MockDocument.use_extension(MockExtension)
+      MockDocument.use_extension(mock_extension)
 
       doc = MockDocument.new
 
@@ -121,8 +125,8 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     it "lets last extension applied override earlier extensions" do
-      MockDocument.use_extension(MockExtension)
-      MockDocument.use_extension(MockSecondExtension)
+      MockDocument.use_extension(mock_extension)
+      MockDocument.use_extension(mock_second_extension)
 
       expect(MockDocument.new.my_extension_method.to_s).to eq "override"
     end
@@ -150,12 +154,14 @@ RSpec.describe "Blacklight::Solr::Document", :api do
   end
 
   describe "Will export as" do
-    class MockDocument
-      include Blacklight::Solr::Document
+    before do
+      stub_const('MockDocument', Class.new do
+        include Blacklight::Solr::Document
 
-      def export_as_marc
-        "fake_marc"
-      end
+        def export_as_marc
+          "fake_marc"
+        end
+      end)
     end
 
     it "reports it's exportable formats properly" do
@@ -172,9 +178,8 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     context "when format is not registered with Mime::Type" do
-      before(:all) do
-        @doc = MockDocument.new
-        @doc.will_export_as(:mock2, "application/mock2")
+      before do
+        MockDocument.new.will_export_as(:mock2, "application/mock2")
         # Mime::Type doesn't give us a good way to clean up our new
         # registration in an after, sorry.
       end
@@ -198,9 +203,6 @@ RSpec.describe "Blacklight::Solr::Document", :api do
   end
 
   describe "to_semantic_fields" do
-    class MockDocument
-      include Blacklight::Solr::Document
-    end
     before do
       MockDocument.field_semantics.merge!(
         title: %w[title_field other_title],
@@ -236,32 +238,32 @@ RSpec.describe "Blacklight::Solr::Document", :api do
   end
 
   describe "highlighting" do
-    before(:all) do
-      @document = MockDocument.new({ 'id' => 'doc1', 'title_field' => 'doc1 title' }, 'highlighting' => { 'doc1' => { 'title_tsimext' => ['doc <em>1</em>'] }, 'doc2' => { 'title_tsimext' => ['doc 2'] } })
+    let(:document) do
+      MockDocument.new({ 'id' => 'doc1', 'title_field' => 'doc1 title' }, 'highlighting' => { 'doc1' => { 'title_tsimext' => ['doc <em>1</em>'] }, 'doc2' => { 'title_tsimext' => ['doc 2'] } })
     end
 
     describe "#has_highlight_field?" do
       it "is true if the highlight field is in the solr response" do
-        expect(@document).to have_highlight_field 'title_tsimext'
-        expect(@document).to have_highlight_field :title_tsimext
+        expect(document).to have_highlight_field 'title_tsimext'
+        expect(document).to have_highlight_field :title_tsimext
       end
 
       it "is false if the highlight field isn't in the solr response" do
-        expect(@document).not_to have_highlight_field 'nonexisting_field'
+        expect(document).not_to have_highlight_field 'nonexisting_field'
       end
     end
 
     describe "#highlight_field" do
       it "returns a value" do
-        expect(@document.highlight_field('title_tsimext')).to include('doc <em>1</em>')
+        expect(document.highlight_field('title_tsimext')).to include('doc <em>1</em>')
       end
 
       it "returns a value that is html safe" do
-        expect(@document.highlight_field('title_tsimext').first).to be_html_safe
+        expect(document.highlight_field('title_tsimext').first).to be_html_safe
       end
 
       it "returns nil when the field doesn't exist" do
-        expect(@document.highlight_field('nonexisting_field')).to be_nil
+        expect(document.highlight_field('nonexisting_field')).to be_nil
       end
     end
   end
