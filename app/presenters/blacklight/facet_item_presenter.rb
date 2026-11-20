@@ -6,17 +6,27 @@ module Blacklight
 
     delegate :key, to: :facet_config
 
-    # @param [Blacklight::Solr::Response::Facets::FacetItem, String] facet_item
-    # @param [Blacklight::Configuration::FacetField] facet_config
-    # @param [#search_action_path,#facet_field_presenter] view_context
-    # @param [String] _facet_field unused. The name of the facet field is available as facet_config.key
-    # @param [Blacklight::SearchState] search_state
-    def initialize(facet_item, facet_config, view_context, _facet_field, search_state = view_context.search_state)
+    # @overload initialize(facet_item, facet_config, view_context, search_state = view_context.search_state)
+    #   @param [Blacklight::Solr::Response::Facets::FacetItem, String] facet_item
+    #   @param [Blacklight::Configuration::FacetField] facet_config
+    #   @param [#search_action_path,#facet_field_presenter] view_context
+    #   @param [Blacklight::SearchState] search_state
+    # @overload initialize(facet_item, facet_config, view_context, facet_field, search_state = view_context.search_state)
+    #   @deprecated the facet_field argument is unused. The name of the facet field is available as facet_config.key
+    def initialize(facet_item, facet_config, view_context, *args)
+      raise ArgumentError, "wrong number of arguments (given #{args.length + 3}, expected 3..5)" if args.length > 2
+
+      # The deprecated facet_field argument is the field name, so it can be told apart from a search_state
+      if args.length == 2 || args.first.is_a?(String) || args.first.is_a?(Symbol)
+        Blacklight.deprecation.warn("Passing facet_field to #{self.class}.new is deprecated and the argument is unused. " \
+                                    "The name of the facet field is available as facet_config.key")
+        args.shift
+      end
+
       @facet_item = facet_item
       @facet_config = facet_config
       @view_context = view_context
-      # @facet_field = facet_field
-      @search_state = search_state
+      @search_state = args.empty? ? view_context.search_state : args.first
     end
 
     def hits

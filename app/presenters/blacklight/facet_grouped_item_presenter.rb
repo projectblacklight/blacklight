@@ -6,14 +6,16 @@ module Blacklight
 
     delegate :key, to: :facet_config
 
-    # @param [Array<String>] group
-    # @param [String] facet_item
-    # @param [Blacklight::Configuration::FacetField] facet_config
-    # @param [#search_action_path] view_context
-    # @param [String] facet_field
-    # @param [Blacklight::SearchState] search_state
-    def initialize(group, facet_item, facet_config, view_context, facet_field, search_state = view_context.search_state)
-      super(facet_item, facet_config, view_context, facet_field, search_state)
+    # @overload initialize(group, facet_item, facet_config, view_context, search_state = view_context.search_state)
+    #   @param [Array<String>] group
+    #   @param [String] facet_item
+    #   @param [Blacklight::Configuration::FacetField] facet_config
+    #   @param [#search_action_path] view_context
+    #   @param [Blacklight::SearchState] search_state
+    # @overload initialize(group, facet_item, facet_config, view_context, facet_field, search_state = view_context.search_state)
+    #   @deprecated the facet_field argument is unused. The name of the facet field is available as facet_config.key
+    def initialize(group, facet_item, facet_config, view_context, *)
+      super(facet_item, facet_config, view_context, *)
       @group = group
     end
 

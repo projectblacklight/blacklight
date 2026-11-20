@@ -20,7 +20,7 @@ module Blacklight
 
     # @param [Blacklight::Solr::Response::Facets::FacetItem, String] facet_item
     def item_presenter(facet_item)
-      facet_field.item_presenter.new(facet_item, facet_field, view_context, key, search_state)
+      facet_field.item_presenter.new(facet_item, facet_field, view_context, search_state)
     end
 
     # Is facet suggest feature configured on for this facet, or by global default.

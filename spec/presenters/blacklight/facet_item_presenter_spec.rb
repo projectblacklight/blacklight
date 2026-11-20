@@ -4,15 +4,48 @@ require 'spec_helper'
 
 RSpec.describe Blacklight::FacetItemPresenter, type: :presenter do
   subject(:presenter) do
-    described_class.new(facet_item, facet_config, view_context, facet_field, search_state)
+    described_class.new(facet_item, facet_config, view_context, search_state)
   end
 
   let(:facet_item) { instance_double(Blacklight::Solr::Response::Facets::FacetItem) }
   let(:filter_field) { instance_double(Blacklight::SearchState::FilterField, include?: true) }
   let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'key') }
-  let(:facet_field) { instance_double(Blacklight::Solr::Response::Facets::FacetField) }
   let(:view_context) { controller.view_context }
   let(:search_state) { instance_double(Blacklight::SearchState, filter: filter_field) }
+
+  describe '#initialize' do
+    before do
+      allow(Blacklight.deprecation).to receive(:warn)
+    end
+
+    it 'defaults the search_state to the one from the view context' do
+      allow(view_context).to receive(:search_state).and_return(search_state)
+      expect(described_class.new(facet_item, facet_config, view_context).search_state).to eq search_state
+      expect(Blacklight.deprecation).not_to have_received(:warn)
+    end
+
+    it 'accepts a search_state without a deprecation warning' do
+      expect(presenter.search_state).to eq search_state
+      expect(Blacklight.deprecation).not_to have_received(:warn)
+    end
+
+    it 'warns when passed the deprecated facet_field and a search_state' do
+      presenter = described_class.new(facet_item, facet_config, view_context, 'key', search_state)
+      expect(presenter.search_state).to eq search_state
+      expect(Blacklight.deprecation).to have_received(:warn).with(/Passing facet_field/)
+    end
+
+    it 'warns when passed only the deprecated facet_field' do
+      allow(view_context).to receive(:search_state).and_return(search_state)
+      presenter = described_class.new(facet_item, facet_config, view_context, 'key')
+      expect(presenter.search_state).to eq search_state
+      expect(Blacklight.deprecation).to have_received(:warn).with(/Passing facet_field/)
+    end
+
+    it 'raises an error when given too many arguments' do
+      expect { described_class.new(facet_item, facet_config, view_context, 'key', search_state, :extra) }.to raise_error ArgumentError
+    end
+  end
 
   describe '#selected?' do
     subject { presenter.selected? }
