@@ -43,8 +43,8 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     it "uses a configuration-defined document unique key" do
-      @document = MockDocument.new id: 'asdf', my_unique_key: '1234'
-      expect(@document.id).to eq '1234'
+      document = MockDocument.new id: 'asdf', my_unique_key: '1234'
+      expect(document.id).to eq '1234'
     end
   end
 
@@ -64,8 +64,8 @@ RSpec.describe "Blacklight::Solr::Document", :api do
 
   describe "#to_param" do
     it "is a string" do
-      @document = MockDocument.new id: 1234
-      expect(@document.to_param).to eq '1234'
+      document = MockDocument.new id: 1234
+      expect(document.to_param).to eq '1234'
     end
   end
 
@@ -172,9 +172,8 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     end
 
     context "when format is not registered with Mime::Type" do
-      before(:all) do
-        @doc = MockDocument.new
-        @doc.will_export_as(:mock2, "application/mock2")
+      before do
+        MockDocument.new.will_export_as(:mock2, "application/mock2")
         # Mime::Type doesn't give us a good way to clean up our new
         # registration in an after, sorry.
       end
@@ -201,14 +200,8 @@ RSpec.describe "Blacklight::Solr::Document", :api do
     class MockDocument
       include Blacklight::Solr::Document
     end
-    before do
-      MockDocument.field_semantics.merge!(
-        title: %w[title_field other_title],
-        author: "author_field",
-        something: "something_field"
-      )
-
-      @doc1 = MockDocument.new(
+    let(:doc1) do
+      MockDocument.new(
         "title_field" => "doc1 title",
         "other_title" => "doc1 title other",
         "something_field" => %w[val1 val2],
@@ -216,52 +209,60 @@ RSpec.describe "Blacklight::Solr::Document", :api do
       )
     end
 
+    before do
+      MockDocument.field_semantics.merge!(
+        title: %w[title_field other_title],
+        author: "author_field",
+        something: "something_field"
+      )
+    end
+
     it "returns complete dictionary based on config'd fields" do
-      expect(@doc1.to_semantic_values)
+      expect(doc1.to_semantic_values)
         .to eq title: ["doc1 title", "doc1 title other"], something: %w[val1 val2]
     end
 
     it "returns empty array for a key without a value" do
-      expect(@doc1.to_semantic_values[:author]).to be_empty
-      expect(@doc1.to_semantic_values[:nonexistent_token]).to be_empty
+      expect(doc1.to_semantic_values[:author]).to be_empty
+      expect(doc1.to_semantic_values[:nonexistent_token]).to be_empty
     end
 
     it "returns an array even for a single-value field" do
-      expect(@doc1.to_semantic_values[:title]).to be_a(Array)
+      expect(doc1.to_semantic_values[:title]).to be_a(Array)
     end
 
     it "returns complete array for a multi-value field" do
-      expect(@doc1.to_semantic_values[:something]).to eq %w[val1 val2]
+      expect(doc1.to_semantic_values[:something]).to eq %w[val1 val2]
     end
   end
 
   describe "highlighting" do
-    before(:all) do
-      @document = MockDocument.new({ 'id' => 'doc1', 'title_field' => 'doc1 title' }, 'highlighting' => { 'doc1' => { 'title_tsimext' => ['doc <em>1</em>'] }, 'doc2' => { 'title_tsimext' => ['doc 2'] } })
+    let(:document) do
+      MockDocument.new({ 'id' => 'doc1', 'title_field' => 'doc1 title' }, 'highlighting' => { 'doc1' => { 'title_tsimext' => ['doc <em>1</em>'] }, 'doc2' => { 'title_tsimext' => ['doc 2'] } })
     end
 
     describe "#has_highlight_field?" do
       it "is true if the highlight field is in the solr response" do
-        expect(@document).to have_highlight_field 'title_tsimext'
-        expect(@document).to have_highlight_field :title_tsimext
+        expect(document).to have_highlight_field 'title_tsimext'
+        expect(document).to have_highlight_field :title_tsimext
       end
 
       it "is false if the highlight field isn't in the solr response" do
-        expect(@document).not_to have_highlight_field 'nonexisting_field'
+        expect(document).not_to have_highlight_field 'nonexisting_field'
       end
     end
 
     describe "#highlight_field" do
       it "returns a value" do
-        expect(@document.highlight_field('title_tsimext')).to include('doc <em>1</em>')
+        expect(document.highlight_field('title_tsimext')).to include('doc <em>1</em>')
       end
 
       it "returns a value that is html safe" do
-        expect(@document.highlight_field('title_tsimext').first).to be_html_safe
+        expect(document.highlight_field('title_tsimext').first).to be_html_safe
       end
 
       it "returns nil when the field doesn't exist" do
-        expect(@document.highlight_field('nonexisting_field')).to be_nil
+        expect(document.highlight_field('nonexisting_field')).to be_nil
       end
     end
   end
