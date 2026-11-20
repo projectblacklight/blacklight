@@ -139,19 +139,19 @@ RSpec.describe BlacklightHelper do
     subject { helper.opensearch_description_tag 'title', 'href' }
 
     it "has a search rel" do
-      expect(subject).to have_css "link[rel='search']", visible: false
+      expect(subject).to have_css "link[rel='search']", visible: :all
     end
 
     it "has the correct mime type" do
-      expect(subject).to have_css "link[type='application/opensearchdescription+xml']", visible: false
+      expect(subject).to have_css "link[type='application/opensearchdescription+xml']", visible: :all
     end
 
     it "has a title attribute" do
-      expect(subject).to have_css "link[title='title']", visible: false
+      expect(subject).to have_css "link[title='title']", visible: :all
     end
 
     it "has an href attribute" do
-      expect(subject).to have_css "link[href='href']", visible: false
+      expect(subject).to have_css "link[href='href']", visible: :all
     end
   end
 

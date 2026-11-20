@@ -38,6 +38,7 @@ RSpec.describe "Search Results context" do
 
     # Go to the number 9 result separately
     visit '/catalog/2003546302'
+    expect(page).to have_css '#document'
     expect(page).to have_no_css '.page-links'
     expect(page).to have_no_text "« Previous | 10 of 30 | Next »"
   end

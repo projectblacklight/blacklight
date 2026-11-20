@@ -173,7 +173,7 @@ RSpec.describe "Facets" do
     visit root_path
 
     within(".blacklight-subject_ssim") do
-      expect(page).to have_no_css(".accordion-body", visible: true)
+      expect(page).to have_no_css(".accordion-body", visible: :visible)
     end
   end
 
@@ -181,9 +181,9 @@ RSpec.describe "Facets" do
     visit root_path
 
     within(".blacklight-subject_ssim") do
-      expect(page).to have_no_css(".accordion-body", visible: true)
+      expect(page).to have_no_css(".accordion-body", visible: :visible)
       click_on 'Topic'
-      expect(page).to have_css(".accordion-body", visible: true)
+      expect(page).to have_css(".accordion-body", visible: :visible)
     end
   end
 
@@ -191,9 +191,9 @@ RSpec.describe "Facets" do
     visit root_path
 
     within(".blacklight-subject_ssim") do
-      expect(page).to have_no_css(".accordion-body", visible: true)
+      expect(page).to have_no_css(".accordion-body", visible: :visible)
       find(".accordion-header").click
-      expect(page).to have_css(".accordion-body", visible: true)
+      expect(page).to have_css(".accordion-body", visible: :visible)
     end
   end
 
@@ -202,13 +202,13 @@ RSpec.describe "Facets" do
 
     within(".blacklight-subject_ssim") do
       page.find('h3.facet-field-heading', text: 'Topic').click
-      expect(page).to have_css(".panel-collapse", visible: true)
+      expect(page).to have_css(".panel-collapse", visible: :visible)
     end
     within(".blacklight-subject_ssim") do
       click_on "Japanese drama"
     end
     within(".blacklight-subject_ssim") do
-      expect(page).to have_css(".panel-collapse", visible: true)
+      expect(page).to have_css(".panel-collapse", visible: :visible)
     end
   end
 end
