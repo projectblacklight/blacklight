@@ -4,14 +4,13 @@ require 'spec_helper'
 
 RSpec.describe Blacklight::FacetCheckboxItemPresenter, type: :presenter do
   subject(:presenter) do
-    described_class.new(facet_item, facet_config, view_context, facet_field, search_state)
+    described_class.new(facet_item, facet_config, view_context, search_state)
   end
 
   let(:facet_item) { Blacklight::Solr::Response::Facets::FacetItem.new(value: 'Book', hits: 30) }
   let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'format') }
   let(:view_context) { controller.view_context }
   let(:filter_field) { Blacklight::SearchState::FilterField.new(facet_config, search_state) }
-  let(:facet_field) { Blacklight::Solr::Response::Facets::FacetField.new('format', [facet_item]) }
   let(:params) { ActionController::Parameters.new(f_inclusive: { format: ["Book"] }) }
   let(:blacklight_config) { Blacklight::Configuration.new }
   let(:search_state) { Blacklight::SearchState.new(params, blacklight_config) }

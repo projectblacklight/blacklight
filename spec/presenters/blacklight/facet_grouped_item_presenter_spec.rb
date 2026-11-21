@@ -4,11 +4,10 @@ require 'spec_helper'
 
 RSpec.describe Blacklight::FacetGroupedItemPresenter, type: :presenter do
   subject(:presenter) do
-    described_class.new(group, facet_item, facet_config, view_context, facet_field, search_state)
+    described_class.new(group, facet_item, facet_config, view_context, search_state)
   end
 
   let(:facet_config) { Blacklight::Configuration::FacetField.new(key: 'key') }
-  let(:facet_field) { instance_double(Blacklight::Solr::Response::Facets::FacetField) }
   let(:view_context) { controller.view_context }
 
   let(:facet_item) { 'a' }

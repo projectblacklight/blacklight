@@ -10,7 +10,7 @@ RSpec.describe Blacklight::Facets::PivotListComponent, type: :component do
   end
 
   let(:item_presenter) do
-    facet_config.item_presenter.new('stuff', facet_config, vc_test_controller.view_context, facet_field.key)
+    facet_config.item_presenter.new('stuff', facet_config, vc_test_controller.view_context)
   end
 
   let(:facet_field) do

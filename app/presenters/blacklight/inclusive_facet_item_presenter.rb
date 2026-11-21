@@ -8,7 +8,7 @@ module Blacklight
     # @return [String]
     def label
       view_context.safe_join(
-        Array(facet_item).map { |value| Blacklight::FacetGroupedItemPresenter.new(facet_item, value, facet_config, view_context, facet_field, search_state).label },
+        Array(facet_item).map { |value| Blacklight::FacetGroupedItemPresenter.new(facet_item, value, facet_config, view_context, search_state).label },
         view_context.t('blacklight.advanced_search.or_html')
       )
     end
