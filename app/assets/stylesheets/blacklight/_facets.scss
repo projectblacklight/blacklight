@@ -217,3 +217,12 @@
     -webkit-mask: var(--bl-facet-toggle-hide-icon) center / var(--bl-facet-toggle-width) auto no-repeat;
   }
 }
+
+/* Make facet sidebar scrollable when it's longer than the page height */
+@include media-breakpoint-up(lg) {
+  .page-sidebar > .sticky-lg-top {
+    max-height: calc(100dvh - 8rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}

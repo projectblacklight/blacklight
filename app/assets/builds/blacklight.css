@@ -471,6 +471,13 @@ main {
   -webkit-mask: var(--bl-facet-toggle-hide-icon) center/var(--bl-facet-toggle-width) auto no-repeat;
 }
 
+@media (min-width: 992px) {
+  .page-sidebar > .sticky-lg-top {
+    max-height: calc(100dvh - 8rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
 /* Search History */
 .search-history {
   --bl-history-filter-name-color: var(--bs-secondary-color);
