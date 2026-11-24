@@ -76,6 +76,10 @@ Naming/MethodParameterName:
     - of
     - by
 
+Naming/VariableNumber:
+  # Symbols are often data (Solr field names, request params), not identifiers
+  CheckSymbols: false
+
 Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_
