@@ -19,7 +19,11 @@ module Blacklight::RenderPartialsHelperBehavior
   # @return [String]
   def render_xml_partials(doc, partials = [], locals = {})
     partials.map do |action_name|
-      render_document_partial(doc, action_name, locals)
+      if render_document_partial_overridden?
+        render_document_partial(doc, action_name, locals)
+      else
+        render document_partial_component(doc).new(document: doc, base_name: action_name, locals: locals)
+      end
     end.join("\n")
   end
 
@@ -30,24 +34,14 @@ module Blacklight::RenderPartialsHelperBehavior
   # If a partial that matches the document format is not found,
   # render a default partial for the base name.
   #
-  # @see #document_partial_path_templates
+  # @deprecated Use {Blacklight::Document::PartialComponent} instead.
   #
   # @param [SolrDocument] doc
   # @param [String] base_name base name for the partial
   # @param [Hash] locals local variables to pass through to the partials
   def render_document_partial(doc, base_name, locals = {})
-    format = document_partial_name(doc, base_name)
-
-    view_type = document_index_view_type
-    template = cached_view ['show', view_type, base_name, format].join('_') do
-      find_document_show_template_with_view(view_type, base_name, format, locals)
-    end
-    if template
-      template.render(self, locals.merge(document: doc))
-    else
-      logger.warn("No template was found for base_name: '#{base_name}', view_type: '#{view_type}' in render_document_partial")
-      ''
-    end
+    Blacklight.deprecation.warn("#render_document_partial is deprecated. Render #{document_partial_component(doc)} instead.")
+    render document_partial_component(doc).new(document: doc, base_name: base_name, locals: locals)
   end
 
   ##
@@ -97,7 +91,19 @@ module Blacklight::RenderPartialsHelperBehavior
 
   private
 
+  def document_partial_component(doc)
+    document_presenter(doc).view_config&.document_partial_component || Blacklight::Document::PartialComponent
+  end
+
+  # Applications may have overridden #render_document_partial to customize the rendering of document partials.
+  # @return [Boolean]
+  def render_document_partial_overridden?
+    method(:render_document_partial).owner != Blacklight::RenderPartialsHelperBehavior
+  end
+
   ##
+  # @deprecated Override {Blacklight::Document::PartialComponent#partial_name} instead.
+  #
   # Return a normalized partial name for rendering a single document
   #
   # @private
@@ -111,6 +117,8 @@ module Blacklight::RenderPartialsHelperBehavior
   end
 
   ##
+  # @deprecated Override {Blacklight::Document::PartialComponent#partial_name} instead.
+  #
   # Return a partial name for rendering a document
   # this method can be overridden in order to transform the value
   #   (e.g. 'PdfBook' => 'pdf_book')
@@ -129,6 +137,8 @@ module Blacklight::RenderPartialsHelperBehavior
   end
 
   ##
+  # @deprecated Override {Blacklight::Document::PartialComponent#path_templates} instead.
+  #
   # A list of document partial templates to try to render for a document
   #
   # The partial names will be interpolated with the following variables:
@@ -136,7 +146,6 @@ module Blacklight::RenderPartialsHelperBehavior
   #   - index_view_type: (the current view type, e.g. list, gallery)
   #   - format: the document's format (e.g. book)
   #
-  # @see #render_document_partial
   def document_partial_path_templates
     # first, the legacy template names for backwards compatbility
     # followed by the new, inheritable style
@@ -151,16 +160,6 @@ module Blacklight::RenderPartialsHelperBehavior
       "catalog/_%{action_name}_partials/%{format}",
       "catalog/_%{action_name}_partials/default"
     ]
-  end
-
-  def find_document_show_template_with_view view_type, base_name, format, locals
-    document_partial_path_templates.each do |str|
-      partial = format(str, action_name: base_name, format: format, index_view_type: view_type)
-      logger&.debug "Looking for document partial #{partial}"
-      template = lookup_context.find_all(partial, lookup_context.prefixes + [""], true, locals.keys + [:document], {}).first
-      return template if template
-    end
-    nil
   end
 
   def find_document_index_template_with_view view_type, locals
