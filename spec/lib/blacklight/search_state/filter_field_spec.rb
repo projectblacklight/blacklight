@@ -50,7 +50,7 @@ RSpec.describe Blacklight::SearchState::FilterField do
 
       it 'includes the pivot facet fqs' do
         filter = search_state.filter('some_field')
-        new_state = filter.add(OpenStruct.new(fq: { some_other_field: '5' }, value: '4'))
+        new_state = filter.add(Blacklight::Solr::Response::Facets::FacetItem.new(fq: { some_other_field: '5' }, value: '4'))
 
         expect(new_state.filter('some_field').values).to eq %w[1 2 4]
         expect(new_state.filter('some_other_field').values).to eq %w[5]
@@ -58,14 +58,14 @@ RSpec.describe Blacklight::SearchState::FilterField do
 
       it 'handles field indirection' do
         filter = search_state.filter('some_field')
-        new_state = filter.add(OpenStruct.new(field: 'some_other_field', value: '4'))
+        new_state = filter.add(Blacklight::Solr::Response::Facets::FacetItem.new(field: 'some_other_field', value: '4'))
 
         expect(new_state.filter('some_other_field').values).to eq %w[4]
       end
 
       it 'handles value indirection' do
         filter = search_state.filter('some_field')
-        new_state = filter.add(OpenStruct.new(value: '4'))
+        new_state = filter.add(Blacklight::Solr::Response::Facets::FacetItem.new(value: '4'))
 
         expect(new_state.filter('some_field').values).to eq %w[1 2 4]
       end
@@ -125,7 +125,7 @@ RSpec.describe Blacklight::SearchState::FilterField do
 
     it 'handles value indirection' do
       filter = search_state.filter('some_field')
-      new_state = filter.remove(OpenStruct.new(value: '1'))
+      new_state = filter.remove(Blacklight::Solr::Response::Facets::FacetItem.new(value: '1'))
 
       expect(new_state.filter('some_field').values).to eq ['2']
     end
@@ -165,7 +165,7 @@ RSpec.describe Blacklight::SearchState::FilterField do
 
       it "removes facet.missing facet params" do
         filter = search_state.filter("some_field")
-        new_state = filter.remove(OpenStruct.new(key: 'some_field', missing: true))
+        new_state = filter.remove(Blacklight::Solr::Response::Facets::FacetItem.new(key: 'some_field', missing: true))
 
         expect(new_state.params).to eq({})
       end
@@ -195,7 +195,7 @@ RSpec.describe Blacklight::SearchState::FilterField do
     end
 
     it 'handles value indirection' do
-      expect(search_state.filter('some_field').include?(OpenStruct.new(value: '1'))).to be true
+      expect(search_state.filter('some_field').include?(Blacklight::Solr::Response::Facets::FacetItem.new(value: '1'))).to be true
     end
   end
 

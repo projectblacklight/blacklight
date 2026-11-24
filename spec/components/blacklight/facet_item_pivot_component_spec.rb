@@ -27,7 +27,7 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
       href: '/catalog?f[z]=x',
       selected?: false,
       search_state: search_state,
-      facet_item_presenters: [OpenStruct.new(label: 'x:1', hits: 5, href: '/catalog?f[z][]=x:1', facet_config: facet_config)]
+      facet_item_presenters: [instance_double(Blacklight::FacetItemPivotPresenter, label: 'x:1', hits: 5, href: '/catalog?f[z][]=x:1', facet_config: facet_config, selected?: false)]
     )
   end
 
