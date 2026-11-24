@@ -137,17 +137,6 @@ RSpec/IteratedExpectation:
     - "spec/models/blacklight/solr/response/group_spec.rb"
     - "spec/models/blacklight/solr/response_spec.rb"
 
-# Offense count: 16
-RSpec/LeakyConstantDeclaration:
-  Exclude:
-    - "spec/controllers/bookmarks_controller_spec.rb"
-    - "spec/controllers/catalog_controller_spec.rb"
-    - "spec/models/blacklight/configurable_spec.rb"
-    - "spec/models/blacklight/document/active_model_shim_spec.rb"
-    - "spec/models/blacklight/document_spec.rb"
-    - "spec/models/blacklight/solr/document_spec.rb"
-    - "spec/presenters/blacklight/show_presenter_spec.rb"
-
 # Offense count: 408
 RSpec/MultipleExpectations:
   Max: 16
