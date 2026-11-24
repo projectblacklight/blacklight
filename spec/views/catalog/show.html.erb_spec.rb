@@ -14,9 +14,9 @@ RSpec.describe "catalog/show.html.erb" do
     allow(view).to receive_messages(document_presenter: presenter, action_name: 'show', blacklight_config: blacklight_config)
   end
 
-  it "sets the @page_title" do
+  it "sets the page title" do
     render
-    page_title = view.instance_variable_get(:@page_title)
+    page_title = view.content_for(:page_title)
     expect(page_title).to eq "Heading - Blacklight"
     expect(page_title).to be_html_safe
   end

@@ -7,6 +7,7 @@ module Blacklight::CatalogHelperBehavior
   include Blacklight::DocumentHelperBehavior
   include Blacklight::FacetsHelperBehavior
   include Blacklight::RenderPartialsHelperBehavior
+  include Blacklight::DeprecatedInstanceVariableHelperBehavior
 
   # @param [Hash] options
   # @option options :route_set the route scope to use when constructing the link
@@ -79,13 +80,13 @@ module Blacklight::CatalogHelperBehavior
   # Get the offset counter for a document
   #
   # @param [Integer] idx document index
-  # @param [Integer] offset additional offset to incremenet the counter by
+  # @param [Integer] offset additional offset to incremenet the counter by (defaults to the response's start)
+  # @param [Blacklight::Solr::Response] response the current search response
   # @return [Integer]
-  def document_counter_with_offset idx, offset = nil
-    offset ||= @response.start if @response
-    offset ||= 0
+  def document_counter_with_offset idx, offset = nil, response: nil
+    response ||= deprecated_instance_variable_fallback(:@response, method_name: 'document_counter_with_offset', argument: 'response:')
 
-    idx + 1 + offset unless render_grouped_response?
+    idx + 1 + (offset || response&.start || 0) unless render_grouped_response?(response)
   end
 
   ##
@@ -99,9 +100,11 @@ module Blacklight::CatalogHelperBehavior
   ##
   # Look up the current sort field, or provide the default if none is set
   #
+  # @param [Blacklight::Solr::Response] response the current search response
   # @return [Blacklight::Configuration::SortField]
-  def current_sort_field
-    (blacklight_config.sort_fields.values.find { |f| f.sort == @response.sort } if @response && @response.sort.present?) || blacklight_config.sort_fields[params[:sort]] || default_sort_field
+  def current_sort_field(response = nil)
+    response ||= deprecated_instance_variable_fallback(:@response, method_name: 'current_sort_field', argument: 'response')
+    (blacklight_config.sort_fields.values.find { |f| f.sort == response.sort } if response && response.sort.present?) || blacklight_config.sort_fields[params[:sort]] || default_sort_field
   end
 
   ##
@@ -110,7 +113,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def show_sort_and_per_page? response = nil
-    response ||= @response
+    response ||= deprecated_instance_variable_fallback(:@response, method_name: 'show_sort_and_per_page?', argument: 'response')
     !response.empty?
   end
 
@@ -120,7 +123,7 @@ module Blacklight::CatalogHelperBehavior
   # @param [Blacklight::Solr::Response] response
   # @return [Boolean]
   def show_pagination? response = nil
-    response ||= @response
+    response ||= deprecated_instance_variable_fallback(:@response, method_name: 'show_pagination?', argument: 'response')
     response.limit_value.positive?
   end
 
@@ -180,8 +183,10 @@ module Blacklight::CatalogHelperBehavior
   #
   # Default to false if there's no response object available (sometimes the case
   #   for tests, but might happen in other circumstances too..)
+  # @param [Blacklight::Solr::Response] response the current search response
   # @return [Boolean]
-  def render_grouped_response? response = @response
+  def render_grouped_response? response = nil
+    response ||= deprecated_instance_variable_fallback(:@response, method_name: 'render_grouped_response?', argument: 'response')
     response&.grouped?
   end
 

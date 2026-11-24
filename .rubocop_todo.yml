@@ -114,15 +114,6 @@ RSpec/NamedSubject:
 RSpec/NestedGroups:
   Max: 5
 
-# Offense count: 17
-Rails/HelperInstanceVariable:
-  Exclude:
-    - "app/helpers/blacklight/catalog_helper_behavior.rb"
-    - "app/helpers/blacklight/component_helper_behavior.rb"
-    - "app/helpers/blacklight/document_helper_behavior.rb"
-    - "app/helpers/blacklight/layout_helper_behavior.rb"
-    - "app/helpers/blacklight/render_partials_helper_behavior.rb"
-
 # Offense count: 2
 Rails/I18nLocaleAssignment:
   Exclude:

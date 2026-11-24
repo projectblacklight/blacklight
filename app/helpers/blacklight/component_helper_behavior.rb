@@ -2,6 +2,8 @@
 
 module Blacklight
   module ComponentHelperBehavior
+    include Blacklight::DeprecatedInstanceVariableHelperBehavior
+
     ##
     # Render "document actions" area for search results view
     # (normally renders next to title in the list view)
@@ -29,7 +31,8 @@ module Blacklight
       render(component.new(actions: actions, classes: wrapping_class))
     end
 
-    def show_doc_actions?(document = @document, options = {})
+    def show_doc_actions?(document = nil, options = {})
+      document ||= deprecated_instance_variable_fallback(:@document, method_name: 'show_doc_actions?', argument: 'document')
       filter_partials(blacklight_config.view_config(:show).document_actions, { document: document }.merge(options)).any?
     end
 

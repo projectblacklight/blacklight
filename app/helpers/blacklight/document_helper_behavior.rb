@@ -2,12 +2,15 @@
 
 # Helper methods for catalog-like controllers that work with documents
 module Blacklight::DocumentHelperBehavior
+  include Blacklight::DeprecatedInstanceVariableHelperBehavior
+
   ##
   # Get the classes to add to a document's div
   #
   # @param [Blacklight::Document] document
   # @return [String]
-  def render_document_class(document = @document)
+  def render_document_class(document = nil)
+    document ||= deprecated_instance_variable_fallback(:@document, method_name: 'render_document_class', argument: 'document')
     types = document_presenter(document).display_type
     return if types.blank?
 
@@ -23,18 +26,6 @@ module Blacklight::DocumentHelperBehavior
   def document_class_prefix
     'blacklight-'
   end
-
-  ##
-  # return the Bookmarks on a set of documents (all bookmarks on the page)
-  # @private
-  # @return [Enumerable<Bookmark>]
-  def current_bookmarks
-    @current_bookmarks ||= begin
-      documents = @document.presence || @response.documents
-      current_or_guest_user.bookmarks_for_documents(Array(documents)).to_a
-    end
-  end
-  private :current_bookmarks
 
   ##
   # Check if the document is in the user's bookmarks

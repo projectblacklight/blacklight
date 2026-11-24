@@ -192,20 +192,32 @@ RSpec.describe CatalogHelper do
 
   describe "document_counter_with_offset" do
     it "renders the document index starting at 1 on the first page" do
-      assign(:response, instance_double(Blacklight::Solr::Response, start: 0, grouped?: false))
-      expect(helper.document_counter_with_offset(0)).to be(1)
-      expect(helper.document_counter_with_offset(1)).to be(2)
+      response = instance_double(Blacklight::Solr::Response, start: 0, grouped?: false)
+      expect(helper.document_counter_with_offset(0, response: response)).to be(1)
+      expect(helper.document_counter_with_offset(1, response: response)).to be(2)
     end
 
     it "renders the document index offset by the response start" do
-      assign(:response, instance_double(Blacklight::Solr::Response, start: 10, grouped?: false))
-      expect(helper.document_counter_with_offset(0)).to be(11)
-      expect(helper.document_counter_with_offset(1)).to be(12)
+      response = instance_double(Blacklight::Solr::Response, start: 10, grouped?: false)
+      expect(helper.document_counter_with_offset(0, response: response)).to be(11)
+      expect(helper.document_counter_with_offset(1, response: response)).to be(12)
+    end
+
+    it "uses an explicit offset over the response start" do
+      response = instance_double(Blacklight::Solr::Response, start: 10, grouped?: false)
+      expect(helper.document_counter_with_offset(0, 5, response: response)).to be(6)
     end
 
     it "does not provide a counter for grouped responses" do
-      assign(:response, instance_double(Blacklight::Solr::Response, start: 10, grouped?: true))
-      expect(helper.document_counter_with_offset(0)).to be_nil
+      response = instance_double(Blacklight::Solr::Response, start: 10, grouped?: true)
+      expect(helper.document_counter_with_offset(0, response: response)).to be_nil
+    end
+
+    it "falls back to the @response ivar with a deprecation warning" do
+      allow(Blacklight.deprecation).to receive(:warn)
+      assign(:response, instance_double(Blacklight::Solr::Response, start: 10, grouped?: false))
+      expect(helper.document_counter_with_offset(0)).to be(11)
+      expect(Blacklight.deprecation).to have_received(:warn).with(/document_counter_with_offset/)
     end
   end
 
@@ -318,10 +330,68 @@ RSpec.describe CatalogHelper do
     end
   end
 
+  describe "#show_sort_and_per_page?" do
+    it "is true when the response has documents" do
+      expect(helper.show_sort_and_per_page?(instance_double(Blacklight::Solr::Response, empty?: false))).to be true
+    end
+
+    it "falls back to the @response ivar with a deprecation warning" do
+      allow(Blacklight.deprecation).to receive(:warn)
+      assign(:response, instance_double(Blacklight::Solr::Response, empty?: true))
+      expect(helper.show_sort_and_per_page?).to be false
+      expect(Blacklight.deprecation).to have_received(:warn).with(/show_sort_and_per_page\?/)
+    end
+  end
+
+  describe "#show_pagination?" do
+    it "is true when the response has a positive limit" do
+      expect(helper.show_pagination?(instance_double(Blacklight::Solr::Response, limit_value: 10))).to be true
+    end
+
+    it "falls back to the @response ivar with a deprecation warning" do
+      allow(Blacklight.deprecation).to receive(:warn)
+      assign(:response, instance_double(Blacklight::Solr::Response, limit_value: 0))
+      expect(helper.show_pagination?).to be false
+      expect(Blacklight.deprecation).to have_received(:warn).with(/show_pagination\?/)
+    end
+  end
+
+  describe "#current_sort_field" do
+    let(:blacklight_config) do
+      Blacklight::Configuration.new.configure do |config|
+        config.add_sort_field 'relevance', sort: 'score desc'
+        config.add_sort_field 'title', sort: 'title_si asc'
+      end
+    end
+
+    before do
+      allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+    end
+
+    it "uses the sort from the response" do
+      response = instance_double(Blacklight::Solr::Response, sort: 'title_si asc')
+      expect(helper.current_sort_field(response).key).to eq 'title'
+    end
+
+    it "uses the default sort field when the response has no sort" do
+      response = instance_double(Blacklight::Solr::Response, sort: nil)
+      expect(helper.current_sort_field(response).key).to eq 'relevance'
+    end
+
+    it "falls back to the @response ivar with a deprecation warning" do
+      allow(Blacklight.deprecation).to receive(:warn)
+      assign(:response, instance_double(Blacklight::Solr::Response, sort: 'title_si asc'))
+      expect(helper.current_sort_field.key).to eq 'title'
+      expect(Blacklight.deprecation).to have_received(:warn).with(/current_sort_field/)
+    end
+  end
+
   describe "render_grouped_response?" do
-    it "checks if the response ivar contains grouped data" do
+    it "falls back to the response ivar with a deprecation warning" do
+      allow(Blacklight.deprecation).to receive(:warn)
       assign(:response, instance_double(Blacklight::Solr::Response, grouped?: true))
       expect(helper.render_grouped_response?).to be true
+      expect(Blacklight.deprecation).to have_received(:warn).with(/render_grouped_response\?/)
     end
 
     it "checks if the response param contains grouped data" do

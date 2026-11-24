@@ -5,6 +5,8 @@
 module Blacklight
   # A module for useful methods used in layout configuration
   module LayoutHelperBehavior
+    include Blacklight::DeprecatedInstanceVariableHelperBehavior
+
     ##
     # Classes added to a document's show content div
     # @return [String]
@@ -67,11 +69,12 @@ module Blacklight
     end
 
     ##
-    # Get the page's HTML title
+    # Get the page's HTML title. Set the title in a view with
+    # `content_for(:page_title, 'My title', flush: true)`
     #
     # @return [String]
     def render_page_title
-      (content_for(:page_title) if content_for?(:page_title)) || @page_title || application_name
+      (content_for(:page_title) if content_for?(:page_title)) || deprecated_page_title || application_name
     end
 
     ##
@@ -86,7 +89,8 @@ module Blacklight
     #     content type, e.g. as required by atom
     # @option options [Array<String>] :exclude array of format shortnames to not include in the output
     # @return [String]
-    def render_link_rel_alternates(document = @document, options = {})
+    def render_link_rel_alternates(document = nil, options = {})
+      document ||= deprecated_instance_variable_fallback(:@document, method_name: 'render_link_rel_alternates', argument: 'document')
       return if document.nil?
 
       document_presenter(document).link_rel_alternates(options)
@@ -112,6 +116,15 @@ module Blacklight
     # @see Blacklight::Configuration#dark_mode_support
     def dark_mode_support?
       blacklight_config.dark_mode_support
+    end
+
+    private
+
+    # @deprecated set content_for(:page_title) instead of @page_title
+    def deprecated_page_title
+      title = instance_variable_get(:@page_title)
+      Blacklight.deprecation.warn('Setting @page_title is deprecated and will be removed in Blacklight 10; use content_for(:page_title, ..., flush: true) instead.') if title
+      title
     end
   end
 end

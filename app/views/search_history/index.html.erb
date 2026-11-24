@@ -1,4 +1,4 @@
-<% @page_title = t('blacklight.search_history.page_title', :application_name => application_name) %>
+<% content_for(:page_title, t('blacklight.search_history.page_title', application_name: application_name), flush: true) %>
 
 <div id="content" class="col-md-12">
 <h1 class='page-heading'><%= t('blacklight.search_history.title') %></h1>

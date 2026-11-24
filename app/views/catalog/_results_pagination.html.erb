@@ -1,4 +1,4 @@
-<% if show_pagination? and @response.total_pages > 1 %>
+<% if show_pagination?(@response) && @response.total_pages > 1 %>
   <%= render Blacklight::Response::PaginationComponent.new(response: @response,
     classes: 'paginate-section mt-2') %>
 <% end %>
