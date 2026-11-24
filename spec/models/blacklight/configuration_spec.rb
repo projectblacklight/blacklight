@@ -57,9 +57,9 @@ RSpec.describe Blacklight::Configuration, :api do
       expect(config.default_solr_params).to be_a Hash
     end
 
-    it "has openstruct values for show and index parameters" do
-      expect(config.show).to be_a OpenStruct
-      expect(config.index).to be_a OpenStruct
+    it "has view config values for show and index parameters" do
+      expect(config.show).to be_a Blacklight::Configuration::ViewConfig::Show
+      expect(config.index).to be_a Blacklight::Configuration::ViewConfig::Index
     end
 
     it "has ordered hashes for field configuration" do

@@ -183,13 +183,9 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 14
+# Offense count: 4
 Style/OpenStructUse:
   Exclude:
     - "lib/blacklight/configuration.rb"
     - "lib/blacklight/open_struct_with_hash_access.rb"
     - "lib/blacklight/solr/response/facets.rb"
-    - "spec/components/blacklight/facet_item_pivot_component_spec.rb"
-    - "spec/lib/blacklight/search_state/filter_field_spec.rb"
-    - "spec/models/blacklight/configuration_spec.rb"
-    - "spec/models/blacklight/solr/response_spec.rb"

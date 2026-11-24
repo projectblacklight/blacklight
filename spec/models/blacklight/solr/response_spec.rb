@@ -114,6 +114,8 @@ RSpec.describe Blacklight::Solr::Response, :api do
 
       expect(item.hits).to eq 15
       expect(item.value).to eq 'value'
+      # FacetItem subclassing OpenStruct is part of the public API
+      # rubocop:disable-next Style/OpenStructUse
       expect(item).to be_a(OpenStruct)
     end
 
