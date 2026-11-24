@@ -23,16 +23,12 @@ RSpec.describe Blacklight::Solr::Response::GroupResponse, :api do
       expect(response.grouped).to be_a Array
 
       expect(group.groups).to have(2).items
-      group.groups.each do |group|
-        expect(group).to be_a Blacklight::Solr::Response::Group
-      end
+      expect(group.groups).to all(be_a Blacklight::Solr::Response::Group)
     end
 
     it "includes a list of SolrDocuments" do
       group.groups.each do |group|
-        group.docs.each do |doc|
-          expect(doc).to be_a SolrDocument
-        end
+        expect(group.docs).to all(be_a SolrDocument)
       end
     end
   end

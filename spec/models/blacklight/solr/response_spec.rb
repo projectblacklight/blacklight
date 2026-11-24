@@ -56,10 +56,7 @@ RSpec.describe Blacklight::Solr::Response, :api do
       expect(facet).to respond_to :sort
       expect(facet).to respond_to :offset
       expect(facet).to respond_to :limit
-      facet.items.each do |item|
-        expect(item).to respond_to :value
-        expect(item).to respond_to :hits
-      end
+      expect(facet.items).to all(respond_to(:value, :hits))
     end
   end
 
