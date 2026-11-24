@@ -21,7 +21,6 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
     instance_double(
       Blacklight::FacetItemPivotPresenter,
       facet_config: facet_config,
-      facet_field: 'z',
       label: 'x',
       hits: 10,
       href: '/catalog?f[z]=x',
@@ -49,7 +48,6 @@ RSpec.describe Blacklight::FacetItemPivotComponent, type: :component do
       instance_double(
         Blacklight::FacetItemPivotPresenter,
         facet_config: facet_config,
-        facet_field: 'z',
         label: 'x',
         hits: 10,
         href: '/catalog',

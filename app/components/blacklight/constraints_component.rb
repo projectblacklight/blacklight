@@ -96,7 +96,7 @@ module Blacklight
           next if val.blank?
 
           if val.is_a?(Array)
-            yield inclusive_facet_constraint_presenter(facet_field_presenter, facet.config, val, facet.key) if val.any?(&:present?)
+            yield inclusive_facet_constraint_presenter(facet_field_presenter, facet.config, val) if val.any?(&:present?)
           else
             yield facet_constraint_presenter(facet_field_presenter, facet.config, val)
           end
@@ -133,11 +133,10 @@ module Blacklight
     # @param facet_field_presenter [Blacklight::FacetFieldPresenter] presenter for the facet field
     # @param facet_config [Blacklight::Configuration::FacetField] configuration for the facet
     # @param facet_item [Array] array of facet items
-    # @param facet_field [Symbol, String] the facet field name
     # @return [Blacklight::ConstraintPresenter] constraint presenter for the inclusive facet
-    def inclusive_facet_constraint_presenter(facet_field_presenter, facet_config, facet_item, facet_field)
+    def inclusive_facet_constraint_presenter(facet_field_presenter, facet_config, facet_item)
       facet_config.constraint_presenter.new(
-        facet_item_presenter: Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers, facet_field),
+        facet_item_presenter: Blacklight::InclusiveFacetItemPresenter.new(facet_item, facet_config, helpers),
         field_label: facet_field_presenter.label
       )
     end
