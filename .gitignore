@@ -5,10 +5,8 @@
 .yardoc
 .rvmrc
 *.log
-Gemfile.lock
 coverage/
 doc/
-gemfiles/*.gemfile.lock
 jetty/
 log/*
 tmp/*
