@@ -122,10 +122,10 @@ RSpec.describe Blacklight::SearchBuilder, :api do
   end
 
   describe "#processed_parameters" do
-    let(:processor_chain) { [:step_1] }
+    let(:processor_chain) { [:step1] }
     let(:builder_class) do
       Class.new(described_class) do
-        def step_1(req_params)
+        def step1(req_params)
           req_params[:step_1] = 'builder'
         end
       end
