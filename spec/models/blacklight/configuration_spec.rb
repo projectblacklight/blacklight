@@ -166,11 +166,11 @@ RSpec.describe Blacklight::Configuration, :api do
     it "provides a deep copy of the configuration" do
       config_copy.a = 1
 
-      @mock_facet = Blacklight::Configuration::FacetField.new
-      config_copy.add_facet_field "dummy_field", @mock_facet
+      mock_facet = Blacklight::Configuration::FacetField.new
+      config_copy.add_facet_field "dummy_field", mock_facet
 
       expect(config.a).to be_nil
-      expect(config.facet_fields).not_to include(@mock_facet)
+      expect(config.facet_fields).not_to include(mock_facet)
     end
 
     context "when model classes are customised" do

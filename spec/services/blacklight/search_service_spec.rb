@@ -135,29 +135,29 @@ RSpec.describe Blacklight::SearchService, :api do
   describe 'Facets in Search Results for All Docs Query', :integration do
     let(:user_params) { { q: all_docs_query } }
 
-    before do
+    let(:facets) do
       (solr_response,) = service.search_results
-      @facets = solr_response.aggregations
+      solr_response.aggregations
     end
 
     it 'has more than one facet' do
-      expect(@facets).to have_at_least(1).facet
+      expect(facets).to have_at_least(1).facet
     end
 
     it 'has all facets specified in initializer' do
-      expect(@facets.keys).to include(*blacklight_config.facet_fields.keys)
-      expect(@facets.none? { |_k, v| v.nil? }).to be true
+      expect(facets.keys).to include(*blacklight_config.facet_fields.keys)
+      expect(facets.none? { |_k, v| v.nil? }).to be true
     end
 
     it 'has at least one value for each facet' do
-      @facets.each do |_key, facet|
+      facets.each do |_key, facet|
         expect(facet.items).to have_at_least(1).hit
       end
     end
 
     it 'has multiple values for at least one facet' do
       has_mult_values = false
-      @facets.each do |_key, facet|
+      facets.each do |_key, facet|
         if facet.items.size > 1
           has_mult_values = true
           break
@@ -167,7 +167,7 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     it 'has all value counts > 0' do
-      @facets.each do |_key, facet|
+      facets.each do |_key, facet|
         facet.items.each do |facet_vals|
           expect(facet_vals.hits).to be_positive
         end
@@ -271,9 +271,7 @@ RSpec.describe Blacklight::SearchService, :api do
     let(:doc_id) { '2007020969' }
     let(:bad_id) { 'redrum' }
 
-    before do
-      @document = service.fetch(doc_id)
-    end
+    let(:document) { service.fetch(doc_id) }
 
     it "raises Blacklight::RecordNotFound for an unknown id" do
       expect do
@@ -282,11 +280,11 @@ RSpec.describe Blacklight::SearchService, :api do
     end
 
     it "has a non-nil result for a known id" do
-      expect(@document).not_to be_nil
+      expect(document).not_to be_nil
     end
 
     it 'has the expected value in the id field' do
-      expect(@document.id).to eq doc_id
+      expect(document.id).to eq doc_id
     end
   end
 
@@ -374,27 +372,25 @@ RSpec.describe Blacklight::SearchService, :api do
   describe "#previous_and_next_documents_for_search" do
     let(:user_params) { { q: '', per_page: 100 } }
 
-    before do
-      @full_response = service.search_results
-    end
+    let!(:full_response) { service.search_results }
 
     it "returns the previous and next documents for a search" do
       _response, docs = service.previous_and_next_documents_for_search(4, { q: '' })
 
-      expect(docs.first.id).to eq @full_response.documents[3].id
-      expect(docs.last.id).to eq @full_response.documents[5].id
+      expect(docs.first.id).to eq full_response.documents[3].id
+      expect(docs.last.id).to eq full_response.documents[5].id
     end
 
     it "returns only the next document if the counter is 0" do
       _response, docs = service.previous_and_next_documents_for_search(0, { q: '' })
 
       expect(docs.first).to be_nil
-      expect(docs.last.id).to eq @full_response.documents[1].id
+      expect(docs.last.id).to eq full_response.documents[1].id
     end
 
     it "returns only the previous document if the counter is the total number of documents" do
-      _response, docs = service.previous_and_next_documents_for_search(@full_response.total - 1, { q: '' })
-      expect(docs.first.id).to eq @full_response.documents.slice(-2).id
+      _response, docs = service.previous_and_next_documents_for_search(full_response.total - 1, { q: '' })
+      expect(docs.first.id).to eq full_response.documents.slice(-2).id
       expect(docs.last).to be_nil
     end
 
@@ -406,7 +402,7 @@ RSpec.describe Blacklight::SearchService, :api do
 
     it 'returns only the unique key by default' do
       _response, docs = service.previous_and_next_documents_for_search(0, { q: '' })
-      expect(docs.last.to_h).to eq 'id' => @full_response.documents[1].id
+      expect(docs.last.to_h).to eq 'id' => full_response.documents[1].id
     end
 
     it 'allows the query parameters to be customized using configuration' do
@@ -414,7 +410,7 @@ RSpec.describe Blacklight::SearchService, :api do
 
       _response, docs = service.previous_and_next_documents_for_search(0, { q: '' })
 
-      expect(docs.last.to_h).to eq @full_response.documents[1].to_h.slice('id', 'format')
+      expect(docs.last.to_h).to eq full_response.documents[1].to_h.slice('id', 'format')
     end
   end
 

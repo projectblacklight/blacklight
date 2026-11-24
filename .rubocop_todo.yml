@@ -102,33 +102,15 @@ Naming/VariableNumber:
     - "spec/lib/blacklight/search_state_spec.rb"
     - "spec/models/blacklight/search_builder_spec.rb"
 
-# Offense count: 5
+# Offense count: 1
 RSpec/BeforeAfterAll:
   Exclude:
-    - "spec/controllers/search_history_controller_spec.rb"
     - "spec/models/blacklight/configurable_spec.rb"
-    - "spec/models/blacklight/document/dublin_core_spec.rb"
-    - "spec/models/blacklight/solr/document_spec.rb"
 
 # Offense count: 144
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
   Max: 33
-
-# Offense count: 107
-# Configuration parameters: AssignmentOnly.
-RSpec/InstanceVariable:
-  Exclude:
-    - "spec/controllers/bookmarks_controller_spec.rb"
-    - "spec/controllers/search_history_controller_spec.rb"
-    - "spec/helpers/catalog_helper_spec.rb"
-    - "spec/lib/blacklight/open_struct_with_hash_access_spec.rb"
-    - "spec/lib/tasks/blacklight_task_spec.rb"
-    - "spec/models/blacklight/configuration_spec.rb"
-    - "spec/models/blacklight/document/dublin_core_spec.rb"
-    - "spec/models/blacklight/solr/document_spec.rb"
-    - "spec/models/record_mailer_spec.rb"
-    - "spec/services/blacklight/search_service_spec.rb"
 
 # Offense count: 4
 RSpec/IteratedExpectation:
