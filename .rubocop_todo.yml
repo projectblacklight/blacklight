@@ -11,12 +11,6 @@ Lint/BinaryOperatorWithIdenticalOperands:
   Exclude:
     - "spec/models/blacklight/document/active_model_shim_spec.rb"
 
-# Offense count: 1
-# Configuration parameters: AllowComments, AllowEmptyLambdas.
-Lint/EmptyBlock:
-  Exclude:
-    - "lib/blacklight/solr/search_builder_behavior.rb"
-
 # Offense count: 53
 # Configuration parameters: AllowedParentClasses.
 Lint/MissingSuper:
