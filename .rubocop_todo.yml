@@ -7,11 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 1
-Lint/BinaryOperatorWithIdenticalOperands:
-  Exclude:
-    - "spec/models/blacklight/document/active_model_shim_spec.rb"
-
-# Offense count: 1
 # Configuration parameters: AllowComments, AllowEmptyLambdas.
 Lint/EmptyBlock:
   Exclude:
