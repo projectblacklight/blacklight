@@ -159,11 +159,6 @@ Rails/I18nLocaleAssignment:
   Exclude:
     - "spec/helpers/blacklight_helper_spec.rb"
 
-# Offense count: 1
-Rails/OutputSafety:
-  Exclude:
-    - "app/presenters/blacklight/rendering/join.rb"
-
 # Offense count: 11
 Security/Eval:
   Exclude:
