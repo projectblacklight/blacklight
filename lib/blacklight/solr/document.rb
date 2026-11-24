@@ -24,13 +24,13 @@ module Blacklight::Solr::Document
     response.more_like(self).map { |doc| self.class.new(doc, response) }
   end
 
-  def has_highlight_field? k
+  def has_highlight_field? field
     return false if response['highlighting'].blank? || response['highlighting'][id].blank?
 
-    response['highlighting'][id].key? k.to_s
+    response['highlighting'][id].key? field.to_s
   end
 
-  def highlight_field k
-    response['highlighting'][id][k.to_s].map(&:html_safe) if has_highlight_field? k
+  def highlight_field field
+    response['highlighting'][id][field.to_s].map(&:html_safe) if has_highlight_field? field
   end
 end

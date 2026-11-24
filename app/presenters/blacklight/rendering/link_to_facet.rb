@@ -22,12 +22,12 @@ module Blacklight
         config.link_to_facet
       end
 
-      def link(field, v)
-        context.link_to v, search_path(field, v)
+      def link(field, value)
+        context.link_to value, search_path(field, value)
       end
 
-      def search_path(field, v)
-        context.search_action_path(facet_params(field, v))
+      def search_path(field, value)
+        context.search_action_path(facet_params(field, value))
       end
 
       def facet_params(field, item)
