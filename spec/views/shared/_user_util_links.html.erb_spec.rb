@@ -71,4 +71,30 @@ RSpec.describe "shared/_user_util_links" do
 
     expect(rendered).to have_link("Login", href: "/session/new")
   end
+
+  context "with a custom user_util_links_component" do
+    let(:custom_component) do
+      stub_const('CustomUserUtilLinksComponent', Class.new(Blacklight::Component) do
+        def initialize(blacklight_config:)
+          @blacklight_config = blacklight_config
+        end
+
+        def call
+          tag.div('custom links', class: 'custom-user-util-links')
+        end
+      end)
+    end
+
+    before do
+      blacklight_config.user_util_links_component = custom_component
+      allow(view).to receive(:blacklight_config).and_return(blacklight_config)
+    end
+
+    it "renders the configured component" do
+      render "shared/user_util_links"
+
+      expect(rendered).to have_css('.custom-user-util-links', text: 'custom links')
+      expect(rendered).to have_no_css('ul.navbar-nav')
+    end
+  end
 end
