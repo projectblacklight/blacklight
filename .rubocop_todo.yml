@@ -11,24 +11,10 @@ Lint/BinaryOperatorWithIdenticalOperands:
   Exclude:
     - "spec/models/blacklight/document/active_model_shim_spec.rb"
 
-# Offense count: 14
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: enums
-Lint/ConstantDefinitionInBlock:
-  Exclude:
-    - "spec/controllers/bookmarks_controller_spec.rb"
-    - "spec/controllers/catalog_controller_spec.rb"
-    - "spec/models/blacklight/configurable_spec.rb"
-    - "spec/models/blacklight/document/active_model_shim_spec.rb"
-    - "spec/models/blacklight/document_spec.rb"
-    - "spec/models/blacklight/solr/document_spec.rb"
-    - "spec/presenters/blacklight/show_presenter_spec.rb"
-
-# Offense count: 2
+# Offense count: 1
 # Configuration parameters: AllowComments, AllowEmptyLambdas.
 Lint/EmptyBlock:
   Exclude:
-    - "app/controllers/concerns/blacklight/bookmarks.rb"
     - "lib/blacklight/solr/search_builder_behavior.rb"
 
 # Offense count: 53
@@ -40,12 +26,6 @@ Lint/MissingSuper:
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
 Metrics/AbcSize:
   Max: 43
-
-# Offense count: 1
-# Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns, inherit_mode.
-# AllowedMethods: refine
-Metrics/BlockLength:
-  Max: 26
 
 # Offense count: 37
 # Configuration parameters: AllowedMethods, AllowedPatterns.
@@ -102,11 +82,6 @@ Naming/VariableNumber:
     - "spec/lib/blacklight/search_state_spec.rb"
     - "spec/models/blacklight/search_builder_spec.rb"
 
-# Offense count: 1
-RSpec/BeforeAfterAll:
-  Exclude:
-    - "spec/models/blacklight/configurable_spec.rb"
-
 # Offense count: 144
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
@@ -138,12 +113,6 @@ RSpec/NamedSubject:
 # Configuration parameters: AllowedGroups.
 RSpec/NestedGroups:
   Max: 5
-
-
-# Offense count: 1
-RSpec/SubjectDeclaration:
-  Exclude:
-    - "spec/models/blacklight/document/cache_key_spec.rb"
 
 # Offense count: 17
 Rails/HelperInstanceVariable:
