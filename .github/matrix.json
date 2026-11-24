@@ -11,7 +11,7 @@
     {
       "ruby": "3.4",
       "rails_version": "8.1.4",
-      "bootstrap_version": "6.0.0-alpha.1",
+      "bootstrap_version": "6.0.0-alpha.2",
       "additional_engine_cart_rails_options": "",
       "additional_name": "| Bootstrap 6"
     },
