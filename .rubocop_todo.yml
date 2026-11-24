@@ -83,17 +83,6 @@ Naming/MemoizedInstanceVariableName:
     - "lib/blacklight/solr/response.rb"
 
 # Offense count: 9
-# Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
-# AllowedNames: as, at, by, cc, db, id, if, in, io, ip, of, on, os, pp, to
-Naming/MethodParameterName:
-  Exclude:
-    - "app/models/concerns/blacklight/document.rb"
-    - "app/presenters/blacklight/rendering/link_to_facet.rb"
-    - "lib/blacklight/nested_open_struct_with_hash_access.rb"
-    - "lib/blacklight/solr/document.rb"
-    - "lib/blacklight/solr/search_builder_behavior.rb"
-
-# Offense count: 9
 # Configuration parameters: EnforcedStyle, CheckMethodNames, CheckSymbols, AllowedIdentifiers, AllowedPatterns.
 # SupportedStyles: snake_case, normalcase, non_integer
 # AllowedIdentifiers: TLS1_1, TLS1_2, capture3, iso8601, rfc1123_date, rfc822, rfc2822, rfc3339, x86_64

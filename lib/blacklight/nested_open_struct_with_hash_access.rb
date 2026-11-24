@@ -54,9 +54,9 @@ module Blacklight
     ##
     # After deserializing, we need to re-add the default proc
     # to the internal hash
-    def marshal_load x
-      @nested_class = x.first
-      super(x.last)
+    def marshal_load data
+      @nested_class = data.first
+      super(data.last)
       set_default_proc!
     end
 

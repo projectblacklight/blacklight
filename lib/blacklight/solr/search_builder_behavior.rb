@@ -298,9 +298,9 @@ module Blacklight::Solr
       solr_params[:'facet.contains.ignoreCase'] = true
     end
 
-    def with_ex_local_param(ex, value)
-      if ex
-        "{!ex=#{ex}}#{value}"
+    def with_ex_local_param(facet_ex, value)
+      if facet_ex
+        "{!ex=#{facet_ex}}#{value}"
       else
         value
       end

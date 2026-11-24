@@ -50,14 +50,14 @@ module Blacklight::Document
   # doc.has?(:location_facet)
   # doc.has?(:location_facet, 'Clemons')
   # doc.has?(:id, 'h009', /^u/i)
-  def has?(k, *values)
-    if !key?(k)
+  def has?(field, *values)
+    if !key?(field)
       false
     elsif values.empty?
-      self[k].present?
+      self[field].present?
     else
       Array(values).any? do |expected|
-        Array(self[k]).any? do |actual|
+        Array(self[field]).any? do |actual|
           case expected
           when Regexp
             actual =~ expected
@@ -101,11 +101,11 @@ module Blacklight::Document
     'catalog/document'
   end
 
-  def has_highlight_field? _k
+  def has_highlight_field? _field
     false
   end
 
-  def highlight_field _k
+  def highlight_field _field
     nil
   end
 
