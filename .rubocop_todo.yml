@@ -168,11 +168,6 @@ RSpec/NamedSubject:
 RSpec/NestedGroups:
   Max: 5
 
-# Offense count: 4
-RSpec/RepeatedDescription:
-  Exclude:
-    - "spec/features/search_results_spec.rb"
-    - "spec/helpers/catalog_helper_spec.rb"
 
 # Offense count: 1
 RSpec/SubjectDeclaration:

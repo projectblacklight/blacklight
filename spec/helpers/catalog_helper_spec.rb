@@ -191,13 +191,13 @@ RSpec.describe CatalogHelper do
   end
 
   describe "document_counter_with_offset" do
-    it "renders the document index with the appropriate offset" do
+    it "renders the document index starting at 1 on the first page" do
       assign(:response, instance_double(Blacklight::Solr::Response, start: 0, grouped?: false))
       expect(helper.document_counter_with_offset(0)).to be(1)
       expect(helper.document_counter_with_offset(1)).to be(2)
     end
 
-    it "renders the document index with the appropriate offset" do
+    it "renders the document index offset by the response start" do
       assign(:response, instance_double(Blacklight::Solr::Response, start: 10, grouped?: false))
       expect(helper.document_counter_with_offset(0)).to be(11)
       expect(helper.document_counter_with_offset(1)).to be(12)
