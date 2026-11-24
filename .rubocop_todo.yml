@@ -164,11 +164,6 @@ Rails/OutputSafety:
   Exclude:
     - "app/presenters/blacklight/rendering/join.rb"
 
-# Offense count: 11
-Security/Eval:
-  Exclude:
-    - "spec/models/blacklight/solr/response_spec.rb"
-
 # Offense count: 47
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle, EnforcedStyleForClasses, EnforcedStyleForModules.
