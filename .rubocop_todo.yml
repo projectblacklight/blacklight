@@ -196,13 +196,6 @@ Security/Eval:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-# Offense count: 6
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Style/CommentedKeyword:
-  Exclude:
-    - "spec/controllers/catalog_controller_spec.rb"
-    - "spec/services/blacklight/search_service_spec.rb"
-
 # Offense count: 2
 Style/DocumentDynamicEvalDefinition:
   Exclude:

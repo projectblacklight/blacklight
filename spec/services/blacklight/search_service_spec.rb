@@ -129,7 +129,7 @@ RSpec.describe Blacklight::SearchService, :api do
         expect(solr_response.docs).to have(0).results
       end
     end
-  end # Search Results
+  end
 
   # SPECS FOR SEARCH RESULTS FOR FACETS
   describe 'Facets in Search Results for All Docs Query', :integration do
@@ -173,7 +173,7 @@ RSpec.describe Blacklight::SearchService, :api do
         end
       end
     end
-  end # facet specs
+  end
 
   # SPECS FOR SEARCH RESULTS FOR PAGING
   describe 'Paging', :integration do
@@ -264,7 +264,7 @@ RSpec.describe Blacklight::SearchService, :api do
         expect(solr_response5.docs).to have_at_least(1).doc
       end
     end
-  end # page specs
+  end
 
   # SPECS FOR SINGLE DOCUMENT REQUESTS
   describe 'Get Document By Id', :integration do
