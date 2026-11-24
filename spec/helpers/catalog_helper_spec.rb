@@ -212,41 +212,18 @@ RSpec.describe CatalogHelper do
   describe "render_document_class" do
     before do
       allow(helper).to receive(:blacklight_config).and_return(blacklight_config)
+      allow(Blacklight.deprecation).to receive(:warn)
     end
 
     let :blacklight_config do
       Blacklight::Configuration.new
     end
 
-    it "pulls data out of a document's field" do
+    it "pulls data out of a document's field and is deprecated" do
       blacklight_config.index.display_type_field = :type
       doc = { type: 'book' }.with_indifferent_access
       expect(helper.render_document_class(doc)).to eq "blacklight-book"
-    end
-
-    it "supports multivalued fields" do
-      blacklight_config.index.display_type_field = :type
-      doc = { type: %w[book mss] }.with_indifferent_access
-      expect(helper.render_document_class(doc)).to eq "blacklight-book blacklight-mss"
-    end
-
-    it "supports empty fields" do
-      blacklight_config.index.display_type_field = :type
-      doc = { type: [] }.with_indifferent_access
-      expect(helper.render_document_class(doc)).to be_blank
-    end
-
-    it "supports missing fields" do
-      blacklight_config.index.display_type_field = :type
-      doc = {}.with_indifferent_access
-      expect(helper.render_document_class(doc)).to be_blank
-    end
-
-    it "supports view-specific field configuration" do
-      allow(helper).to receive(:document_index_view_type).and_return(:some_view_type)
-      blacklight_config.view.some_view_type(display_type_field: :other_type)
-      doc = { other_type: "document" }.with_indifferent_access
-      expect(helper.render_document_class(doc)).to eq "blacklight-document"
+      expect(Blacklight.deprecation).to have_received(:warn).with(/render_document_class is deprecated/)
     end
   end
 

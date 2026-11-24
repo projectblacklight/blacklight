@@ -269,6 +269,105 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
   end
 
+  describe '#document_class' do
+    let(:blacklight_config) { Blacklight::Configuration.new }
+
+    context 'with a single-valued display type field' do
+      let(:presented_document) { SolrDocument.new(id: 'x', type: 'book') }
+
+      before { blacklight_config.index.display_type_field = :type }
+
+      it "pulls data out of a document's field" do
+        expect(component.document_class).to eq 'blacklight-book'
+      end
+    end
+
+    context 'with a multivalued display type field' do
+      let(:presented_document) { SolrDocument.new(id: 'x', type: %w[book mss]) }
+
+      before { blacklight_config.index.display_type_field = :type }
+
+      it 'includes a class for each value' do
+        expect(component.document_class).to eq 'blacklight-book blacklight-mss'
+      end
+    end
+
+    context 'with an empty display type field' do
+      let(:presented_document) { SolrDocument.new(id: 'x', type: []) }
+
+      before { blacklight_config.index.display_type_field = :type }
+
+      it 'is blank' do
+        expect(component.document_class).to be_blank
+      end
+    end
+
+    context 'with a missing display type field' do
+      let(:presented_document) { SolrDocument.new(id: 'x') }
+
+      before { blacklight_config.index.display_type_field = :type }
+
+      it 'is blank' do
+        expect(component.document_class).to be_blank
+      end
+    end
+
+    context 'with view-specific field configuration' do
+      let(:presented_document) { SolrDocument.new(id: 'x', other_type: 'document') }
+
+      before do
+        allow(view_context).to receive(:document_index_view_type).and_return(:some_view_type)
+        blacklight_config.view.some_view_type(display_type_field: :other_type)
+      end
+
+      it 'uses the view-specific field' do
+        expect(component.document_class).to eq 'blacklight-document'
+      end
+    end
+  end
+
+  describe '#classes' do
+    let(:presented_document) { SolrDocument.new(id: 'x', type: 'book') }
+
+    before do
+      blacklight_config.index.display_type_field = :type
+      allow(Blacklight.deprecation).to receive(:warn)
+    end
+
+    it 'uses the component method without a deprecation warning' do
+      render_inline component
+
+      expect(page).to have_css 'article.blacklight-book.document'
+      expect(Blacklight.deprecation).not_to have_received(:warn)
+    end
+
+    context 'when the application has overridden the render_document_class helper' do
+      before do
+        view_context.singleton_class.define_method(:render_document_class) { |_document = nil| 'custom-class' }
+      end
+
+      it 'uses the helper override' do
+        render_inline component
+
+        expect(page).to have_css 'article.custom-class.document'
+        expect(page).to have_no_css 'article.blacklight-book'
+      end
+    end
+
+    context 'when the application has overridden the document_class_prefix helper' do
+      before do
+        view_context.singleton_class.define_method(:document_class_prefix) { 'my-' }
+      end
+
+      it 'uses the helper (and emits a deprecation warning)' do
+        render_inline component
+
+        expect(page).to have_css 'article.my-book.document'
+        expect(Blacklight.deprecation).to have_received(:warn).with(/render_document_class is deprecated/)
+      end
+    end
+  end
+
   context 'with before_titles' do
     before do
       render_inline(component) do |inner_c|

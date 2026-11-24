@@ -108,10 +108,27 @@ module Blacklight
     def classes
       [
         @classes,
-        helpers.render_document_class(@document),
+        document_class_or_helper_override,
         'document',
         ("document-position-#{@counter}" if @counter)
       ].compact.flatten
+    end
+
+    # Get the classes to add to a document's root element, derived from the document's display type(s)
+    # @return [String, nil]
+    def document_class
+      types = presenter.display_type
+      return if types.blank?
+
+      Array(types).compact.map do |t|
+        "#{document_class_prefix}#{t.try(:parameterize) || t}"
+      end.join(' ')
+    end
+
+    # Prefix for the document classes inferred from the document's display type
+    # @return [String]
+    def document_class_prefix
+      'blacklight-'
     end
 
     def before_render
@@ -135,6 +152,18 @@ module Blacklight
 
     def show?
       @show
+    end
+
+    # Backwards compatibility: if the application has overridden the (deprecated) helper methods,
+    # continue to use them.
+    def document_class_or_helper_override
+      return helpers.render_document_class(document) if helper_overridden?(:render_document_class) || helper_overridden?(:document_class_prefix)
+
+      document_class
+    end
+
+    def helper_overridden?(method_name)
+      helpers.respond_to?(method_name) && helpers.method(method_name).owner != Blacklight::DocumentHelperBehavior
     end
   end
 end

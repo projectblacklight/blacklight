@@ -5,9 +5,12 @@ module Blacklight::DocumentHelperBehavior
   ##
   # Get the classes to add to a document's div
   #
+  # @deprecated Use Blacklight::DocumentComponent#document_class instead
   # @param [Blacklight::Document] document
   # @return [String]
   def render_document_class(document = @document)
+    Blacklight.deprecation.warn('#render_document_class is deprecated and will be removed in Blacklight 10. ' \
+                                'Use Blacklight::DocumentComponent#document_class instead.')
     types = document_presenter(document).display_type
     return if types.blank?
 
@@ -18,6 +21,7 @@ module Blacklight::DocumentHelperBehavior
 
   ##
   # Return a prefix for the document classes infered from the document
+  # @note Blacklight::DocumentComponent uses its own #document_class_prefix unless this helper is overridden
   # @see #render_document_class
   # @return [String]
   def document_class_prefix
