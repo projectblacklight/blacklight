@@ -122,7 +122,7 @@ module Blacklight
 
       view_partials.each do |view_partial|
         with_partial(view_partial) do
-          helpers.render_document_partial document, view_partial, component: self, document_counter: counter
+          render_view_partial(view_partial)
         end
       end
     end
@@ -130,6 +130,21 @@ module Blacklight
     private
 
     delegate :view_config, to: :@presenter
+
+    def render_view_partial(view_partial)
+      locals = { component: self, document_counter: counter }
+
+      # Respect applications that still customize partial rendering by overriding the helper
+      return helpers.render_document_partial(document, view_partial, locals) if render_document_partial_overridden?
+
+      partial_component = view_config&.document_partial_component || Blacklight::Document::PartialComponent
+      render partial_component.new(document: document, presenter: presenter, base_name: view_partial, locals: locals)
+    end
+
+    def render_document_partial_overridden?
+      helpers.respond_to?(:render_document_partial) &&
+        helpers.method(:render_document_partial).owner != Blacklight::RenderPartialsHelperBehavior
+    end
 
     attr_reader :document_counter, :counter, :document, :presenter, :view_partials
 

@@ -32,17 +32,42 @@ RSpec.describe Blacklight::RenderPartialsHelperBehavior do
   end
 
   describe "#render_document_partial" do
-    let(:doc) { double }
+    let(:doc) { SolrDocument.new(id: 'x') }
+    let(:blacklight_config) { Blacklight::Configuration.new }
 
     before do
-      allow(helper).to receive_messages(document_partial_path_templates: [])
-      allow(helper).to receive_messages(document_index_view_type: 'index_header')
+      allow(Blacklight.deprecation).to receive(:warn)
+      allow(helper).to receive_messages(blacklight_config: blacklight_config, document_index_view_type: :list)
+      allow(helper).to receive(:render).and_return('rendered')
     end
 
-    it "gets the document format from document_partial_name" do
-      allow(helper).to receive(:document_partial_name)
-      helper.render_document_partial(doc, :xyz)
-      expect(helper).to have_received(:document_partial_name).with(doc, :xyz)
+    it "is deprecated and renders the document partial component" do
+      expect(helper.render_document_partial(doc, :xyz, a: 1)).to eq 'rendered'
+      expect(Blacklight.deprecation).to have_received(:warn).with(/render_document_partial is deprecated/)
+      expect(helper).to have_received(:render).with(an_instance_of(Blacklight::Document::PartialComponent))
+    end
+  end
+
+  describe "#render_xml_partials" do
+    let(:doc) { SolrDocument.new(id: 'x') }
+    let(:blacklight_config) { Blacklight::Configuration.new }
+
+    before do
+      allow(Blacklight.deprecation).to receive(:warn)
+      allow(helper).to receive_messages(blacklight_config: blacklight_config, document_index_view_type: :list)
+    end
+
+    it "renders a document partial component for each partial" do
+      allow(helper).to receive(:render).and_return('a', 'b')
+      expect(helper.render_xml_partials(doc, %w[one two])).to eq "a\nb"
+      expect(helper).to have_received(:render).with(an_instance_of(Blacklight::Document::PartialComponent)).twice
+      expect(Blacklight.deprecation).not_to have_received(:warn)
+    end
+
+    it "uses an overridden #render_document_partial" do
+      allow(helper).to receive(:render_document_partial).and_return('custom')
+      expect(helper.render_xml_partials(doc, %w[one])).to eq 'custom'
+      expect(helper).to have_received(:render_document_partial).with(doc, 'one', {})
     end
   end
 

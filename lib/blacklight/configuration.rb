@@ -163,6 +163,8 @@ module Blacklight
         document_metadata_component: Blacklight::DocumentMetadataComponent,
         document_thumbnail_component: Blacklight::Document::ThumbnailComponent,
         document_title_component: Blacklight::DocumentTitleComponent,
+        # component class used to render legacy document partials (see the `partials` configuration)
+        document_partial_component: Blacklight::Document::PartialComponent,
         sidebar_component: Blacklight::Search::SidebarComponent,
         dropdown_component: Blacklight::System::DropdownComponent,
         # solr field to use to render a document title

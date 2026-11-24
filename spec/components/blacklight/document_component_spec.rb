@@ -259,6 +259,48 @@ RSpec.describe Blacklight::DocumentComponent, type: :component do
     end
   end
 
+  context 'with configured view partials' do
+    let(:attr) { { partials: [:custom] } }
+
+    before do
+      vc_test_controller.prepend_view_path(
+        ActionView::FixtureResolver.new('application/_custom_default.html.erb' => 'Custom partial <%= document.id %> <%= component.class %>')
+      )
+    end
+
+    it 'renders the partials with the document partial component' do
+      render_inline component
+      expect(page).to have_text 'Custom partial x Blacklight::DocumentComponent'
+    end
+
+    context 'when the application overrides the render_document_partial helper' do
+      before do
+        allow(view_context).to receive(:render_document_partial).and_return('Overridden partial')
+      end
+
+      it 'uses the helper' do
+        render_inline component
+        expect(page).to have_text 'Overridden partial'
+        expect(view_context).to have_received(:render_document_partial)
+          .with(presented_document, :custom, hash_including(component: component, document_counter: nil))
+      end
+    end
+
+    context 'with a custom document partial component' do
+      before do
+        stub_const('CustomPartialComponent', Class.new(Blacklight::Document::PartialComponent) do
+          def call = 'Custom component'
+        end)
+        blacklight_config.index.document_partial_component = CustomPartialComponent
+      end
+
+      it 'renders the configured component' do
+        render_inline component
+        expect(page).to have_text 'Custom component'
+      end
+    end
+  end
+
   context 'with no partials (default behavior)' do
     before do
       render_inline component
