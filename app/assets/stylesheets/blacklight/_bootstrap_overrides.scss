@@ -5,7 +5,7 @@
 // Blacklight's decision to try to use bootstrap modal CSS with an html5 dialog --
 // in such a way the <dialog> element actually serves as the modal backdrop --
 // requires some fixes to both bootstrap CSS and user-agent default css
-dialog.modal[open] {
+[data-bl-bootstrap-version="5"] dialog.modal[open] {
   // override bootstrap .modal class default display: none
   // since we aren't using bootstrap JS that sets and unsets the display
   display: block;
@@ -17,6 +17,62 @@ dialog.modal[open] {
 
   &::backdrop {
     background-color: var(--bl-modal-backdrop-bg);
+  }
+}
+
+[data-bl-bootstrap-version="6"] {
+  // Bootstrap 6's default primary (blue-500) is under 4.5:1 against white, which
+  // fails contrast for both light-mode links and text on solid primary buttons.
+  --bs-primary-base: var(--bs-blue-600);
+  --bs-primary-bg: var(--bs-blue-600);
+
+  // The default dark-mode disabled color (gray-500) is just under 4.5:1 on the pagination background
+  .pagination {
+    --bs-pagination-disabled-color: light-dark(var(--bs-gray-600), var(--bs-gray-400));
+  }
+
+  // Bootstrap 6's .dialog caps its height, but Blacklight nests the body inside
+  // wrapper elements Bootstrap 6 doesn't style. Pass the flex column through those
+  // wrappers so the body shrinks and scrolls instead of spilling out of the dialog.
+  dialog.dialog[open] {
+    .modal-dialog,
+    .modal-content,
+    [data-blacklight-modal="container"],
+    [data-blacklight-modal="container"] > form {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .modal-body {
+      min-height: 0;
+      overflow-y: auto;
+    }
+  }
+
+  .dropdown-toggle::after {
+    display: inline-block;
+    width: .4rem;
+    height: .4rem;
+    margin-inline-start: .4rem;
+    vertical-align: .2rem;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transform: rotate(45deg);
+    content: "";
+  }
+}
+
+// Bootstrap 6's unlayered .collapse:not(.show) rule takes precedence over its
+// layered responsive display utilities. Keep the navbar visible when expanded.
+.md\:navbar-expand .navbar-collapse {
+  @media (min-width: 768px) {
+    display: flex !important;
+    flex-grow: 1; // v6 has no .navbar-collapse styles, so fill the row for justify-content to act on
+    flex-basis: auto;
+    block-size: auto;
+    overflow-y: visible;
   }
 }
 
