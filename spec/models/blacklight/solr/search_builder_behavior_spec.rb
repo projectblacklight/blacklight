@@ -916,6 +916,19 @@ RSpec.describe Blacklight::Solr::SearchBuilderBehavior, :api do
       expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :must, 1, :edismax, :qf)).to eq '${author_qf}'
     end
 
+    it 'does not set mm' do
+      expect(subject.to_hash).not_to include(:mm)
+    end
+
+    context "when the boolean operator is 'should'" do
+      let(:user_params) { { op: 'should', clause: { '0': { field: 'title', query: 'the book' }, '1': { field: 'author', query: 'the person' } } } }
+
+      it 'sets mm to 1 so that any clause can match' do
+        expect(subject.to_hash.with_indifferent_access.dig(:json, :query, :bool, :should).length).to eq 2
+        expect(subject.to_hash[:mm]).to eq 1
+      end
+    end
+
     context 'with a clause for a search field that is not configured' do
       let(:user_params) { { op: 'must', clause: { '0': { field: 'not_a_real_field', query: 'cats' }, '1': { field: 'title', query: 'the book' } } } }
 

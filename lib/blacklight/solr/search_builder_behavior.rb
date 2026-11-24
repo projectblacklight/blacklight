@@ -119,7 +119,7 @@ module Blacklight::Solr
       # Disable spellcheck, which doesn't work when using JSON Query DSL
       solr_parameters[:spellcheck] = 'false'
 
-      solr_parameters[:mm] = 1 if default_op == :should && search_state.clause_params.values.any? { |clause| }
+      solr_parameters[:mm] = 1 if default_op == :should
 
       clauses.each do |op, query|
         solr_parameters.append_boolean_query(op, query)
