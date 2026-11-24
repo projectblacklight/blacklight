@@ -154,11 +154,6 @@ Rails/HelperInstanceVariable:
     - "app/helpers/blacklight/layout_helper_behavior.rb"
     - "app/helpers/blacklight/render_partials_helper_behavior.rb"
 
-# Offense count: 2
-Rails/I18nLocaleAssignment:
-  Exclude:
-    - "spec/helpers/blacklight_helper_spec.rb"
-
 # Offense count: 1
 Rails/OutputSafety:
   Exclude:
