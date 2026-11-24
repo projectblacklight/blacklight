@@ -10,7 +10,7 @@ module Blacklight
       end
 
       def render?
-        helpers.show_sort_and_per_page?
+        helpers.show_sort_and_per_page?(@response)
       end
 
       # You may override this method in a subclass if you want to use a different dropdown component

@@ -26,6 +26,7 @@ module Blacklight::Controller
       helper_method :blacklight_config, :blacklight_configuration_context
       helper_method :search_action_url, :search_action_path
       helper_method :search_state
+      helper_method :current_bookmarks
     end
 
     # Which class to use for the search state. You can subclass SearchState if you
@@ -46,6 +47,17 @@ module Blacklight::Controller
   # Context in which to evaluate blacklight configuration conditionals
   def blacklight_configuration_context
     @blacklight_configuration_context ||= Blacklight::Configuration::Context.new(self)
+  end
+
+  ##
+  # The current user's bookmarks for the documents on the page
+  # (the show page's document, or the documents in the search response)
+  # @return [Array<Bookmark>]
+  def current_bookmarks
+    @current_bookmarks ||= begin
+      documents = @document.presence || @response&.documents
+      current_or_guest_user.bookmarks_for_documents(Array(documents)).to_a
+    end
   end
 
   ##

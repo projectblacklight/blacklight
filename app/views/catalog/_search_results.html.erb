@@ -1,4 +1,4 @@
-<% @page_title = t('blacklight.search.page_title.title', constraints: render_search_to_page_title(search_state), application_name: application_name) %>
+<% content_for(:page_title, t('blacklight.search.page_title.title', constraints: render_search_to_page_title(search_state), application_name: application_name), flush: true) %>
 
 <% content_for(:head) do -%>
   <%= render 'catalog/opensearch_response_metadata', response: @response %>
@@ -22,7 +22,7 @@
 
 <%- if @response.empty? %>
   <%= render "zero_results" %>
-<%- elsif render_grouped_response? %>
+<%- elsif render_grouped_response?(@response) %>
   <%= render 'group' %>
 <%- else %>
   <%= render_document_index @response.documents %>

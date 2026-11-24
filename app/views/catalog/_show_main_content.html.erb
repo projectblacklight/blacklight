@@ -1,9 +1,9 @@
 <%# locals: (presenter: nil) %>
 <% presenter ||= document_presenter(@document) %>
 
-<% @page_title = t('blacklight.search.show.title', document_title: presenter.html_title, application_name: application_name).html_safe %>
+<% content_for(:page_title, t('blacklight.search.show.title', document_title: presenter.html_title, application_name: application_name).html_safe, flush: true) %>
 <% content_for(:open_graph) { render blacklight_config.open_graph_component.new(presenter: presenter.open_graph) } %>
-<% content_for(:head) { render_link_rel_alternates } %>
+<% content_for(:head) { render_link_rel_alternates(@document) } %>
 
 <%= render presenter.view_config.document_header_component.new(document: @document, search_context: @search_context, search_session: search_session) %>
 

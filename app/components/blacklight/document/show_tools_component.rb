@@ -12,7 +12,7 @@ module Blacklight
       attr_reader :document
 
       def render?
-        helpers.show_doc_actions?
+        helpers.show_doc_actions?(document)
       end
 
       def actions

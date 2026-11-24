@@ -50,9 +50,17 @@ RSpec.describe BlacklightHelper do
       expect(helper.render_page_title).to eq "xyz"
     end
 
-    it "looks in the @page_title ivar" do
+    it "prefers content_for(:page_title) over the @page_title ivar" do
+      assign(:page_title, "abc")
+      helper.content_for(:page_title, "xyz")
+      expect(helper.render_page_title).to eq "xyz"
+    end
+
+    it "looks in the @page_title ivar with a deprecation warning" do
+      allow(Blacklight.deprecation).to receive(:warn)
       assign(:page_title, "xyz")
       expect(helper.render_page_title).to eq "xyz"
+      expect(Blacklight.deprecation).to have_received(:warn).with(/@page_title/)
     end
 
     it "defaults to the application name" do

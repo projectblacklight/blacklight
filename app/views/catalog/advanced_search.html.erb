@@ -1,4 +1,4 @@
-<% @page_title = t('blacklight.advanced_search.page_title', application_name: application_name) %>
+<% content_for(:page_title, t('blacklight.advanced_search.page_title', application_name: application_name), flush: true) %>
 
 <div class="advanced-search-form col-sm-12">
   <h1>
