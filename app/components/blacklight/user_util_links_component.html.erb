@@ -1,0 +1,35 @@
+<ul class="navbar-nav">
+  <%= render_nav_actions do |config, action|%>
+    <li class="nav-item"><%= action %></li>
+  <% end %>
+
+  <% if has_user_authentication_provider? %>
+    <% user = current_user %>
+    <% if user %>
+    <% if blacklight_logout_path %>
+    <li class="nav-item">
+      <%= link_to t('blacklight.header_links.logout'), blacklight_logout_path, { class: 'nav-link' }.merge(blacklight_logout_link_options) %>
+    </li>
+    <% end %>
+    <% if blacklight_account_path && user.to_s.present? -%>
+    <li class="nav-item">
+      <%= link_to user, blacklight_account_path, class: 'nav-link' %>
+    </li>
+    <% end %>
+    <% else %>
+    <% if blacklight_login_path %>
+    <li class="nav-item">
+      <%= link_to t('blacklight.header_links.login'), blacklight_login_path, class: 'nav-link' %>
+    </li>
+    <% end %>
+    <% end %>
+  <% end %>
+
+  <% if dark_mode_support? %>
+    <li class="nav-item py-2 py-md-1 col-12 col-md-auto">
+      <div class="vr d-none d-md-flex h-100 mx-md-2 text-white"></div>
+      <hr class="d-md-none my-2 text-white-50">
+    </li>
+    <%= render Blacklight::ThemeSwitcherComponent.new %>
+  <% end %>
+</ul>

@@ -48,6 +48,10 @@ module Blacklight
       property :skip_link_component, default: Blacklight::SkipLinkComponent
       property :skip_link_item_component, default: Blacklight::SkipLinkItemComponent
       property :header_component, default: Blacklight::HeaderComponent
+
+      # @!attribute user_util_links_component
+      # @return [Class] component class used to render the user utility links in the top navbar
+      property :user_util_links_component, default: Blacklight::UserUtilLinksComponent
       property :open_graph_component, default: Blacklight::OpenGraphMetadataComponent
       property :full_width_layout, default: false
 
