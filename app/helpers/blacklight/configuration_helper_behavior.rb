@@ -5,7 +5,7 @@ module Blacklight::ConfigurationHelperBehavior
   # Return the available sort fields
   # @return [Array<Blacklight::Configuration::Field>]
   def active_sort_fields
-    blacklight_config.sort_fields.select { |_sort_key, field_config| should_render_field?(field_config) }
+    blacklight_config_presenter.sort_fields
   end
 
   ##
@@ -13,7 +13,7 @@ module Blacklight::ConfigurationHelperBehavior
   # @param [String] selected_search_field the currently selected search_field
   # @return [Boolean]
   def default_search_field?(selected_search_field)
-    selected_search_field.blank? || (blacklight_config.default_search_field && selected_search_field == blacklight_config.default_search_field[:key])
+    selected_search_field.blank? || (blacklight_config_presenter.default_search_field && selected_search_field == blacklight_config_presenter.default_search_field[:key])
   end
 
   ##
@@ -67,29 +67,23 @@ module Blacklight::ConfigurationHelperBehavior
 
   # @return [Hash<Symbol => Blacklight::Configuration::ViewConfig>]
   def document_index_views
-    blacklight_config.view.select do |_k, config|
-      should_render_field? config
-    end
+    blacklight_config_presenter.index_views
   end
 
   # filter #document_index_views to just views that should display in the view type control
   def document_index_view_controls
-    document_index_views.select do |_k, config|
-      config.display_control.nil? || blacklight_configuration_context.evaluate_configuration_conditional(config.display_control)
-    end
+    blacklight_config_presenter.index_view_options
   end
 
   ##
   # Get the default index view type
   def default_document_index_view_type
-    document_index_views.select { |_k, config| config.respond_to?(:default) && config.default }.keys.first || document_index_views.keys.first
+    blacklight_config_presenter.default_index_view
   end
 
   ##
   # Default sort field
-  def default_sort_field
-    (active_sort_fields.find { |_k, config| config.respond_to?(:default) && config.default } || active_sort_fields.first)&.last
-  end
+  delegate :default_sort_field, to: :blacklight_config_presenter
 
   ##
   # Determine whether to render a field by evaluating :if and :unless conditions
@@ -97,6 +91,10 @@ module Blacklight::ConfigurationHelperBehavior
   # @param [Blacklight::Solr::Configuration::Field] field_config
   # @return [Boolean]
   def should_render_field?(field_config, *)
-    blacklight_configuration_context.evaluate_if_unless_configuration(field_config, *)
+    blacklight_config_presenter.should_render_field?(field_config, *)
+  end
+
+  def blacklight_config_presenter
+    @blacklight_config_presenter ||= blacklight_config.configuration_presenter_class.new(blacklight_config, view_context: self)
   end
 end

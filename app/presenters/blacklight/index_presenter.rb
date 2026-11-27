@@ -3,7 +3,11 @@
 module Blacklight
   class IndexPresenter < DocumentPresenter
     def view_config
-      @view_config ||= configuration.view_config(view_context.document_index_view_type, action_name: view_context.action_name)
+      @view_config ||= blacklight_config_presenter.view_config
+    end
+
+    def blacklight_config_presenter
+      @blacklight_config_presenter ||= configuration.configuration_presenter_class.new(configuration, view_context: view_context)
     end
   end
 end
