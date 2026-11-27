@@ -86,6 +86,7 @@ hu:
         all: Minden
         clear: Szűrőfeltétel eltávolítása
         count: "%{number}"
+        faceted_search: "%{field_label} keresés"
         group:
           close: Fazetek elrejtése
           open: Szempontok megjelenítése
