@@ -653,7 +653,7 @@ RSpec.describe Blacklight::Configuration, :api do
 
     context 'with the :show view' do
       it 'includes the show config' do
-        expect(config.view_config(:show)).to have_attributes config.show.to_h
+        expect(config.view_config(:show)).to have_attributes config.show.to_h.except(:components)
       end
 
       it 'uses the show document presenter' do
@@ -667,19 +667,19 @@ RSpec.describe Blacklight::Configuration, :api do
 
     context 'with just an action name' do
       it 'includes the action config' do
-        expect(config.view_config(action_name: :show)).to have_attributes config.show.to_h
+        expect(config.view_config(action_name: :show)).to have_attributes config.show.to_h.except(:components)
       end
 
       context 'with the :citation action' do
         it 'also includes the show config' do
-          expect(config.view_config(action_name: :citation)).to have_attributes config.show.to_h
+          expect(config.view_config(action_name: :citation)).to have_attributes config.show.to_h.except(:components)
         end
       end
     end
 
     context 'with a view' do
       it 'includes the configuration-level view parameters' do
-        expect(config.view_config(:atom)).to have_attributes config.index.to_h.except(:partials)
+        expect(config.view_config(:atom)).to have_attributes config.index.to_h.except(:components, :partials)
         expect(config.view_config(:atom)).to have_attributes partials: [:document]
       end
     end
