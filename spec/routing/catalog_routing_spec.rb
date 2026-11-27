@@ -54,7 +54,6 @@ RSpec.describe "Routing" do
       end
 
       it "routes ids with a literal '/" do
-        skip "This works if you configure your routing to have very liberal constraints on :id.. not sure how to go about testing it though"
         expect(get: solr_document_path(SolrDocument.new(id: 'and/or'))).to route_to(controller: 'catalog', action: 'show', id: 'and/or')
       end
     end
