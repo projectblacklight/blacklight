@@ -131,6 +131,31 @@ RSpec.describe Blacklight::FacetFieldPresenter, type: :presenter do
       expect(paginator.current_page).to eq 1
       expect(paginator.total_count).to eq 0
     end
+
+    context 'on a facet page without a configured limit' do
+      let(:items) { Array.new(21) { {} } }
+
+      before { controller.params[:action] = 'facet' }
+
+      it 'uses the default more limit' do
+        expect(paginator.limit).to eq 20
+        expect(paginator.next_page).to eq 2
+      end
+    end
+
+    context 'on a facet page with a configured more limit' do
+      let(:items) { Array.new(31) { {} } }
+
+      before do
+        controller.params[:action] = 'facet'
+        facet_field.more_limit = 30
+      end
+
+      it 'uses the configured more limit' do
+        expect(paginator.limit).to eq 30
+        expect(paginator.next_page).to eq 2
+      end
+    end
   end
 
   describe "#facet_limit" do
