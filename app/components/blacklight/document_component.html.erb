@@ -12,7 +12,13 @@
     <%= body %>
   <% else %>
     <div class="document-main-section">
-      <%= title %>
+     <header class="documentHeader row">
+        <%= title %>
+        <% actions.each do |action| %>
+          <%= action %>
+        <% end %>
+      </header>
+
       <%= embed %>
       <%= content %>
       <%= metadata %>
